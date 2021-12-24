@@ -56,4 +56,6 @@ Route::get('500', function () {
     // echo $fail;
 });
 
+//Pagamentos
+Route::get('pagamentos')->name('pagamentos')->uses('PagamentosController@index')->middleware('remember', 'auth');
 

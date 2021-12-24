@@ -81,8 +81,8 @@ class ContactsController extends Controller
 
             $c = Contact::findOrFail($id);
 
-            $c-delete();
-            
+            // $c-delete();
+
             return ['update' => 'ok'];
 
         } catch (\Throwable $th) {

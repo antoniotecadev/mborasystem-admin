@@ -33,12 +33,12 @@ class ContactStoreRequest extends FormRequest
             //     $query->where('account_id', Auth::user()->account_id);
             // })],
             'email' => ['nullable', 'max:50', 'email'],
-            'phone' => ['required', 'max:15', 'min:9', 'numeric', 'integer'],
-            'alternative_phone' => ['required', 'max:15', 'max:15', 'min:9', 'numeric', 'integer'],
+            'phone' => ['required', 'min:9', 'numeric', 'integer'],
+            'alternative_phone' => ['required', 'min:9', 'numeric', 'integer'],
             'cantina' => ['required', 'max:25', 'min:5'],
-            'municipality' => ['required', 'max:20', 'alpha_num'],
-            'district' => ['required', 'max:20', 'alpha_num'],
-            'street' => ['required', 'max:20', 'alpha_num']
+            'municipality' => ['required', 'max:20'],
+            'district' => ['required', 'max:20'],
+            'street' => ['required', 'max:20']
         ];
     }
 }

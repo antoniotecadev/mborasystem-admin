@@ -23,8 +23,8 @@ class ContactsController extends Controller
             'filters' => Request::all('search', 'trashed'),
             'contacts' => new ContactCollection(
                 Auth::user()->account->contacts()
-                    // ->with('organization')
-                    ->orderByName()
+                    // ->orderByName()
+                    ->orderBy('id')
                     ->filter(Request::only('search', 'trashed'))
                     ->paginate()
                     ->appends(Request::all())
