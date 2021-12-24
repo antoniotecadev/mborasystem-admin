@@ -1,13 +1,15 @@
 import React, { useState } from 'react';
 import { InertiaLink, usePage } from '@inertiajs/inertia-react';
 import Icon from '@/Shared/Icon';
+import logo from '@/img/logotipo-yoga-original.png';
 
 export default () => {
   const { auth } = usePage().props;
   const [menuOpened, setMenuOpened] = useState(false);
   return (
     <div className="flex items-center justify-between w-full p-4 text-sm bg-white border-b md:py-0 md:px-12 d:text-md">
-      <div className="mt-1 mr-4">{auth.user.account.name}</div>
+      <div><img className="text-white fill-current" width="120" height="28" src={`./${logo}`} alt='sem foto'/></div>
+      <div className="mt-1 mr-4 font-bold">{auth.user.account.name}</div>
       <div className="relative">
         <div
           className="flex items-center cursor-pointer select-none group"
@@ -29,14 +31,14 @@ export default () => {
               className="block px-6 py-2 hover:bg-indigo-600 hover:text-white"
               onClick={() => setMenuOpened(false)}
             >
-              My Profile
+              Perfil
             </InertiaLink>
             <InertiaLink
               href={route('users')}
               className="block px-6 py-2 hover:bg-indigo-600 hover:text-white"
               onClick={() => setMenuOpened(false)}
             >
-              Manage Users
+              Gestão de Utilizadores
             </InertiaLink>
             <InertiaLink
               as="button"
@@ -44,7 +46,7 @@ export default () => {
               className="block w-full px-6 py-2 text-left focus:outline-none hover:bg-indigo-600 hover:text-white"
               method="post"
             >
-              Logout
+              Sair
             </InertiaLink>
           </div>
           <div

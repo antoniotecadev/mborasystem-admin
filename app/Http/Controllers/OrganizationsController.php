@@ -39,7 +39,7 @@ class OrganizationsController extends Controller
             $request->validated()
         );
 
-        return Redirect::route('organizations')->with('success', 'Organization created.');
+        return Redirect::route('organizations')->with('success', 'Cantina criada.');
     }
 
     public function edit(Organization $organization)
@@ -55,20 +55,20 @@ class OrganizationsController extends Controller
             $request->validated()
         );
 
-        return Redirect::back()->with('success', 'Organization updated.');
+        return Redirect::back()->with('success', 'Cantina actualizada.');
     }
 
     public function destroy(Organization $organization)
     {
         $organization->delete();
 
-        return Redirect::back()->with('success', 'Organization deleted.');
+        return Redirect::back()->with('success', 'Cantina eliminada.');
     }
 
     public function restore(Organization $organization)
     {
         $organization->restore();
 
-        return Redirect::back()->with('success', 'Organization restored.');
+        return Redirect::back()->with('success', 'Cantina restaurada.');
     }
 }

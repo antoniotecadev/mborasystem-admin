@@ -17,15 +17,12 @@ class OrganizationResource extends JsonResource
         return [
             'id' => $this->id,
             'name' => $this->name,
-            'email' => $this->email,
-            'phone' => $this->phone,
-            'address' => $this->address,
-            'city' => $this->city,
-            'region' => $this->region,
-            'country' => $this->country,
-            'postal_code' => $this->postal_code,
+            'municipality' => $this->municipality,
+            'district' => $this->district,
+            'street' => $this->street,
             'deleted_at' => $this->deleted_at,
-            'contacts' => $this->contacts()->orderByName()->get()->map->only('id', 'name', 'city', 'phone'),
+            'contacts' => $this->contacts()->orderByName()->get()->map->only('id', 'name', 'email', 'phone'),
         ];
     }
 }
+

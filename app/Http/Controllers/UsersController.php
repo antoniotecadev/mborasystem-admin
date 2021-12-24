@@ -40,7 +40,7 @@ class UsersController extends Controller
             $request->validated()
         );
 
-        return Redirect::route('users')->with('success', 'User created.');
+        return Redirect::route('users')->with('success', 'Utilizador criado.');
     }
 
     public function edit(User $user)
@@ -56,20 +56,20 @@ class UsersController extends Controller
             $request->validated()
         );
 
-        return Redirect::back()->with('success', 'User updated.');
+        return Redirect::back()->with('success', 'Utilizador actualizado.');
     }
 
     public function destroy(User $user, UserDeleteRequest $request)
     {
         $user->delete();
 
-        return Redirect::back()->with('success', 'User deleted.');
+        return Redirect::back()->with('success', 'Utilizador eliminado.');
     }
 
     public function restore(User $user)
     {
         $user->restore();
 
-        return Redirect::back()->with('success', 'User restored.');
+        return Redirect::back()->with('success', 'Utilizador restaurado.');
     }
 }

@@ -4,7 +4,7 @@ import Layout from '@/Shared/Layout';
 const Index = () => {
   return (
     <div>
-      <h1 className="mb-8 text-3xl font-bold">Reports</h1>
+      <h1 className="mb-8 text-3xl font-bold">Relatórios</h1>
     </div>
   );
 };

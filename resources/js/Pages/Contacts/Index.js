@@ -4,8 +4,26 @@ import Layout from '@/Shared/Layout';
 import Icon from '@/Shared/Icon';
 import Pagination from '@/Shared/Pagination';
 import SearchFilter from '@/Shared/SearchFilter';
+import CryptoJS from 'crypto-js';
 
 const Index = () => {
+
+  var CryptoJSAesJson = {
+    stringify: function (cipherParams) {
+        var j = {ct: cipherParams.ciphertext.toString(CryptoJS.enc.Base64)};
+        if (cipherParams.iv) j.iv = cipherParams.iv.toString();
+        if (cipherParams.salt) j.s = cipherParams.salt.toString();
+        return JSON.stringify(j);
+    },
+    parse: function (jsonStr) {
+        var j = JSON.parse(jsonStr);
+        var cipherParams = CryptoJS.lib.CipherParams.create({ciphertext: CryptoJS.enc.Base64.parse(j.ct)});
+        if (j.iv) cipherParams.iv = CryptoJS.enc.Hex.parse(j.iv)
+        if (j.s) cipherParams.salt = CryptoJS.enc.Hex.parse(j.s)
+        return cipherParams;
+    }
+}
+
   const { contacts } = usePage().props;
   const {
     data,
@@ -13,31 +31,32 @@ const Index = () => {
   } = contacts;
   return (
     <div>
-      <h1 className="mb-8 text-3xl font-bold">Contacts</h1>
+      <h1 className="mb-8 text-3xl font-bold">Parceiros</h1>
       <div className="flex items-center justify-between mb-6">
         <SearchFilter />
         <InertiaLink
           className="btn-indigo focus:outline-none"
           href={route('contacts.create')}
         >
-          <span>Create</span>
-          <span className="hidden md:inline"> Contact</span>
+          <span>Criar</span>
+          <span className="hidden md:inline"> Parceiros</span>
         </InertiaLink>
       </div>
       <div className="overflow-x-auto bg-white rounded shadow">
         <table className="w-full whitespace-nowrap">
           <thead>
             <tr className="font-bold text-left">
-              <th className="px-6 pt-5 pb-4">Name</th>
-              <th className="px-6 pt-5 pb-4">Organization</th>
-              <th className="px-6 pt-5 pb-4">City</th>
+              <th className="px-6 pt-5 pb-4">Nome</th>
+              <th className="px-6 pt-5 pb-4">Cantina</th>
+              <th className="px-6 pt-5 pb-4">Email</th>
               <th className="px-6 pt-5 pb-4" colSpan="2">
-                Phone
+                Telefone
               </th>
             </tr>
           </thead>
           <tbody>
-            {data.map(({ id, name, city, phone, organization, deleted_at }) => (
+            {/* {data.map(({ id, name, email, phone, organization, deleted_at }) => ( */}
+            {data.map(({ id, name, cantina, email, phone, deleted_at }) => (
               <tr
                 key={id}
                 className="hover:bg-gray-100 focus-within:bg-gray-100"
@@ -62,7 +81,8 @@ const Index = () => {
                     className="flex items-center px-6 py-4 focus:text-indigo focus:outline-none"
                     href={route('contacts.edit', id)}
                   >
-                    {organization ? organization.name : ''}
+                    {/* {organization ? organization.name : ''} */}
+                    {cantina}
                   </InertiaLink>
                 </td>
                 <td className="border-t">
@@ -71,7 +91,7 @@ const Index = () => {
                     href={route('contacts.edit', id)}
                     className="flex items-center px-6 py-4 focus:text-indigo focus:outline-none"
                   >
-                    {city}
+                    {email}
                   </InertiaLink>
                 </td>
                 <td className="border-t">
@@ -100,7 +120,7 @@ const Index = () => {
             {data.length === 0 && (
               <tr>
                 <td className="px-6 py-4 border-t" colSpan="4">
-                  No contacts found.
+                Nenhum parceiro encontrado.
                 </td>
               </tr>
             )}

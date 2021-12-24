@@ -17,7 +17,7 @@ export default ({ onRestore, children }) => {
         type="button"
         onClick={onRestore}
       >
-        Restore
+        Restaurar
       </button>
     </div>
   );

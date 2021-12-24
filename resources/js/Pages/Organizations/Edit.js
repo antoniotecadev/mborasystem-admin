@@ -14,13 +14,9 @@ const Edit = () => {
   const { organization } = usePage().props;
   const { data, setData, errors, put, processing } = useForm({
     name: organization.name || '',
-    email: organization.email || '',
-    phone: organization.phone || '',
-    address: organization.address || '',
-    city: organization.city || '',
-    region: organization.region || '',
-    country: organization.country || '',
-    postal_code: organization.postal_code || ''
+    municipality: organization.municipality || '',
+    district: organization.district || '',
+    street: organization.street || ''
   });
 
   function handleSubmit(e) {
@@ -29,13 +25,13 @@ const Edit = () => {
   }
 
   function destroy() {
-    if (confirm('Are you sure you want to delete this organization?')) {
+    if (confirm('Você tem certeza que deseja eliminar esta cantina?')) {
       Inertia.delete(route('organizations.destroy', organization.id));
     }
   }
 
   function restore() {
-    if (confirm('Are you sure you want to restore this organization?')) {
+    if (confirm('Tem certeza de que deseja restaurar esta cantina?')) {
       Inertia.put(route('organizations.restore', organization.id));
     }
   }
@@ -48,14 +44,14 @@ const Edit = () => {
           href={route('organizations')}
           className="text-indigo-600 hover:text-indigo-700"
         >
-          Organizations
+          Cantinas
         </InertiaLink>
         <span className="mx-2 font-medium text-indigo-600">/</span>
         {data.name}
       </h1>
       {organization.deleted_at && (
         <TrashedMessage onRestore={restore}>
-          This organization has been deleted.
+          Esta cantina foi eliminada.
         </TrashedMessage>
       )}
       <div className="max-w-3xl overflow-hidden bg-white rounded shadow">
@@ -69,77 +65,48 @@ const Edit = () => {
               value={data.name}
               onChange={e => setData('name', e.target.value)}
             />
-            <TextInput
-              className="w-full pb-8 pr-6 lg:w-1/2"
-              label="Email"
-              name="email"
-              type="email"
-              errors={errors.email}
-              value={data.email}
-              onChange={e => setData('email', e.target.value)}
-            />
-            <TextInput
-              className="w-full pb-8 pr-6 lg:w-1/2"
-              label="Phone"
-              name="phone"
-              type="text"
-              errors={errors.phone}
-              value={data.phone}
-              onChange={e => setData('phone', e.target.value)}
-            />
-            <TextInput
-              className="w-full pb-8 pr-6 lg:w-1/2"
-              label="Address"
-              name="address"
-              type="text"
-              errors={errors.address}
-              value={data.address}
-              onChange={e => setData('address', e.target.value)}
-            />
-            <TextInput
-              className="w-full pb-8 pr-6 lg:w-1/2"
-              label="City"
-              name="city"
-              type="text"
-              errors={errors.city}
-              value={data.city}
-              onChange={e => setData('city', e.target.value)}
-            />
-            <TextInput
-              className="w-full pb-8 pr-6 lg:w-1/2"
-              label="Province/State"
-              name="region"
-              type="text"
-              errors={errors.region}
-              value={data.region}
-              onChange={e => setData('region', e.target.value)}
-            />
             <SelectInput
               className="w-full pb-8 pr-6 lg:w-1/2"
-              label="Country"
-              name="country"
-              errors={errors.country}
-              value={data.country}
-              onChange={e => setData('country', e.target.value)}
+              label="Município"
+              name="municipality"
+              errors={errors.municipality}
+              value={data.municipality}
+              onChange={e => setData('municipality', e.target.value)}
             >
               <option value=""></option>
-              <option value="CA">Canada</option>
-              <option value="US">United States</option>
+              <option value="Luanda">LUANDA</option>
+              <option value="Belas">BELAS</option>
+              <option value="Cazenga">CAZENGA</option>
+              <option value="Cacuaco">CACUACO</option>
+              <option value="Viana">VIANA</option>
+              <option value="Icolo e Bengo">ICOLO E BENGO</option>
+              <option value="Quissama">QUISSAMA</option>
+              <option value="Talatona">TALATONA</option>
+              <option value="Quilamba Quiaxi">QUILAMBA QUIAXI</option>
             </SelectInput>
             <TextInput
               className="w-full pb-8 pr-6 lg:w-1/2"
-              label="Postal Code"
-              name="postal_code"
+              label="Bairro"
+              name="district"
               type="text"
-              errors={errors.postal_code}
-              value={data.postal_code}
-              onChange={e => setData('postal_code', e.target.value)}
+              errors={errors.district}
+              value={data.district}
+              onChange={e => setData('district', e.target.value)}
+            />
+            <TextInput
+              className="w-full pb-8 pr-6 lg:w-1/2"
+              label="Rua"
+              name="street"
+              type="text"
+              errors={errors.street}
+              value={data.street}
+              onChange={e => setData('street', e.target.value)}
             />
           </div>
           <div className="flex items-center px-8 py-4 bg-gray-100 border-t border-gray-200">
             {!organization.deleted_at && (
               <DeleteButton onDelete={destroy}>
-                Delete Organization
+                Eliminar Cantina
               </DeleteButton>
             )}
             <LoadingButton
@@ -147,26 +114,26 @@ const Edit = () => {
               type="submit"
               className="ml-auto btn-indigo"
             >
-              Update Organization
+              Actualizar Cantina
             </LoadingButton>
           </div>
         </form>
       </div>
-      <h2 className="mt-12 text-2xl font-bold">Contacts</h2>
+      <h2 className="mt-12 text-2xl font-bold">Parceiros</h2>
       <div className="mt-6 overflow-x-auto bg-white rounded shadow">
         <table className="w-full whitespace-nowrap">
           <thead>
             <tr className="font-bold text-left">
-              <th className="px-6 pt-5 pb-4">Name</th>
-              <th className="px-6 pt-5 pb-4">City</th>
+              <th className="px-6 pt-5 pb-4">Nome</th>
+              <th className="px-6 pt-5 pb-4">Email</th>
               <th className="px-6 pt-5 pb-4" colSpan="2">
-                Phone
+                Telefone
               </th>
             </tr>
           </thead>
           <tbody>
             {organization.contacts.map(
-              ({ id, name, phone, city, deleted_at }) => {
+              ({ id, name, email, phone, deleted_at }) => {
                 return (
                   <tr
                     key={id}
@@ -192,7 +159,7 @@ const Edit = () => {
                         href={route('contacts.edit', id)}
                         className="flex items-center px-6 py-4 focus:text-indigo focus:outline-none"
                       >
-                        {city}
+                        {email}
                       </InertiaLink>
                     </td>
                     <td className="border-t">
@@ -223,7 +190,7 @@ const Edit = () => {
             {organization.contacts.length === 0 && (
               <tr>
                 <td className="px-6 py-4 border-t" colSpan="4">
-                  No contacts found.
+                Não foram encontrados parceiros.
                 </td>
               </tr>
             )}

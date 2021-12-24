@@ -15,7 +15,13 @@ const { hmrOptions, devServer } = require('./webpack.fix');
  |
  */
 
-mix.extract();
+// mix.extract();
+
+if (mix.inProduction()) {
+    mix.version();
+}
+
+// mix.browserSync('laravel.test');
 
 mix
   .js('resources/js/app.js', 'public/js')
@@ -25,6 +31,7 @@ mix
     require('tailwindcss'),
     require('autoprefixer')
   ])
+  .setResourceRoot("/")
   .options({
     hmrOptions: hmrOptions
   })
@@ -36,6 +43,5 @@ mix
       }
     },
     devServer: devServer
-  })
-  .version()
-  .sourceMaps();
+  }).sourceMaps();
+

@@ -1,6 +1,6 @@
 module.exports = {
-  purge: ['./resources/views/**/*.blade.php', './resources/js/**/*.js'],
-  darkMode: false, // or 'media' or 'class'
+  content: ['./resources/views/**/*.blade.php', './resources/js/**/*.js'],
+  // darkMode: false, // or 'media' or 'class'
   theme: {
     colors: {
       transparent: 'transparent',
@@ -77,8 +77,13 @@ module.exports = {
       }
     }
   },
-  variants: {
-    extend: {}
-  },
-  plugins: []
+  // variants: {
+  //   extend: {}
+  // },
+  plugins: [
+    require('@themesberg/flowbite/plugin')
+  ],
+  // corePlugins: {
+  //   preflight: false,
+  // },
 };

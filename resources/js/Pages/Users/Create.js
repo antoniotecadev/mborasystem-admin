@@ -30,9 +30,9 @@ const Create = () => {
             href={route('users')}
             className="text-indigo-600 hover:text-indigo-700"
           >
-            Users
+            Ustilizadores
           </InertiaLink>
-          <span className="font-medium text-indigo-600"> /</span> Create
+          <span className="font-medium text-indigo-600"> /</span> Criar
         </h1>
       </div>
       <div className="max-w-3xl overflow-hidden bg-white rounded shadow">
@@ -65,7 +65,7 @@ const Create = () => {
             />
             <TextInput
               className="w-full pb-8 pr-6 lg:w-1/2"
-              label="Password"
+              label="Senha"
               name="password"
               type="password"
               errors={errors.password}
@@ -80,8 +80,8 @@ const Create = () => {
               value={data.owner}
               onChange={e => setData('owner', e.target.value)}
             >
-              <option value="1">Yes</option>
-              <option value="0">No</option>
+              <option value="1">Sim</option>
+              <option value="0">Não</option>
             </SelectInput>
             <FileInput
               className="w-full pb-8 pr-6 lg:w-1/2"
@@ -99,7 +99,7 @@ const Create = () => {
               type="submit"
               className="btn-indigo"
             >
-              Create User
+              Criar Utilizador
             </LoadingButton>
           </div>
         </form>

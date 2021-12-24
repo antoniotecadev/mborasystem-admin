@@ -13,6 +13,7 @@ use Illuminate\Validation\Rule;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Request;
 use Illuminate\Support\Facades\Redirect;
+use Illuminate\Support\Facades\Crypt;
 
 class ContactsController extends Controller
 {
@@ -22,7 +23,7 @@ class ContactsController extends Controller
             'filters' => Request::all('search', 'trashed'),
             'contacts' => new ContactCollection(
                 Auth::user()->account->contacts()
-                    ->with('organization')
+                    // ->with('organization')
                     ->orderByName()
                     ->filter(Request::only('search', 'trashed'))
                     ->paginate()
@@ -31,16 +32,22 @@ class ContactsController extends Controller
         ]);
     }
 
+    // public function create()
+    // {
+    //     return Inertia::render('Contacts/Create', [
+    //         'organizations' => new UserOrganizationCollection(
+    //             Auth::user()->account->organizations()
+    //                 ->orderBy('name')
+    //                 ->get()
+    //         ),
+    //     ]);
+    // }
+
     public function create()
     {
-        return Inertia::render('Contacts/Create', [
-            'organizations' => new UserOrganizationCollection(
-                Auth::user()->account->organizations()
-                    ->orderBy('name')
-                    ->get()
-            ),
-        ]);
+        return Inertia::render('Contacts/Create');
     }
+
 
     public function store(ContactStoreRequest $request)
     {
@@ -48,18 +55,18 @@ class ContactsController extends Controller
             $request->validated()
         );
 
-        return Redirect::route('contacts')->with('success', 'Contact created.');
+        return Redirect::route('contacts')->with('success', 'Parceiro criado.');
     }
 
-    public function edit(Contact $contact)
+    public function edit($id)
     {
         return Inertia::render('Contacts/Edit', [
-            'contact' => new ContactResource($contact),
-            'organizations' => new UserOrganizationCollection(
-                Auth::user()->account->organizations()
-                    ->orderBy('name')
-                    ->get()
-            ),
+            'contact' => new ContactResource(Contact::findOrFail(Crypt::decryptString($id))),
+            // 'organizations' => new UserOrganizationCollection(
+            //     Auth::user()->account->organizations()
+            //         ->orderBy('name')
+            //         ->get()
+            // ),
         ]);
     }
 
@@ -69,20 +76,20 @@ class ContactsController extends Controller
             $request->validated()
         );
 
-        return Redirect::back()->with('success', 'Contact updated.');
+        return Redirect::back()->with('success', 'Parceiro actualizado.');
     }
 
     public function destroy(Contact $contact)
     {
         $contact->delete();
 
-        return Redirect::back()->with('success', 'Contact deleted.');
+        return Redirect::back()->with('success', 'Parceiro eliminado.');
     }
 
     public function restore(Contact $contact)
     {
         $contact->restore();
 
-        return Redirect::back()->with('success', 'Contact restored.');
+        return Redirect::back()->with('success', 'Parceiro restaurado.');
     }
 }

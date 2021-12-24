@@ -8,8 +8,8 @@ import TextInput from '@/Shared/TextInput';
 
 export default () => {
   const { data, setData, errors, post, processing } = useForm({
-    email: 'johndoe@example.com',
-    password: 'secret',
+    email: '',
+    password: '',
     remember: true
   });
 
@@ -22,16 +22,20 @@ export default () => {
     <div className="flex items-center justify-center min-h-screen p-6 bg-indigo-900">
       <Helmet title="Login" />
       <div className="w-full max-w-md">
-        <Logo
-          className="block w-full max-w-xs mx-auto text-white fill-current"
+        {/* <Logo
+          className="block w-30 max-w-xs mx-auto text-white fill-current h-20"
           height={50}
-        />
+        /> */}
+        {/* <p className='block w-full max-w-xs mx-auto text-white fill-current text-2xl text-center'>MBORASYSTEM ADMIN</p> */}
         <form
           onSubmit={handleSubmit}
           className="mt-8 overflow-hidden bg-white rounded-lg shadow-xl"
         >
-          <div className="px-10 py-12">
-            <h1 className="text-3xl font-bold text-center">Welcome Back!</h1>
+          <div className="px-10 py-5">
+          <Logo
+          className="block w-15 max-w-xs mx-auto text-white fill-current h-10"
+          height={50}/>
+            <h1 className="text-3xl text-center mt-5">MBORASYSTEM ADMIN</h1>
             <div className="w-24 mx-auto mt-6 border-b-2" />
             <TextInput
               className="mt-10"
@@ -44,7 +48,7 @@ export default () => {
             />
             <TextInput
               className="mt-6"
-              label="Password"
+              label="Senha"
               name="password"
               type="password"
               errors={errors.password}
@@ -63,19 +67,19 @@ export default () => {
                 checked={data.remember}
                 onChange={e => setData('remember', e.target.checked)}
               />
-              <span className="text-sm">Remember Me</span>
+              <span className="text-sm">Lembre-se de Mim</span>
             </label>
           </div>
           <div className="flex items-center justify-between px-10 py-4 bg-gray-100 border-t border-gray-200">
             <a className="hover:underline" tabIndex="-1" href="#reset-password">
-              Forgot password?
+            Esqueceu a senha?
             </a>
             <LoadingButton
               type="submit"
               loading={processing}
               className="btn-indigo"
             >
-              Login
+              Entrar
             </LoadingButton>
           </div>
         </form>

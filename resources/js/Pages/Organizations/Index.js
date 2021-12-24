@@ -13,30 +13,30 @@ const Index = () => {
   } = organizations;
   return (
     <div>
-      <h1 className="mb-8 text-3xl font-bold">Organizations</h1>
+      <h1 className="mb-8 text-3xl font-bold">Cantinas</h1>
       <div className="flex items-center justify-between mb-6">
         <SearchFilter />
         <InertiaLink
           className="btn-indigo focus:outline-none"
           href={route('organizations.create')}
         >
-          <span>Create</span>
-          <span className="hidden md:inline"> Organization</span>
+          <span>Criar</span>
+          <span className="hidden md:inline"> Cantina</span>
         </InertiaLink>
       </div>
       <div className="overflow-x-auto bg-white rounded shadow">
         <table className="w-full whitespace-nowrap">
           <thead>
             <tr className="font-bold text-left">
-              <th className="px-6 pt-5 pb-4">Name</th>
-              <th className="px-6 pt-5 pb-4">City</th>
+              <th className="px-6 pt-5 pb-4">Nome</th>
+              <th className="px-6 pt-5 pb-4">Município</th>
               <th className="px-6 pt-5 pb-4" colSpan="2">
-                Phone
+                Bairro
               </th>
             </tr>
           </thead>
           <tbody>
-            {data.map(({ id, name, city, phone, deleted_at }) => {
+            {data.map(({ id, name, municipality, district, deleted_at }) => {
               return (
                 <tr
                   key={id}
@@ -62,7 +62,7 @@ const Index = () => {
                       href={route('organizations.edit', id)}
                       className="flex items-center px-6 py-4 focus:text-indigo focus:outline-none"
                     >
-                      {city}
+                      {municipality}
                     </InertiaLink>
                   </td>
                   <td className="border-t">
@@ -71,7 +71,7 @@ const Index = () => {
                       href={route('organizations.edit', id)}
                       className="flex items-center px-6 py-4 focus:text-indigo focus:outline-none"
                     >
-                      {phone}
+                      {district}
                     </InertiaLink>
                   </td>
                   <td className="w-px border-t">
@@ -92,7 +92,7 @@ const Index = () => {
             {data.length === 0 && (
               <tr>
                 <td className="px-6 py-4 border-t" colSpan="4">
-                  No organizations found.
+                  Nenhuma cantina encontrada.
                 </td>
               </tr>
             )}

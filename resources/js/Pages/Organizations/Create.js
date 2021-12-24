@@ -9,13 +9,9 @@ import SelectInput from '@/Shared/SelectInput';
 const Create = () => {
   const { data, setData, errors, post, processing } = useForm({
     name: '',
-    email: '',
-    phone: '',
-    address: '',
-    city: '',
-    region: '',
-    country: '',
-    postal_code: ''
+    municipality: '',
+    district: '',
+    street: '',
   });
 
   function handleSubmit(e) {
@@ -30,9 +26,9 @@ const Create = () => {
           href={route('organizations')}
           className="text-indigo-600 hover:text-indigo-700"
         >
-          Organizations
+          Cantinas
         </InertiaLink>
-        <span className="font-medium text-indigo-600"> /</span> Create
+        <span className="font-medium text-indigo-600"> /</span> Criar
       </h1>
       <div className="max-w-3xl overflow-hidden bg-white rounded shadow">
         <form onSubmit={handleSubmit}>
@@ -45,71 +41,42 @@ const Create = () => {
               value={data.name}
               onChange={e => setData('name', e.target.value)}
             />
-            <TextInput
-              className="w-full pb-8 pr-6 lg:w-1/2"
-              label="Email"
-              name="email"
-              type="email"
-              errors={errors.email}
-              value={data.email}
-              onChange={e => setData('email', e.target.value)}
-            />
-            <TextInput
-              className="w-full pb-8 pr-6 lg:w-1/2"
-              label="Phone"
-              name="phone"
-              type="text"
-              errors={errors.phone}
-              value={data.phone}
-              onChange={e => setData('phone', e.target.value)}
-            />
-            <TextInput
-              className="w-full pb-8 pr-6 lg:w-1/2"
-              label="Address"
-              name="address"
-              type="text"
-              errors={errors.address}
-              value={data.address}
-              onChange={e => setData('address', e.target.value)}
-            />
-            <TextInput
-              className="w-full pb-8 pr-6 lg:w-1/2"
-              label="City"
-              name="city"
-              type="text"
-              errors={errors.city}
-              value={data.city}
-              onChange={e => setData('city', e.target.value)}
-            />
-            <TextInput
-              className="w-full pb-8 pr-6 lg:w-1/2"
-              label="Province/State"
-              name="region"
-              type="text"
-              errors={errors.region}
-              value={data.region}
-              onChange={e => setData('region', e.target.value)}
-            />
             <SelectInput
               className="w-full pb-8 pr-6 lg:w-1/2"
-              label="Country"
-              name="country"
-              errors={errors.country}
-              value={data.country}
-              onChange={e => setData('country', e.target.value)}
+              label="Município"
+              name="municipality"
+              errors={errors.municipality}
+              value={data.municipality}
+              onChange={e => setData('municipality', e.target.value)}
             >
               <option value=""></option>
-              <option value="CA">Canada</option>
-              <option value="US">United States</option>
+              <option value="Luanda">LUANDA</option>
+              <option value="Belas">BELAS</option>
+              <option value="Cazenga">CAZENGA</option>
+              <option value="Cacuaco">CACUACO</option>
+              <option value="Viana">VIANA</option>
+              <option value="Icolo e Bengo">ICOLO E BENGO</option>
+              <option value="Quissama">QUISSAMA</option>
+              <option value="Talatona">TALATONA</option>
+              <option value="Quilamba Quiaxi">QUILAMBA QUIAXI</option>
             </SelectInput>
             <TextInput
               className="w-full pb-8 pr-6 lg:w-1/2"
-              label="Postal Code"
-              name="postal_code"
+              label="Bairro"
+              name="district"
               type="text"
-              errors={errors.postal_code}
-              value={data.postal_code}
-              onChange={e => setData('postal_code', e.target.value)}
+              errors={errors.district}
+              value={data.district}
+              onChange={e => setData('district', e.target.value)}
+            />
+            <TextInput
+              className="w-full pb-8 pr-6 lg:w-1/2"
+              label="Rua"
+              name="street"
+              type="text"
+              errors={errors.street}
+              value={data.street}
+              onChange={e => setData('street', e.target.value)}
             />
           </div>
           <div className="flex items-center justify-end px-8 py-4 bg-gray-100 border-t border-gray-200">
@@ -118,7 +85,7 @@ const Create = () => {
               type="submit"
               className="btn-indigo"
             >
-              Create Organization
+              Criar Cantina
             </LoadingButton>
           </div>
         </form>
@@ -127,6 +94,6 @@ const Create = () => {
   );
 };
 
-Create.layout = page => <Layout title="Create Organization" children={page} />;
+Create.layout = page => <Layout title="Criar Cantina" children={page} />;
 
 export default Create;

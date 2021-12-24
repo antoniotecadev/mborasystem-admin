@@ -26,18 +26,19 @@ class ContactStoreRequest extends FormRequest
     public function rules()
     {
         return [
-            'first_name' => ['required', 'max:50'],
-            'last_name' => ['required', 'max:50'],
-            'organization_id' => ['nullable', Rule::exists('organizations', 'id')->where(function ($query) {
-                $query->where('account_id', Auth::user()->account_id);
-            })],
+            'first_name' => ['required', 'max:25', 'min:4', 'alpha'],
+            'last_name' => ['required', 'max:25', 'min:4', 'alpha'],
+            'nif_bi' => ['required', 'max:15', 'min:14', 'alpha_num'],
+            // 'organization_id' => ['nullable', Rule::exists('organizations', 'id')->where(function ($query) {
+            //     $query->where('account_id', Auth::user()->account_id);
+            // })],
             'email' => ['nullable', 'max:50', 'email'],
-            'phone' => ['nullable', 'max:50'],
-            'address' => ['nullable', 'max:150'],
-            'city' => ['nullable', 'max:50'],
-            'region' => ['nullable', 'max:50'],
-            'country' => ['nullable', 'max:2'],
-            'postal_code' => ['nullable', 'max:25'],
+            'phone' => ['required', 'max:15', 'min:9', 'numeric', 'integer'],
+            'alternative_phone' => ['required', 'max:15', 'max:15', 'min:9', 'numeric', 'integer'],
+            'cantina' => ['required', 'max:25', 'min:5'],
+            'municipality' => ['required', 'max:20', 'alpha_num'],
+            'district' => ['required', 'max:20', 'alpha_num'],
+            'street' => ['required', 'max:20', 'alpha_num']
         ];
     }
 }

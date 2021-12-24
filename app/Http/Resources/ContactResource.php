@@ -19,15 +19,16 @@ class ContactResource extends JsonResource
             'id' => $this->id,
             'first_name' => $this->first_name,
             'last_name' => $this->last_name,
+            'nif_bi' => $this->nif_bi,
             'email' => $this->email,
             'phone' => $this->phone,
-            'address' => $this->address,
-            'city' => $this->city,
-            'region' => $this->region,
-            'country' => $this->country,
-            'postal_code' => $this->postal_code,
+            'alternative_phone' => $this->alternative_phone,
+            'cantina' => $this->cantina,
+            'municipality' => $this->municipality,
+            'district' => $this->district,
+            'street' => $this->street,
             'deleted_at' => $this->deleted_at,
-            'organization_id' => $this->organization_id,
+            // 'organization_id' => $this->organization_id,
         ];
     }
 }

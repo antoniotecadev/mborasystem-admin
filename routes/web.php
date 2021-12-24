@@ -1,5 +1,4 @@
 <?php
-
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -54,5 +53,7 @@ Route::get('reports')->name('reports')->uses('ReportsController')->middleware('a
 
 // 500 error
 Route::get('500', function () {
-    echo $fail;
+    // echo $fail;
 });
+
+

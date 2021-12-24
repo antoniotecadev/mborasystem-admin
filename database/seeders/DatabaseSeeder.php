@@ -12,13 +12,13 @@ class DatabaseSeeder extends Seeder
 {
     public function run()
     {
-        $account = Account::create(['name' => 'Acme Corporation']);
+        $account = Account::create(['name' => 'MBORASYSTEM ADMIN']);
 
         User::factory()->create([
             'account_id' => $account->id,
-            'first_name' => 'John',
-            'last_name' => 'Doe',
-            'email' => 'johndoe@example.com',
+            'first_name' => 'António',
+            'last_name' => 'Teca',
+            'email' => 'antonioteca@hotmail.com',
             'owner' => true,
         ]);
 
@@ -26,11 +26,11 @@ class DatabaseSeeder extends Seeder
             'account_id' => $account->id
         ]);
 
-        $organizations = Organization::factory()->count(100)->create([
+        $organizations = Organization::factory()->count(20)->create([
             'account_id' => $account->id
         ]);
 
-        Contact::factory()->count(100)->create([
+        Contact::factory()->count(20)->create([
             'account_id' => $account->id
         ])
             ->each(function (Contact  $contact) use ($organizations) {

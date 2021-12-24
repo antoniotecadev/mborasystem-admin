@@ -1,18 +1,20 @@
 {
-    "name": "laravel/laravel",
-    "description": "The Laravel Framework.",
+    "name": "yoga/mborasystem-admin",
+    "description": "Sistema de Gestão do Mbora/System.",
     "keywords": [
-        "framework",
-        "laravel"
+        "Mbora",
+        "System",
+        "Admin"
     ],
     "license": "MIT",
     "type": "project",
     "require": {
-        "php": "^7.2.5",
+        "php": "^7.2.5|^8.0.0",
         "ext-exif": "*",
         "ext-gd": "*",
         "barryvdh/laravel-debugbar": "^3.2",
         "beyondcode/laravel-dump-server": "^1.0",
+        "brainfoolong/cryptojs-aes-php": "^2.1",
         "facade/ignition": "^2.3.6",
         "fakerphp/faker": "^1.13",
         "fideloper/proxy": "^4.2",

@@ -33,13 +33,13 @@ const Edit = () => {
   }
 
   function destroy() {
-    if (confirm('Are you sure you want to delete this user?')) {
+    if (confirm('Tem a certeza de que pretende eliminar este utilizador?')) {
       Inertia.delete(route('users.destroy', user.id));
     }
   }
 
   function restore() {
-    if (confirm('Are you sure you want to restore this user?')) {
+    if (confirm('Tem certeza de que deseja restaurar este utilizador?')) {
       Inertia.put(route('users.restore', user.id));
     }
   }
@@ -53,7 +53,7 @@ const Edit = () => {
             href={route('users')}
             className="text-indigo-600 hover:text-indigo-700"
           >
-            Users
+            Utilizadores
           </InertiaLink>
           <span className="mx-2 font-medium text-indigo-600">/</span>
           {data.first_name} {data.last_name}
@@ -64,7 +64,7 @@ const Edit = () => {
       </div>
       {user.deleted_at && (
         <TrashedMessage onRestore={restore}>
-          This user has been deleted.
+          Este utilizador foi eliminado.
         </TrashedMessage>
       )}
       <div className="max-w-3xl overflow-hidden bg-white rounded shadow">
@@ -112,8 +112,8 @@ const Edit = () => {
               value={data.owner}
               onChange={e => setData('owner', e.target.value)}
             >
-              <option value="1">Yes</option>
-              <option value="0">No</option>
+              <option value="1">Sim</option>
+              <option value="0">Não</option>
             </SelectInput>
             <FileInput
               className="w-full pb-8 pr-6 lg:w-1/2"
@@ -127,14 +127,14 @@ const Edit = () => {
           </div>
           <div className="flex items-center px-8 py-4 bg-gray-100 border-t border-gray-200">
             {!user.deleted_at && (
-              <DeleteButton onDelete={destroy}>Delete User</DeleteButton>
+              <DeleteButton onDelete={destroy}>Eliminar Utilizador</DeleteButton>
             )}
             <LoadingButton
               loading={processing}
               type="submit"
               className="ml-auto btn-indigo"
             >
-              Update User
+              Actualizar Utilizador
             </LoadingButton>
           </div>
         </form>

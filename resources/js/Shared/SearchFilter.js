@@ -71,8 +71,8 @@ export default () => {
                 onChange={handleChange}
               >
                 <option value=""></option>
-                <option value="user">User</option>
-                <option value="owner">Owner</option>
+                <option value="user">Usuário</option>
+                <option value="owner">Proprietário</option>
               </SelectInput>
             )}
             <SelectInput
@@ -82,8 +82,8 @@ export default () => {
               onChange={handleChange}
             >
               <option value=""></option>
-              <option value="with">With Trashed</option>
-              <option value="only">Only Trashed</option>
+              <option value="with">Com Eliminados(as)</option>
+              <option value="only">Só eliminados(as)</option>
             </SelectInput>
           </div>
         </div>
@@ -92,7 +92,7 @@ export default () => {
           className="px-4 border-r rounded-l md:px-6 hover:bg-gray-100 focus:outline-none focus:border-white focus:ring-2 focus:ring-indigo-400 focus:z-10"
         >
           <div className="flex items-baseline">
-            <span className="hidden text-gray-700 md:inline">Filter</span>
+            <span className="hidden text-gray-700 md:inline">Filtro</span>
             <svg
               className="w-2 h-2 text-gray-700 fill-current md:ml-2"
               xmlns="http://www.w3.org/2000/svg"
@@ -110,7 +110,7 @@ export default () => {
           name="search"
           value={values.search}
           onChange={handleChange}
-          placeholder="Search…"
+          placeholder="Pesquisar…"
         />
       </div>
       <button
@@ -118,7 +118,7 @@ export default () => {
         className="ml-3 text-sm text-gray-600 hover:text-gray-700 focus:text-indigo-700 focus:outline-none"
         type="button"
       >
-        Reset
+        Limpar
       </button>
     </div>
   );

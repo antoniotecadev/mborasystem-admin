@@ -24,13 +24,10 @@ class ContactFactory extends Factory
         return [
             'first_name' => $this->faker->firstName,
             'last_name' => $this->faker->lastName,
+            'nif_bi' => '1234578LA123',
             'email' => $this->faker->unique()->safeEmail,
             'phone' => $this->faker->tollFreePhoneNumber,
-            'address' => $this->faker->streetAddress,
-            'city' => $this->faker->city,
-            'region' => $this->faker->state,
-            'country' => 'US',
-            'postal_code' => $this->faker->postcode,
+            'alternative_phone' => $this->faker->tollFreePhoneNumber,
         ];
     }
 }

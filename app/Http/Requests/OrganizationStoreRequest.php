@@ -24,14 +24,12 @@ class OrganizationStoreRequest extends FormRequest
     public function rules()
     {
         return [
-            'name' => ['required', 'max:100'],
-            'email' => ['nullable', 'max:50', 'email'],
-            'phone' => ['nullable', 'max:50'],
-            'address' => ['nullable', 'max:150'],
-            'city' => ['nullable', 'max:50'],
-            'region' => ['nullable', 'max:50'],
-            'country' => ['nullable', 'max:2'],
-            'postal_code' => ['nullable', 'max:25'],
+            'name' => ['required', 'max:20'],
+            'municipality' => ['required', 'max:20'],
+            'district' => ['required', 'max:20'],
+            'street' => ['required', 'max:20'],
         ];
     }
 }
+
+
