@@ -11,13 +11,17 @@ class CreateContactsTable extends Migration
         Schema::create('contacts', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('account_id')->index();
-            $table->integer('organization_id')->nullable()->index();
             $table->string('first_name', 25);
             $table->string('last_name', 25);
             $table->string('nif_bi', 25);
             $table->string('email', 50)->nullable();
             $table->string('phone', 15);
-            $table->string('alternative_phone', 15)->nullable();
+            $table->string('alternative_phone', 15);
+            $table->string('cantina', 20);
+            $table->string('municipality', 20);
+            $table->string('district', 20);
+            $table->string('street', 20);
+
             $table->timestamps();
             $table->softDeletes();
         });
