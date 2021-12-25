@@ -28,14 +28,14 @@ const Index = () => {
         <table className="w-full whitespace-nowrap">
           <thead>
             <tr className="font-bold text-left">
-              <th className="px-6 pt-5 pb-4">Nome</th>
-              <th className="px-6 pt-5 pb-4">Pacote</th>
+              <th className="px-6 pt-5 pb-4">Nome parceiro</th>
+              <th className="px-6 pt-5 pb-4">Cantina</th>
               <th className="px-6 pt-5 pb-4">Início</th>
               <th className="px-6 pt-5 pb-4">Fim</th>
             </tr>
           </thead>
           <tbody>
-            {data.map(({ id, pacote, inicio, fim, deleted_at, contact }) => (
+            {data.map(({ id, inicio, fim, deleted_at, contact }) => (
               <tr
                 key={id}
                 className="hover:bg-gray-100 focus-within:bg-gray-100"
@@ -60,7 +60,7 @@ const Index = () => {
                     className="flex items-center px-6 py-4 focus:text-indigo focus:outline-none"
                     href={route('contacts.edit', id)}
                   >
-                    {pacote}
+                    {contact.cantina}
                   </InertiaLink>
                 </td>
                 <td className="border-t">

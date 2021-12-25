@@ -10,7 +10,7 @@ class PagamentoCollection extends ResourceCollection
     public function toArray($request)
     {
         return $this->collection->map->only(
-            'id', 'pacote', 'inicio', 'fim', 'deleted_at', 'contact'
+            'id', 'inicio', 'fim', 'deleted_at', 'contact'
         );
     }
 
