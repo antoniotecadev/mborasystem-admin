@@ -7,19 +7,18 @@ import TextInput from '@/Shared/TextInput';
 import SelectInput from '@/Shared/SelectInput';
 
 const Create = () => {
-  // const { organizations } = usePage().props;
   const { data, setData, errors, post, processing } = useForm({
     first_name: '',
     last_name: '',
     nif_bi: '',
-    // organization_id: '',
     email: '',
     phone: '',
     alternative_phone: '',
     cantina: '',
     municipality: '',
     district: '',
-    street: ''
+    street: '',
+    estado: '0'
   });
 
   function handleSubmit(e) {
@@ -66,21 +65,6 @@ const Create = () => {
               value={data.nif_bi}
               onChange={e => setData('nif_bi', e.target.value)}
             />
-            {/* <SelectInput
-              className="w-full pb-8 pr-6 lg:w-1/2"
-              label="Cantina"
-              name="organization_id"
-              errors={errors.organization_id}
-              value={data.organization_id}
-              onChange={e => setData('organization_id', e.target.value)}
-            >
-              <option value=""></option>
-              {organizations.map(({ id, name }) => (
-                <option key={id} value={id}>
-                  {name}
-                </option>
-              ))}
-            </SelectInput> */}
             <TextInput
               className="w-full pb-8 pr-6 lg:w-1/2"
               label="Email"
@@ -153,6 +137,14 @@ const Create = () => {
               value={data.street}
               onChange={e => setData('street', e.target.value)}
             />
+            <div className="w-full pb-4 pr-6">
+              <label className ="mr-1" htmlFor='activo' >Activo</label>
+              <input type="radio" id='activo' name='estado' value='1' onChange={e => setData('estado', e.target.value)}/>
+
+              <label htmlFor='desactivo' className ="ml-4 mr-1">Desactivo</label>
+              <input type="radio" checked id='desactivo' name='estado' value='0' onChange={e => setData('estado', e.target.value)}/>
+              <br/> {errors.estado && <div className="form-error">{errors.estado}</div>}
+            </div>
           </div>
           <div className="flex items-center justify-end px-8 py-4 bg-gray-100 border-t border-gray-200">
             <LoadingButton

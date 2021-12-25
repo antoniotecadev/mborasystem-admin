@@ -55,11 +55,10 @@ const Index = () => {
             </tr>
           </thead>
           <tbody>
-            {/* {data.map(({ id, name, email, phone, organization, deleted_at }) => ( */}
-            {data.map(({ id, name, cantina, email, phone, deleted_at }) => (
+            {data.map(({ id, name, cantina, email, phone, estado, deleted_at }) => (
               <tr
                 key={id}
-                className="hover:bg-gray-100 focus-within:bg-gray-100"
+                className={`hover:bg-gray-100 focus-within:bg-yellow-100 ${estado == '0'?'bg-red-100':'bg-green-200'}`}
               >
                 <td className="border-t">
                   <InertiaLink

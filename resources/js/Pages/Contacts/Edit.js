@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Fragment } from 'react';
 import Helmet from 'react-helmet';
 import { Inertia } from '@inertiajs/inertia';
 import { InertiaLink, usePage, useForm } from '@inertiajs/inertia-react';
@@ -10,20 +10,19 @@ import SelectInput from '@/Shared/SelectInput';
 import TrashedMessage from '@/Shared/TrashedMessage';
 
 const Edit = () => {
-  // const { contact, organizations } = usePage().props;
   const { contact } = usePage().props;
   const { data, setData, errors, put, processing } = useForm({
     first_name: contact.first_name || '',
     last_name: contact.last_name || '',
     nif_bi: contact.nif_bi || '',
-    // organization_id: contact.organization_id || '',
     email: contact.email || '',
     phone: contact.phone || '',
     alternative_phone: contact.alternative_phone || '',
     cantina: contact.cantina || '',
     municipality: contact.municipality || '',
-    district:  contact.district || '',
-    street: contact.street || ''
+    district: contact.district || '',
+    street: contact.street || '',
+    estado: contact.estado || ''
   });
 
   function handleSubmit(e) {
@@ -54,7 +53,10 @@ const Edit = () => {
           Parceiros
         </InertiaLink>
         <span className="mx-2 font-medium text-indigo-600">/</span>
-        {data.first_name} {data.last_name}
+        {data.first_name} {data.last_name} /{' '}
+        <span className={`${data.estado == '0' ? 'text-red-400' : 'text-green-400'}`}>
+          {data.estado == '0' ? 'Desactivo' : 'Activo'}
+        </span>
       </h1>
       {contact.deleted_at && (
         <TrashedMessage onRestore={restore}>
@@ -89,21 +91,6 @@ const Edit = () => {
               value={data.nif_bi}
               onChange={e => setData('nif_bi', e.target.value)}
             />
-            {/* <SelectInput
-              className="w-full pb-8 pr-6 lg:w-1/2"
-              label="Cantina"
-              name="organization_id"
-              errors={errors.organization_id}
-              value={data.organization_id}
-              onChange={e => setData('organization_id', e.target.value)}
-            >
-              <option value=""></option>
-              {organizations.map(({ id, name }) => (
-                <option key={id} value={id}>
-                  {name}
-                </option>
-              ))}
-            </SelectInput> */}
             <TextInput
               className="w-full pb-8 pr-6 lg:w-1/2"
               label="Email"
@@ -176,6 +163,17 @@ const Edit = () => {
               value={data.street}
               onChange={e => setData('street', e.target.value)}
             />
+            <SelectInput
+              className="w-full pb-8 pr-6 lg:w-1/2"
+              label="Estado"
+              name="estado"
+              errors={errors.estado}
+              value={data.estado}
+              onChange={e => setData('estado', e.target.value)}
+            >
+              <option value="1">ACTIVO</option>
+              <option value="0">DESACTIVO</option>
+            </SelectInput>
           </div>
           <div className="flex items-center px-8 py-4 bg-gray-100 border-t border-gray-200">
             {!contact.deleted_at && (

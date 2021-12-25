@@ -38,7 +38,8 @@ class ContactStoreRequest extends FormRequest
             'cantina' => ['required', 'max:25', 'min:5'],
             'municipality' => ['required', 'max:20'],
             'district' => ['required', 'max:20'],
-            'street' => ['required', 'max:20']
+            'street' => ['required', 'max:20'],
+            'estado' => ['required', 'boolean']
         ];
     }
 }

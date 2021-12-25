@@ -13,7 +13,7 @@ const Create = () => {
     inicio: '',
     fim: '',
     nome: '',
-    contact_id: ''
+    contact_id: '',
   });
 
   function handleSubmit(e) {
@@ -78,15 +78,6 @@ const Create = () => {
               errors={errors.fim}
               value={data.fim}
               onChange={e => setData('fim', e.target.value)}
-            />
-            <TextInput
-              className="w-full pb-8 pr-6 lg:w-1/2"
-              label="Bairro"
-              name="district"
-              type="time"
-              errors={errors.district}
-              value={data.district}
-              onChange={e => setData('district', e.target.value)}
             />
           </div>
           <div className="flex items-center justify-end px-8 py-4 bg-gray-100 border-t border-gray-200">
