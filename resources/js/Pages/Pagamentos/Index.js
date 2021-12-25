@@ -13,7 +13,7 @@ const Index = () => {
   } = pagamentos;
   return (
     <div>
-      <h1 className="mb-8 text-3xl font-bold">Pagamentos</h1>
+      <h1 className="mb-8 text-3xl font-bold">Pagamentos ({data.length})</h1>
       <div className="flex items-center justify-between mb-6">
         <SearchFilter />
         <InertiaLink
