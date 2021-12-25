@@ -58,4 +58,6 @@ Route::get('500', function () {
 
 //Pagamentos
 Route::get('pagamentos')->name('pagamentos')->uses('PagamentosController@index')->middleware('remember', 'auth');
+Route::get('pagamentos/create')->name('pagamentos.create')->uses('PagamentosController@create')->middleware('auth');
+Route::post('pagamentos')->name('pagamentos.store')->uses('PagamentosController@store')->middleware('auth');
 

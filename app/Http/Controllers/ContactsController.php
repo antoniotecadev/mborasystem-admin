@@ -6,10 +6,8 @@ use App\Http\Requests\ContactStoreRequest;
 use App\Http\Requests\ContactUpdateRequest;
 use App\Http\Resources\ContactCollection;
 use App\Http\Resources\ContactResource;
-use App\Http\Resources\UserOrganizationCollection;
 use App\Models\Contact;
 use Inertia\Inertia;
-use Illuminate\Validation\Rule;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Request;
 use Illuminate\Support\Facades\Redirect;
@@ -31,17 +29,6 @@ class ContactsController extends Controller
             ),
         ]);
     }
-
-    // public function create()
-    // {
-    //     return Inertia::render('Contacts/Create', [
-    //         'organizations' => new UserOrganizationCollection(
-    //             Auth::user()->account->organizations()
-    //                 ->orderBy('name')
-    //                 ->get()
-    //         ),
-    //     ]);
-    // }
 
     public function create()
     {

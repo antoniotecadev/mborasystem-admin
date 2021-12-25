@@ -18,7 +18,7 @@ const Index = () => {
         <SearchFilter />
         <InertiaLink
           className="btn-indigo focus:outline-none"
-          href={route('contacts.create')}
+          href={route('pagamentos.create')}
         >
           <span>Efectuar</span>
           <span className="hidden md:inline"> Pagamento</span>

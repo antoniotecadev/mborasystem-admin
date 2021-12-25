@@ -10,6 +10,8 @@ class Pagamento extends Model
 {
     use SoftDeletes, HasFactory;
 
+    protected $guarded = [];
+
     public function contact()
     {
         return $this->belongsTo(Contact::class);

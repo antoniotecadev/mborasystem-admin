@@ -14,6 +14,11 @@ class Contact extends Model
         return $this->belongsTo(Organization::class);
     }
 
+    public function pagamentos()
+    {
+        return $this->hasMany(Pagamento::class);
+    }
+
     public function getNameAttribute()
     {
         return $this->first_name.' '.$this->last_name;
