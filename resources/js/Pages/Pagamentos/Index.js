@@ -45,7 +45,9 @@ const Index = () => {
                     href={route('pagamentos.edit', id)}
                     className="flex items-center px-6 py-4 focus:text-indigo-700 focus:outline-none"
                   >
-                    {contact ? contact.first_name + ' ' + contact.last_name : ''}
+                    {contact
+                      ? contact.first_name + ' ' + contact.last_name
+                      : ''}
                     {deleted_at && (
                       <Icon
                         name="trash"
@@ -60,7 +62,7 @@ const Index = () => {
                     className="flex items-center px-6 py-4 focus:text-indigo focus:outline-none"
                     href={route('pagamentos.edit', id)}
                   >
-                    {contact.cantina}
+                    {contact ? contact.cantina : ''}
                   </InertiaLink>
                 </td>
                 <td className="border-t">
@@ -98,7 +100,7 @@ const Index = () => {
             {data.length === 0 && (
               <tr>
                 <td className="px-6 py-4 border-t" colSpan="4">
-                Nenhum pagamento encontrado.
+                  Nenhum pagamento encontrado.
                 </td>
               </tr>
             )}
