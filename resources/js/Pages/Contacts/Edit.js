@@ -8,6 +8,7 @@ import LoadingButton from '@/Shared/LoadingButton';
 import TextInput from '@/Shared/TextInput';
 import SelectInput from '@/Shared/SelectInput';
 import TrashedMessage from '@/Shared/TrashedMessage';
+import Icon from '@/Shared/Icon';
 
 const Edit = () => {
   const { contact } = usePage().props;
@@ -42,6 +43,8 @@ const Edit = () => {
     }
   }
 
+  const pct = ['ALUMÍNIO', 'BRONZE', 'OURO'];
+
   return (
     <div>
       <Helmet title={`${data.first_name} ${data.last_name}`} />
@@ -54,7 +57,11 @@ const Edit = () => {
         </InertiaLink>
         <span className="mx-2 font-medium text-indigo-600">/</span>
         {data.first_name} {data.last_name} /{' '}
-        <span className={`${data.estado == '0' ? 'text-red-400' : 'text-green-400'}`}>
+        <span
+          className={`${
+            data.estado == '0' ? 'text-red-400' : 'text-green-400'
+          }`}
+        >
           {data.estado == '0' ? 'Desactivo' : 'Activo'}
         </span>
       </h1>
@@ -188,6 +195,82 @@ const Edit = () => {
             </LoadingButton>
           </div>
         </form>
+      </div>
+      <h2 className="mt-12 text-2xl font-bold">Pagamentos</h2>
+      <div className="mt-6 overflow-x-auto bg-white rounded shadow">
+        <table className="w-full whitespace-nowrap">
+          <thead>
+            <tr className="font-bold text-left">
+              <th className="px-6 pt-5 pb-4">Pacote</th>
+              <th className="px-6 pt-5 pb-4">Início</th>
+              <th className="px-6 pt-5 pb-4">Fim</th>
+            </tr>
+          </thead>
+          <tbody>
+            {contact.pagamentos.map(
+              ({ id, pacote, inicio, fim, deleted_at }) => {
+                return (
+                  <tr
+                    key={id}
+                    className="hover:bg-gray-100 focus-within:bg-gray-100"
+                  >
+                    <td className="border-t">
+                      <InertiaLink
+                        href={route('pagamentos.edit', id)}
+                        className="flex items-center px-6 py-4 focus:text-indigo focus:outline-none"
+                      >
+                        {pct[pacote]}
+                        {deleted_at && (
+                          <Icon
+                            name="trash"
+                            className="flex-shrink-0 w-3 h-3 ml-2 text-gray-400 fill-current"
+                          />
+                        )}
+                      </InertiaLink>
+                    </td>
+                    <td className="border-t">
+                      <InertiaLink
+                        tabIndex="-1"
+                        href={route('pagamentos.edit', id)}
+                        className="flex items-center px-6 py-4 focus:text-indigo focus:outline-none"
+                      >
+                        {inicio}
+                      </InertiaLink>
+                    </td>
+                    <td className="border-t">
+                      <InertiaLink
+                        tabIndex="-1"
+                        href={route('pagamentos.edit', id)}
+                        className="flex items-center px-6 py-4 focus:text-indigo focus:outline-none"
+                      >
+                        {fim}
+                      </InertiaLink>
+                    </td>
+                    <td className="w-px border-t">
+                      <InertiaLink
+                        tabIndex="-1"
+                        href={route('pagamentos.edit', id)}
+                        className="flex items-center px-4"
+                      >
+                        <Icon
+                          name="cheveron-right"
+                          className="block w-6 h-6 text-gray-400 fill-current"
+                        />
+                      </InertiaLink>
+                    </td>
+                  </tr>
+                );
+              }
+            )}
+            {contact.pagamentos.length === 0 && (
+              <tr>
+                <td className="px-6 py-4 border-t" colSpan="4">
+                  Não foram encontrados pagamentos.
+                </td>
+              </tr>
+            )}
+          </tbody>
+        </table>
       </div>
     </div>
   );

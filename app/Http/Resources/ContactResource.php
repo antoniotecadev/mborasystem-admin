@@ -2,6 +2,7 @@
 
 namespace App\Http\Resources;
 
+use Illuminate\Support\Facades\Crypt;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 class ContactResource extends JsonResource
@@ -29,7 +30,8 @@ class ContactResource extends JsonResource
             'street' => $this->street,
             'estado' => $this->estado,
             'deleted_at' => $this->deleted_at,
-            // 'organization_id' => $this->organization_id,
+            'pagamentos' => $this->pagamentos()->orderBy('id', 'desc')->get()->map(function ($item) {return ['id' => Crypt::encryptString($item->id), 'pacote' => $item->pacote, 'inicio' => $item->inicio, 'fim' => $item->fim, 'deleted_at' => $item->deleted_at]; }),
+            // 'pagamentos' => $this->pagamentos()->orderBy('id', 'desc')->get()->map->only('id', 'pacote', 'inicio', 'fim', 'deleted_at'),
         ];
     }
 }
