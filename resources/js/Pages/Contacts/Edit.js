@@ -196,7 +196,7 @@ const Edit = () => {
           </div>
         </form>
       </div>
-      <h2 className="mt-12 text-2xl font-bold">Pagamentos</h2>
+      <h2 className="mt-12 text-2xl font-bold">Os últimos 10 Pagamentos</h2>
       <div className="mt-6 overflow-x-auto bg-white rounded shadow">
         <table className="w-full whitespace-nowrap">
           <thead>
