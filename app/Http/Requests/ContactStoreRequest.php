@@ -26,12 +26,9 @@ class ContactStoreRequest extends FormRequest
     public function rules()
     {
         return [
-            'first_name' => ['required', 'max:25', 'min:4', 'alpha'],
-            'last_name' => ['required', 'max:25', 'min:4', 'alpha'],
+            'first_name' => ['required', 'max:25', 'min:4'],
+            'last_name' => ['required', 'max:25', 'min:4'],
             'nif_bi' => ['required', 'max:15', 'min:14', 'alpha_num'],
-            // 'organization_id' => ['nullable', Rule::exists('organizations', 'id')->where(function ($query) {
-            //     $query->where('account_id', Auth::user()->account_id);
-            // })],
             'email' => ['nullable', 'max:50', 'email'],
             'phone' => ['required', 'min:9', 'numeric', 'integer'],
             'alternative_phone' => ['required', 'min:9', 'numeric', 'integer'],

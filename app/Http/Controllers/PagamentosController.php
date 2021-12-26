@@ -59,7 +59,7 @@ class PagamentosController extends Controller
             'pagamento' => new PagamentoResource(Pagamento::withTrashed()->findOrFail(Crypt::decryptString($id))),
             'contacts' => new UserContactCollection(
                 Auth::user()->account->contacts()
-                    ->orderBy('id')
+                    ->orderBy('id', 'desc')
                     ->get()
             ),
         ]);

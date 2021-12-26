@@ -22,7 +22,7 @@ class ContactsController extends Controller
             'contacts' => new ContactCollection(
                 Auth::user()->account->contacts()
                     // ->orderByName()
-                    ->orderBy('id')
+                    ->orderBy('id', 'desc')
                     ->filter(Request::only('search', 'trashed'))
                     ->paginate()
                     ->appends(Request::all())
@@ -82,7 +82,6 @@ class ContactsController extends Controller
         $c->estado = $c->estado == '0' ? '1' : '0' ;
         $c->save();
         return Redirect::route('contacts')->with('success', 'Confirmado');
-        return $id;
     }
 
 }
