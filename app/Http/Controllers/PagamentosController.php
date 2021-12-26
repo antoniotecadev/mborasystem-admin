@@ -8,8 +8,10 @@ use App\Models\Contact;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Request;
 use App\Http\Resources\PagamentoCollection;
+use App\Http\Resources\PagamentoResource;
 use App\Http\Resources\UserContactCollection;
 use App\Http\Requests\PagamentoStoreRequest;
+use App\Http\Requests\PagamentoUpdateRequest;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Crypt;
 
@@ -51,10 +53,24 @@ class PagamentosController extends Controller
         return Redirect::route('pagamentos')->with('success', 'Pagamento efectuado.');
     }
 
-    public function estadoUpdate($id){
-        $c = Contact::findOrFail(Crypt::decryptString($id));
-        $c->estado = $c->estado == '0' ? '1' : '0' ;
-        $c->save();
-        return Redirect::route('contacts')->with('success', 'Confirmado');
+    public function edit($id)
+    {
+        return Inertia::render('Pagamentos/Edit', [
+            'pagamento' => new PagamentoResource(Pagamento::findOrFail(Crypt::decryptString($id))),
+            'contacts' => new UserContactCollection(
+                Auth::user()->account->contacts()
+                    ->orderBy('id')
+                    ->get()
+            ),
+        ]);
+    }
+
+    public function update(Pagamento $pagamento, PagamentoUpdateRequest $request)
+    {
+        $pagamento->update(
+            $request->validated()
+        );
+
+        return Redirect::back()->with('success', 'Pagamento actualizado.');
     }
 }

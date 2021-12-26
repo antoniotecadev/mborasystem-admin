@@ -42,7 +42,7 @@ const Index = () => {
               >
                 <td className="border-t">
                   <InertiaLink
-                    href={route('contacts.edit', id)}
+                    href={route('pagamentos.edit', id)}
                     className="flex items-center px-6 py-4 focus:text-indigo-700 focus:outline-none"
                   >
                     {contact ? contact.first_name + ' ' + contact.last_name : ''}
@@ -58,7 +58,7 @@ const Index = () => {
                   <InertiaLink
                     tabIndex="1"
                     className="flex items-center px-6 py-4 focus:text-indigo focus:outline-none"
-                    href={route('contacts.edit', id)}
+                    href={route('pagamentos.edit', id)}
                   >
                     {contact.cantina}
                   </InertiaLink>
@@ -66,7 +66,7 @@ const Index = () => {
                 <td className="border-t">
                   <InertiaLink
                     tabIndex="-1"
-                    href={route('contacts.edit', id)}
+                    href={route('pagamentos.edit', id)}
                     className="flex items-center px-6 py-4 focus:text-indigo focus:outline-none"
                   >
                     {inicio}
@@ -75,7 +75,7 @@ const Index = () => {
                 <td className="border-t">
                   <InertiaLink
                     tabIndex="-1"
-                    href={route('contacts.edit', id)}
+                    href={route('pagamentos.edit', id)}
                     className="flex items-center px-6 py-4 focus:text-indigo focus:outline-none"
                   >
                     {fim}
@@ -84,7 +84,7 @@ const Index = () => {
                 <td className="w-px border-t">
                   <InertiaLink
                     tabIndex="-1"
-                    href={route('contacts.edit', id)}
+                    href={route('pagamentos.edit', id)}
                     className="flex items-center px-4 focus:outline-none"
                   >
                     <Icon

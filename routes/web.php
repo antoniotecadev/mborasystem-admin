@@ -47,6 +47,7 @@ Route::get('contacts/{contact}/edit')->name('contacts.edit')->uses('ContactsCont
 Route::put('contacts/{contact}')->name('contacts.update')->uses('ContactsController@update')->middleware('auth');
 Route::delete('contacts/{contact}')->name('contacts.destroy')->uses('ContactsController@destroy')->middleware('auth');
 Route::put('contacts/{contact}/restore')->name('contacts.restore')->uses('ContactsController@restore')->middleware('auth');
+Route::put('contacts/{id}/estado')->name('contacts.estado')->uses('ContactsController@estadoUpdate')->middleware('auth');
 
 // Reports
 Route::get('reports')->name('reports')->uses('ReportsController')->middleware('auth');
@@ -60,5 +61,6 @@ Route::get('500', function () {
 Route::get('pagamentos')->name('pagamentos')->uses('PagamentosController@index')->middleware('remember', 'auth');
 Route::get('pagamentos/create')->name('pagamentos.create')->uses('PagamentosController@create')->middleware('auth');
 Route::post('pagamentos')->name('pagamentos.store')->uses('PagamentosController@store')->middleware('auth');
-Route::put('pagamentos/{id}')->name('contacts.estado')->uses('PagamentosController@estadoUpdate')->middleware('auth');
+Route::get('pagamentos/{pagamento}/edit')->name('pagamentos.edit')->uses('PagamentosController@edit')->middleware('auth');
+Route::put('pagamentos/{pagamento}')->name('pagamentos.update')->uses('PagamentosController@update')->middleware('auth');
 

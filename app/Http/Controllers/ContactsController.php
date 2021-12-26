@@ -49,11 +49,6 @@ class ContactsController extends Controller
     {
         return Inertia::render('Contacts/Edit', [
             'contact' => new ContactResource(Contact::findOrFail(Crypt::decryptString($id))),
-            // 'organizations' => new UserOrganizationCollection(
-            //     Auth::user()->account->organizations()
-            //         ->orderBy('name')
-            //         ->get()
-            // ),
         ]);
     }
 
@@ -79,4 +74,13 @@ class ContactsController extends Controller
 
         return Redirect::back()->with('success', 'Parceiro restaurado.');
     }
+
+    public function estadoUpdate($id){
+        $c = Contact::findOrFail(Crypt::decryptString($id));
+        $c->estado = $c->estado == '0' ? '1' : '0' ;
+        $c->save();
+        return Redirect::route('contacts')->with('success', 'Confirmado');
+        return $id;
+    }
+
 }
