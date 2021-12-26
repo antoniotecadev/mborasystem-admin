@@ -48,7 +48,7 @@ class ContactsController extends Controller
     public function edit($id)
     {
         return Inertia::render('Contacts/Edit', [
-            'contact' => new ContactResource(Contact::findOrFail(Crypt::decryptString($id))),
+            'contact' => new ContactResource(Contact::withTrashed()->findOrFail(Crypt::decryptString($id))),
         ]);
     }
 
@@ -61,8 +61,10 @@ class ContactsController extends Controller
         return Redirect::back()->with('success', 'Parceiro actualizado.');
     }
 
-    public function destroy(Contact $contact)
+    public function destroy($id)
     {
+        $contact = Contact::find($id);
+
         $contact->delete();
 
         return Redirect::back()->with('success', 'Parceiro eliminado.');

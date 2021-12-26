@@ -56,7 +56,7 @@ class PagamentosController extends Controller
     public function edit($id)
     {
         return Inertia::render('Pagamentos/Edit', [
-            'pagamento' => new PagamentoResource(Pagamento::findOrFail(Crypt::decryptString($id))),
+            'pagamento' => new PagamentoResource(Pagamento::withTrashed()->findOrFail(Crypt::decryptString($id))),
             'contacts' => new UserContactCollection(
                 Auth::user()->account->contacts()
                     ->orderBy('id')
@@ -72,5 +72,19 @@ class PagamentosController extends Controller
         );
 
         return Redirect::back()->with('success', 'Pagamento actualizado.');
+    }
+
+    public function destroy(Pagamento $pagamento)
+    {
+        $pagamento->delete();
+
+        return Redirect::back()->with('success', 'Pagamento eliminado.');
+    }
+
+    public function restore(Pagamento $pagamento)
+    {
+        $pagamento->restore();
+
+        return Redirect::back()->with('success', 'Pagamento restaurado.');
     }
 }

@@ -21,7 +21,7 @@ class PagamentoResource extends JsonResource
             'inicio' => $this->inicio,
             'fim' => $this->fim,
             'deleted_at' => $this->deleted_at,
-            'contact_id' => $this->contact_id,
+            'contact_id' => $this->contact_id
         ];
     }
 }

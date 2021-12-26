@@ -24,13 +24,13 @@ const Edit = () => {
   }
 
   function destroy() {
-    if (confirm('Você tem certeza que deseja eliminar este parceiro?')) {
+    if (confirm('Você tem certeza que deseja eliminar este pagamento?')) {
       Inertia.delete(route('pagamentos.destroy', pagamento.id));
     }
   }
 
   function restore() {
-    if (confirm('Tem certeza que deseja restaurar esse parceiro?')) {
+    if (confirm('Tem certeza que deseja restaurar esse pagamento?')) {
       Inertia.put(route('pagamentos.restore', pagamento.id));
     }
   }
@@ -43,7 +43,7 @@ const Edit = () => {
           href={route('pagamentos')}
           className="text-indigo-600 hover:text-indigo-700"
         >
-          Pagamentos
+          Pagamentos {pagamento.id}
         </InertiaLink>
         <span className="mx-2 font-medium text-indigo-600">/</span>
         {data.inicio} - {data.fim}

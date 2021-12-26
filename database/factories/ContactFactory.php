@@ -21,13 +21,13 @@ class ContactFactory extends Factory
      */
     public function definition()
     {
-        return [
-            'first_name' => $this->faker->firstName,
-            'last_name' => $this->faker->lastName,
-            'nif_bi' => '1234578LA123',
-            'email' => $this->faker->unique()->safeEmail,
-            'phone' => $this->faker->tollFreePhoneNumber,
-            'alternative_phone' => $this->faker->tollFreePhoneNumber,
-        ];
+        // return [
+        //     'first_name' => $this->faker->firstName,
+        //     'last_name' => $this->faker->lastName,
+        //     'nif_bi' => '1234578LA123',
+        //     'email' => $this->faker->unique()->safeEmail,
+        //     'phone' => $this->faker->tollFreePhoneNumber,
+        //     'alternative_phone' => $this->faker->tollFreePhoneNumber,
+        // ];
     }
 }

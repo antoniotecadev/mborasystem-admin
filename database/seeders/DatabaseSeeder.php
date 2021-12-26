@@ -22,19 +22,19 @@ class DatabaseSeeder extends Seeder
             'owner' => true,
         ]);
 
-        User::factory()->count(5)->create([
-            'account_id' => $account->id
-        ]);
+        // User::factory()->count(5)->create([
+        //     'account_id' => $account->id
+        // ]);
 
-        $organizations = Organization::factory()->count(20)->create([
-            'account_id' => $account->id
-        ]);
+        // $organizations = Organization::factory()->count(20)->create([
+        //     'account_id' => $account->id
+        // ]);
 
-        Contact::factory()->count(20)->create([
-            'account_id' => $account->id
-        ])
-            ->each(function (Contact  $contact) use ($organizations) {
-                $contact->update(['organization_id' => $organizations->random()->id]);
-            });
+        // Contact::factory()->count(20)->create([
+        //     'account_id' => $account->id
+        // ])
+        //     ->each(function (Contact  $contact) use ($organizations) {
+        //         $contact->update(['organization_id' => $organizations->random()->id]);
+        //     });
     }
 }
