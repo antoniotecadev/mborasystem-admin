@@ -18,7 +18,8 @@ const Create = () => {
     municipality: '',
     district: '',
     street: '',
-    estado: '0'
+    estado: '0',
+    imei: ''
   });
 
   function handleSubmit(e) {
@@ -136,6 +137,15 @@ const Create = () => {
               errors={errors.street}
               value={data.street}
               onChange={e => setData('street', e.target.value)}
+            />
+            <TextInput
+              className="w-full pb-8 pr-6 lg:w-1/2"
+              label="IMEI/Código de Série"
+              name="imei"
+              type="text"
+              errors={errors.imei}
+              value={data.imei}
+              onChange={e => setData('imei', e.target.value)}
             />
             <div className="w-full pb-4 pr-6">
               <label className ="mr-1" htmlFor='activo' >Activo</label>

@@ -23,7 +23,8 @@ const Edit = () => {
     municipality: contact.municipality || '',
     district: contact.district || '',
     street: contact.street || '',
-    estado: contact.estado || ''
+    estado: contact.estado || '',
+    imei: contact.imei || ''
   });
 
   function handleSubmit(e) {
@@ -181,6 +182,15 @@ const Edit = () => {
               <option value="1">ACTIVO</option>
               <option value="0">DESACTIVO</option>
             </SelectInput>
+            <TextInput
+              className="w-full pb-8 pr-6 lg:w-1/2"
+              label="IMEI/Código de Série"
+              name="imei"
+              type="text"
+              errors={errors.imei}
+              value={data.imei}
+              onChange={e => setData('imei', e.target.value)}
+            />
           </div>
           <div className="flex items-center px-8 py-4 bg-gray-100 border-t border-gray-200">
             {!contact.deleted_at && (
