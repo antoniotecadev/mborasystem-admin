@@ -37,7 +37,7 @@ class ContactUpdateRequest extends FormRequest
             'district' => ['required', 'max:20'],
             'street' => ['required', 'max:20'],
             'estado' => ['required', 'boolean'],
-            'imei' => ['required', 'max:15']
+            'imei' => ['required', 'max:20']
         ];
     }
 }

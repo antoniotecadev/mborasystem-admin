@@ -34,6 +34,7 @@ class ContactsController extends Controller
             $c->municipality = $request->municipality;
             $c->district = $request->district;
             $c->street = $request->street;
+            $c->imei = $request->imei;
 
             $c->save();
 
