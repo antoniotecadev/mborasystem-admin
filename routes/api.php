@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Http\Request;
+use Inertia\Inertia;
 
 /*
 |--------------------------------------------------------------------------
@@ -17,8 +18,9 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::get('/status', function () {
-    return ['status' => 'ok'];
+Route::get('/termoscondicoes', function () {
+    // return ['status' => 'ok'];
+    return Inertia::render('TermosCondicoes/Index');
 });
 
 Route::namespace('Api')->group(function () {

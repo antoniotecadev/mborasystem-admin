@@ -74,7 +74,6 @@ const Index = () => {
                       className="flex items-center px-6 py-4 focus:text-indigo focus:outline-none"
                       href={route('contacts.edit', id)}
                     >
-                      {/* {organization ? organization.name : ''} */}
                       {cantina}
                     </InertiaLink>
                   </td>
