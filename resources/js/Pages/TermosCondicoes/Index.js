@@ -1,4 +1,5 @@
 import React from 'react';
+import { InertiaLink } from '@inertiajs/inertia-react';
 
 const Index = () => {
   return (
@@ -202,10 +203,13 @@ const Index = () => {
         <br />
         <li>
           1) Para informação acerca das práticas de protecção de dados no
-          MboraSystem, por favor leia a política de privacidade em
-          https://yoga.mborasystem.ao/politica-de-privacidade/. Esta política
-          explica a forma como a YOGA trata a sua informação pessoal e protege a
-          sua privacidade quando usa os Serviços.
+          MboraSystem, por favor leia a
+          <InertiaLink href={route('politica.privacidade')}
+          className="text-indigo-600 hover:bg-indigo-600 hover:text-white">
+            {` `}Política de Privacidade.{` `}
+          </InertiaLink>
+          Esta política explica a forma como a YOGA trata a sua informação
+          pessoal e protege a sua privacidade quando usa os Serviços.
         </li>
         <br />
         <li>

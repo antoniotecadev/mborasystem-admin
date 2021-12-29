@@ -19,9 +19,12 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 });
 
 Route::get('/termoscondicoes', function () {
-    // return ['status' => 'ok'];
     return Inertia::render('TermosCondicoes/Index');
 });
+
+Route::get('/politicaprivacidade', function () {
+    return Inertia::render('PoliticaPrivacidade/Index');
+})->name('politica.privacidade');
 
 Route::namespace('Api')->group(function () {
     Route::get('/contacts', 'ContactsController@index');
