@@ -1,8 +1,13 @@
 import React from 'react';
+import Helmet from 'react-helmet';
 
 const Index = () => {
   return (
     <div>
+      <Helmet
+        titleTemplate="%s | MboraSystem Admin"
+        title="Política de Privacidade"
+      />
       <div className="flex items-center justify-between w-full p-4 text-sm bg-white border-b md:py-0 md:px-12 d:text-md">
         <h1>Política de Privacidade</h1>
         <div className="mt-1 mr-4 font-bold">MboraSystem | YOGA</div>

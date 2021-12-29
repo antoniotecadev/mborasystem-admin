@@ -1,9 +1,14 @@
 import React from 'react';
+import Helmet from 'react-helmet';
 import { InertiaLink } from '@inertiajs/inertia-react';
 
 const Index = () => {
   return (
     <div>
+      <Helmet
+        titleTemplate="%s | MboraSystem Admin"
+        title="Termos e Condições"
+      />
       <div className="flex items-center justify-between w-full p-4 text-sm bg-white border-b md:py-0 md:px-12 d:text-md">
         <h1>Termos e Condições</h1>
         <div className="mt-1 mr-4 font-bold">MboraSystem | YOGA</div>
@@ -204,8 +209,10 @@ const Index = () => {
         <li>
           1) Para informação acerca das práticas de protecção de dados no
           MboraSystem, por favor leia a
-          <InertiaLink href={route('politica.privacidade')}
-          className="text-indigo-600 hover:bg-indigo-600 hover:text-white">
+          <InertiaLink
+            href={route('politica.privacidade')}
+            className="text-indigo-600 hover:bg-indigo-600 hover:text-white"
+          >
             {` `}Política de Privacidade.{` `}
           </InertiaLink>
           Esta política explica a forma como a YOGA trata a sua informação
