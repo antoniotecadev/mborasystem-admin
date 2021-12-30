@@ -27,9 +27,6 @@ Route::get('/politicaprivacidade', function () {
 })->name('politica.privacidade');
 
 Route::namespace('Api')->group(function () {
-    Route::get('/contacts', 'ContactsController@index');
-    Route::get('/contacts/{contact}/edit', 'ContactsController@edit');
+    Route::get('/contacts/{imei}/estado', 'ContactsController@index');
     Route::post('/contacts', 'ContactsController@store');
-    Route::get('/contacts/{contact}', 'ContactsController@update');
-    Route::delete('contacts/{contact}', 'ContactsController@delete');
 });

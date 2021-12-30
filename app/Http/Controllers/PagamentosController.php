@@ -25,7 +25,7 @@ class PagamentosController extends Controller
             'pagamentos' => new PagamentoCollection(
                 Auth::user()->account->pagamentos()
                     ->with('contact')
-                    ->orderBy('id')
+                    ->orderBy('id', 'desc')
                     ->filter(Request::only('search', 'trashed'))
                     ->paginate()
                     ->appends(Request::all())

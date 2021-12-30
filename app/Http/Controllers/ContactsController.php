@@ -21,7 +21,6 @@ class ContactsController extends Controller
             'filters' => Request::all('search', 'trashed'),
             'contacts' => new ContactCollection(
                 Auth::user()->account->contacts()
-                    // ->orderByName()
                     ->orderBy('id', 'desc')
                     ->filter(Request::only('search', 'trashed'))
                     ->paginate()
@@ -63,7 +62,7 @@ class ContactsController extends Controller
 
     public function destroy($id)
     {
-        $contact = Contact::find($id);
+        $contact = Contact::findOrFail($id);
 
         $contact->delete();
 
