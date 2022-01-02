@@ -63,6 +63,7 @@ const Create = () => {
         dataFinal = anoFinal + '-' + mesFinal + '-' + diaFinal;
       }
     }
+  
     setData('inicio', e.target.value);
     setDataFinal(dataFinal);
   }
@@ -73,6 +74,7 @@ const Create = () => {
   }
 
   return (
+    
     <div>
       <h1 className="mb-8 text-3xl font-bold">
         <InertiaLink
@@ -125,13 +127,13 @@ const Create = () => {
             />
             <TextInput
               className="w-full pb-8 pr-6 lg:w-1/2"
-              label="Fim"
+              id="fim"
+              label={'Fim: ' + datafinal}
               name="fim"
               type="date"
               errors={errors.fim}
-              value={datafinal}
-              readOnly
-              onChange={e => setData('fim', e.target.value)}
+              value={data.fim}
+              onChange={e => setData('fim', e.target.value == datafinal ? e.target.value: '')}
             />
           </div>
           <div className="flex items-center justify-end px-8 py-4 bg-gray-100 border-t border-gray-200">

@@ -49,6 +49,23 @@ const Edit = () => {
   var date = new Date();
   var dataActual = date.getFullYear() + '-' + date.getMonth() + 1 + '-' + ((date.getDate() < '10' ? '0' : '') + date.getDate());
 
+  var amanha = new Date(date.getTime());
+  amanha.setDate(amanha.getDate() + 1);
+
+  var dd = amanha.getDate();
+  var mm = amanha.getMonth() + 1;
+  var yyyy = amanha.getFullYear();
+
+  if (dd < 10) {
+    dd = '0' + dd;
+  }
+
+  if (mm < 10) {
+    mm = '0' + mm;
+  }
+
+  var dataAmanha = yyyy + '-' + mm + '-' + dd;
+
   return (
     <div>
       <Helmet title={`${data.first_name} ${data.last_name}`} />
@@ -226,7 +243,7 @@ const Edit = () => {
                   <tr
                     key={id}
                     className={`hover:bg-gray-100 focus-within:bg-gray-100 ${
-                      fim == dataActual ? 'bg-red-100' : 'bg-green-200'
+                      Date.parse(fim) <= Date.parse(dataActual) ? 'bg-red-100' : Date.parse(fim) == Date.parse(dataAmanha)?'bg-yellow-400':'bg-green-200'
                     }`}
                   >
                     <td className="border-t">
@@ -234,7 +251,7 @@ const Edit = () => {
                         href={route('pagamentos.edit', id)}
                         className="flex items-center px-6 py-4 focus:text-indigo focus:outline-none"
                       >
-                        {pct[pacote]}{fim == dataActual ? ' (Terminado) ' : ''}
+                        {pct[pacote]}{Date.parse(fim) <= Date.parse(dataActual) ? ' (Terminado) ' : ''} {Date.parse(fim) == Date.parse(dataAmanha) ? ' (Termina amanhã) ' : ''}
                         {deleted_at && (
                           <Icon
                             name="trash"
