@@ -11,8 +11,13 @@ const Index = () => {
     data,
     meta: { links }
   } = pagamentos;
+
+  var date = new Date();
+  var dataActual = date.getFullYear() + '-' + date.getMonth() + 1 + '-' + ((date.getDate() < '10' ? '0' : '') + date.getDate());
+
   return (
     <div>
+      {dataActual}
       <h1 className="mb-8 text-3xl font-bold">Pagamentos ({data.length})</h1>
       <div className="flex items-center justify-between mb-6">
         <SearchFilter />
@@ -38,7 +43,9 @@ const Index = () => {
             {data.map(({ id, inicio, fim, deleted_at, contact }) => (
               <tr
                 key={id}
-                className="hover:bg-gray-100 focus-within:bg-gray-100"
+                className={`hover:bg-gray-100 focus-within:bg-gray-100 ${
+                  fim == dataActual ? 'bg-red-100' : 'bg-green-200'
+                }`}
               >
                 <td className="border-t">
                   <InertiaLink
@@ -47,7 +54,7 @@ const Index = () => {
                   >
                     {contact
                       ? contact.first_name + ' ' + contact.last_name
-                      : ''}
+                      : ''} {fim == dataActual ? ' (Terminado) ' : ''}
                     {deleted_at && (
                       <Icon
                         name="trash"

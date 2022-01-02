@@ -46,6 +46,9 @@ const Edit = () => {
 
   const pct = ['ALUMÍNIO', 'BRONZE', 'OURO'];
 
+  var date = new Date();
+  var dataActual = date.getFullYear() + '-' + date.getMonth() + 1 + '-' + ((date.getDate() < '10' ? '0' : '') + date.getDate());
+
   return (
     <div>
       <Helmet title={`${data.first_name} ${data.last_name}`} />
@@ -222,14 +225,16 @@ const Edit = () => {
                 return (
                   <tr
                     key={id}
-                    className="hover:bg-gray-100 focus-within:bg-gray-100"
+                    className={`hover:bg-gray-100 focus-within:bg-gray-100 ${
+                      fim == dataActual ? 'bg-red-100' : 'bg-green-200'
+                    }`}
                   >
                     <td className="border-t">
                       <InertiaLink
                         href={route('pagamentos.edit', id)}
                         className="flex items-center px-6 py-4 focus:text-indigo focus:outline-none"
                       >
-                        {pct[pacote]}
+                        {pct[pacote]}{fim == dataActual ? ' (Terminado) ' : ''}
                         {deleted_at && (
                           <Icon
                             name="trash"
