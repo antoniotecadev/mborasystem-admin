@@ -14,7 +14,7 @@ class ContactsController extends Controller
         return DB::table('contacts')
         ->join('pagamentos', 'pagamentos.contact_id', '=', 'contacts.id')
         ->where('imei', $imei)
-        ->orderBy('pagamentos.id', 'desc')
+        ->latest('pagamentos.id')
         ->limit(1)
         ->get();
 }
