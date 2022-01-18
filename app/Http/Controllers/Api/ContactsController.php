@@ -48,10 +48,6 @@ class ContactsController extends Controller
          'inicio' => $c['0']->inicio, 
          'fim' => $c['0']->fim, 
          'termina' => $termina ]];
-
-        // echo "<pre>";
-        // print_r($collapsed->all());
-        // echo "</pre>";
 }
 
     public function store(Request $request)
@@ -82,6 +78,11 @@ class ContactsController extends Controller
             return ['insert' => 'erro'];
 
        }
+    }
+
+    public function getBairros() 
+    {
+    	return [['mr_bt' => 'Morro Bento ||']];
     }
 
 }
