@@ -12,6 +12,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Request;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Crypt;
+use Illuminate\Support\Facades\DB;
 
 class ContactsController extends Controller
 {
@@ -83,4 +84,18 @@ class ContactsController extends Controller
         return Redirect::route('contacts')->with('success', 'Confirmado');
     }
 
+    public function refresh(){
+
+        $affected = DB::table('contacts')
+        ->join('pagamentos', 'pagamentos.contact_id', '=', 'contacts.id')
+        ->where('pagamentos.fim', '<=', date('Y-m-d'))
+        ->where('contacts.estado', '1')
+        ->latest('pagamentos.id')
+        ->update(['contacts.estado' => '0']);
+        if($affected == '0'){
+            return Redirect::route('contacts')->with('success', 'Nenhum parceiro desactivado (sem pagamentos terminados)');
+        }else{
+            return Redirect::route('contacts')->with('success', $affected . ' parceiro(s) desactivado(s) - (com pagamento terminado)');
+        }
+    }
 }
