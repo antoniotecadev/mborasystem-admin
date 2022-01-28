@@ -14,6 +14,7 @@ use App\Http\Requests\PagamentoStoreRequest;
 use App\Http\Requests\PagamentoUpdateRequest;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Crypt;
+use Illuminate\Support\Facades\DB;
 
 
 class PagamentosController extends Controller
@@ -46,11 +47,24 @@ class PagamentosController extends Controller
 
     public function store(PagamentoStoreRequest $request)
     {
-        Auth::user()->account->pagamentos()->create(
-            $request->validated()
-        );
+        $c = DB::table('contacts')
+        ->join('pagamentos', 'pagamentos.contact_id', '=', 'contacts.id')
+        ->where('contacts.id', $request->contact_id)
+        ->latest('pagamentos.id')
+        ->select('contacts.first_name', 'contacts.estado', 'pagamentos.fim')
+        ->limit(1)
+        ->get();
 
-        return Redirect::route('pagamentos')->with('success', 'Pagamento efectuado.');
+        if($c['0']->estado == 0 && $c['0']->fim <= date('Y-m-d')){
+
+            Auth::user()->account->pagamentos()->create(
+                $request->validated()
+            );
+
+            return Redirect::route('pagamentos')->with('success', 'Pagamento efectuado.');
+        } else {
+            return Redirect::route('pagamentos')->with('error', 'Pagamento não efectuado, parceiro já está activo ou possui um pagamento em uso.');
+        }
     }
 
     public function edit($id)

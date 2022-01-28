@@ -27,8 +27,8 @@ const Create = () => {
     let diaFinal, dataFinal;
     let data = e.target.value;
 
-    const diaT = parseInt(data.split('-', 3)[2]); 
-    const mesT = parseInt(data.split('-', 3)[1]); 
+    const diaT = parseInt(data.split('-', 3)[2]);
+    const mesT = parseInt(data.split('-', 3)[1]);
     const anoT = parseInt(data.split('-', 3)[0]);
 
     const mes = (mesT == 12 ? '' : mesT) + 1;
@@ -63,7 +63,6 @@ const Create = () => {
         dataFinal = anoFinal + '-' + mesFinal + '-' + diaFinal;
       }
     }
-  
     setData('inicio', e.target.value);
     setDataFinal(dataFinal);
   }
@@ -74,7 +73,6 @@ const Create = () => {
   }
 
   return (
-    
     <div>
       <h1 className="mb-8 text-3xl font-bold">
         <InertiaLink
