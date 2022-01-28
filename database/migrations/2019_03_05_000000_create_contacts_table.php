@@ -22,6 +22,7 @@ class CreateContactsTable extends Migration
             $table->string('district', 20);
             $table->string('street', 20);
             $table->enum('estado',['0', '1']);
+            $table->string('imei', 20)->index();
             $table->timestamps();
             $table->softDeletes();
         });
