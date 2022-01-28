@@ -51,7 +51,7 @@ class PagamentosController extends Controller
         ->join('pagamentos', 'pagamentos.contact_id', '=', 'contacts.id')
         ->where('contacts.id', $request->contact_id)
         ->latest('pagamentos.id')
-        ->select('contacts.first_name', 'contacts.estado', 'pagamentos.fim')
+        ->select('contacts.first_name', 'contacts.last_name', 'contacts.estado', 'pagamentos.fim')
         ->limit(1)
         ->get();
 
@@ -61,9 +61,9 @@ class PagamentosController extends Controller
                 $request->validated()
             );
 
-            return Redirect::route('pagamentos')->with('success', 'Pagamento efectuado.');
+            return Redirect::route('pagamentos')->with('success', 'Pagamento efectuado ' .$c['0']->first_name.' '.$c['0']->last_name);
         } else {
-            return Redirect::route('pagamentos')->with('error', 'Pagamento não efectuado, parceiro já está activo ou possui um pagamento em uso.');
+            return Redirect::route('pagamentos')->with('error', 'Pagamento não efectuado, ' .$c['0']->first_name.' '.$c['0']->last_name . ' já está activo ou possui um pagamento em uso.');
         }
     }
 
