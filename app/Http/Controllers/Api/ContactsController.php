@@ -82,7 +82,7 @@ class ContactsController extends Controller
 
     public function getBairros() 
     {
-    	return [['mr_bt' => 'Morro Bento ||']];
+    	return [['mr_bt' => 'Morro Bento']];
     }
 
 }
