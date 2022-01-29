@@ -55,17 +55,25 @@ class PagamentosController extends Controller
         ->limit(1)
         ->get();
 
-        if($c['0']->estado == 0 && $c['0']->fim <= date('Y-m-d')){
-
+        if(empty($c['0'])):
+            $this->activarParceiro($request->contact_id);
             Auth::user()->account->pagamentos()->create(
                 $request->validated()
             );
-
-            return Redirect::route('pagamentos')->with('success', 'Pagamento efectuado ' .$c['0']->first_name.' '.$c['0']->last_name);
-        } else {
-            return Redirect::route('pagamentos')->with('error', 'Pagamento não efectuado, ' .$c['0']->first_name.' '.$c['0']->last_name . ' já está activo ou possui um pagamento em uso.');
-        }
+            return Redirect::route('pagamentos')->with('success', 'Pagamento efectuado.');
+        else:
+            if($c['0']->estado == 0 && $c['0']->fim <= date('Y-m-d')):
+                $this->activarParceiro($request->contact_id);
+                Auth::user()->account->pagamentos()->create(
+                    $request->validated()
+                );
+                return Redirect::route('pagamentos')->with('success', 'Pagamento efectuado (' .$c['0']->first_name.' '.$c['0']->last_name).')';
+            else:
+                return Redirect::route('pagamentos')->with('error', 'Pagamento não efectuado, ' .$c['0']->first_name.' '.$c['0']->last_name . ' já está activo ou possui um pagamento em uso.');
+            endif;
+        endif;
     }
+
 
     public function edit($id)
     {
@@ -100,5 +108,11 @@ class PagamentosController extends Controller
         $pagamento->restore();
 
         return Redirect::back()->with('success', 'Pagamento restaurado.');
+    }
+
+    private function activarParceiro($id){
+        DB::table('contacts')
+        ->where('id', $id)
+        ->update(['contacts.estado' => '1']);
     }
 }
