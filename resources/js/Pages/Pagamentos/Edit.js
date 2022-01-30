@@ -13,6 +13,7 @@ const Edit = () => {
   const { pagamento, contacts } = usePage().props;
   const { data, setData, errors, put, processing } = useForm({
     pacote: pagamento.pacote || '',
+    tipo_pagamento: pagamento.tipo_pagamento || '',
     inicio: pagamento.inicio || '',
     fim: pagamento.fim || '',
     contact_id: pagamento.contact_id
@@ -77,10 +78,22 @@ const Edit = () => {
               errors={errors.pacote}
               value={data.pacote}
               onChange={e => setData('pacote', e.target.value)}>
-              <option value=""></option>
               <option value="0">ALUMÍNIO</option>
               <option value="1">BRONZE</option>
               <option value="2">OURO</option>
+            </SelectInput>
+            <SelectInput
+              className="w-full pb-8 pr-6 lg:w-1/2"
+              label="Tipo"
+              name="tipo_pagamento"
+              errors={errors.tipo_pagamento}
+              value={data.tipo_pagamento}
+              onChange={e => setData('tipo_pagamento', e.target.value)}
+            >
+              <option value="1">MENSAL</option>
+              <option value="3">TRIMESTRAL</option>
+              <option value="6">SEMESTRAL</option>
+              <option value="12">ANUAL</option>
             </SelectInput>
             <TextInput
               className="w-full pb-8 pr-6 lg:w-1/2"

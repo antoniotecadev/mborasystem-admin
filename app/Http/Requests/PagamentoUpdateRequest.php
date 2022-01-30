@@ -30,6 +30,7 @@ class PagamentoUpdateRequest extends FormRequest
                 $query->where('account_id', Auth::user()->account_id);
             })],
             'pacote' => ['required', 'integer'],
+            'tipo_pagamento' => ['required', 'integer'],
             'inicio' => ['required', 'date'],
             'fim' => ['required', 'date'],
         ];

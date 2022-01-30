@@ -18,6 +18,7 @@ class Pagamentos extends Migration
             $table->integer('account_id')->index();
             $table->integer('contact_id')->index();
             $table->enum('pacote', ['0', '1', '2']);
+            $table->enum('tipo_pagamento', ['1', '3', '6', '12']);
             $table->date('inicio');
             $table->date('fim');
             $table->timestamps();

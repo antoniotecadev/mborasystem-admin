@@ -5,12 +5,14 @@ import Layout from '@/Shared/Layout';
 import LoadingButton from '@/Shared/LoadingButton';
 import TextInput from '@/Shared/TextInput';
 import SelectInput from '@/Shared/SelectInput';
+import { getDataFimTrimestralSemestralAnual } from '@/Util/utilitario';
 
 const Create = () => {
   const [datafinal, setDataFinal] = useState();
   const { contacts } = usePage().props;
   const { data, setData, errors, post, processing } = useForm({
     pacote: '',
+    tipo_pagamento: '',
     inicio: '',
     fim: '',
     nome: '',
@@ -114,6 +116,20 @@ const Create = () => {
               <option value="1">BRONZE</option>
               <option value="2">OURO</option>
             </SelectInput>
+            <SelectInput
+              className="w-full pb-8 pr-6 lg:w-1/2"
+              label="Tipo"
+              name="tipo_pagamento"
+              errors={errors.tipo_pagamento}
+              value={data.tipo_pagamento}
+              onChange={e => setData('tipo_pagamento', e.target.value)}
+            >
+              <option value=""></option>
+              <option value="1">MENSAL</option>
+              <option value="3">TRIMESTRAL</option>
+              <option value="6">SEMESTRAL</option>
+              <option value="12">ANUAL</option>
+            </SelectInput>
             <TextInput
               className="w-full pb-8 pr-6 lg:w-1/2"
               label="Início"
@@ -126,12 +142,12 @@ const Create = () => {
             <TextInput
               className="w-full pb-8 pr-6 lg:w-1/2"
               id="fim"
-              label={'Fim: ' + datafinal}
+              label={data.tipo_pagamento == "1"? 'Fim: ' + datafinal : 'Fim: ' + getDataFimTrimestralSemestralAnual(data.inicio, Number(data.tipo_pagamento))}
               name="fim"
               type="date"
               errors={errors.fim}
               value={data.fim}
-              onChange={e => setData('fim', e.target.value == datafinal ? e.target.value: '')}
+              onChange={e => setData('fim', e.target.value == datafinal || e.target.value == getDataFimTrimestralSemestralAnual(data.inicio, Number(data.tipo_pagamento)) ? e.target.value: '')}
             />
           </div>
           <div className="flex items-center justify-end px-8 py-4 bg-gray-100 border-t border-gray-200">

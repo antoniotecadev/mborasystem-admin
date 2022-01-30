@@ -18,6 +18,7 @@ class PagamentoResource extends JsonResource
         return [
             'id' => $this->id,
             'pacote' => $this->pacote,
+            'tipo_pagamento' => $this->tipo_pagamento,
             'inicio' => $this->inicio,
             'fim' => $this->fim,
             'deleted_at' => $this->deleted_at,
