@@ -47,7 +47,7 @@ const Edit = () => {
   const pct = ['ALUMÍNIO', 'BRONZE', 'OURO'];
 
   var date = new Date();
-  var dataActual = date.getFullYear() + '-' + date.getMonth() + 1 + '-' + ((date.getDate() < '10' ? '0' : '') + date.getDate());
+  var dataActual = date.getFullYear() + '-' + String(date.getMonth() + 1).padStart(2, '0') + '-' + ((date.getDate() < '10' ? '0' : '') + date.getDate());
 
   var amanha = new Date(date.getTime());
   amanha.setDate(amanha.getDate() + 1);

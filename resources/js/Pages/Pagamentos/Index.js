@@ -53,7 +53,7 @@ const Index = () => {
               <th className="px-6 pt-5 pb-4">Nome parceiro</th>
               <th className="px-6 pt-5 pb-4">Cantina</th>
               <th className="px-6 pt-5 pb-4">Início</th>
-              <th className="px-6 pt-5 pb-4">Fim{dataActual}</th>
+              <th className="px-6 pt-5 pb-4">Fim</th>
             </tr>
           </thead>
           <tbody>
