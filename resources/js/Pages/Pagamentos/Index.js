@@ -14,7 +14,7 @@ const Index = () => {
 
   var hoje = new Date();
 
-  var dataActual = hoje.getFullYear() + '-' + hoje.getMonth() + 1 + '-' + ((hoje.getDate() < '10' ? '0' : '') + hoje.getDate());
+  var dataActual = hoje.getFullYear() + '-' + String(hoje.getMonth() + 1).padStart(2, '0') + '-' + ((hoje.getDate() < '10' ? '0' : '') + hoje.getDate());
 
   var amanha = new Date(hoje.getTime());
   amanha.setDate(amanha.getDate() + 1);
@@ -53,7 +53,7 @@ const Index = () => {
               <th className="px-6 pt-5 pb-4">Nome parceiro</th>
               <th className="px-6 pt-5 pb-4">Cantina</th>
               <th className="px-6 pt-5 pb-4">Início</th>
-              <th className="px-6 pt-5 pb-4">Fim</th>
+              <th className="px-6 pt-5 pb-4">Fim{dataActual}</th>
             </tr>
           </thead>
           <tbody>
