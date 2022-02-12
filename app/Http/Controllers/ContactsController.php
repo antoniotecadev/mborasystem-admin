@@ -78,10 +78,32 @@ class ContactsController extends Controller
     }
 
     public function estadoUpdate($id){
-        $c = Contact::findOrFail(Crypt::decryptString($id));
-        $c->estado = $c->estado == '0' ? '1' : '0' ;
-        $c->save();
-        return Redirect::route('contacts')->with('success', 'Confirmado');
+
+        $c = DB::table('contacts')
+        ->join('pagamentos', 'pagamentos.contact_id', '=', 'contacts.id')
+        ->where('contacts.id', Crypt::decryptString($id))
+        ->latest('pagamentos.id')
+        ->select('contacts.first_name', 'contacts.last_name', 'contacts.estado', 'pagamentos.fim')
+        ->limit(1)
+        ->get();
+
+        if(!empty($c['0'])){
+            $nome_parceiro = $c['0']->first_name .' '. $c['0']->last_name;
+            if($c['0']->estado == '0' && $c['0']->fim <= date('Y-m-d')) {
+                return Redirect::route('contacts')->with('error', $nome_parceiro . ' com pagamento terminado 😢');
+            } else {
+                DB::table('contacts')
+                ->where('contacts.id', Crypt::decryptString($id))
+                ->update(['contacts.estado' => $c['0']->estado == '0' ? '1' : '0']);
+                return Redirect::route('contacts')->with('success', $c['0']->estado == '0' ? $nome_parceiro . ' Activado 😊' : $nome_parceiro . ' Desactivado 😢');
+            }
+        } else {
+            return Redirect::route('contacts')->with('error', 'Parceiro sem pagamento 😢');
+        }
+        // $c = Contact::findOrFail();
+        // $c->estado = $c->estado == '0' ? '1' : '0' ;
+        // $c->save();
+        // return Redirect::route('contacts')->with('success', 'Confirmado');
     }
 
     public function refresh(){
