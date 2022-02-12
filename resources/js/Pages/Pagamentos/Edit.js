@@ -78,8 +78,8 @@ const Edit = () => {
               errors={errors.pacote}
               value={data.pacote}
               onChange={e => setData('pacote', e.target.value)}>
-              <option value="0">ALUMÍNIO</option>
-              <option value="1">BRONZE</option>
+              <option value="0">BRONZE</option>
+              <option value="1">ALUMÍNIO</option>
               <option value="2">OURO</option>
             </SelectInput>
             <SelectInput
