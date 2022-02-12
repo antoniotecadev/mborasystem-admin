@@ -91,6 +91,8 @@ class ContactsController extends Controller
             $nome_parceiro = $c['0']->first_name .' '. $c['0']->last_name;
             if($c['0']->estado == '0' && $c['0']->fim <= date('Y-m-d')) {
                 return Redirect::route('contacts')->with('error', $nome_parceiro . ' com pagamento terminado 😢');
+            } elseif ($c['0']->estado == '1' && $c['0']->fim > date('Y-m-d')) {
+                return Redirect::route('contacts')->with('error', $nome_parceiro . ' com pagamento não terminado 😊');
             } else {
                 DB::table('contacts')
                 ->where('contacts.id', Crypt::decryptString($id))
