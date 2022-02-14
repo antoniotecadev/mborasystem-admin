@@ -18,4 +18,9 @@ class Account extends Model
     {
         return $this->hasMany(Pagamento::class);
     }
+
+    public function equipas()
+    {
+        return $this->hasMany(Equipa::class);
+    }
 }

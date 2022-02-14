@@ -41,7 +41,7 @@ Route::put('contacts/{contact}/restore')->name('contacts.restore')->uses('Contac
 Route::put('contacts/{id}/estado')->name('contacts.estado')->uses('ContactsController@estadoUpdate')->middleware('auth');
 Route::get('contacts/refresh')->name('contacts.refresh')->uses('ContactsController@refresh')->middleware('auth');
 
-//Pagamentos
+// Pagamentos
 Route::get('pagamentos')->name('pagamentos')->uses('PagamentosController@index')->middleware('remember', 'auth');
 Route::get('pagamentos/create')->name('pagamentos.create')->uses('PagamentosController@create')->middleware('auth');
 Route::post('pagamentos')->name('pagamentos.store')->uses('PagamentosController@store')->middleware('auth');
@@ -49,6 +49,17 @@ Route::get('pagamentos/{pagamento}/edit')->name('pagamentos.edit')->uses('Pagame
 Route::put('pagamentos/{pagamento}')->name('pagamentos.update')->uses('PagamentosController@update')->middleware('auth');
 Route::delete('pagamentos/{pagamento}')->name('pagamentos.destroy')->uses('PagamentosController@destroy')->middleware('auth');
 Route::put('pagamentos/{pagamento}/restore')->name('pagamentos.restore')->uses('PagamentosController@restore')->middleware('auth');
+
+// Equipas
+Route::get('equipas')->name('equipas')->uses('EquipasController@index')->middleware('remember', 'auth');
+Route::get('equipas/create')->name('equipas.create')->uses('EquipasController@create')->middleware('auth');
+Route::post('equipas')->name('equipas.store')->uses('EquipasController@store')->middleware('auth');
+Route::get('equipas/{equipa}/edit')->name('equipas.edit')->uses('EquipasController@edit')->middleware('auth');
+Route::put('equipas/{equipa}')->name('equipas.update')->uses('EquipasController@update')->middleware('auth');
+Route::delete('equipas/{equipa}')->name('equipas.destroy')->uses('EquipasController@destroy')->middleware('auth');
+Route::put('equipas/{equipa}/restore')->name('equipas.restore')->uses('EquipasController@restore')->middleware('auth');
+Route::put('equipas/{id}/estado')->name('equipas.estado')->uses('EquipasController@estadoUpdate')->middleware('auth');
+Route::get('equipas/refresh')->name('equipas.refresh')->uses('EquipasController@refresh')->middleware('auth');
 
 // Reports
 Route::get('reports')->name('reports')->uses('ReportsController')->middleware('auth');

@@ -7,34 +7,34 @@ import SearchFilter from '@/Shared/SearchFilter';
 import LoadingButton from '@/Shared/LoadingButton';
 
 const Index = () => {
-  const { contacts } = usePage().props;
+  const { equipas } = usePage().props;
   const { errors, put, processing } = useForm({});
   const {
     data,
     meta: { links }
-  } = contacts;
+  } = equipas;
 
   function handleSubmit(id, e) {
     e.preventDefault();
-    put(route('contacts.estado', id));
+    put(route('equipas.estado', id));
   }
 
   return (
     <div>
-      <h1 className="mb-8 text-3xl font-bold">Parceiros ({data.length})</h1>
+      <h1 className="mb-8 text-3xl font-bold">Equipas ({data.length})</h1>
       <div className="flex items-center justify-between mb-6">
         <SearchFilter />
         <InertiaLink
           className="btn-indigo focus:outline-none"
-          href={route('contacts.create')}
+          href={route('equipas.create')}
         >
           <span>Criar</span>
-          <span className="hidden md:inline"> Parceiros</span>
+          <span className="hidden md:inline"> Equipa</span>
         </InertiaLink>
         {'-'}
         <InertiaLink
           className="btn-indigo focus:outline-none"
-          href={route('contacts.refresh')}
+          href={route('equipas.refresh')}
         >
           <Icon name='actualizar'/>
         </InertiaLink>
@@ -43,18 +43,14 @@ const Index = () => {
         <table className="w-full whitespace-nowrap">
           <thead>
             <tr className="font-bold text-left">
-              <th className="px-6 pt-5 pb-4">Nome</th>
-              <th className="px-6 pt-5 pb-4">Cantina</th>
+              <th className="px-6 pt-5 pb-4">Código</th>
+              <th className="px-6 pt-5 pb-4">Estado</th>
               <th className="px-6 pt-5 pb-4">Email</th>
-              <th className="px-6 pt-5 pb-4" colSpan="2">
-                Telefone
-              </th>
-              <th>Operação</th>
             </tr>
           </thead>
           <tbody>
             {data.map(
-              ({ id, name, cantina, email, phone, estado, deleted_at }) => (
+              ({ id, codigo, estado, deleted_at }) => (
                 <tr
                   key={id}
                   className={`hover:bg-gray-100 focus-within:bg-yellow-100 ${
@@ -63,10 +59,10 @@ const Index = () => {
                 >
                   <td className="border-t">
                     <InertiaLink
-                      href={route('contacts.edit', id)}
+                      href={route('equipas.edit', id)}
                       className="flex items-center px-6 py-4 focus:text-indigo-700 focus:outline-none"
                     >
-                      {name}
+                      {codigo}
                       {deleted_at && (
                         <Icon
                           name="trash"
@@ -79,33 +75,15 @@ const Index = () => {
                     <InertiaLink
                       tabIndex="1"
                       className="flex items-center px-6 py-4 focus:text-indigo focus:outline-none"
-                      href={route('contacts.edit', id)}
+                      href={route('equipas.edit', id)}
                     >
-                      {cantina}
-                    </InertiaLink>
-                  </td>
-                  <td className="border-t">
-                    <InertiaLink
-                      tabIndex="-1"
-                      href={route('contacts.edit', id)}
-                      className="flex items-center px-6 py-4 focus:text-indigo focus:outline-none"
-                    >
-                      {email}
-                    </InertiaLink>
-                  </td>
-                  <td className="border-t">
-                    <InertiaLink
-                      tabIndex="-1"
-                      href={route('contacts.edit', id)}
-                      className="flex items-center px-6 py-4 focus:text-indigo focus:outline-none"
-                    >
-                      {phone}
+                      {estado}
                     </InertiaLink>
                   </td>
                   <td className="w-px border-t">
                     <InertiaLink
                       tabIndex="-1"
-                      href={route('contacts.edit', id)}
+                      href={route('equipas.edit', id)}
                       className="flex items-center px-4 focus:outline-none"
                     >
                       <Icon
@@ -133,7 +111,7 @@ const Index = () => {
             {data.length === 0 && (
               <tr>
                 <td className="px-6 py-4 border-t" colSpan="4">
-                  Nenhum parceiro encontrado.
+                  Nenhuma equipa encontrada.
                 </td>
               </tr>
             )}
@@ -145,6 +123,6 @@ const Index = () => {
   );
 };
 
-Index.layout = page => <Layout title="Parceiros" children={page} />;
+Index.layout = page => <Layout title="Equipas" children={page} />;
 
 export default Index;

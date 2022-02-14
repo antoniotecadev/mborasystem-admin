@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\ContactStoreRequest;
-use App\Http\Requests\ContactUpdateRequest;
-use App\Http\Resources\ContactCollection;
-use App\Http\Resources\ContactResource;
+use App\Http\Requests\EquipaStoreRequest;
+use App\Http\Requests\EquipaUpdateRequest;
+use App\Http\Resources\EquipaCollection;
+use App\Http\Resources\equipaResource;
 use App\Models\Equipa;
 use Inertia\Inertia;
 use Illuminate\Support\Facades\Auth;
