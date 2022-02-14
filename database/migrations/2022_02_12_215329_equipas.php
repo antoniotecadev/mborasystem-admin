@@ -17,6 +17,7 @@ class Equipas extends Migration
             $table->increments('id');
             $table->integer('account_id')->index();
             $table->integer('codigo')->index()->unique();
+            $table->enum('estado',['0', '1']);
             $table->timestamps();
             $table->softDeletes();
         });
