@@ -16,7 +16,7 @@ class Equipas extends Migration
         Schema::create('equipas', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('account_id')->index();
-            $table->string('nome_completo', 50);
+            $table->integer('codigo')->index()->unique();
             $table->timestamps();
             $table->softDeletes();
         });
