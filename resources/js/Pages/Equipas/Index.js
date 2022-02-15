@@ -44,7 +44,6 @@ const Index = () => {
           <thead>
             <tr className="font-bold text-left">
               <th className="px-6 pt-5 pb-4">Código</th>
-              <th className="px-6 pt-5 pb-4">Estado</th>
             </tr>
           </thead>
           <tbody>
@@ -68,27 +67,6 @@ const Index = () => {
                           className="flex-shrink-0 w-3 h-3 ml-2 text-gray-400 fill-current"
                         />
                       )}
-                    </InertiaLink>
-                  </td>
-                  <td className="border-t">
-                    <InertiaLink
-                      tabIndex="1"
-                      className="flex items-center px-6 py-4 focus:text-indigo focus:outline-none"
-                      href={route('equipas.edit', id)}
-                    >
-                      {estado}
-                    </InertiaLink>
-                  </td>
-                  <td className="w-px border-t">
-                    <InertiaLink
-                      tabIndex="-1"
-                      href={route('equipas.edit', id)}
-                      className="flex items-center px-4 focus:outline-none"
-                    >
-                      <Icon
-                        name="cheveron-right"
-                        className="block w-6 h-6 text-gray-400 fill-current"
-                      />
                     </InertiaLink>
                   </td>
                   <td>
