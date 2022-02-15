@@ -26,7 +26,7 @@ class EquipaStoreRequest extends FormRequest
     public function rules()
     {
         return [
-            'codigo' => ['required', 'numeric', 'integer'],
+            'codigo' => ['required', 'size:6'],
             'estado' => ['required', 'boolean']
         ];
     }

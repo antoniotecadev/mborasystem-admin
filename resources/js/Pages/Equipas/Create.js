@@ -35,6 +35,7 @@ const Create = () => {
               className="w-full pb-8 pr-6 lg:w-1/2"
               label="Código"
               name="codigo"
+              type="text"
               errors={errors.codigo}
               value={data.codigo}
               onChange={e => setData('codigo', e.target.value)}

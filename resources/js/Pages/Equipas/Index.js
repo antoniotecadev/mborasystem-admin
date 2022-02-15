@@ -45,7 +45,6 @@ const Index = () => {
             <tr className="font-bold text-left">
               <th className="px-6 pt-5 pb-4">Código</th>
               <th className="px-6 pt-5 pb-4">Estado</th>
-              <th className="px-6 pt-5 pb-4">Email</th>
             </tr>
           </thead>
           <tbody>
