@@ -16,7 +16,7 @@ use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\DB;
 
 
-class PagamentosController extends Controller
+class AgentesController extends Controller
 {
     public function index()
     {

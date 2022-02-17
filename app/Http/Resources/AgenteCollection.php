@@ -12,8 +12,9 @@ class AgenteCollection extends ResourceCollection
         return $this->collection->map(function ($item) {
             return [
                 'id' => Crypt::encryptString($item->id),
-                'nome_completo' => $item->inicio,
-                'telefone' => $item->fim,
+                'nome_completo' => $item->nome_completo,
+                'telefone' => $item->telefone,
+                'estado' => $item->estado,
                 'deleted_at' => $item->deleted_at,
                 'equipa' => $item->equipa
             ];
