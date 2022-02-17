@@ -41,7 +41,7 @@ const Edit = () => {
           href={route('equipas')}
           className="text-indigo-600 hover:text-indigo-700"
         >
-          Equipas
+          Equipa
         </InertiaLink>
         <span className="mx-2 font-medium text-indigo-600">/</span>
         {data.codigo} /{' '}
@@ -114,11 +114,12 @@ const Edit = () => {
           </thead>
           <tbody>
             {equipa.agentes.map(
-              ({ id, nome_completo, telefone, email, deleted_at }) => {
+              ({ id, nome_completo, telefone, email, estado, deleted_at }) => {
                 return (
                   <tr
                     key={id}
-                    className={`hover:bg-gray-100 focus-within:bg-gray-100}`}
+                    className={`hover:bg-gray-100 focus-within:bg-gray-100 ${
+                       estado == '0' ? 'bg-red-100' : 'bg-green-200'}`}
                   >
                     <td className="border-t">
                       <InertiaLink

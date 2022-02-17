@@ -21,7 +21,7 @@ class EquipaResource extends JsonResource
             'codigo' => $this->codigo,
             'estado' => $this->estado,
             'deleted_at' => $this->deleted_at,
-            'agentes' => $this->agentes()->orderBy('id', 'desc')->limit(3)->get()->map(function ($item) {return ['id' => Crypt::encryptString($item->id), 'nome_completo' => $item->nome_completo, 'telefone' => $item->telefone, 'email' => $item->email, 'deleted_at' => $item->deleted_at]; }),
+            'agentes' => $this->agentes()->orderBy('id', 'desc')->limit(3)->get()->map(function ($item) {return ['id' => Crypt::encryptString($item->id), 'nome_completo' => $item->nome_completo, 'telefone' => $item->telefone, 'email' => $item->email, 'estado' => $item->estado, 'deleted_at' => $item->deleted_at]; }),
         ];
     }
 }
