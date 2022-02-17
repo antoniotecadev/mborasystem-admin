@@ -32,7 +32,7 @@ const Edit = () => {
   }
 
   function destroy() {
-    if (confirm('Você tem certeza que deseja eliminar este pagamento?')) {
+    if (confirm('Você tem certeza que deseja eliminar este agente?')) {
       Inertia.delete(route('agentes.destroy', agente.id));
     }
   }
@@ -51,7 +51,7 @@ const Edit = () => {
           href={route('agentes')}
           className="text-indigo-600 hover:text-indigo-700"
         >
-          Agentes {agente.id}
+          Agente {agente.id}
         </InertiaLink>
         <span className="mx-2 font-medium text-indigo-600">/</span>
         {data.nome_completo}
@@ -181,7 +181,7 @@ const Edit = () => {
           </div>
           <div className="flex items-center px-8 py-4 bg-gray-100 border-t border-gray-200">
             {!agente.deleted_at && (
-              <DeleteButton onDelete={destroy}>Eliminar agente</DeleteButton>
+              <DeleteButton onDelete={destroy}>Eliminar Agente</DeleteButton>
             )}
             <LoadingButton
               loading={processing}

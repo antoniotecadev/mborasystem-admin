@@ -10,7 +10,7 @@ use App\Http\Resources\AgenteCollection;
 use App\Http\Resources\AgenteResource;
 use App\Http\Resources\UserEquipaCollection;
 use App\Http\Requests\AgenteStoreRequest;
-use App\Http\Requests\PagamentoUpdateRequest;
+use App\Http\Requests\AgenteUpdateRequest;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\DB;
@@ -65,32 +65,26 @@ class AgentesController extends Controller
         ]);
     }
 
-    public function update(Pagamento $pagamento, PagamentoUpdateRequest $request)
+    public function update(Agente $agente, AgenteUpdateRequest $request)
     {
-        $pagamento->update(
+        $agente->update(
             $request->validated()
         );
 
-        return Redirect::back()->with('success', 'Pagamento actualizado.');
+        return Redirect::back()->with('success', 'Agente actualizado(a) 😊');
     }
 
-    public function destroy(Pagamento $pagamento)
+    public function destroy(Agente $agente)
     {
-        $pagamento->delete();
+        $agente->delete();
 
-        return Redirect::back()->with('success', 'Pagamento eliminado.');
+        return Redirect::back()->with('success', 'Agente eliminado(a).');
     }
 
-    public function restore(Pagamento $pagamento)
+    public function restore(Agente $agente)
     {
-        $pagamento->restore();
+        $agente->restore();
 
-        return Redirect::back()->with('success', 'Pagamento restaurado.');
-    }
-
-    private function activarParceiro($id){
-        DB::table('contacts')
-        ->where('id', $id)
-        ->update(['contacts.estado' => '1']);
+        return Redirect::back()->with('success', 'Agente restaurado(a) 😊');
     }
 }

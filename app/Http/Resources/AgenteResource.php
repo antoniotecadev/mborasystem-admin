@@ -20,6 +20,7 @@ class agenteResource extends JsonResource
             'nome_completo' => $this->nome_completo,
             'email' => $this->email,
             'telefone' => $this->telefone,
+            'telefone_alternativo' => $this->telefone_alternativo,
             'municipio' => $this->municipio,
             'bairro' => $this->bairro,
             'rua' => $this->rua,
