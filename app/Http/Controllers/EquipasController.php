@@ -76,4 +76,11 @@ class EquipasController extends Controller
 
         return Redirect::back()->with('success', 'Equipa restaurada.');
     }
+
+    public function estadoUpdate($id){
+        $c = Equipa::findOrFail(Crypt::decryptString($id));
+        $c->estado = $c->estado == '0' ? '1' : '0' ;
+        $c->save();
+        return Redirect::route('equipas')->with('success', 'Confirmado');
+    }
 }
