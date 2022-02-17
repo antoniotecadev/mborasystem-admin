@@ -48,7 +48,7 @@ const Index = () => {
                     href={route('agentes.edit', id)}
                     className="flex items-center px-6 py-4 focus:text-indigo-700 focus:outline-none"
                   >
-                    {equipa ? equipa.codigo : ''}
+                    YOGA {equipa ? equipa.codigo : ''}
                     {deleted_at && (
                       <Icon
                         name="trash"

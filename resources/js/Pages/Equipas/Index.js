@@ -53,7 +53,7 @@ const Index = () => {
                       href={route('equipas.edit', id)}
                       className="flex items-center px-6 py-4 focus:text-indigo-700 focus:outline-none"
                     >
-                      {codigo}
+                      YOGA {codigo}
                       {deleted_at && (
                         <Icon
                           name="trash"
