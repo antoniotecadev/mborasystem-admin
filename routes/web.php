@@ -59,7 +59,6 @@ Route::put('equipas/{equipa}')->name('equipas.update')->uses('EquipasController@
 Route::delete('equipas/{equipa}')->name('equipas.destroy')->uses('EquipasController@destroy')->middleware('auth');
 Route::put('equipas/{equipa}/restore')->name('equipas.restore')->uses('EquipasController@restore')->middleware('auth');
 Route::put('equipas/{id}/estado')->name('equipas.estado')->uses('EquipasController@estadoUpdate')->middleware('auth');
-Route::get('equipas/refresh')->name('equipas.refresh')->uses('EquipasController@refresh')->middleware('auth');
 
 // Reports
 Route::get('reports')->name('reports')->uses('ReportsController')->middleware('auth');

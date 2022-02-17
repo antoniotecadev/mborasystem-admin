@@ -31,13 +31,6 @@ const Index = () => {
           <span>Criar</span>
           <span className="hidden md:inline"> Equipa</span>
         </InertiaLink>
-        {'-'}
-        <InertiaLink
-          className="btn-indigo focus:outline-none"
-          href={route('equipas.refresh')}
-        >
-          <Icon name='actualizar'/>
-        </InertiaLink>
       </div>
       <div className="overflow-x-auto bg-white rounded shadow">
         <table className="w-full whitespace-nowrap">
