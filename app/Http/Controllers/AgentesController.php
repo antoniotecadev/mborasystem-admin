@@ -2,12 +2,12 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Pagamento;
+use App\Models\Agente;
 use Inertia\Inertia;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Request;
 use App\Http\Resources\AgenteCollection;
-use App\Http\Resources\PagamentoResource;
+use App\Http\Resources\AgenteResource;
 use App\Http\Resources\UserEquipaCollection;
 use App\Http\Requests\AgenteStoreRequest;
 use App\Http\Requests\PagamentoUpdateRequest;
@@ -55,10 +55,10 @@ class AgentesController extends Controller
 
     public function edit($id)
     {
-        return Inertia::render('Pagamentos/Edit', [
-            'pagamento' => new PagamentoResource(Pagamento::withTrashed()->findOrFail(Crypt::decryptString($id))),
-            'contacts' => new UserContactCollection(
-                Auth::user()->account->contacts()
+        return Inertia::render('Agentes/Edit', [
+            'agente' => new AgenteResource(Agente::withTrashed()->findOrFail(Crypt::decryptString($id))),
+            'equipas' => new UserEquipaCollection(
+                Auth::user()->account->equipas()
                     ->orderBy('id', 'desc')
                     ->get()
             ),

@@ -1,4 +1,4 @@
-import React, { Fragment } from 'react';
+import React, { useState } from 'react';
 import Helmet from 'react-helmet';
 import { Inertia } from '@inertiajs/inertia';
 import { InertiaLink, usePage, useForm } from '@inertiajs/inertia-react';
@@ -10,48 +10,55 @@ import SelectInput from '@/Shared/SelectInput';
 import TrashedMessage from '@/Shared/TrashedMessage';
 
 const Edit = () => {
-  const { pagamento, contacts } = usePage().props;
+  const [senha, setSenha] = useState(false);
+  const { agente, equipas } = usePage().props;
   const { data, setData, errors, put, processing } = useForm({
-    pacote: pagamento.pacote || '',
-    tipo_pagamento: pagamento.tipo_pagamento || '',
-    inicio: pagamento.inicio || '',
-    fim: pagamento.fim || '',
-    contact_id: pagamento.contact_id
+    nome_completo: agente.nome_completo || '',
+    email: agente.email || '',
+    telefone: agente.telefone || '',
+    telefone_alternativo: agente.telefone_alternativo || '',
+    municipio: agente.municipio || '',
+    bairro: agente.bairro || '',
+    rua: agente.rua || '',
+    banco: agente.banco || '',
+    estado: agente.estado || '',
+    senha: agente.senha || '',
+    equipa_id: agente.equipa_id || ''
   });
 
   function handleSubmit(e) {
     e.preventDefault();
-    put(route('pagamentos.update', pagamento.id));
+    put(route('agentes.update', agente.id));
   }
 
   function destroy() {
     if (confirm('Você tem certeza que deseja eliminar este pagamento?')) {
-      Inertia.delete(route('pagamentos.destroy', pagamento.id));
+      Inertia.delete(route('agentes.destroy', agente.id));
     }
   }
 
   function restore() {
-    if (confirm('Tem certeza que deseja restaurar esse pagamento?')) {
-      Inertia.put(route('pagamentos.restore', pagamento.id));
+    if (confirm('Tem certeza que deseja restaurar esse agente?')) {
+      Inertia.put(route('agentes.restore', agente.id));
     }
   }
 
   return (
     <div>
-      <Helmet title={`${data.inicio} ${data.fim}`} />
+      <Helmet title={`${data.nome_completo}`} />
       <h1 className="mb-8 text-3xl font-bold">
         <InertiaLink
-          href={route('pagamentos')}
+          href={route('agentes')}
           className="text-indigo-600 hover:text-indigo-700"
         >
-          Pagamentos {pagamento.id}
+          Agentes {agente.id}
         </InertiaLink>
         <span className="mx-2 font-medium text-indigo-600">/</span>
-        {data.inicio} - {data.fim}
+        {data.nome_completo}
       </h1>
-      {pagamento.deleted_at && (
+      {agente.deleted_at && (
         <TrashedMessage onRestore={restore}>
-          Este pagamento foi eliminado.
+          Este agente foi eliminado.
         </TrashedMessage>
       )}
       <div className="max-w-3xl overflow-hidden bg-white rounded shadow">
@@ -59,71 +66,129 @@ const Edit = () => {
           <div className="flex flex-wrap p-8 -mb-8 -mr-6">
           <SelectInput
               className="w-full pb-8 pr-6 lg:w-1/2"
-              label="Parceiro"
-              name="contact_id"
-              errors={errors.contact_id}
-              value={data.contact_id}
-              onChange={e => setData('contact_id', e.target.value)}>
-             <option value=""></option>
-              {contacts.map(({ id, first_name, last_name, cantina, phone }) => (
+              label="Equipa"
+              name="equipa_id"
+              errors={errors.equipa_id}
+              value={data.equipa_id}
+              onChange={e => setData('equipa_id', e.target.value)}
+            >
+              <option value=""></option>
+              {equipas.map(({ id, codigo }) => (
                 <option key={id} value={id}>
-                  {first_name} {last_name} - {cantina} - {phone}
+                  {codigo}
                 </option>
               ))}
             </SelectInput>
-            <SelectInput
-              className="w-full pb-8 pr-6 lg:w-1/2"
-              label="Pacote"
-              name="pacote"
-              errors={errors.pacote}
-              value={data.pacote}
-              onChange={e => setData('pacote', e.target.value)}>
-              <option value="0">BRONZE</option>
-              <option value="1">ALUMÍNIO</option>
-              <option value="2">OURO</option>
-            </SelectInput>
-            <SelectInput
-              className="w-full pb-8 pr-6 lg:w-1/2"
-              label="Tipo"
-              name="tipo_pagamento"
-              errors={errors.tipo_pagamento}
-              value={data.tipo_pagamento}
-              onChange={e => setData('tipo_pagamento', e.target.value)}
-            >
-              <option value="1">MENSAL</option>
-              <option value="3">TRIMESTRAL</option>
-              <option value="6">SEMESTRAL</option>
-              <option value="12">ANUAL</option>
-            </SelectInput>
             <TextInput
               className="w-full pb-8 pr-6 lg:w-1/2"
-              label="Início"
-              name="inicio"
-              type="date"
-              errors={errors.inicio}
-              value={data.inicio}
-              onChange={e => setData('inicio', e.target.value)}
+              label="Nome completo"
+              name="nome_completo"
+              type="text"
+              errors={errors.nome_completo}
+              value={data.nome_completo}
+              onChange={e => setData('nome_completo', e.target.value)}
             />
             <TextInput
               className="w-full pb-8 pr-6 lg:w-1/2"
-              label="Fim"
-              name="fim"
-              type="date"
-              errors={errors.fim}
-              value={data.fim}
-              onChange={e => setData('fim', e.target.value)}
+              label="Email"
+              name="email"
+              type="email"
+              errors={errors.email}
+              value={data.email}
+              onChange={e => setData('email', e.target.value)}
             />
+            <TextInput
+              className="w-full pb-8 pr-6 lg:w-1/2"
+              label="Telefone"
+              name="telefone"
+              type="text"
+              errors={errors.telefone}
+              value={data.telefone}
+              onChange={e => setData('telefone', e.target.value)}
+            />
+            <TextInput
+              className="w-full pb-8 pr-6 lg:w-1/2"
+              label="Telefone alternativo"
+              name="telefone_alternativo"
+              type="text"
+              errors={errors.telefone_alternativo}
+              value={data.telefone_alternativo}
+              onChange={e => setData('telefone_alternativo', e.target.value)}
+            />
+            <TextInput
+              className="w-full pb-8 pr-6 lg:w-1/2"
+              label="Município"
+              name="municipio"
+              type="text"
+              errors={errors.municipio}
+              value={data.municipio}
+              onChange={e => setData('municipio', e.target.value)}
+            />
+            <TextInput
+              className="w-full pb-8 pr-6 lg:w-1/2"
+              label="Bairro"
+              name="bairro"
+              type="text"
+              errors={errors.bairro}
+              value={data.bairro}
+              onChange={e => setData('bairro', e.target.value)}
+            />
+            <TextInput
+              className="w-full pb-8 pr-6 lg:w-1/2"
+              label="Rua"
+              name="rua"
+              type="text"
+              errors={errors.rua}
+              value={data.rua}
+              onChange={e => setData('rua', e.target.value)}
+            />
+            <TextInput
+              className="w-full pb-8 pr-6 lg:w-1/2"
+              label="Banco"
+              name="banco"
+              type="text"
+              errors={errors.banco}
+              value={data.banco}
+              onChange={e => setData('banco', e.target.value)}
+              placeholder="CONTA - IBAN"
+            />
+            <TextInput
+              className="w-full pb-8 pr-6 lg:w-1/2"
+              label="Senha"
+              name="senha"
+              type={`${senha ? 'text' : 'password'}`}
+              errors={errors.senha}
+              value={data.senha}
+              onChange={e => setData('senha', e.target.value)}
+            />
+            <div className="w-full pb-4 pr-6 ml-2">
+              <input type="checkbox" id='senha' onChange={e => setSenha(!senha)}/>
+            </div>
+            <div className="w-full pb-4 pr-6 ml-2">
+                <label className ="mr-1" htmlFor='activo' >Activo</label>
+                {data.estado == '1' ?
+                <input type="radio" checked id='activo' name='estado' value='1' onChange={e => setData('estado', e.target.value)}/>
+                :
+                <input type="radio" id='activo' name='estado' value='1' onChange={e => setData('estado', e.target.value)}/>}
+
+                <label htmlFor='desactivo' className ="ml-4 mr-1">Desactivo</label>
+                {data.estado == '1' ?
+                <input type="radio" id='desactivo' name='estado' value='0' onChange={e => setData('estado', e.target.value)}/>
+                :
+                <input type="radio" checked id='desactivo' name='estado' value='0' onChange={e => setData('estado', e.target.value)}/>}
+                <br/> {errors.estado && <div className="form-error">{errors.estado}</div>}
+            </div>
           </div>
           <div className="flex items-center px-8 py-4 bg-gray-100 border-t border-gray-200">
-            {!pagamento.deleted_at && (
-              <DeleteButton onDelete={destroy}>Eliminar pagamento</DeleteButton>
+            {!agente.deleted_at && (
+              <DeleteButton onDelete={destroy}>Eliminar agente</DeleteButton>
             )}
             <LoadingButton
               loading={processing}
               type="submit"
               className="ml-auto btn-indigo"
             >
-              Actualizar pagamento
+              Actualizar agente
             </LoadingButton>
           </div>
         </form>
