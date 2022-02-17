@@ -20,11 +20,11 @@ class PagamentosController extends Controller
 {
     public function index()
     {
-        return Inertia::render('Pagamentos/Index', [
+        return Inertia::render('Agentes/Index', [
             'filters' => Request::all('search', 'trashed'),
-            'pagamentos' => new PagamentoCollection(
-                Auth::user()->account->pagamentos()
-                    ->with('contact')
+            'agentes' => new PagamentoCollection(
+                Auth::user()->account->agentes()
+                    ->with('equipa')
                     ->orderBy('id', 'desc')
                     ->filter(Request::only('search', 'trashed'))
                     ->paginate()
