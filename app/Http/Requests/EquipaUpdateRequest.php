@@ -6,7 +6,7 @@ use Illuminate\Validation\Rule;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Foundation\Http\FormRequest;
 
-class ContactUpdateRequest extends FormRequest
+class EquipaUpdateRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -26,7 +26,7 @@ class ContactUpdateRequest extends FormRequest
     public function rules()
     {
         return [
-            'codigo' => ['required', 'max:6', 'min:6', 'numeric', 'integer'],
+            'codigo' => ['required', 'size:6'],
             'estado' => ['required', 'boolean']
         ];
     }

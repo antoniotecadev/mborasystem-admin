@@ -23,4 +23,9 @@ class Account extends Model
     {
         return $this->hasMany(Equipa::class);
     }
+
+    public function agentes()
+    {
+        return $this->hasMany(Agente::class);
+    }
 }

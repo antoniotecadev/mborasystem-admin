@@ -2,7 +2,6 @@
 
 namespace App\Models;
 
-use Agente;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\SoftDeletes;
 

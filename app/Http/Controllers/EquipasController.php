@@ -48,7 +48,7 @@ class EquipasController extends Controller
     public function edit($id)
     {
         return Inertia::render('Equipas/Edit', [
-            'contact' => new EquipaResource(Equipa::withTrashed()->findOrFail(Crypt::decryptString($id))),
+            'equipa' => new EquipaResource(Equipa::withTrashed()->findOrFail(Crypt::decryptString($id))),
         ]);
     }
 
