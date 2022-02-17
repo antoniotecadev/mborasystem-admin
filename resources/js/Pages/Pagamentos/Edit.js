@@ -44,7 +44,7 @@ const Edit = () => {
           href={route('pagamentos')}
           className="text-indigo-600 hover:text-indigo-700"
         >
-          Pagamentos {pagamento.id}
+          Pagamento {pagamento.id}
         </InertiaLink>
         <span className="mx-2 font-medium text-indigo-600">/</span>
         {data.inicio} - {data.fim}
