@@ -5,83 +5,37 @@ import Layout from '@/Shared/Layout';
 import LoadingButton from '@/Shared/LoadingButton';
 import TextInput from '@/Shared/TextInput';
 import SelectInput from '@/Shared/SelectInput';
-import { getDataFimTrimestralSemestralAnual } from '@/Util/utilitario';
 
 const Create = () => {
-  const [datafinal, setDataFinal] = useState();
-  const { contacts } = usePage().props;
+  const [senha, setSenha] = useState(false);
+  const { equipas } = usePage().props;
   const { data, setData, errors, post, processing } = useForm({
-    pacote: '',
-    tipo_pagamento: '',
-    inicio: '',
-    fim: '',
-    nome: '',
-    contact_id: ''
+    nome_completo: '',
+    email: '',
+    telefone: '',
+    telefone_alternativo: '',
+    municipio: '',
+    bairro: '',
+    rua: '',
+    banco: '',
+    estado: '',
+    senha: '',
+    equipa_id: ''
   });
-
-  function diasNoMes(mes, ano) {
-    var data = new Date(ano, mes, 0);
-    return parseInt(data.getDate());
-  }
-
-  function getDataFinal(e) {
-
-    let diaFinal, dataFinal;
-    let data = e.target.value;
-
-    const diaT = parseInt(data.split('-', 3)[2]);
-    const mesT = parseInt(data.split('-', 3)[1]);
-    const anoT = parseInt(data.split('-', 3)[0]);
-
-    const mes = (mesT == 12 ? '' : mesT) + 1;
-    const anoFinal = mesT == 12 ? anoT + 1 : anoT;
-    const mesFinal = (mes < '10' ? '0' : '') + mes;
-    const dia = 30 + diaT - diasNoMes(mesT, anoT);
-
-    if (dia > diasNoMes(mesFinal, anoFinal)) {
-      diaFinal = dia - diasNoMes(mesFinal, anoFinal);
-      dataFinal =
-        anoFinal +
-        '-' +
-        ((parseInt(mesFinal) + 1 < '10' ? '0' : '') +
-          (parseInt(mesFinal) + 1)) +
-        '-' +
-        ((diaFinal < '10' ? '0' : '') + diaFinal);
-    } else {
-      diaFinal =
-        (dia < '10' ? '0' : '') + dia == '00'
-          ? '31'
-          : (dia < '10' ? '0' : '') + dia;
-
-      if (diaT == 1 && diasNoMes(mesT, anoT) == 31) {
-        dataFinal =
-          anoFinal +
-          '-' +
-          ((parseInt(mesFinal) - 1 < '10' ? '0' : '') +
-            (parseInt(mesFinal) - 1)) +
-          '-' +
-          diaFinal;
-      } else {
-        dataFinal = anoFinal + '-' + mesFinal + '-' + diaFinal;
-      }
-    }
-    setData('inicio', e.target.value);
-    setDataFinal(dataFinal);
-  }
 
   function handleSubmit(e) {
     e.preventDefault();
-    post(route('pagamentos.store'));
+    post(route('agentes.store'));
   }
 
   return (
     <div>
       <h1 className="mb-8 text-3xl font-bold">
         <InertiaLink
-          href={route('pagamentos')}
+          href={route('agentes')}
           className="text-indigo-600 hover:text-indigo-700"
         >
-          Pagamentos
+          Agentes
         </InertiaLink>
         <span className="font-medium text-indigo-600"> /</span> Criar
       </h1>
@@ -90,65 +44,111 @@ const Create = () => {
           <div className="flex flex-wrap p-8 -mb-8 -mr-6">
             <SelectInput
               className="w-full pb-8 pr-6 lg:w-1/2"
-              label="Parceiro"
-              name="contact_id"
-              errors={errors.contact_id}
-              value={data.contact_id}
-              onChange={e => setData('contact_id', e.target.value)}
+              label="Equipa"
+              name="equipa_id"
+              errors={errors.equipa_id}
+              value={data.equipa_id}
+              onChange={e => setData('equipa_id', e.target.value)}
             >
               <option value=""></option>
-              {contacts.map(({ id, first_name, last_name, cantina, phone }) => (
+              {equipas.map(({ id, codigo }) => (
                 <option key={id} value={id}>
-                  {first_name} {last_name} - {cantina} - {phone}
+                  {codigo}
                 </option>
               ))}
             </SelectInput>
-            <SelectInput
-              className="w-full pb-8 pr-6 lg:w-1/2"
-              label="Pacote"
-              name="pacote"
-              errors={errors.pacote}
-              value={data.pacote}
-              onChange={e => setData('pacote', e.target.value)}
-            >
-              <option value=""></option>
-              <option value="0">ALUMÍNIO</option>
-              <option value="1">BRONZE</option>
-              <option value="2">OURO</option>
-            </SelectInput>
-            <SelectInput
-              className="w-full pb-8 pr-6 lg:w-1/2"
-              label="Tipo"
-              name="tipo_pagamento"
-              errors={errors.tipo_pagamento}
-              value={data.tipo_pagamento}
-              onChange={e => setData('tipo_pagamento', e.target.value)}
-            >
-              <option value=""></option>
-              <option value="1">MENSAL</option>
-              <option value="3">TRIMESTRAL</option>
-              <option value="6">SEMESTRAL</option>
-              <option value="12">ANUAL</option>
-            </SelectInput>
             <TextInput
               className="w-full pb-8 pr-6 lg:w-1/2"
-              label="Início"
-              name="inicio"
-              type="date"
-              errors={errors.inicio}
-              value={data.inicio}
-              onChange={e => getDataFinal(e)}
+              label="Nome completo"
+              name="nome_completo"
+              type="text"
+              errors={errors.nome_completo}
+              value={data.nome_completo}
+              onChange={e => setData('nome_completo', e.target.value)}
             />
             <TextInput
               className="w-full pb-8 pr-6 lg:w-1/2"
-              id="fim"
-              label={data.tipo_pagamento == "1"? 'Fim: ' + datafinal : 'Fim: ' + getDataFimTrimestralSemestralAnual(data.inicio, Number(data.tipo_pagamento))}
-              name="fim"
-              type="date"
-              errors={errors.fim}
-              value={data.fim}
-              onChange={e => setData('fim', e.target.value == datafinal || e.target.value == getDataFimTrimestralSemestralAnual(data.inicio, Number(data.tipo_pagamento)) ? e.target.value: '')}
+              label="Email"
+              name="email"
+              type="email"
+              errors={errors.email}
+              value={data.email}
+              onChange={e => setData('email', e.target.value)}
             />
+            <TextInput
+              className="w-full pb-8 pr-6 lg:w-1/2"
+              label="Telefone"
+              name="telefone"
+              type="text"
+              errors={errors.telefone}
+              value={data.telefone}
+              onChange={e => setData('telefone', e.target.value)}
+            />
+            <TextInput
+              className="w-full pb-8 pr-6 lg:w-1/2"
+              label="Telefone alternativo"
+              name="telefone_alternativo"
+              type="text"
+              errors={errors.telefone_alternativo}
+              value={data.telefone_alternativo}
+              onChange={e => setData('telefone_alternativo', e.target.value)}
+            />
+            <TextInput
+              className="w-full pb-8 pr-6 lg:w-1/2"
+              label="Município"
+              name="municipio"
+              type="text"
+              errors={errors.municipio}
+              value={data.municipio}
+              onChange={e => setData('municipio', e.target.value)}
+            />
+            <TextInput
+              className="w-full pb-8 pr-6 lg:w-1/2"
+              label="Bairro"
+              name="bairro"
+              type="text"
+              errors={errors.bairro}
+              value={data.bairro}
+              onChange={e => setData('bairro', e.target.value)}
+            />
+            <TextInput
+              className="w-full pb-8 pr-6 lg:w-1/2"
+              label="Rua"
+              name="rua"
+              type="text"
+              errors={errors.rua}
+              value={data.rua}
+              onChange={e => setData('rua', e.target.value)}
+            />
+            <TextInput
+              className="w-full pb-8 pr-6 lg:w-1/2"
+              label="Banco"
+              name="banco"
+              type="text"
+              errors={errors.banco}
+              value={data.banco}
+              onChange={e => setData('banco', e.target.value)}
+              placeholder="CONTA - IBAN"
+            />
+            <TextInput
+              className="w-full pb-8 pr-6 lg:w-1/2"
+              label="Senha"
+              name="senha"
+              type={`${senha ? 'text' : 'password'}`}
+              errors={errors.senha}
+              value={data.senha}
+              onChange={e => setData('senha', e.target.value)}
+            />
+            <div className="w-full pb-4 pr-6 ml-2">
+              <input type="checkbox" id='senha' onChange={e => setSenha(!senha)}/>
+            </div>
+            <div className="w-full pb-4 pr-6 ml-2">
+                <label className ="mr-1" htmlFor='activo' >Activo</label>
+                <input type="radio" id='activo' name='estado' value='1' onChange={e => setData('estado', e.target.value)}/>
+                <label htmlFor='desactivo' className ="ml-4 mr-1">Desactivo</label>
+                <input type="radio" id='desactivo' name='estado' value='0' onChange={e => setData('estado', e.target.value)}/>
+                <br/> {errors.estado && <div className="form-error">{errors.estado}</div>}
+            </div>
           </div>
           <div className="flex items-center justify-end px-8 py-4 bg-gray-100 border-t border-gray-200">
             <LoadingButton
@@ -156,7 +156,7 @@ const Create = () => {
               type="submit"
               className="btn-indigo"
             >
-              Efectuar pagamento
+              Criar agente
             </LoadingButton>
           </div>
         </form>
@@ -165,6 +165,6 @@ const Create = () => {
   );
 };
 
-Create.layout = page => <Layout title="Efectuar pagamento" children={page} />;
+Create.layout = page => <Layout title="Criar agente" children={page} />;
 
 export default Create;

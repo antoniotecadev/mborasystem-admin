@@ -8,8 +8,8 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Request;
 use App\Http\Resources\AgenteCollection;
 use App\Http\Resources\PagamentoResource;
-use App\Http\Resources\UserContactCollection;
-use App\Http\Requests\PagamentoStoreRequest;
+use App\Http\Resources\UserEquipaCollection;
+use App\Http\Requests\AgenteStoreRequest;
 use App\Http\Requests\PagamentoUpdateRequest;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Crypt;
@@ -35,42 +35,21 @@ class AgentesController extends Controller
 
  public function create()
     {
-        return Inertia::render('Pagamentos/Create', [
-            'contacts' => new UserContactCollection(
-                Auth::user()->account->contacts()
+        return Inertia::render('Agentes/Create', [
+            'equipas' => new UserEquipaCollection(
+                Auth::user()->account->equipas()
                     ->orderBy('id')
                     ->get()
             ),
         ]);
     }
 
-    public function store(PagamentoStoreRequest $request)
+    public function store(AgenteStoreRequest $request)
     {
-        $c = DB::table('contacts')
-        ->join('pagamentos', 'pagamentos.contact_id', '=', 'contacts.id')
-        ->where('contacts.id', $request->contact_id)
-        ->latest('pagamentos.id')
-        ->select('contacts.first_name', 'contacts.last_name', 'contacts.estado', 'pagamentos.fim')
-        ->limit(1)
-        ->get();
-
-        if(empty($c['0'])):
-            $this->activarParceiro($request->contact_id);
-            Auth::user()->account->pagamentos()->create(
-                $request->validated()
-            );
-            return Redirect::route('pagamentos')->with('success', 'Pagamento efectuado.');
-        else:
-            if($c['0']->estado == 0 && $c['0']->fim <= date('Y-m-d')):
-                $this->activarParceiro($request->contact_id);
-                Auth::user()->account->pagamentos()->create(
-                    $request->validated()
-                );
-                return Redirect::route('pagamentos')->with('success', 'Pagamento efectuado (' .$c['0']->first_name.' '.$c['0']->last_name).')';
-            else:
-                return Redirect::route('pagamentos')->with('error', 'Pagamento não efectuado, ' .$c['0']->first_name.' '.$c['0']->last_name . ' já está activo ou possui um pagamento em uso.');
-            endif;
-        endif;
+        Auth::user()->account->agentes()->create(
+            $request->validated()
+        );
+        return Redirect::route('agentes')->with('success', 'Agente criado(a) 😊');
     }
 
 

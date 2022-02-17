@@ -11,7 +11,7 @@ class Agente extends Model
 
     protected $guarded = [];
 
-    public function equipas()
+    public function equipa()
     {
         return $this->belongsTo(Equipa::class);
     }
