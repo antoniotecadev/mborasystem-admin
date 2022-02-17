@@ -60,6 +60,15 @@ Route::delete('equipas/{equipa}')->name('equipas.destroy')->uses('EquipasControl
 Route::put('equipas/{equipa}/restore')->name('equipas.restore')->uses('EquipasController@restore')->middleware('auth');
 Route::put('equipas/{id}/estado')->name('equipas.estado')->uses('EquipasController@estadoUpdate')->middleware('auth');
 
+// Agentes
+Route::get('agentes')->name('agentes')->uses('AgentesController@index')->middleware('remember', 'auth');
+Route::get('agentes/create')->name('agentes.create')->uses('AgentesController@create')->middleware('auth');
+Route::post('agentes')->name('agentes.store')->uses('AgentesController@store')->middleware('auth');
+Route::get('agentes/{agente}/edit')->name('agentes.edit')->uses('AgentesController@edit')->middleware('auth');
+Route::put('agentes/{agente}')->name('agentes.update')->uses('AgentesController@update')->middleware('auth');
+Route::delete('agentes/{agente}')->name('agentes.destroy')->uses('AgentesController@destroy')->middleware('auth');
+Route::put('agentes/{agente}/restore')->name('agentes.restore')->uses('AgentesController@restore')->middleware('auth');
+
 // Reports
 Route::get('reports')->name('reports')->uses('ReportsController')->middleware('auth');
 
