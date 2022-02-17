@@ -6,7 +6,7 @@ use App\Models\Pagamento;
 use Inertia\Inertia;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Request;
-use App\Http\Resources\PagamentoCollection;
+use App\Http\Resources\AgenteCollection;
 use App\Http\Resources\PagamentoResource;
 use App\Http\Resources\UserContactCollection;
 use App\Http\Requests\PagamentoStoreRequest;
@@ -22,7 +22,7 @@ class PagamentosController extends Controller
     {
         return Inertia::render('Agentes/Index', [
             'filters' => Request::all('search', 'trashed'),
-            'agentes' => new PagamentoCollection(
+            'agentes' => new AgenteCollection(
                 Auth::user()->account->agentes()
                     ->with('equipa')
                     ->orderBy('id', 'desc')
