@@ -14,6 +14,7 @@ const Edit = () => {
   const { agente, equipas } = usePage().props;
   const { data, setData, errors, put, processing } = useForm({
     nome_completo: agente.nome_completo || '',
+    bi: agente.bi || '',
     email: agente.email || '',
     telefone: agente.telefone || '',
     telefone_alternativo: agente.telefone_alternativo || '',
@@ -87,6 +88,15 @@ const Edit = () => {
               errors={errors.nome_completo}
               value={data.nome_completo}
               onChange={e => setData('nome_completo', e.target.value)}
+            />
+            <TextInput
+              className="w-full pb-8 pr-6 lg:w-1/2"
+              label="B.I"
+              name="bi"
+              type="text"
+              errors={errors.bi}
+              value={data.bi}
+              onChange={e => setData('bi', e.target.value)}
             />
             <TextInput
               className="w-full pb-8 pr-6 lg:w-1/2"

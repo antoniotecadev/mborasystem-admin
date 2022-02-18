@@ -28,7 +28,7 @@ class AgenteStoreRequest extends FormRequest
         return [
             'nome_completo' => ['required', 'max:50', 'min:7'],
             'email' => ['max:50', 'email'],
-            'bi' => ['required', 'max:15', 'min:14', 'alpha_num'],
+            'bi' => ['required', 'size:14', 'alpha_num'],
             'telefone' => ['required', 'regex:/(9)[0-9]{8}/', 'max:9'],
             'telefone_alternativo' => ['required', 'regex:/(9)[0-9]{8}/', 'max:9'],
             'municipio' => ['required', 'max:20'],

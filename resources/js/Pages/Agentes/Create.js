@@ -11,6 +11,7 @@ const Create = () => {
   const { equipas } = usePage().props;
   const { data, setData, errors, post, processing } = useForm({
     nome_completo: '',
+    bi: '',
     email: '',
     telefone: '',
     telefone_alternativo: '',
@@ -65,6 +66,15 @@ const Create = () => {
               errors={errors.nome_completo}
               value={data.nome_completo}
               onChange={e => setData('nome_completo', e.target.value)}
+            />
+            <TextInput
+              className="w-full pb-8 pr-6 lg:w-1/2"
+              label="B.I"
+              name="bi"
+              type="text"
+              errors={errors.bi}
+              value={data.bi}
+              onChange={e => setData('bi', e.target.value)}
             />
             <TextInput
               className="w-full pb-8 pr-6 lg:w-1/2"
