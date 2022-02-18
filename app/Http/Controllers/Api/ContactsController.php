@@ -75,6 +75,7 @@ class ContactsController extends Controller
             $c = new Contact();
 
             $c->account_id = $request->account_id;
+            $c->codigo_equipa = $request->codigo_equipa;
             $c->first_name = $request->first_name;
             $c->last_name = $request->last_name;
             $c->nif_bi = $request->nif_bi;

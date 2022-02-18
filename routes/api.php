@@ -30,4 +30,6 @@ Route::namespace('Api')->group(function () {
     Route::get('/contacts/{imei}/estado', 'ContactsController@index');
     Route::post('/contacts', 'ContactsController@store');
     Route::get('/bairros', 'ContactsController@getBairros');
+    ////////////////////////////////////////////////////////////////
+    Route::get('/equipas/{codigo}/verificar', 'EquipasController@verificarCodigo');
 });
