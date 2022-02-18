@@ -18,6 +18,7 @@ class Agentes extends Migration
             $table->integer('account_id')->index();
             $table->integer('equipa_id')->index();
             $table->string('nome_completo', 50);
+            $table->string('bi', 14);
             $table->string('email', 50)->nullable()->unique();
             $table->string('telefone', 15);
             $table->string('telefone_alternativo', 15);
