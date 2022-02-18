@@ -21,6 +21,7 @@ class Agente extends Model
         $query->when($filters['search'] ?? null, function ($query, $search) {
             $query->where(function ($query) use ($search) {
                 $query->where('nome_completo', 'like', '%'.$search.'%')
+                    ->orWhere('bi', 'like', '%'.$search.'%')
                     ->orWhere('telefone', 'like', '%'.$search.'%')
                     ->orWhere('municipio', 'like', '%'.$search.'%')
                     ->orWhereHas('equipa', function ($query) use ($search) {
