@@ -31,12 +31,13 @@ const Index = () => {
             <tr className="font-bold text-left">
               <th className="px-6 pt-5 pb-4">Equipa</th>
               <th className="px-6 pt-5 pb-4">Agente</th>
+              <th className="px-6 pt-5 pb-4">B.I</th>
               <th className="px-6 pt-5 pb-4">Telefone</th>
               <th className="px-6 pt-5 pb-4"></th>
             </tr>
           </thead>
           <tbody>
-            {data.map(({ id, nome_completo, telefone, estado, deleted_at, equipa }) => (
+            {data.map(({ id, nome_completo, bi, telefone, estado, deleted_at, equipa }) => (
               <tr
                 key={id}
                 className={`hover:bg-gray-100 focus-within:bg-gray-100 ${
@@ -65,6 +66,15 @@ const Index = () => {
                   >
                     {nome_completo}{' '}
                     {estado == '0' ? ' (Desactivo) ' : ''}
+                  </InertiaLink>
+                </td>
+                <td className="border-t">
+                  <InertiaLink
+                    tabIndex="-1"
+                    href={route('agentes.edit', id)}
+                    className="flex items-center px-6 py-4 focus:text-indigo focus:outline-none"
+                  >
+                    {bi}
                   </InertiaLink>
                 </td>
                 <td className="border-t">

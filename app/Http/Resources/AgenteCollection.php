@@ -13,6 +13,7 @@ class AgenteCollection extends ResourceCollection
             return [
                 'id' => Crypt::encryptString($item->id),
                 'nome_completo' => $item->nome_completo,
+                'bi' => $item->bi,
                 'telefone' => $item->telefone,
                 'estado' => $item->estado,
                 'deleted_at' => $item->deleted_at,
