@@ -28,6 +28,7 @@ class PagamentoStoreRequest extends FormRequest
         return [
             'pacote' => ['required', 'integer'],
             'tipo_pagamento' => ['required', 'integer'],
+            'preco' => ['required', 'integer'],
             'inicio' => ['required', 'date'],
             'fim' => ['required', 'date'],
             'contact_id' => ['required', Rule::exists('contacts', 'id')->where(function ($query) {

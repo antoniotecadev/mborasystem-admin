@@ -31,6 +31,7 @@ class PagamentoUpdateRequest extends FormRequest
             })],
             'pacote' => ['required', 'integer'],
             'tipo_pagamento' => ['required', 'integer'],
+            'preco' => ['required', 'integer'],
             'inicio' => ['required', 'date'],
             'fim' => ['required', 'date'],
         ];
