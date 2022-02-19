@@ -16,7 +16,7 @@ class EquipasController extends Controller
         ->join('agentes', 'agentes.equipa_id', '=', 'equipas.id')
         ->where('codigo', $codigo)
         ->limit(1)
-        ->select('equipas.codigo')
+        ->select('equipas.codigo', 'equipas.estado')
         ->get();
 
         if(empty($c['0'])) {
