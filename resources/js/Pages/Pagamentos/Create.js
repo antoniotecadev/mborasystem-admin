@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import { Inertia } from '@inertiajs/inertia';
 import { InertiaLink, useForm, usePage } from '@inertiajs/inertia-react';
 import Layout from '@/Shared/Layout';
 import LoadingButton from '@/Shared/LoadingButton';
@@ -13,6 +12,7 @@ const Create = () => {
   const { data, setData, errors, post, processing } = useForm({
     pacote: '',
     tipo_pagamento: '',
+    preco: '',
     inicio: '',
     fim: '',
     nome: '',
@@ -24,8 +24,7 @@ const Create = () => {
     return parseInt(data.getDate());
   }
 
-  function getDataFinal(e) {
-
+  const getDataFinal = (e) => {
     let diaFinal, dataFinal;
     let data = e.target.value;
 
@@ -73,6 +72,32 @@ const Create = () => {
     e.preventDefault();
     post(route('pagamentos.store'));
   }
+
+  function tipoPacote(pacote, tipo) {
+    const tipo_pacote = {
+      0: {
+        1: 3500,
+        3: 10500,
+        6: 21000,
+        12: 40000
+      },
+      1: {
+        1: 6500,
+        3: 19500,
+        6: 39000,
+        12: 75000
+      },
+      2: {
+        1: 12000,
+        3: 36000,
+        6: 72000,
+        12: 100000
+      }
+    };
+    return tipo_pacote[pacote][tipo];
+  }
+
+    const precopacote = tipoPacote(Number(data.pacote), Number(data.tipo_pagamento));
 
   return (
     <div>
@@ -130,6 +155,18 @@ const Create = () => {
               <option value="6">SEMESTRAL</option>
               <option value="12">ANUAL</option>
             </SelectInput>
+            <SelectInput
+              className="w-full pb-8 pr-6 lg:w-1/2"
+              label={"Preço: " + precopacote }
+              name="preco"
+              type="text"
+              errors={errors.preco}
+              value={data.preco}
+              onChange={e => setData('preco', e.target.value)}
+            >
+              <option>Seleccionar preço</option>
+              <option value={precopacote}>{precopacote}</option>
+            </SelectInput>
             <TextInput
               className="w-full pb-8 pr-6 lg:w-1/2"
               label="Início"
@@ -142,12 +179,32 @@ const Create = () => {
             <TextInput
               className="w-full pb-8 pr-6 lg:w-1/2"
               id="fim"
-              label={data.tipo_pagamento == "1"? 'Fim: ' + datafinal : 'Fim: ' + getDataFimTrimestralSemestralAnual(data.inicio, Number(data.tipo_pagamento))}
+              label={
+                data.tipo_pagamento == '1'
+                  ? 'Fim: ' + datafinal
+                  : 'Fim: ' +
+                    getDataFimTrimestralSemestralAnual(
+                      data.inicio,
+                      Number(data.tipo_pagamento)
+                    )
+              }
               name="fim"
               type="date"
               errors={errors.fim}
               value={data.fim}
-              onChange={e => setData('fim', e.target.value == datafinal || e.target.value == getDataFimTrimestralSemestralAnual(data.inicio, Number(data.tipo_pagamento)) ? e.target.value: '')}
+              onChange={e =>
+                setData(
+                  'fim',
+                  e.target.value == datafinal ||
+                    e.target.value ==
+                      getDataFimTrimestralSemestralAnual(
+                        data.inicio,
+                        Number(data.tipo_pagamento)
+                      )
+                    ? e.target.value
+                    : ''
+                )
+              }
             />
           </div>
           <div className="flex items-center justify-end px-8 py-4 bg-gray-100 border-t border-gray-200">
