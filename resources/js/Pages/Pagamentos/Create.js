@@ -135,7 +135,6 @@ const Create = () => {
               className="w-full pb-8 pr-6 lg:w-1/2"
               label={"Preço: " + precopacote }
               name="preco"
-              type="text"
               errors={errors.preco}
               value={data.preco}
               onChange={e => setData('preco', e.target.value)}

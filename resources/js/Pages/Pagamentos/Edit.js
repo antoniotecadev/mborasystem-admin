@@ -8,12 +8,15 @@ import LoadingButton from '@/Shared/LoadingButton';
 import TextInput from '@/Shared/TextInput';
 import SelectInput from '@/Shared/SelectInput';
 import TrashedMessage from '@/Shared/TrashedMessage';
+import { tipoPacote } from '@/Util/utilitario';
 
 const Edit = () => {
   const { pagamento, contacts } = usePage().props;
   const { data, setData, errors, put, processing } = useForm({
+    id: pagamento.id || '',
     pacote: pagamento.pacote || '',
     tipo_pagamento: pagamento.tipo_pagamento || '',
+    preco: pagamento.preco || '',
     inicio: pagamento.inicio || '',
     fim: pagamento.fim || '',
     contact_id: pagamento.contact_id
@@ -35,6 +38,8 @@ const Edit = () => {
       Inertia.put(route('pagamentos.restore', pagamento.id));
     }
   }
+
+  const precopacote = tipoPacote(Number(data.pacote), Number(data.tipo_pagamento));
 
   return (
     <div>
@@ -94,6 +99,17 @@ const Edit = () => {
               <option value="3">TRIMESTRAL</option>
               <option value="6">SEMESTRAL</option>
               <option value="12">ANUAL</option>
+            </SelectInput>
+            <SelectInput
+              className="w-full pb-8 pr-6 lg:w-1/2"
+              label={"Preço: " + precopacote }
+              name="preco"
+              errors={errors.preco}
+              value={data.preco}
+              onChange={e => setData('preco', e.target.value)}
+            >
+              <option value="">Seleccionar preço</option>
+              <option value={precopacote}>{precopacote}</option>
             </SelectInput>
             <TextInput
               className="w-full pb-8 pr-6 lg:w-1/2"

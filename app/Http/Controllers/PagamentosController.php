@@ -94,11 +94,15 @@ class PagamentosController extends Controller
 
     public function update(Pagamento $pagamento, PagamentoUpdateRequest $request)
     {
-        $pagamento->update(
-            $request->validated()
-        );
+        if($this->tipoPacote($request->pacote, $request->tipo_pagamento) == $request->preco):
+            $pagamento->update(
+                $request->validated()
+            );
+            return Redirect::back()->with('success', 'Pagamento actualizado.');
+        else:
+            return Redirect::route('pagamentos.edit', Crypt::encryptString($request->id))->with('error', 'Seleccione o preço');
+        endif;
 
-        return Redirect::back()->with('success', 'Pagamento actualizado.');
     }
 
     public function destroy(Pagamento $pagamento)
