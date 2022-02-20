@@ -26,3 +26,27 @@ export function getDataFimTrimestralSemestralAnual(dataInicio, monthNumber){
   }
   return formatDate(dateEnded);
 }
+
+export function tipoPacote(pacote, tipo) {
+  const tipo_pacote = {
+    0: {
+      1: 3500,
+      3: 10500,
+      6: 21000,
+      12: 40000
+    },
+    1: {
+      1: 6500,
+      3: 19500,
+      6: 39000,
+      12: 75000
+    },
+    2: {
+      1: 12000,
+      3: 36000,
+      6: 72000,
+      12: 100000
+    }
+  };
+  return tipo_pacote[pacote][tipo];
+}

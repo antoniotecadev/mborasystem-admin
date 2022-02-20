@@ -4,7 +4,7 @@ import Layout from '@/Shared/Layout';
 import LoadingButton from '@/Shared/LoadingButton';
 import TextInput from '@/Shared/TextInput';
 import SelectInput from '@/Shared/SelectInput';
-import { getDataFimTrimestralSemestralAnual } from '@/Util/utilitario';
+import { getDataFimTrimestralSemestralAnual, tipoPacote } from '@/Util/utilitario';
 
 const Create = () => {
   const [datafinal, setDataFinal] = useState();
@@ -71,30 +71,6 @@ const Create = () => {
   function handleSubmit(e) {
     e.preventDefault();
     post(route('pagamentos.store'));
-  }
-
-  function tipoPacote(pacote, tipo) {
-    const tipo_pacote = {
-      0: {
-        1: 3500,
-        3: 10500,
-        6: 21000,
-        12: 40000
-      },
-      1: {
-        1: 6500,
-        3: 19500,
-        6: 39000,
-        12: 75000
-      },
-      2: {
-        1: 12000,
-        3: 36000,
-        6: 72000,
-        12: 100000
-      }
-    };
-    return tipo_pacote[pacote][tipo];
   }
 
     const precopacote = tipoPacote(Number(data.pacote), Number(data.tipo_pagamento));
