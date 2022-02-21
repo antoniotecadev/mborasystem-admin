@@ -4,7 +4,11 @@ import Layout from '@/Shared/Layout';
 import LoadingButton from '@/Shared/LoadingButton';
 import TextInput from '@/Shared/TextInput';
 import SelectInput from '@/Shared/SelectInput';
-import { getDataFimTrimestralSemestralAnual, tipoPacote } from '@/Util/utilitario';
+import {
+  getDataFimTrimestralSemestralAnual,
+  tipoPacote,
+  currency
+} from '@/Util/utilitario';
 
 const Create = () => {
   const [datafinal, setDataFinal] = useState();
@@ -24,7 +28,7 @@ const Create = () => {
     return parseInt(data.getDate());
   }
 
-  const getDataFinal = (e) => {
+  const getDataFinal = e => {
     let diaFinal, dataFinal;
     let data = e.target.value;
 
@@ -66,14 +70,17 @@ const Create = () => {
     }
     setData('inicio', e.target.value);
     setDataFinal(dataFinal);
-  }
+  };
 
   function handleSubmit(e) {
     e.preventDefault();
     post(route('pagamentos.store'));
   }
 
-    const precopacote = tipoPacote(Number(data.pacote), Number(data.tipo_pagamento));
+  const precopacote = tipoPacote(
+    Number(data.pacote),
+    Number(data.tipo_pagamento)
+  );
 
   return (
     <div>
@@ -86,6 +93,45 @@ const Create = () => {
         </InertiaLink>
         <span className="font-medium text-indigo-600"> /</span> Criar
       </h1>
+      <div className="overflow-x-auto bg-white rounded shadow">
+        <table className="w-full whitespace-nowrap">
+          <thead>
+            <tr className="font-bold text-left">
+              <th className="px-6 pt-5 pb-4">Pacote/Tipo</th>
+              <th className="px-6 pt-5 pb-4">Bronze</th>
+              <th className="px-6 pt-5 pb-4">Alumínio</th>
+              <th className="px-6 pt-5 pb-4">Ouro</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr key={0} className="hover:bg-gray-100 focus-within:bg-gray-100">
+              <td className="border-t"><p className="flex items-center px-6 py-4 focus:text-indigo focus:outline-none font-bold">MENSAL</p></td>
+              <td className="border-t"><p className="flex items-center px-6 py-4 focus:text-indigo focus:outline-none">{currency(tipoPacote(0, 1))} kz</p></td>
+              <td className="border-t"><p className="flex items-center px-6 py-4 focus:text-indigo focus:outline-none">{currency(tipoPacote(1, 1))} kz</p></td>
+              <td className="border-t"><p className="flex items-center px-6 py-4 focus:text-indigo focus:outline-none">{currency(tipoPacote(2, 1))} kz</p></td>
+            </tr>
+            <tr key={1} className="hover:bg-gray-100 focus-within:bg-gray-100">
+              <td className="border-t"><p className="flex items-center px-6 py-4 focus:text-indigo focus:outline-none font-bold">TRIMESTRAL</p></td>
+              <td className="border-t"><p className="flex items-center px-6 py-4 focus:text-indigo focus:outline-none">{currency(tipoPacote(0, 3))} kz</p></td>
+              <td className="border-t"><p className="flex items-center px-6 py-4 focus:text-indigo focus:outline-none">{currency(tipoPacote(1, 3))} kz</p></td>
+              <td className="border-t"><p className="flex items-center px-6 py-4 focus:text-indigo focus:outline-none">{currency(tipoPacote(2, 3))} kz</p></td>
+            </tr>
+            <tr key={2} className="hover:bg-gray-100 focus-within:bg-gray-100">
+              <td className="border-t"><p className="flex items-center px-6 py-4 focus:text-indigo focus:outline-none font-bold">SEMESTRAL</p></td>
+              <td className="border-t"><p className="flex items-center px-6 py-4 focus:text-indigo focus:outline-none">{currency(tipoPacote(0, 6))} kz</p></td>
+              <td className="border-t"><p className="flex items-center px-6 py-4 focus:text-indigo focus:outline-none">{currency(tipoPacote(1, 6))} kz</p></td>
+              <td className="border-t"><p className="flex items-center px-6 py-4 focus:text-indigo focus:outline-none">{currency(tipoPacote(2, 6))} kz</p></td>
+            </tr>
+            <tr key={3} className="hover:bg-gray-100 focus-within:bg-gray-100">
+              <td className="border-t"><p className="flex items-center px-6 py-4 focus:text-indigo focus:outline-none font-bold">ANUAL</p></td>
+              <td className="border-t"><p className="flex items-center px-6 py-4 focus:text-indigo focus:outline-none">{currency(tipoPacote(0, 12))} kz</p></td>
+              <td className="border-t"><p className="flex items-center px-6 py-4 focus:text-indigo focus:outline-none">{currency(tipoPacote(1, 12))} kz</p></td>
+              <td className="border-t"><p className="flex items-center px-6 py-4 focus:text-indigo focus:outline-none">{currency(tipoPacote(2, 12))} kz</p></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <br/>
       <div className="max-w-3xl overflow-hidden bg-white rounded shadow">
         <form onSubmit={handleSubmit}>
           <div className="flex flex-wrap p-8 -mb-8 -mr-6">
@@ -133,7 +179,7 @@ const Create = () => {
             </SelectInput>
             <SelectInput
               className="w-full pb-8 pr-6 lg:w-1/2"
-              label={"Preço: " + precopacote }
+              label={'Preço: ' + precopacote}
               name="preco"
               errors={errors.preco}
               value={data.preco}

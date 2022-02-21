@@ -50,3 +50,7 @@ export function tipoPacote(pacote, tipo) {
   };
   return tipo_pacote[pacote][tipo];
 }
+
+export const currency = function(number){
+    return new Intl.NumberFormat('pt-AO', {style: 'currency',currency: 'AOA', minimumFractionDigits: 2}).format(number);
+};

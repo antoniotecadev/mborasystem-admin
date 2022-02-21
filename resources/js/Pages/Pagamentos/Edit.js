@@ -8,7 +8,7 @@ import LoadingButton from '@/Shared/LoadingButton';
 import TextInput from '@/Shared/TextInput';
 import SelectInput from '@/Shared/SelectInput';
 import TrashedMessage from '@/Shared/TrashedMessage';
-import { tipoPacote } from '@/Util/utilitario';
+import { tipoPacote, currency } from '@/Util/utilitario';
 
 const Edit = () => {
   const { pagamento, contacts } = usePage().props;
@@ -59,6 +59,45 @@ const Edit = () => {
           Este pagamento foi eliminado.
         </TrashedMessage>
       )}
+      <div className="overflow-x-auto bg-white rounded shadow">
+        <table className="w-full whitespace-nowrap">
+          <thead>
+            <tr className="font-bold text-left">
+              <th className="px-6 pt-5 pb-4">Pacote/Tipo</th>
+              <th className="px-6 pt-5 pb-4">Bronze</th>
+              <th className="px-6 pt-5 pb-4">Alumínio</th>
+              <th className="px-6 pt-5 pb-4">Ouro</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr key={0} className="hover:bg-gray-100 focus-within:bg-gray-100">
+              <td className="border-t"><p className="flex items-center px-6 py-4 focus:text-indigo focus:outline-none font-bold">MENSAL</p></td>
+              <td className="border-t"><p className="flex items-center px-6 py-4 focus:text-indigo focus:outline-none">{currency(tipoPacote(0, 1))} kz</p></td>
+              <td className="border-t"><p className="flex items-center px-6 py-4 focus:text-indigo focus:outline-none">{currency(tipoPacote(1, 1))} kz</p></td>
+              <td className="border-t"><p className="flex items-center px-6 py-4 focus:text-indigo focus:outline-none">{currency(tipoPacote(2, 1))} kz</p></td>
+            </tr>
+            <tr key={1} className="hover:bg-gray-100 focus-within:bg-gray-100">
+              <td className="border-t"><p className="flex items-center px-6 py-4 focus:text-indigo focus:outline-none font-bold">TRIMESTRAL</p></td>
+              <td className="border-t"><p className="flex items-center px-6 py-4 focus:text-indigo focus:outline-none">{currency(tipoPacote(0, 3))} kz</p></td>
+              <td className="border-t"><p className="flex items-center px-6 py-4 focus:text-indigo focus:outline-none">{currency(tipoPacote(1, 3))} kz</p></td>
+              <td className="border-t"><p className="flex items-center px-6 py-4 focus:text-indigo focus:outline-none">{currency(tipoPacote(2, 3))} kz</p></td>
+            </tr>
+            <tr key={2} className="hover:bg-gray-100 focus-within:bg-gray-100">
+              <td className="border-t"><p className="flex items-center px-6 py-4 focus:text-indigo focus:outline-none font-bold">SEMESTRAL</p></td>
+              <td className="border-t"><p className="flex items-center px-6 py-4 focus:text-indigo focus:outline-none">{currency(tipoPacote(0, 6))} kz</p></td>
+              <td className="border-t"><p className="flex items-center px-6 py-4 focus:text-indigo focus:outline-none">{currency(tipoPacote(1, 6))} kz</p></td>
+              <td className="border-t"><p className="flex items-center px-6 py-4 focus:text-indigo focus:outline-none">{currency(tipoPacote(2, 6))} kz</p></td>
+            </tr>
+            <tr key={3} className="hover:bg-gray-100 focus-within:bg-gray-100">
+              <td className="border-t"><p className="flex items-center px-6 py-4 focus:text-indigo focus:outline-none font-bold">ANUAL</p></td>
+              <td className="border-t"><p className="flex items-center px-6 py-4 focus:text-indigo focus:outline-none">{currency(tipoPacote(0, 12))} kz</p></td>
+              <td className="border-t"><p className="flex items-center px-6 py-4 focus:text-indigo focus:outline-none">{currency(tipoPacote(1, 12))} kz</p></td>
+              <td className="border-t"><p className="flex items-center px-6 py-4 focus:text-indigo focus:outline-none">{currency(tipoPacote(2, 12))} kz</p></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <br/>
       <div className="max-w-3xl overflow-hidden bg-white rounded shadow">
         <form onSubmit={handleSubmit}>
           <div className="flex flex-wrap p-8 -mb-8 -mr-6">
