@@ -21,7 +21,6 @@ class Pagamento extends Model
         $query->when($filters['search'] ?? null, function ($query, $search) {
             $query->where(function ($query) use ($search) {
                 $query->where('fim', 'like', '%'.$search.'%')
-                    ->orWhere('fim', 'like', '%'.$search.'%')
                     ->orWhereHas('contact', function ($query) use ($search) {
                         $query->where('first_name', 'like', '%'.$search.'%')
                             ->orWhere('last_name', 'like', '%'.$search.'%')
