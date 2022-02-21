@@ -210,6 +210,7 @@ const Edit = () => {
               errors={errors.imei}
               value={data.imei}
               onChange={e => setData('imei', e.target.value)}
+              readOnly
             />
           </div>
           <div className="flex items-center px-8 py-4 bg-gray-100 border-t border-gray-200">

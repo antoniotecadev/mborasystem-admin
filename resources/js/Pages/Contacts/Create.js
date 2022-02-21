@@ -1,10 +1,10 @@
 import React from 'react';
-import { Inertia } from '@inertiajs/inertia';
 import { InertiaLink, usePage, useForm } from '@inertiajs/inertia-react';
 import Layout from '@/Shared/Layout';
 import LoadingButton from '@/Shared/LoadingButton';
 import TextInput from '@/Shared/TextInput';
 import SelectInput from '@/Shared/SelectInput';
+import Icon from '@/Shared/Icon';
 
 const Create = () => {
   const { data, setData, errors, post, processing } = useForm({
@@ -25,6 +25,13 @@ const Create = () => {
   function handleSubmit(e) {
     e.preventDefault();
     post(route('contacts.store'));
+  }
+
+  function gerarNumeroAleatorio(e) {
+    e.preventDefault();
+    let imei1 = Math.floor(Math.random() * (9999999 - 1000000)) + 1000000;
+    let imei2 = Math.floor(Math.random() * (9999999 - 1000000)) + 1000000;
+    setData('imei', imei1 + '' + imei2);
   }
 
   return (
@@ -146,14 +153,43 @@ const Create = () => {
               errors={errors.imei}
               value={data.imei}
               onChange={e => setData('imei', e.target.value)}
+              readOnly
             />
+            <div className="flex items-center justify-end mb-2">
+              <LoadingButton
+                loading={processing}
+                onClick={gerarNumeroAleatorio}
+                className="btn-indigo"
+              >
+                <Icon name="actualizar" />
+              </LoadingButton>
+            </div>
             <div className="w-full pb-4 pr-6">
-              <label className ="mr-1" htmlFor='activo' >Activo</label>
-              <input type="radio" id='activo' name='estado' value='1' onChange={e => setData('estado', e.target.value)}/>
-
-              <label htmlFor='desactivo' className ="ml-4 mr-1">Desactivo</label>
-              <input type="radio" checked id='desactivo' name='estado' value='0' onChange={e => setData('estado', e.target.value)}/>
-              <br/> {errors.estado && <div className="form-error">{errors.estado}</div>}
+              <label className="mr-1" htmlFor="activo">
+                Activo
+              </label>
+              <input
+                type="radio"
+                id="activo"
+                name="estado"
+                value="1"
+                onChange={e => setData('estado', e.target.value)}
+              />
+              <label htmlFor="desactivo" className="ml-4 mr-1">
+                Desactivo
+              </label>
+              <input
+                type="radio"
+                checked
+                id="desactivo"
+                name="estado"
+                value="0"
+                onChange={e => setData('estado', e.target.value)}
+              />
+              <br />{' '}
+              {errors.estado && (
+                <div className="form-error">{errors.estado}</div>
+              )}
             </div>
           </div>
           <div className="flex items-center justify-end px-8 py-4 bg-gray-100 border-t border-gray-200">

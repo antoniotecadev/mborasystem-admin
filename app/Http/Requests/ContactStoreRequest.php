@@ -37,7 +37,7 @@ class ContactStoreRequest extends FormRequest
             'district' => ['required', 'max:20'],
             'street' => ['required', 'max:20'],
             'estado' => ['required', 'boolean'],
-            'imei' => ['required', 'max:20']
+            'imei' => ['required', 'size:14']
         ];
     }
 }
