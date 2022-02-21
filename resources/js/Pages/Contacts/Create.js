@@ -7,6 +7,7 @@ import SelectInput from '@/Shared/SelectInput';
 import Icon from '@/Shared/Icon';
 
 const Create = () => {
+  const { equipas } = usePage().props;
   const { data, setData, errors, post, processing } = useForm({
     first_name: '',
     last_name: '',
@@ -19,7 +20,8 @@ const Create = () => {
     district: '',
     street: '',
     estado: '0',
-    imei: ''
+    imei: '',
+    codigo_equipa: ''
   });
 
   function handleSubmit(e) {
@@ -164,6 +166,21 @@ const Create = () => {
                 <Icon name="actualizar" />
               </LoadingButton>
             </div>
+            <SelectInput
+              className="w-full pb-8 pr-6 lg:w-1/2"
+              label="Equipa"
+              name="codigo_equipa"
+              errors={errors.codigo_equipa}
+              value={data.codigo_equipa}
+              onChange={e => setData('codigo_equipa', e.target.value)}
+            >
+              <option value=""></option>
+              {equipas.map(({ id, codigo }) => (
+                <option key={id} value={codigo}>
+                  {codigo}
+                </option>
+              ))}
+            </SelectInput>
             <div className="w-full pb-4 pr-6">
               <label className="mr-1" htmlFor="activo">
                 Activo

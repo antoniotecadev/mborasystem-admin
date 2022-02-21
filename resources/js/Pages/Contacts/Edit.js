@@ -24,7 +24,8 @@ const Edit = () => {
     district: contact.district || '',
     street: contact.street || '',
     estado: contact.estado || '',
-    imei: contact.imei || ''
+    imei: contact.imei || '',
+    codigo_equipa: contact.codigo_equipa || ''
   });
 
   function handleSubmit(e) {
@@ -210,6 +211,16 @@ const Edit = () => {
               errors={errors.imei}
               value={data.imei}
               onChange={e => setData('imei', e.target.value)}
+              readOnly
+            />
+            <TextInput
+              className="w-full pb-8 pr-6 lg:w-1/2"
+              label="Equipa"
+              name="codigo_equipa"
+              type="text"
+              errors={errors.codigo_equipa}
+              value={data.codigo_equipa}
+              onChange={e => setData('codigo_equipa', e.target.value)}
               readOnly
             />
           </div>

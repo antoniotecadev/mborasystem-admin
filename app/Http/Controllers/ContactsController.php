@@ -6,6 +6,7 @@ use App\Http\Requests\ContactStoreRequest;
 use App\Http\Requests\ContactUpdateRequest;
 use App\Http\Resources\ContactCollection;
 use App\Http\Resources\ContactResource;
+use App\Http\Resources\UserEquipaCollection;
 use App\Models\Contact;
 use Inertia\Inertia;
 use Illuminate\Support\Facades\Auth;
@@ -32,7 +33,13 @@ class ContactsController extends Controller
 
     public function create()
     {
-        return Inertia::render('Contacts/Create');
+        return Inertia::render('Contacts/Create', [
+            'equipas' => new UserEquipaCollection(
+                Auth::user()->account->equipas()
+                    ->orderBy('id')
+                    ->get()
+            ),
+        ]);
     }
 
 
