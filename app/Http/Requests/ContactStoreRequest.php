@@ -25,20 +25,20 @@ class ContactStoreRequest extends FormRequest
      */
     public function rules()
     {
-        return [
-            'first_name' => ['required', 'max:25', 'min:4'],
-            'last_name' => ['required', 'max:25', 'min:4'],
-            'nif_bi' => ['required', 'size:14', 'alpha_num'],
-            'email' => ['max:50', 'email'],
-            'phone' => ['required', 'min:9', 'regex:/(9)[0-9]{8}/', 'max:9'],
-            'alternative_phone' => ['required', 'regex:/(9)[0-9]{8}/', 'max:9'],
-            'cantina' => ['required', 'max:25', 'min:5'],
-            'municipality' => ['required', 'max:20'],
-            'district' => ['required', 'max:20'],
-            'street' => ['required', 'max:20'],
-            'estado' => ['required', 'boolean'],
-            'imei' => ['required', 'size:14'],
-            'codigo_equipa' => ['required', 'size:6']
-        ];
+        // return [
+        //     'first_name' => ['required', 'max:25', 'min:4'],
+        //     'last_name' => ['required', 'max:25', 'min:4'],
+        //     'nif_bi' => ['required', 'size:14', 'alpha_num'],
+        //     'email' => ['max:50', 'email'],
+        //     'phone' => ['required', 'min:9', 'regex:/(9)[0-9]{8}/', 'max:9'],
+        //     'alternative_phone' => ['required', 'regex:/(9)[0-9]{8}/', 'max:9'],
+        //     'cantina' => ['required', 'max:25', 'min:5'],
+        //     'municipality' => ['required', 'max:20'],
+        //     'district' => ['required', 'max:20'],
+        //     'street' => ['required', 'max:20'],
+        //     'estado' => ['required', 'boolean'],
+        //     'imei' => ['required', 'size:14'],
+        //     'codigo_equipa' => ['required', 'size:6']
+        // ];
     }
 }

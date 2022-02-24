@@ -33,3 +33,9 @@ window.Echo = new Echo({
   forceTLS: false,
   disableStats: true,
 });
+
+window.Echo.channel('contact')
+    .listen('CreateContactEvent', (e) => {
+        alert(e);
+    });
+

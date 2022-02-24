@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import Helmet from 'react-helmet';
 import MainMenu from '@/Shared/MainMenu';
 import FlashMessages from '@/Shared/FlashMessages';
@@ -6,6 +6,9 @@ import TopHeader from '@/Shared/TopHeader';
 import BottomHeader from '@/Shared/BottomHeader';
 
 export default function Layout({ title, children }) {
+  useEffect(() => {
+    
+  });
   return (
     <div>
       <Helmet titleTemplate="%s | MboraSystem Admin" title={title} />

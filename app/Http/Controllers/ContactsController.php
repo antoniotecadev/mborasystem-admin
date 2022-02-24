@@ -7,6 +7,7 @@ use App\Http\Requests\ContactUpdateRequest;
 use App\Http\Resources\ContactCollection;
 use App\Http\Resources\ContactResource;
 use App\Http\Resources\UserEquipaCollection;
+use App\Events\CreateContactEvent;
 use App\Models\Contact;
 use Inertia\Inertia;
 use Illuminate\Support\Facades\Auth;
@@ -43,11 +44,12 @@ class ContactsController extends Controller
     }
 
 
-    public function store(ContactStoreRequest $request)
+    public function store()
     {
-        Auth::user()->account->contacts()->create(
-            $request->validated()
-        );
+        CreateContactEvent::dispatch('Chilala');
+        // Auth::user()->account->contacts()->create(
+        //     $request->validated()
+        // );
 
         return Redirect::route('contacts')->with('success', 'Parceiro criado.');
     }

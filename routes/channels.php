@@ -11,6 +11,12 @@
 |
 */
 
+use App\Models\Contact;
+
 Broadcast::channel('App.User.{id}', function ($user, $id) {
     return (int) $user->id === (int) $id;
 });
+
+// Broadcast::channel('contact.{contactId}', function ($user, $contactId) {
+//     return $user->id === Contact::findOrNew($contactId)->account_id;
+// });
