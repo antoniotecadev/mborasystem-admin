@@ -34,8 +34,4 @@ window.Echo = new Echo({
   disableStats: true,
 });
 
-window.Echo.channel('contact')
-    .listen('CreateContactEvent', (e) => {
-        alert(e);
-    });
 

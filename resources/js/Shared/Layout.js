@@ -6,9 +6,6 @@ import TopHeader from '@/Shared/TopHeader';
 import BottomHeader from '@/Shared/BottomHeader';
 
 export default function Layout({ title, children }) {
-  useEffect(() => {
-    
-  });
   return (
     <div>
       <Helmet titleTemplate="%s | MboraSystem Admin" title={title} />

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { InertiaLink, usePage } from '@inertiajs/inertia-react';
 import Icon from '@/Shared/Icon';
 import logo from '@/img/logotipo-yoga-original.png';
@@ -8,6 +8,19 @@ export default () => {
   const { auth } = usePage().props;
   const [menuOpened, setMenuOpened] = useState(false);
   const [notificationOpened, setNotificationOpened] = useState(false);
+
+  useEffect(() => {
+
+    window.Echo.channel('contact')
+    .listen('CreateContactEvent', (e) => {
+        alert(e.codigo_equipa);
+    });
+
+    return () => {
+
+    };
+  }, []);
+
   return (
     <div className="flex items-center justify-between w-full p-4 text-sm bg-white border-b md:py-0 md:px-12 d:text-md">
       <div><img className="text-white fill-current" width="120" height="28" src={`./${logo}`} alt='sem foto'/></div>

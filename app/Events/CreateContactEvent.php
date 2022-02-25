@@ -20,11 +20,11 @@ class CreateContactEvent implements ShouldBroadcast
      * @return void
      */
 
-     public $contact;
+     public $codigo_equipa;
 
-    public function __construct($contact)
+    public function __construct($codigo_equipa)
     {
-        $this->contact = $contact;
+        $this->contact = $codigo_equipa;
     }
 
     /**

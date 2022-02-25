@@ -44,13 +44,13 @@ class ContactsController extends Controller
     }
 
 
-    public function store()
+    public function store(ContactStoreRequest $request)
     {
-        CreateContactEvent::dispatch('Chilala');
-        // Auth::user()->account->contacts()->create(
-        //     $request->validated()
-        // );
+        Auth::user()->account->contacts()->create(
+            $request->validated()
+        );
 
+        CreateContactEvent::dispatch($request->codigo_equipa);
         return Redirect::route('contacts')->with('success', 'Parceiro criado.');
     }
 
