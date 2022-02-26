@@ -29,7 +29,7 @@ class NewContactNotification extends Notification
      */
     public function via($notifiable)
     {
-        return ['mail'];
+        return ['database', 'broadcast'];
     }
 
     /**
@@ -55,7 +55,8 @@ class NewContactNotification extends Notification
     public function toArray($notifiable)
     {
         return [
-            //
+            'message'   =>  'Account registered successfully.'
         ];
     }
+    
 }

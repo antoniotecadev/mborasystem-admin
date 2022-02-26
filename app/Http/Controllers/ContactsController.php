@@ -9,6 +9,7 @@ use App\Http\Resources\ContactResource;
 use App\Http\Resources\UserEquipaCollection;
 use App\Events\CreateContactEvent;
 use App\Models\Contact;
+use App\Notifications\NewContactNotification;
 use Inertia\Inertia;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Request;
@@ -50,7 +51,9 @@ class ContactsController extends Controller
             $request->validated()
         );
 
-        CreateContactEvent::dispatch($request->codigo_equipa);
+        $contact = Contact::where('imei', $request->imei)->first();
+        $contact->notify(new NewContactNotification());
+        CreateContactEvent::dispatch($contact);
         return Redirect::route('contacts')->with('success', 'Parceiro criado.');
     }
 

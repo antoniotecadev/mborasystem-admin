@@ -13,7 +13,7 @@ export default () => {
 
     window.Echo.channel('contact')
     .listen('CreateContactEvent', (e) => {
-        alert(e.codigo_equipa);
+        alert(e.contact.first_name);
     });
 
     return () => {
