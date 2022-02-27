@@ -16,7 +16,7 @@ const Index = () => {
     <div>
       <h1 className="mb-8 text-3xl font-bold">Notificações de registos ({data.length})</h1>
       <ButtonQueryNotification type= "4" name = "Todas"/>
-      <ButtonQueryNotification type= "0" name = "Lidas"/>
+      <ButtonQueryNotification type= "0" name = "Não lidas"/>
       <div className="overflow-x-auto bg-white rounded shadow">
         <table className="w-full whitespace-nowrap">
           <thead>
