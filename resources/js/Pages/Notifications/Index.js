@@ -17,6 +17,7 @@ const Index = () => {
       <h1 className="mb-8 text-3xl font-bold">Notificações de registos ({data.length})</h1>
       <ButtonQueryNotification type= "4" name = "Todas"/>
       <ButtonQueryNotification type= "0" name = "Não lidas"/>
+      <ButtonQueryNotification type= "1" name = "Lidas"/>
       <div className="overflow-x-auto bg-white rounded shadow">
         <table className="w-full whitespace-nowrap">
           <thead>
@@ -48,7 +49,7 @@ const Index = () => {
             {data.length === 0 && (
               <tr>
                 <td className="px-6 py-4 border-t" colSpan="4">
-                  Nenhum parceiro encontrado.
+                  Nenhum notificação encontrada.
                 </td>
               </tr>
             )}

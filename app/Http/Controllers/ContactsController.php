@@ -143,6 +143,16 @@ class ContactsController extends Controller
                         ->appends(Request::all())
                 ),
             ]);
+        elseif($type == "1"):
+            return Inertia::render('Notifications/Index', [
+                'contacts' => new NotificationCollection(
+                    Auth::user()->account->contacts()
+                        ->where('read_contact', $type)
+                        ->orderBy('id', 'desc')
+                        ->paginate()
+                        ->appends(Request::all())
+                ),
+            ]);
         else :
             return Inertia::render('Notifications/Index', [
                 'contacts' => new NotificationCollection(
