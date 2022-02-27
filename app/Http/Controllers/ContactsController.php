@@ -133,13 +133,25 @@ class ContactsController extends Controller
 
     public function indexContactNotification($type)
     {
-        return Inertia::render('Notifications/Index', [
-            'contacts' => new NotificationCollection(
-                Auth::user()->account->contacts()
-                    ->orderBy('id', 'desc')
-                    ->paginate()
-                    ->appends(Request::all())
-            ),
-        ]);
+        if($type == "0"):
+            return Inertia::render('Notifications/Index', [
+                'contacts' => new NotificationCollection(
+                    Auth::user()->account->contacts()
+                        ->where('read_contact', $type)
+                        ->orderBy('id', 'desc')
+                        ->paginate()
+                        ->appends(Request::all())
+                ),
+            ]);
+        else :
+            return Inertia::render('Notifications/Index', [
+                'contacts' => new NotificationCollection(
+                    Auth::user()->account->contacts()
+                        ->orderBy('id', 'desc')
+                        ->paginate()
+                        ->appends(Request::all())
+                ),
+            ]);
+        endif;
     }
 }

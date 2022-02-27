@@ -15,11 +15,14 @@ const Index = () => {
   return (
     <div>
       <h1 className="mb-8 text-3xl font-bold">Notificações de registos ({data.length})</h1>
+      <ButtonQueryNotification type= "4" name = "Todas"/>
+      <ButtonQueryNotification type= "0" name = "Lidas"/>
       <div className="overflow-x-auto bg-white rounded shadow">
         <table className="w-full whitespace-nowrap">
           <thead>
             <tr className="font-bold text-left">
-              <ButtonQueryNotification type= "4" name = "Todas"/>
+              <th>
+              </th>
             </tr>
           </thead>
           <tbody>
