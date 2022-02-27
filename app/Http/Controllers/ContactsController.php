@@ -7,6 +7,7 @@ use App\Http\Requests\ContactUpdateRequest;
 use App\Http\Resources\ContactCollection;
 use App\Http\Resources\ContactResource;
 use App\Http\Resources\UserEquipaCollection;
+use App\Http\Resources\NotificationCollection;
 use App\Events\CreateContactEvent;
 use App\Models\Contact;
 use App\Notifications\NewContactNotification;
@@ -52,7 +53,6 @@ class ContactsController extends Controller
         );
 
         $contact = Contact::where('imei', $request->imei)->first();
-        $contact->notify(new NewContactNotification());
         CreateContactEvent::dispatch($contact);
         return Redirect::route('contacts')->with('success', 'Parceiro criado.');
     }
@@ -114,10 +114,6 @@ class ContactsController extends Controller
         } else {
             return Redirect::route('contacts')->with('error', 'Parceiro sem pagamento 😢');
         }
-        // $c = Contact::findOrFail();
-        // $c->estado = $c->estado == '0' ? '1' : '0' ;
-        // $c->save();
-        // return Redirect::route('contacts')->with('success', 'Confirmado');
     }
 
     public function refresh(){
@@ -133,5 +129,18 @@ class ContactsController extends Controller
         }else{
             return Redirect::route('contacts')->with('success', $affected . ' parceiro(s) desactivado(s) - (com pagamento terminado)');
         }
+    }
+
+    public function indexContactNotification()
+    {
+        return Inertia::render('Notifications/Index', [
+            'contacts' => new NotificationCollection(
+                Auth::user()->account->contacts()
+                    ->where('read_contact', '0')
+                    ->orderBy('id', 'desc')
+                    ->paginate()
+                    ->appends(Request::all())
+            ),
+        ]);
     }
 }

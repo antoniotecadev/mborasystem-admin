@@ -18,6 +18,8 @@ class CreateContactEvent implements ShouldBroadcast
      * @return void
      */
 
+    public $afterCommit = true;
+
      public $contact;
 
     public function __construct($contact)
@@ -33,5 +35,21 @@ class CreateContactEvent implements ShouldBroadcast
     public function broadcastOn()
     {
         return new Channel('contact');
+    }
+
+    /**
+     * Get the data to broadcast.
+     *
+     * @return array
+     */
+    public function broadcastWith()
+    {
+        return [
+            'id' => $this->contact->id,
+            'first_name' => $this->contact->first_name,
+            'last_name' => $this->contact->last_name,
+            'imei' => $this->contact->imei,
+            'codigo_equipa' => $this->contact->codigo_equipa
+         ];
     }
 }

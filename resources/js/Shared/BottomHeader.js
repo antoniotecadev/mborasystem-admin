@@ -1,8 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import { InertiaLink, usePage } from '@inertiajs/inertia-react';
+import { Inertia } from '@inertiajs/inertia'
 import Icon from '@/Shared/Icon';
 import logo from '@/img/logotipo-yoga-original.png';
 import { borderRadius } from 'tailwindcss/defaultTheme';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 export default () => {
   const { auth } = usePage().props;
@@ -13,18 +16,25 @@ export default () => {
 
     window.Echo.channel('contact')
     .listen('CreateContactEvent', (e) => {
-        alert(e.contact.first_name);
+      toast.success("Parceiro " + e.first_name + " " + e.last_name + " registado pela equipa YOGA " + e.codigo_equipa + ", IMEI: " + e.imei, {
+        toastId: e.id
+      });
+      const notsize = Number.parseInt(localStorage.getItem('notificacao'));
+      localStorage.setItem("notificacao", (localStorage.getItem('notificacao') ? (notsize + 1) : Number.parseInt(0 + 1)));
     });
+
 
     return () => {
 
     };
   }, []);
-
+    
   return (
     <div className="flex items-center justify-between w-full p-4 text-sm bg-white border-b md:py-0 md:px-12 d:text-md">
       <div><img className="text-white fill-current" width="120" height="28" src={`./${logo}`} alt='sem foto'/></div>
       <div className="mt-1 mr-4 font-bold">{auth.user.account.name}</div>
+
+      <ToastContainer autoClose={8000} />
       <div className="relative">
         <div
           className="flex items-center cursor-pointer select-none group"
@@ -35,17 +45,19 @@ export default () => {
             name="notificacao"
           />
           <div className="absolute bg-indigo-100 text-white whitespace-nowrap group-hover:text-indigo-600 focus:text-indigo-600 mb-6" style={{backgroundColor: 'red', paddingRight: '5px', borderRadius: '10px'}}>
-            <span className="ml-1">1</span>
+            <span className="ml-1">{localStorage.getItem('notificacao') && localStorage.getItem('notificacao') }</span>
           </div>
         </div>
         <div className={notificationOpened ? '' : 'hidden'}>
           <div className="absolute top-0 right-0 left-auto z-20 py-2 mt-8 text-sm whitespace-nowrap bg-white rounded shadow-xl">
             <InertiaLink
-              href={route('users.edit', auth.user.id)}
+              href={route('contacts.notification')}
               className="block px-6 py-2 hover:bg-indigo-600 hover:text-white"
               onClick={() => setMenuOpened(false)}
             >
-              Registo
+              <>
+                Registo <span className="ml-1 absolute bg-indigo-100 text-white whitespace-nowrap group-hover:text-indigo-600 focus:text-indigo-600 mb-6" style={{backgroundColor: 'red', paddingRight: '5px', borderRadius: '10px'}}>{localStorage.getItem('notificacao') && localStorage.getItem('notificacao') }</span>
+              </>
             </InertiaLink>
             <InertiaLink
               href={route('users')}

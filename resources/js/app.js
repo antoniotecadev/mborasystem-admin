@@ -4,6 +4,7 @@ import { InertiaProgress } from '@inertiajs/progress';
 import * as Sentry from '@sentry/browser';
 import { createInertiaApp } from '@inertiajs/inertia-react';
 import Echo from 'laravel-echo';
+import { CookiesProvider } from 'react-cookie';
 
 
 
@@ -20,7 +21,11 @@ Sentry.init({
 createInertiaApp({
   resolve: name => require(`./Pages/${name}`),
   setup({ el, App, props }) {
-    render(<App {...props} />, el)
+    render(
+    <CookiesProvider>
+      <App {...props} />
+    </CookiesProvider>
+    , el)
   },
 })
 // criar uma nova instância Echo
