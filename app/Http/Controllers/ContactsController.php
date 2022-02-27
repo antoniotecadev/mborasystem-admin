@@ -131,7 +131,7 @@ class ContactsController extends Controller
         }
     }
 
-    public function indexContactNotification()
+    public function indexContactNotification($type)
     {
         return Inertia::render('Notifications/Index', [
             'contacts' => new NotificationCollection(
