@@ -69,7 +69,7 @@ const Edit = () => {
   var dataAmanha = yyyy + '-' + mm + '-' + dd;
 
   if(contact.read_contact == '0'){
-    localStorage.setItem('notificacao', '0');
+    localStorage.setItem('notificacao_registo', '0');
   }
 
   return (

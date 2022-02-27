@@ -19,8 +19,8 @@ export default () => {
       toast.success("Parceiro " + e.first_name + " " + e.last_name + " registado pela equipa YOGA " + e.codigo_equipa + ", IMEI: " + e.imei, {
         toastId: e.id
       });
-      const notsize = Number.parseInt(localStorage.getItem('notificacao'));
-      localStorage.setItem("notificacao", (localStorage.getItem('notificacao') ? (notsize + 1) : Number.parseInt(0 + 1)));
+      const notsize = Number.parseInt(localStorage.getItem('notificacao_registo'));
+      localStorage.setItem("notificacao_registo", (localStorage.getItem('notificacao_registo') ? (notsize + 1) : Number.parseInt(0 + 1)));
     });
 
 
@@ -45,7 +45,7 @@ export default () => {
             name="notificacao"
           />
           <div className="absolute bg-indigo-100 text-white whitespace-nowrap group-hover:text-indigo-600 focus:text-indigo-600 mb-6" style={{backgroundColor: 'red', paddingRight: '5px', borderRadius: '10px'}}>
-            <span className="ml-1">{localStorage.getItem('notificacao') && localStorage.getItem('notificacao') }</span>
+            <span className="ml-1">{localStorage.getItem('notificacao_registo') && localStorage.getItem('notificacao_registo') }</span>
           </div>
         </div>
         <div className={notificationOpened ? '' : 'hidden'}>
