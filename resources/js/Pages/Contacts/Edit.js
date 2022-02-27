@@ -25,6 +25,7 @@ const Edit = () => {
     street: contact.street || '',
     estado: contact.estado || '',
     imei: contact.imei || '',
+    read_contact: contact.read_contact || '',
     codigo_equipa: contact.codigo_equipa || ''
   });
 
@@ -66,6 +67,10 @@ const Edit = () => {
   }
 
   var dataAmanha = yyyy + '-' + mm + '-' + dd;
+
+  if(contact.read_contact == '0'){
+    localStorage.setItem('notificacao', '0');
+  }
 
   return (
     <div>
