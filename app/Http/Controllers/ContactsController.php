@@ -136,7 +136,6 @@ class ContactsController extends Controller
         return Inertia::render('Notifications/Index', [
             'contacts' => new NotificationCollection(
                 Auth::user()->account->contacts()
-                    ->where('read_contact', '0')
                     ->orderBy('id', 'desc')
                     ->paginate()
                     ->appends(Request::all())
