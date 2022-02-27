@@ -7,16 +7,10 @@ import LoadingButton from '@/Shared/LoadingButton';
 
 const Index = () => {
   const { contacts } = usePage().props;
-  const { get, processing } = useForm({});
   const {
     data,
     meta: { links }
   } = contacts;
-
-  function handleSubmit(type, e) {
-    e.preventDefault();
-    get(route('contacts.notification', type));
-  }
 
   return (
     <div>
@@ -25,17 +19,7 @@ const Index = () => {
         <table className="w-full whitespace-nowrap">
           <thead>
             <tr className="font-bold text-left">
-              <th className="px-6 pt-5 pb-4">
-                <form onSubmit={e => handleSubmit(4, e)}>
-                      <LoadingButton
-                        loading={processing}
-                        type="submit"
-                        className="ml-auto btn-indigo"
-                      >
-                        Todos
-                      </LoadingButton>
-                    </form>
-              </th>
+              <ButtonQueryNotification type= "4" name = "Todas"/>
             </tr>
           </thead>
           <tbody>
@@ -72,6 +56,30 @@ const Index = () => {
     </div>
   );
 };
+
+const ButtonQueryNotification = ({type, name}) => {
+
+  const { get, processing } = useForm({});
+
+  function handleSubmit(type, e) {
+    e.preventDefault();
+    get(route('contacts.notification', type));
+  }
+
+  return (
+      <th className="px-6 pt-5 pb-4">
+          <form onSubmit={e => handleSubmit(type, e)}>
+           <LoadingButton
+             loading={processing}
+             type="submit"
+             className="ml-auto btn-indigo"
+           >
+             {name}
+           </LoadingButton>
+           </form> 
+      </th>
+  );
+}
 
 Index.layout = page => <Layout title="Notificações de registo" children={page} />;
 
