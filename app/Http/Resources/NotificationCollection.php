@@ -17,7 +17,7 @@ class NotificationCollection extends ResourceCollection
                 'imei' => $item->imei,
                 'codigo_equipa' => $item->codigo_equipa,
                 'read_contact' => $item->read_contact,
-                'created_at' => $item->created_at
+                'created_at' => $item->created_at->format('Y-m-d H:m')
             ];
         });
     }
