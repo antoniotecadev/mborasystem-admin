@@ -54,7 +54,7 @@ const Index = () => {
           </thead>
           <tbody>
             {data.map(
-              ({ id, name, cantina, email, phone, estado, deleted_at }) => (
+              ({ id, name, cantina, email, phone, estado, read_contact, deleted_at }) => (
                 <tr
                   key={id}
                   className={`hover:bg-gray-100 focus-within:bg-yellow-100 ${
@@ -63,7 +63,7 @@ const Index = () => {
                 >
                   <td className="border-t">
                     <InertiaLink
-                      href={route('contacts.edit', id)}
+                      href={route('contacts.edit', [id, 1, read_contact])}
                       className="flex items-center px-6 py-4 focus:text-indigo-700 focus:outline-none"
                     >
                       {name}
@@ -79,7 +79,7 @@ const Index = () => {
                     <InertiaLink
                       tabIndex="1"
                       className="flex items-center px-6 py-4 focus:text-indigo focus:outline-none"
-                      href={route('contacts.edit', id)}
+                      href={route('contacts.edit', [id, 1, read_contact])}
                     >
                       {cantina}
                     </InertiaLink>
@@ -87,7 +87,7 @@ const Index = () => {
                   <td className="border-t">
                     <InertiaLink
                       tabIndex="-1"
-                      href={route('contacts.edit', id)}
+                      href={route('contacts.edit', [id, 1, read_contact])}
                       className="flex items-center px-6 py-4 focus:text-indigo focus:outline-none"
                     >
                       {email}
@@ -96,7 +96,7 @@ const Index = () => {
                   <td className="border-t">
                     <InertiaLink
                       tabIndex="-1"
-                      href={route('contacts.edit', id)}
+                      href={route('contacts.edit', [id, 1, read_contact])}
                       className="flex items-center px-6 py-4 focus:text-indigo focus:outline-none"
                     >
                       {phone}
@@ -105,7 +105,7 @@ const Index = () => {
                   <td className="w-px border-t">
                     <InertiaLink
                       tabIndex="-1"
-                      href={route('contacts.edit', id)}
+                      href={route('contacts.edit', [id, 1, read_contact])}
                       className="flex items-center px-4 focus:outline-none"
                     >
                       <Icon

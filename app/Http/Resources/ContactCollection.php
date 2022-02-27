@@ -27,6 +27,7 @@ class ContactCollection extends ResourceCollection
                 'cantina' => $item->cantina,
                 'phone' => $item->phone,
                 'estado' => $item->estado,
+                'read_contact' => $item->read_contact,
                 'deleted_at' => $item->deleted_at
             ];
         });

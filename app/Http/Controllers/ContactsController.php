@@ -57,8 +57,15 @@ class ContactsController extends Controller
         return Redirect::route('contacts')->with('success', 'Parceiro criado.');
     }
 
-    public function edit($id)
+    public function edit($id, $type, $read_contact)
     {
+
+        if($read_contact == "0"):
+            DB::table('contacts')
+            ->where('contacts.id', Crypt::decryptString($id))
+            ->update(['contacts.read_contact' => $type]);
+        endif;
+
         return Inertia::render('Contacts/Edit', [
             'contact' => new ContactResource(Contact::withTrashed()->findOrFail(Crypt::decryptString($id))),
         ]);

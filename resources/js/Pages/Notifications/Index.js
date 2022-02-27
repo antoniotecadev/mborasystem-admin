@@ -32,12 +32,12 @@ const Index = () => {
                 <tr
                   key={id}
                   className={`hover:bg-gray-100 focus-within:bg-yellow-100 ${
-                    read_contact == '0' ? 'bg-indigo-100' : 'bg-green-200'
+                    read_contact == '0' ? 'bg-indigo-100' : ''
                   }`}
                 >
                   <td className="border-t">
                     <InertiaLink
-                      href={route('contacts.edit', id)}
+                      href={route('contacts.edit', [id, 1, read_contact])}
                       className="flex items-center px-6 py-4 focus:text-indigo-700 focus:outline-none"
                     >
                       <span className="font-bold">{first_name + ' ' + last_name}</span>&nbsp;registado pela equipa&nbsp;<span className="font-bold">YOGA {codigo_equipa}</span>&nbsp;IMEI:&nbsp;<span className="font-bold">{imei}</span>&nbsp;{created_at}
