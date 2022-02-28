@@ -186,4 +186,26 @@ class ContactsController extends Controller
             'quantidade' => Contact::where('read_contact', $type)->count(),
         ]);
     }
+
+    function marcarNotificacao($id, $type, $local){
+        if($type == "0"):
+        elseif($type == "1"):
+            return $this->marcarLer($id, $type, $local);
+        elseif($type == "2"):
+        elseif($type == "3"):
+        else :
+        endif;
+    }
+
+    // function marcarLer($id, $type){
+    //     DB::table('contacts')
+    //     ->where('contacts.id', Crypt::decryptString($id))
+    //     ->update(['contacts.read_contact' => $type]);
+    // }
+    function marcarLer($id, $type, $local){
+        DB::table('contacts')
+        ->where('contacts.id', Crypt::decryptString($id))
+        ->update(['contacts.read_contact' => $type]);
+        return Redirect::route('contacts.notification', $local)->with('success', $type == '0' ? 'Marcado como não lido' : 'Marcado como lido');
+    }
 }

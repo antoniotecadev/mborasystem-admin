@@ -60,7 +60,7 @@ const Index = () => {
                   <LoadingButton
                     className={`ml-2 mt-2 text-black ${ estado == '0' ? 'btn-danger' : 'btn-sucess' }`}
                   >
-                    <MenuMarcar />
+                    <MenuMarcar id={id} local={tipo} />
                   </LoadingButton>
                 </tr>
               )
