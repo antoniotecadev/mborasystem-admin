@@ -14,6 +14,7 @@ class NotificationCollection extends ResourceCollection
                 'id' => Crypt::encryptString($item->id),
                 'first_name' => $item->first_name,
                 'last_name' => $item->last_name,
+                'estado' => $item->estado,
                 'imei' => $item->imei,
                 'codigo_equipa' => $item->codigo_equipa,
                 'read_contact' => $item->read_contact,

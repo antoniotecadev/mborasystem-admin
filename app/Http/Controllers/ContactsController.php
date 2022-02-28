@@ -160,6 +160,26 @@ class ContactsController extends Controller
                         ->appends(Request::all())
                 ),
             ]);
+        elseif($type == "2"):
+            return Inertia::render('Notifications/Index', [
+                'contacts' => new NotificationCollection(
+                    Auth::user()->account->contacts()
+                        ->where('estado', '0')
+                        ->orderBy('id', 'desc')
+                        ->paginate()
+                        ->appends(Request::all())
+                ),
+            ]);
+        elseif($type == "3"):
+            return Inertia::render('Notifications/Index', [
+                'contacts' => new NotificationCollection(
+                    Auth::user()->account->contacts()
+                        ->where('estado', '1')
+                        ->orderBy('id', 'desc')
+                        ->paginate()
+                        ->appends(Request::all())
+                ),
+            ]);
         else :
             return Inertia::render('Notifications/Index', [
                 'contacts' => new NotificationCollection(

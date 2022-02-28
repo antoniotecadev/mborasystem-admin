@@ -5,7 +5,7 @@ import Icon from '@/Shared/Icon';
 import Pagination from '@/Shared/Pagination';
 import LoadingButton from '@/Shared/LoadingButton';
 
-var tipo = 3;
+var tipo = 4;
 const Index = () => {
 
   const { get, processing } = useForm({});
@@ -23,10 +23,12 @@ const Index = () => {
 
   return (
     <div>
-      <h1 className="mb-8 text-3xl font-bold">Notificações de registos ({data.length}) - {tipo == '0' ? 'Não lidas' : tipo == '1' ? 'Lidas' : 'Todas' }</h1>
-      <ButtonQueryNotification handleSubmit = {handleSubmit} processing = {processing} type= "3" name = "Todas" color = "btn-indigo"/>
+      <h1 className="mb-8 text-3xl font-bold">Notificações de registos ({data.length}) - {tipo == '0' ? 'Não lidas' : tipo == '1' ? 'Lidas' : tipo == '2' ? 'Não atendido' : tipo == '3' ? 'Atendido' : 'Todas' }</h1>
+      <ButtonQueryNotification handleSubmit = {handleSubmit} processing = {processing} type= "4" name = "Todas" color = "btn-indigo"/>
       <ButtonQueryNotification handleSubmit = {handleSubmit} processing = {processing} type= "0" name = "Não lidas" color = 'btn-danger'/>
       <ButtonQueryNotification handleSubmit = {handleSubmit} processing = {processing} type= "1" name = "Lidas" color = 'btn-sucess'/>
+      <ButtonQueryNotification handleSubmit = {handleSubmit} processing = {processing} type= "2" name = "❌" color = 'btn-danger'/>
+      <ButtonQueryNotification handleSubmit = {handleSubmit} processing = {processing} type= "3" name = "✔" color = 'btn-sucess'/>
       <div className="overflow-x-auto bg-white rounded shadow">
         <table className="w-full whitespace-nowrap">
           <thead>
@@ -37,7 +39,7 @@ const Index = () => {
           </thead>
           <tbody>
             {data.map(
-              ({ id, first_name, last_name, imei, codigo_equipa, read_contact, created_at }) => (
+              ({ id, first_name, last_name, estado, imei, codigo_equipa, read_contact, created_at }) => (
                 <tr
                   key={id}
                   className={`hover:bg-gray-100 focus-within:bg-yellow-100 ${
@@ -52,6 +54,11 @@ const Index = () => {
                       <span className="font-bold">{first_name + ' ' + last_name}</span>&nbsp;registado pela equipa&nbsp;<span className="font-bold">YOGA {codigo_equipa}</span>&nbsp;IMEI:&nbsp;<span className="font-bold">{imei}</span>&nbsp;{created_at}
                     </InertiaLink>
                   </td>
+                  <LoadingButton
+                    className={`ml-2 mt-2 ${ estado == '0' ? 'btn-danger' : 'btn-sucess' }`}
+                  >
+                    { estado == '0' ? '❌' : '✔' }
+                  </LoadingButton>
                 </tr>
               )
             )}
