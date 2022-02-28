@@ -31,7 +31,7 @@ const { put, processing } = useForm({});
                 <p>___________</p>
                 <LoadingButton
                 loading={processing}
-                className={`ml-auto mr-auto btn-sucess block px-6 py-2 hover:bg-indigo-600 hover:text-white`}
+                className={`ml-auto mr-auto btn-indigo block px-6 py-2 hover:bg-indigo-600 hover:text-white`}
                 onClick={(e) => marcarNotificacao(e, id, 1, local, name)}
             >
                 Lida
@@ -39,10 +39,9 @@ const { put, processing } = useForm({});
            </> : ''}
            {local == '4' || local != '0' ?
             <> 
-            <p>___________</p>
             <LoadingButton
              loading={processing}
-             className={`ml-auto mr-auto btn-danger block px-6 py-2 hover:bg-indigo-600 hover:text-white`}
+             className={`ml-auto mr-auto btn-indigo block px-6 py-2 hover:bg-indigo-600 hover:text-white`}
              onClick={(e) => marcarNotificacao(e, id, 0, local, name)}
            >
             Não lida
@@ -50,10 +49,9 @@ const { put, processing } = useForm({});
             </> : ''}
             {local == '4' || local != '2' ?
             <> 
-            <p>___________</p>
             <LoadingButton
              loading={processing}
-             className={`ml-auto mr-auto btn-sucess block px-6 py-2 hover:bg-indigo-600 hover:text-white`}
+             className={`ml-auto mr-auto btn-indigo block px-6 py-2 hover:bg-indigo-600 hover:text-white`}
              onClick={(e) => marcarNotificacao(e, id, 2, local, name)}
            >
             Atendido
@@ -61,10 +59,9 @@ const { put, processing } = useForm({});
             </> : ''}
             {local == '4' || local != '3' ?
             <> 
-            <p>___________</p>
             <LoadingButton
              loading={processing}
-             className={`ml-auto mr-auto btn-danger block px-6 py-2 hover:bg-indigo-600 hover:text-white`}
+             className={`ml-auto mr-auto btn-indigo block px-6 py-2 hover:bg-indigo-600 hover:text-white`}
              onClick={(e) => marcarNotificacao(e, id, 3, local, name)}
            >
             Não atendido
