@@ -9,9 +9,9 @@ const [notificationOpened, setNotificationOpened] = useState(false);
 
 const { put, processing } = useForm({});
 
-  const marcarNotificacao = (e, id, local) => {
+  const marcarNotificacao = (e, id, tipo, local) => {
     e.preventDefault();
-    put(route('contacts.notification.marcar', [id, 1, local]));
+    put(route('contacts.notification.marcar', [id, tipo, local]));
   }
   return (
     <div className="relative">
@@ -30,18 +30,18 @@ const { put, processing } = useForm({});
             <LoadingButton
              loading={processing}
              className={`ml-auto mr-auto btn-sucess block px-6 py-2 hover:bg-indigo-600 hover:text-white`}
-             onClick={(e) => marcarNotificacao(e, id, local)}
+             onClick={(e) => marcarNotificacao(e, id, 1, local)}
            >
              Lida
            </LoadingButton>
             <p>___________</p>
-            <InertiaLink
-              href={route('contacts.notification', 4)}
-              className="block px-6 py-2 hover:bg-indigo-600 hover:text-white"
-              onClick={() => setMenuOpened(false)}
-            >
+            <LoadingButton
+             loading={processing}
+             className={`ml-auto mr-auto btn-danger block px-6 py-2 hover:bg-indigo-600 hover:text-white`}
+             onClick={(e) => marcarNotificacao(e, id, 0, local)}
+           >
             Não lida
-            </InertiaLink>
+            </LoadingButton>
             <p>___________</p>
             <InertiaLink
               href={route('contacts.notification', 4)}

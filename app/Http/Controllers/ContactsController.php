@@ -189,6 +189,7 @@ class ContactsController extends Controller
 
     function marcarNotificacao($id, $type, $local){
         if($type == "0"):
+            return $this->marcarLer($id, $type, $local);
         elseif($type == "1"):
             return $this->marcarLer($id, $type, $local);
         elseif($type == "2"):
