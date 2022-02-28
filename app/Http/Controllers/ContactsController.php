@@ -141,45 +141,13 @@ class ContactsController extends Controller
     public function indexContactNotification($type)
     {
         if($type == "0"):
-            return Inertia::render('Notifications/Index', [
-                'contacts' => new NotificationCollection(
-                    Auth::user()->account->contacts()
-                        ->where('read_contact', $type)
-                        ->orderBy('id', 'desc')
-                        ->paginate()
-                        ->appends(Request::all())
-                ),
-            ]);
+            return $this->getNotificationLer($type);
         elseif($type == "1"):
-            return Inertia::render('Notifications/Index', [
-                'contacts' => new NotificationCollection(
-                    Auth::user()->account->contacts()
-                        ->where('read_contact', $type)
-                        ->orderBy('id', 'desc')
-                        ->paginate()
-                        ->appends(Request::all())
-                ),
-            ]);
+            return $this->getNotificationLer($type);
         elseif($type == "2"):
-            return Inertia::render('Notifications/Index', [
-                'contacts' => new NotificationCollection(
-                    Auth::user()->account->contacts()
-                        ->where('estado', '0')
-                        ->orderBy('id', 'desc')
-                        ->paginate()
-                        ->appends(Request::all())
-                ),
-            ]);
+            return $this->getNotificationEstado('0');
         elseif($type == "3"):
-            return Inertia::render('Notifications/Index', [
-                'contacts' => new NotificationCollection(
-                    Auth::user()->account->contacts()
-                        ->where('estado', '1')
-                        ->orderBy('id', 'desc')
-                        ->paginate()
-                        ->appends(Request::all())
-                ),
-            ]);
+            return $this->getNotificationEstado('1');
         else :
             return Inertia::render('Notifications/Index', [
                 'contacts' => new NotificationCollection(
@@ -190,5 +158,28 @@ class ContactsController extends Controller
                 ),
             ]);
         endif;
+    }
+
+    function getNotificationEstado($estado){
+        return Inertia::render('Notifications/Index', [
+            'contacts' => new NotificationCollection(
+                Auth::user()->account->contacts()
+                    ->where('estado', $estado)
+                    ->orderBy('id', 'desc')
+                    ->paginate()
+                    ->appends(Request::all())
+            ),
+        ]);
+    }
+    function getNotificationLer($type){
+        return Inertia::render('Notifications/Index', [
+            'contacts' => new NotificationCollection(
+                Auth::user()->account->contacts()
+                    ->where('read_contact', $type)
+                    ->orderBy('id', 'desc')
+                    ->paginate()
+                    ->appends(Request::all())
+            ),
+        ]);
     }
 }
