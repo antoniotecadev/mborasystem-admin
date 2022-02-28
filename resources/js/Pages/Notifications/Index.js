@@ -1,23 +1,32 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { InertiaLink, usePage, useForm } from '@inertiajs/inertia-react';
 import Layout from '@/Shared/Layout';
 import Icon from '@/Shared/Icon';
 import Pagination from '@/Shared/Pagination';
 import LoadingButton from '@/Shared/LoadingButton';
 
+var tipo = 3;
 const Index = () => {
+
+  const { get, processing } = useForm({});
   const { contacts } = usePage().props;
   const {
     data,
     meta: { links }
   } = contacts;
 
+  const handleSubmit = (e, type) => {
+    e.preventDefault();
+    get(route('contacts.notification', type));
+    tipo = type;
+  }
+
   return (
     <div>
-      <h1 className="mb-8 text-3xl font-bold">Notificações de registos ({data.length})</h1>
-      <ButtonQueryNotification type= "4" name = "Todas"/>
-      <ButtonQueryNotification type= "0" name = "Não lidas"/>
-      <ButtonQueryNotification type= "1" name = "Lidas"/>
+      <h1 className="mb-8 text-3xl font-bold">Notificações de registos ({data.length}) - {tipo == '0' ? 'Não lidas' : tipo == '1' ? 'Lidas' : 'Todas' }</h1>
+      <ButtonQueryNotification handleSubmit = {handleSubmit} processing = {processing} type= "3" name = "Todas" color = "btn-indigo"/>
+      <ButtonQueryNotification handleSubmit = {handleSubmit} processing = {processing} type= "0" name = "Não lidas" color = 'btn-danger'/>
+      <ButtonQueryNotification handleSubmit = {handleSubmit} processing = {processing} type= "1" name = "Lidas" color = 'btn-sucess'/>
       <div className="overflow-x-auto bg-white rounded shadow">
         <table className="w-full whitespace-nowrap">
           <thead>
@@ -61,22 +70,14 @@ const Index = () => {
   );
 };
 
-const ButtonQueryNotification = ({type, name}) => {
-
-  const { get, processing } = useForm({});
-
-  function handleSubmit(type, e) {
-    e.preventDefault();
-    get(route('contacts.notification', type));
-  }
-
+const ButtonQueryNotification = ({handleSubmit, processing, type, name, color}) => {
   return (
       <th className="px-6 pt-5 pb-4">
-          <form onSubmit={e => handleSubmit(type, e)}>
+          <form onSubmit={ e => handleSubmit(e, type)}>
            <LoadingButton
              loading={processing}
              type="submit"
-             className="ml-auto btn-indigo"
+             className={`ml-auto ${ color }`}
            >
              {name}
            </LoadingButton>
