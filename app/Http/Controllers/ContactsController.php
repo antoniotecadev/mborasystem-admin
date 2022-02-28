@@ -193,16 +193,19 @@ class ContactsController extends Controller
         elseif($type == "1"):
             return $this->marcarLer($id, $type, $local);
         elseif($type == "2"):
+            return $this->marcarEstado($id, '1', $local);
         elseif($type == "3"):
+            return $this->marcarEstado($id, '0', $local);
         else :
         endif;
     }
 
-    // function marcarLer($id, $type){
-    //     DB::table('contacts')
-    //     ->where('contacts.id', Crypt::decryptString($id))
-    //     ->update(['contacts.read_contact' => $type]);
-    // }
+    function marcarEstado($id, $type, $local){
+        DB::table('contacts')
+        ->where('contacts.id', Crypt::decryptString($id))
+        ->update(['contacts.estado' => $type]);
+        return Redirect::route('contacts.notification', $local)->with('success', $type == '0' ? 'Marcado como não atendido' : 'Marcado como atendido');
+    }
     function marcarLer($id, $type, $local){
         DB::table('contacts')
         ->where('contacts.id', Crypt::decryptString($id))

@@ -43,21 +43,21 @@ const { put, processing } = useForm({});
             Não lida
             </LoadingButton>
             <p>___________</p>
-            <InertiaLink
-              href={route('contacts.notification', 4)}
-              className="block px-6 py-2 hover:bg-indigo-600 hover:text-white"
-              onClick={() => setMenuOpened(false)}
-            >
+            <LoadingButton
+             loading={processing}
+             className={`ml-auto mr-auto btn-sucess block px-6 py-2 hover:bg-indigo-600 hover:text-white`}
+             onClick={(e) => marcarNotificacao(e, id, 2, local)}
+           >
             Atendido
-            </InertiaLink>
+            </LoadingButton>
             <p>___________</p>
-            <InertiaLink
-              href={route('contacts.notification', 4)}
-              className="block px-6 py-2 hover:bg-indigo-600 hover:text-white"
-              onClick={() => setMenuOpened(false)}
-            >
+            <LoadingButton
+             loading={processing}
+             className={`ml-auto mr-auto btn-danger block px-6 py-2 hover:bg-indigo-600 hover:text-white`}
+             onClick={(e) => marcarNotificacao(e, id, 3, local)}
+           >
             Não atendido
-            </InertiaLink>
+            </LoadingButton>
           </div>
           <div
             onClick={() => {
