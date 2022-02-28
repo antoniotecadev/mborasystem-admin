@@ -31,6 +31,7 @@ class ContactsController extends Controller
                     ->paginate()
                     ->appends(Request::all())
             ),
+            'quantidade' => Contact::count(),
         ]);
     }
 
@@ -156,6 +157,7 @@ class ContactsController extends Controller
                         ->paginate()
                         ->appends(Request::all())
                 ),
+                'quantidade' => Contact::count(),
             ]);
         endif;
     }
@@ -169,6 +171,7 @@ class ContactsController extends Controller
                     ->paginate()
                     ->appends(Request::all())
             ),
+            'quantidade' => Contact::where('estado', $estado)->count(),
         ]);
     }
     function getNotificationLer($type){
@@ -180,6 +183,7 @@ class ContactsController extends Controller
                     ->paginate()
                     ->appends(Request::all())
             ),
+            'quantidade' => Contact::where('read_contact', $type)->count(),
         ]);
     }
 }
