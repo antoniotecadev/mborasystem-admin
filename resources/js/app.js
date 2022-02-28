@@ -4,9 +4,6 @@ import { InertiaProgress } from '@inertiajs/progress';
 import * as Sentry from '@sentry/browser';
 import { createInertiaApp } from '@inertiajs/inertia-react';
 import Echo from 'laravel-echo';
-import { CookiesProvider } from 'react-cookie';
-
-
 
 InertiaProgress.init({
   color: '#ED8936',
@@ -22,9 +19,7 @@ createInertiaApp({
   resolve: name => require(`./Pages/${name}`),
   setup({ el, App, props }) {
     render(
-    <CookiesProvider>
       <App {...props} />
-    </CookiesProvider>
     , el)
   },
 })

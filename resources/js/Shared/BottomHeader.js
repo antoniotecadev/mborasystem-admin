@@ -33,7 +33,7 @@ export default () => {
     <div className="flex items-center justify-between w-full p-4 text-sm bg-white border-b md:py-0 md:px-12 d:text-md">
       <div><img className="text-white fill-current" width="120" height="28" src={`./${logo}`} alt='sem foto'/></div>
       <div className="mt-1 mr-4 font-bold">{auth.user.account.name}</div>
-      <ToastContainer autoClose={8000} />
+      <ToastContainer />
       <div className="relative">
         <div
           className="flex items-center cursor-pointer select-none group"

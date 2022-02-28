@@ -204,12 +204,12 @@ class ContactsController extends Controller
         DB::table('contacts')
         ->where('contacts.id', Crypt::decryptString($id))
         ->update(['contacts.estado' => $type]);
-        return Redirect::route('contacts.notification', $local)->with('success', $type == '0' ? $name . ' marcado como não atendido 🔔' : $name . ' marcado como atendido 🔔');
+        return Redirect::route('contacts.notification', $local)->with('success', $type == '0' ? $name . ' marcada como não atendida 🔔' : $name . ' marcada como atendida 🔔');
     }
     function marcarLer($id, $type, $local, $name){
         DB::table('contacts')
         ->where('contacts.id', Crypt::decryptString($id))
         ->update(['contacts.read_contact' => $type]);
-        return Redirect::route('contacts.notification', $local)->with('success', $type == '0' ? $name . ' marcado como não lido 🔔' : $name . ' marcado como lido 🔔');
+        return Redirect::route('contacts.notification', $local)->with('success', $type == '0' ? $name . ' marcada como não lida 🔔' : $name . ' marcada como lida 🔔');
     }
 }
