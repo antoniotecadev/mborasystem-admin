@@ -2,6 +2,7 @@ import React, {useState} from 'react';
 import Icon from '@/Shared/Icon';
 import LoadingButton from '@/Shared/LoadingButton';
 import { InertiaLink, useForm } from '@inertiajs/inertia-react';
+import { ToastContainer, toast } from 'react-toastify';
 
 export default ({id, local, name}) => {
 const [menuOpened, setMenuOpened] = useState(false);
@@ -11,6 +12,7 @@ const { put, processing } = useForm({});
 
   const marcarNotificacao = (e, id, tipo, local, name) => {
     e.preventDefault();
+    toast.info(tipo == '0' ? 'Marcado como não lido' : tipo == '1' ? 'Marcado como lido' : tipo == '2' ? 'Marcado como atendido' : 'Marcado como não atendido');
     put(route('contacts.notification.marcar', [id, tipo, local, name]));
   }
   return (
