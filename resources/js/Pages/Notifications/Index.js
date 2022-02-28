@@ -4,6 +4,7 @@ import Layout from '@/Shared/Layout';
 import Icon from '@/Shared/Icon';
 import Pagination from '@/Shared/Pagination';
 import LoadingButton from '@/Shared/LoadingButton';
+import MenuMarcar from '@/Shared/MenuMarcar';
 
 var tipo = 4;
 const Index = () => {
@@ -57,9 +58,9 @@ const Index = () => {
                     </InertiaLink>
                   </td>
                   <LoadingButton
-                    className={`ml-2 mt-2 ${ estado == '0' ? 'btn-danger' : 'btn-sucess' }`}
+                    className={`ml-2 mt-2 text-black ${ estado == '0' ? 'btn-danger' : 'btn-sucess' }`}
                   >
-                    { estado == '0' ? '❌' : '✔' }
+                    <MenuMarcar />
                   </LoadingButton>
                 </tr>
               )
