@@ -1,5 +1,6 @@
 import React from 'react';
 import MainMenuItem from '@/Shared/MainMenuItem';
+import MainMenuItemNotification from '@/Shared/MainMenuItemNotification';
 
 export default ({ className }) => {
   return (
@@ -9,6 +10,7 @@ export default ({ className }) => {
       <MainMenuItem text="Pagamentos" link="pagamentos" icon="pagamento" />
       <MainMenuItem text="Equipas" link="equipas" icon="equipa" />
       <MainMenuItem text="Agentes" link="agentes" icon="agente" />
+      <MainMenuItemNotification />
       <MainMenuItem text="Reports" link="reports" icon="printer" />
     </div>
   );
