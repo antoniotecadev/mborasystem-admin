@@ -3,15 +3,15 @@ import Icon from '@/Shared/Icon';
 import LoadingButton from '@/Shared/LoadingButton';
 import { InertiaLink, useForm } from '@inertiajs/inertia-react';
 
-export default ({id, local}) => {
+export default ({id, local, name}) => {
 const [menuOpened, setMenuOpened] = useState(false);
 const [notificationOpened, setNotificationOpened] = useState(false);
 
 const { put, processing } = useForm({});
 
-  const marcarNotificacao = (e, id, tipo, local) => {
+  const marcarNotificacao = (e, id, tipo, local, name) => {
     e.preventDefault();
-    put(route('contacts.notification.marcar', [id, tipo, local]));
+    put(route('contacts.notification.marcar', [id, tipo, local, name]));
   }
   return (
     <div className="relative">
@@ -30,7 +30,7 @@ const { put, processing } = useForm({});
             <LoadingButton
              loading={processing}
              className={`ml-auto mr-auto btn-sucess block px-6 py-2 hover:bg-indigo-600 hover:text-white`}
-             onClick={(e) => marcarNotificacao(e, id, 1, local)}
+             onClick={(e) => marcarNotificacao(e, id, 1, local, name)}
            >
              Lida
            </LoadingButton>
@@ -38,7 +38,7 @@ const { put, processing } = useForm({});
             <LoadingButton
              loading={processing}
              className={`ml-auto mr-auto btn-danger block px-6 py-2 hover:bg-indigo-600 hover:text-white`}
-             onClick={(e) => marcarNotificacao(e, id, 0, local)}
+             onClick={(e) => marcarNotificacao(e, id, 0, local, name)}
            >
             Não lida
             </LoadingButton>
@@ -46,7 +46,7 @@ const { put, processing } = useForm({});
             <LoadingButton
              loading={processing}
              className={`ml-auto mr-auto btn-sucess block px-6 py-2 hover:bg-indigo-600 hover:text-white`}
-             onClick={(e) => marcarNotificacao(e, id, 2, local)}
+             onClick={(e) => marcarNotificacao(e, id, 2, local, name)}
            >
             Atendido
             </LoadingButton>
@@ -54,7 +54,7 @@ const { put, processing } = useForm({});
             <LoadingButton
              loading={processing}
              className={`ml-auto mr-auto btn-danger block px-6 py-2 hover:bg-indigo-600 hover:text-white`}
-             onClick={(e) => marcarNotificacao(e, id, 3, local)}
+             onClick={(e) => marcarNotificacao(e, id, 3, local, name)}
            >
             Não atendido
             </LoadingButton>

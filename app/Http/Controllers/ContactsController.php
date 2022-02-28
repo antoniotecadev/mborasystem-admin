@@ -187,29 +187,29 @@ class ContactsController extends Controller
         ]);
     }
 
-    function marcarNotificacao($id, $type, $local){
+    function marcarNotificacao($id, $type, $local, $name){
         if($type == "0"):
-            return $this->marcarLer($id, $type, $local);
+            return $this->marcarLer($id, $type, $local, $name);
         elseif($type == "1"):
-            return $this->marcarLer($id, $type, $local);
+            return $this->marcarLer($id, $type, $local, $name);
         elseif($type == "2"):
-            return $this->marcarEstado($id, '1', $local);
+            return $this->marcarEstado($id, '1', $local, $name);
         elseif($type == "3"):
-            return $this->marcarEstado($id, '0', $local);
+            return $this->marcarEstado($id, '0', $local, $name);
         else :
         endif;
     }
 
-    function marcarEstado($id, $type, $local){
+    function marcarEstado($id, $type, $local, $name){
         DB::table('contacts')
         ->where('contacts.id', Crypt::decryptString($id))
         ->update(['contacts.estado' => $type]);
-        return Redirect::route('contacts.notification', $local)->with('success', $type == '0' ? 'Marcado como não atendido' : 'Marcado como atendido');
+        return Redirect::route('contacts.notification', $local)->with('success', $type == '0' ? $name . ' marcado como não atendido 🔔' : $name . ' marcado como atendido 🔔');
     }
-    function marcarLer($id, $type, $local){
+    function marcarLer($id, $type, $local, $name){
         DB::table('contacts')
         ->where('contacts.id', Crypt::decryptString($id))
         ->update(['contacts.read_contact' => $type]);
-        return Redirect::route('contacts.notification', $local)->with('success', $type == '0' ? 'Marcado como não lido' : 'Marcado como lido');
+        return Redirect::route('contacts.notification', $local)->with('success', $type == '0' ? $name . ' marcado como não lido 🔔' : $name . ' marcado como lido 🔔');
     }
 }

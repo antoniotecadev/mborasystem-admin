@@ -41,7 +41,7 @@ Route::put('contacts/{contact}/restore')->name('contacts.restore')->uses('Contac
 Route::put('contacts/{id}/estado')->name('contacts.estado')->uses('ContactsController@estadoUpdate')->middleware('auth');
 Route::get('contacts/refresh')->name('contacts.refresh')->uses('ContactsController@refresh')->middleware('auth');
 Route::get('contacts/notifications/registo/{type}')->name('contacts.notification')->uses('ContactsController@indexContactNotification')->middleware('auth');
-Route::put('contacts/notifications/registo/{contact}/marcar/{type}/local/{local}')->name('contacts.notification.marcar')->uses('ContactsController@marcarNotificacao')->middleware('auth');
+Route::put('contacts/notifications/registo/{contact}/marcar/{type}/local/{local}/name/{name}')->name('contacts.notification.marcar')->uses('ContactsController@marcarNotificacao')->middleware('auth');
 
 // Pagamentos
 Route::get('pagamentos')->name('pagamentos')->uses('PagamentosController@index')->middleware('remember', 'auth');
