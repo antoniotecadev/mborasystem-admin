@@ -24,13 +24,13 @@ const Index = () => {
 
   return (
     <div>
-      <h1 className="mb-8 text-3xl font-bold">Notificações de registos ({data.length} - {quantidade}) - {tipo == '0' ? 'Não lidas' : tipo == '1' ? 'Lidas' : tipo == '2' ? 'Não atendido' : tipo == '3' ? 'Atendido' : 'Todas' }</h1>
+      <h1 className="mb-8 text-3xl font-bold">Notificações de registos ({data.length} - {quantidade}) - {tipo == '0' ? 'Não lidas' : tipo == '1' ? 'Lidas' : tipo == '3' ? 'Não atendido' : tipo == '2' ? 'Atendido' : 'Todas' }</h1>
       <div className="flex flex-wrap">
         <ButtonQueryNotification handleSubmit = {handleSubmit} processing = {processing} type= "4" name = "Todas" color = "btn-indigo"/>
         <ButtonQueryNotification handleSubmit = {handleSubmit} processing = {processing} type= "0" name = "Não lidas" color = 'btn-danger'/>
         <ButtonQueryNotification handleSubmit = {handleSubmit} processing = {processing} type= "1" name = "Lidas" color = 'btn-sucess'/>
-        <ButtonQueryNotification handleSubmit = {handleSubmit} processing = {processing} type= "2" name = "❌" color = 'btn-danger'/>
-        <ButtonQueryNotification handleSubmit = {handleSubmit} processing = {processing} type= "3" name = "✔" color = 'btn-sucess'/>
+        <ButtonQueryNotification handleSubmit = {handleSubmit} processing = {processing} type= "3" name = "❌" color = 'btn-danger'/>
+        <ButtonQueryNotification handleSubmit = {handleSubmit} processing = {processing} type= "2" name = "✔" color = 'btn-sucess'/>
       </div>
       <div className="overflow-x-auto bg-white rounded shadow">
         <table className="w-full whitespace-nowrap">

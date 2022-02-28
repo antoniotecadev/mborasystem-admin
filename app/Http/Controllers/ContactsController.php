@@ -146,9 +146,9 @@ class ContactsController extends Controller
         elseif($type == "1"):
             return $this->getNotificationLer($type);
         elseif($type == "2"):
-            return $this->getNotificationEstado('0');
-        elseif($type == "3"):
             return $this->getNotificationEstado('1');
+        elseif($type == "3"):
+            return $this->getNotificationEstado('0');
         else :
             return Inertia::render('Notifications/Index', [
                 'contacts' => new NotificationCollection(

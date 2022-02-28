@@ -25,15 +25,20 @@ const { put, processing } = useForm({});
         </div>
         <div className={notificationOpened ? '' : 'hidden'}>
           <div className="absolute top-0 right-0 left-auto z-20 py-2 mt-8 text-sm whitespace-nowrap bg-white rounded shadow-xl">
-            <p>Marcar como</p>
-            <p>___________</p>
-            <LoadingButton
-             loading={processing}
-             className={`ml-auto mr-auto btn-sucess block px-6 py-2 hover:bg-indigo-600 hover:text-white`}
-             onClick={(e) => marcarNotificacao(e, id, 1, local, name)}
-           >
-             Lida
-           </LoadingButton>
+            {local == '4' || local != '1' ?
+            <> 
+                <p>Marcar como</p>
+                <p>___________</p>
+                <LoadingButton
+                loading={processing}
+                className={`ml-auto mr-auto btn-sucess block px-6 py-2 hover:bg-indigo-600 hover:text-white`}
+                onClick={(e) => marcarNotificacao(e, id, 1, local, name)}
+            >
+                Lida
+            </LoadingButton>
+           </> : ''}
+           {local == '4' || local != '0' ?
+            <> 
             <p>___________</p>
             <LoadingButton
              loading={processing}
@@ -42,6 +47,9 @@ const { put, processing } = useForm({});
            >
             Não lida
             </LoadingButton>
+            </> : ''}
+            {local == '4' || local != '2' ?
+            <> 
             <p>___________</p>
             <LoadingButton
              loading={processing}
@@ -50,6 +58,9 @@ const { put, processing } = useForm({});
            >
             Atendido
             </LoadingButton>
+            </> : ''}
+            {local == '4' || local != '3' ?
+            <> 
             <p>___________</p>
             <LoadingButton
              loading={processing}
@@ -58,6 +69,7 @@ const { put, processing } = useForm({});
            >
             Não atendido
             </LoadingButton>
+            </> : ''}
           </div>
           <div
             onClick={() => {
