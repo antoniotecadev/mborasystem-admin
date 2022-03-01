@@ -13,7 +13,8 @@ const Edit = () => {
   const { equipa } = usePage().props;
   const { data, setData, errors, put, processing } = useForm({
     codigo: equipa.codigo || '',
-    estado: equipa.estado || ''
+    estado: equipa.estado || '',
+    created_at: equipa.created_at || ''
   });
 
   function handleSubmit(e) {
@@ -87,6 +88,13 @@ const Edit = () => {
                 <br/> {errors.estado && <div className="form-error">{errors.estado}</div>}
               </div>
             </div>
+          <TextInput
+              className="w-full pb-8 pr-6 lg:w-1/2"
+              label="Criada"
+              type="text"
+              value={data.created_at}
+              readOnly
+            />
           </div>
           <div className="flex items-center px-8 py-4 bg-gray-100 border-t border-gray-200">
             {!equipa.deleted_at && (

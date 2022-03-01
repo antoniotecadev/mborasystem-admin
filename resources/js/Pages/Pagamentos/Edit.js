@@ -19,7 +19,8 @@ const Edit = () => {
     preco: pagamento.preco || '',
     inicio: pagamento.inicio || '',
     fim: pagamento.fim || '',
-    contact_id: pagamento.contact_id
+    contact_id: pagamento.contact_id,
+    created_at: pagamento.created_at || ''
   });
 
   function handleSubmit(e) {
@@ -167,6 +168,13 @@ const Edit = () => {
               errors={errors.fim}
               value={data.fim}
               onChange={e => setData('fim', e.target.value)}
+            />
+            <TextInput
+              className="w-full pb-8 pr-6 lg:w-1/2"
+              label="Criado"
+              type="text"
+              value={data.created_at}
+              readOnly
             />
           </div>
           <div className="flex items-center px-8 py-4 bg-gray-100 border-t border-gray-200">

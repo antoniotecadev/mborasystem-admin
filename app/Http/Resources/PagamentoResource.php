@@ -22,6 +22,7 @@ class PagamentoResource extends JsonResource
             'preco' => $this->preco,
             'inicio' => $this->inicio,
             'fim' => $this->fim,
+            'created_at' => $this->created_at->format('Y-m-d H:m'),
             'deleted_at' => $this->deleted_at,
             'contact_id' => $this->contact_id
         ];

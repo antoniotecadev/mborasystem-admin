@@ -24,7 +24,8 @@ const Edit = () => {
     banco: agente.banco || '',
     estado: agente.estado || '',
     senha: agente.senha || '',
-    equipa_id: agente.equipa_id || ''
+    equipa_id: agente.equipa_id || '',
+    created_at: agente.created_at || ''
   });
 
   function handleSubmit(e) {
@@ -170,6 +171,13 @@ const Edit = () => {
               errors={errors.senha}
               value={data.senha}
               onChange={e => setData('senha', e.target.value)}
+            />
+            <TextInput
+              className="w-full pb-8 pr-6 lg:w-1/2"
+              label="Criado"
+              type="text"
+              value={data.created_at}
+              readOnly
             />
             <div className="w-full pb-4 pr-6 ml-2">
               <input type="checkbox" id='senha' onChange={e => setSenha(!senha)}/>

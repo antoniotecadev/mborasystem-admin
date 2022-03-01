@@ -26,7 +26,8 @@ const Edit = () => {
     estado: contact.estado || '',
     imei: contact.imei || '',
     read_contact: contact.read_contact || '',
-    codigo_equipa: contact.codigo_equipa || ''
+    codigo_equipa: contact.codigo_equipa || '',
+    created_at: contact.created_at || ''
   });
 
   function handleSubmit(e) {
@@ -226,6 +227,13 @@ const Edit = () => {
               errors={errors.codigo_equipa}
               value={data.codigo_equipa}
               onChange={e => setData('codigo_equipa', e.target.value)}
+              readOnly
+            />
+            <TextInput
+              className="w-full pb-8 pr-6 lg:w-1/2"
+              label="Criado"
+              type="text"
+              value={data.created_at}
               readOnly
             />
           </div>
