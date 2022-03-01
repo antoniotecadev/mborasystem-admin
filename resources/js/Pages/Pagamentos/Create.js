@@ -106,27 +106,27 @@ const Create = () => {
           <tbody>
             <tr key={0} className="hover:bg-gray-100 focus-within:bg-gray-100">
               <td className="border-t"><p className="flex items-center px-6 py-4 focus:text-indigo focus:outline-none font-bold">MENSAL</p></td>
-              <td className="border-t"><p className="flex items-center px-6 py-4 focus:text-indigo focus:outline-none">{currency(tipoPacote(0, 1))} kz</p></td>
-              <td className="border-t"><p className="flex items-center px-6 py-4 focus:text-indigo focus:outline-none">{currency(tipoPacote(1, 1))} kz</p></td>
-              <td className="border-t"><p className="flex items-center px-6 py-4 focus:text-indigo focus:outline-none">{currency(tipoPacote(2, 1))} kz</p></td>
+              <td className="border-t"><p className="flex items-center px-6 py-4 focus:text-indigo focus:outline-none">{currency(tipoPacote(0, 1))}</p></td>
+              <td className="border-t"><p className="flex items-center px-6 py-4 focus:text-indigo focus:outline-none">{currency(tipoPacote(1, 1))}</p></td>
+              <td className="border-t"><p className="flex items-center px-6 py-4 focus:text-indigo focus:outline-none">{currency(tipoPacote(2, 1))}</p></td>
             </tr>
             <tr key={1} className="hover:bg-gray-100 focus-within:bg-gray-100">
               <td className="border-t"><p className="flex items-center px-6 py-4 focus:text-indigo focus:outline-none font-bold">TRIMESTRAL</p></td>
-              <td className="border-t"><p className="flex items-center px-6 py-4 focus:text-indigo focus:outline-none">{currency(tipoPacote(0, 3))} kz</p></td>
-              <td className="border-t"><p className="flex items-center px-6 py-4 focus:text-indigo focus:outline-none">{currency(tipoPacote(1, 3))} kz</p></td>
-              <td className="border-t"><p className="flex items-center px-6 py-4 focus:text-indigo focus:outline-none">{currency(tipoPacote(2, 3))} kz</p></td>
+              <td className="border-t"><p className="flex items-center px-6 py-4 focus:text-indigo focus:outline-none">{currency(tipoPacote(0, 3))}</p></td>
+              <td className="border-t"><p className="flex items-center px-6 py-4 focus:text-indigo focus:outline-none">{currency(tipoPacote(1, 3))}</p></td>
+              <td className="border-t"><p className="flex items-center px-6 py-4 focus:text-indigo focus:outline-none">{currency(tipoPacote(2, 3))}</p></td>
             </tr>
             <tr key={2} className="hover:bg-gray-100 focus-within:bg-gray-100">
               <td className="border-t"><p className="flex items-center px-6 py-4 focus:text-indigo focus:outline-none font-bold">SEMESTRAL</p></td>
-              <td className="border-t"><p className="flex items-center px-6 py-4 focus:text-indigo focus:outline-none">{currency(tipoPacote(0, 6))} kz</p></td>
-              <td className="border-t"><p className="flex items-center px-6 py-4 focus:text-indigo focus:outline-none">{currency(tipoPacote(1, 6))} kz</p></td>
-              <td className="border-t"><p className="flex items-center px-6 py-4 focus:text-indigo focus:outline-none">{currency(tipoPacote(2, 6))} kz</p></td>
+              <td className="border-t"><p className="flex items-center px-6 py-4 focus:text-indigo focus:outline-none">{currency(tipoPacote(0, 6))}</p></td>
+              <td className="border-t"><p className="flex items-center px-6 py-4 focus:text-indigo focus:outline-none">{currency(tipoPacote(1, 6))}</p></td>
+              <td className="border-t"><p className="flex items-center px-6 py-4 focus:text-indigo focus:outline-none">{currency(tipoPacote(2, 6))}</p></td>
             </tr>
             <tr key={3} className="hover:bg-gray-100 focus-within:bg-gray-100">
               <td className="border-t"><p className="flex items-center px-6 py-4 focus:text-indigo focus:outline-none font-bold">ANUAL</p></td>
-              <td className="border-t"><p className="flex items-center px-6 py-4 focus:text-indigo focus:outline-none">{currency(tipoPacote(0, 12))} kz</p></td>
-              <td className="border-t"><p className="flex items-center px-6 py-4 focus:text-indigo focus:outline-none">{currency(tipoPacote(1, 12))} kz</p></td>
-              <td className="border-t"><p className="flex items-center px-6 py-4 focus:text-indigo focus:outline-none">{currency(tipoPacote(2, 12))} kz</p></td>
+              <td className="border-t"><p className="flex items-center px-6 py-4 focus:text-indigo focus:outline-none">{currency(tipoPacote(0, 12))}</p></td>
+              <td className="border-t"><p className="flex items-center px-6 py-4 focus:text-indigo focus:outline-none">{currency(tipoPacote(1, 12))}</p></td>
+              <td className="border-t"><p className="flex items-center px-6 py-4 focus:text-indigo focus:outline-none">{currency(tipoPacote(2, 12))}</p></td>
             </tr>
           </tbody>
         </table>
