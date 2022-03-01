@@ -28,8 +28,9 @@ class PagamentosController extends Controller
                     ->orderBy('id', 'desc')
                     ->filter(Request::only('search', 'trashed'))
                     ->paginate()
-                    ->appends(Request::all())
-            ),
+                    ->appends(Request::all()),
+                ),
+            'quantidade' => Pagamento::count(),
         ]);
     }
 

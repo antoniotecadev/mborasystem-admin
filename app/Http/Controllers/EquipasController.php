@@ -27,6 +27,7 @@ class EquipasController extends Controller
                     ->paginate()
                     ->appends(Request::all())
             ),
+            'quantidade' => Equipa::count(),
         ]);
     }
 

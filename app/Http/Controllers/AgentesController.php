@@ -30,6 +30,7 @@ class AgentesController extends Controller
                     ->paginate()
                     ->appends(Request::all())
             ),
+            'quantidade' => Agente::count(),
         ]);
     }
 

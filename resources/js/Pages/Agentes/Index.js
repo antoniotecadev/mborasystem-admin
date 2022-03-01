@@ -6,7 +6,7 @@ import Pagination from '@/Shared/Pagination';
 import SearchFilter from '@/Shared/SearchFilter';
 
 const Index = () => {
-  const { agentes } = usePage().props;
+  const { agentes, quantidade } = usePage().props;
   const {
     data,
     meta: { links }
@@ -14,7 +14,7 @@ const Index = () => {
 
   return (
     <div>
-      <h1 className="mb-8 text-3xl font-bold">Agentes ({data.length})</h1>
+      <h1 className="mb-8 text-3xl font-bold">Agentes ({data.length} - {quantidade})</h1>
       <div className="flex items-center justify-between mb-6">
         <SearchFilter />
         <InertiaLink

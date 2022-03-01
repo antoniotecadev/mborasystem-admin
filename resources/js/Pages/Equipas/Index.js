@@ -7,7 +7,7 @@ import SearchFilter from '@/Shared/SearchFilter';
 import LoadingButton from '@/Shared/LoadingButton';
 
 const Index = () => {
-  const { equipas } = usePage().props;
+  const { equipas, quantidade } = usePage().props;
   const { errors, put, processing } = useForm({});
   const {
     data,
@@ -21,7 +21,7 @@ const Index = () => {
 
   return (
     <div>
-      <h1 className="mb-8 text-3xl font-bold">Equipas ({data.length})</h1>
+      <h1 className="mb-8 text-3xl font-bold">Equipas ({data.length} - {quantidade})</h1>
       <div className="flex items-center justify-between mb-6">
         <SearchFilter />
         <InertiaLink
