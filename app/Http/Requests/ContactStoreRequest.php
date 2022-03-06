@@ -37,7 +37,7 @@ class ContactStoreRequest extends FormRequest
             'district' => ['required', 'max:20'],
             'street' => ['required', 'max:20'],
             'estado' => ['required', 'boolean'],
-            'imei' => ['required', 'size:14'],
+            'imei' => ['required', 'size:14', Rule::unique('contacts')],
             'codigo_equipa' => ['required', 'size:6']
         ];
     }
