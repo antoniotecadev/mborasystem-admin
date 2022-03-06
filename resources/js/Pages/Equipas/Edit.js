@@ -15,7 +15,7 @@ const Edit = () => {
   const { data, setData, errors, put, processing } = useForm({
     codigo: equipa.codigo || '',
     estado: equipa.estado || '',
-    password: equipa.password || '',
+    password: '',
     created_at: equipa.created_at || ''
   });
 
