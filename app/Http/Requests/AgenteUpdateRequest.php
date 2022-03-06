@@ -36,7 +36,6 @@ class AgenteUpdateRequest extends FormRequest
             'rua' => ['required', 'max:20'],
             'banco' => ['required', 'max:50'],
             'estado' => ['required', 'boolean'],
-            'senha' => ['required', 'min:8'],
             'equipa_id' => ['required', Rule::exists('equipas', 'id')->where(function ($query) {
                 $query->where('account_id', Auth::user()->account_id);
             })],

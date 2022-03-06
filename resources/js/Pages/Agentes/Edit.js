@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import Helmet from 'react-helmet';
 import { Inertia } from '@inertiajs/inertia';
 import { InertiaLink, usePage, useForm } from '@inertiajs/inertia-react';
@@ -10,7 +10,6 @@ import SelectInput from '@/Shared/SelectInput';
 import TrashedMessage from '@/Shared/TrashedMessage';
 
 const Edit = () => {
-  const [senha, setSenha] = useState(false);
   const { agente, equipas } = usePage().props;
   const { data, setData, errors, put, processing } = useForm({
     nome_completo: agente.nome_completo || '',
@@ -23,7 +22,6 @@ const Edit = () => {
     rua: agente.rua || '',
     banco: agente.banco || '',
     estado: agente.estado || '',
-    senha: agente.senha || '',
     equipa_id: agente.equipa_id || '',
     created_at: agente.created_at || ''
   });
@@ -53,10 +51,10 @@ const Edit = () => {
           href={route('agentes')}
           className="text-indigo-600 hover:text-indigo-700"
         >
-          Agente {agente.id}
+          Agentes
         </InertiaLink>
         <span className="mx-2 font-medium text-indigo-600">/</span>
-        {data.nome_completo}
+        {agente.id}/{data.nome_completo}
       </h1>
       {agente.deleted_at && (
         <TrashedMessage onRestore={restore}>
@@ -165,23 +163,11 @@ const Edit = () => {
             />
             <TextInput
               className="w-full pb-8 pr-6 lg:w-1/2"
-              label="Senha"
-              name="senha"
-              type={`${senha ? 'text' : 'password'}`}
-              errors={errors.senha}
-              value={data.senha}
-              onChange={e => setData('senha', e.target.value)}
-            />
-            <TextInput
-              className="w-full pb-8 pr-6 lg:w-1/2"
               label="Criado"
               type="text"
               value={data.created_at}
               readOnly
             />
-            <div className="w-full pb-4 pr-6 ml-2">
-              <input type="checkbox" id='senha' onChange={e => setSenha(!senha)}/>
-            </div>
             <div className="w-full pb-4 pr-6 ml-2">
                 <label className ="mr-1" htmlFor='activo' >Activo</label>
                 {data.estado == '1' ?

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { InertiaLink, useForm, usePage } from '@inertiajs/inertia-react';
 import Layout from '@/Shared/Layout';
 import LoadingButton from '@/Shared/LoadingButton';
@@ -6,7 +6,6 @@ import TextInput from '@/Shared/TextInput';
 import SelectInput from '@/Shared/SelectInput';
 
 const Create = () => {
-  const [senha, setSenha] = useState(false);
   const { equipas } = usePage().props;
   const { data, setData, errors, post, processing } = useForm({
     nome_completo: '',
@@ -19,7 +18,6 @@ const Create = () => {
     rua: '',
     banco: '',
     estado: '',
-    senha: '',
     equipa_id: ''
   });
 
@@ -139,18 +137,6 @@ const Create = () => {
               onChange={e => setData('banco', e.target.value)}
               placeholder="CONTA - IBAN"
             />
-            <TextInput
-              className="w-full pb-8 pr-6 lg:w-1/2"
-              label="Senha"
-              name="senha"
-              type={`${senha ? 'text' : 'password'}`}
-              errors={errors.senha}
-              value={data.senha}
-              onChange={e => setData('senha', e.target.value)}
-            />
-            <div className="w-full pb-4 pr-6 ml-2">
-              <input type="checkbox" id='senha' onChange={e => setSenha(!senha)}/>
-            </div>
             <div className="w-full pb-4 pr-6 ml-2">
                 <label className ="mr-1" htmlFor='activo' >Activo</label>
                 <input type="radio" id='activo' name='estado' value='1' onChange={e => setData('estado', e.target.value)}/>
