@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import Helmet from 'react-helmet';
 import { Inertia } from '@inertiajs/inertia';
 import { InertiaLink, usePage, useForm } from '@inertiajs/inertia-react';
@@ -10,10 +10,12 @@ import TrashedMessage from '@/Shared/TrashedMessage';
 import Icon from '@/Shared/Icon';
 
 const Edit = () => {
+  const [senha, setSenha] = useState(false);
   const { equipa } = usePage().props;
   const { data, setData, errors, put, processing } = useForm({
     codigo: equipa.codigo || '',
     estado: equipa.estado || '',
+    password: equipa.password || '',
     created_at: equipa.created_at || ''
   });
 
@@ -42,7 +44,7 @@ const Edit = () => {
           href={route('equipas')}
           className="text-indigo-600 hover:text-indigo-700"
         >
-          Equipa
+          Equipas
         </InertiaLink>
         <span className="mx-2 font-medium text-indigo-600">/</span>
         {data.codigo} /{' '}
@@ -73,7 +75,7 @@ const Edit = () => {
               readOnly
             />
             <div className="flex items-center justify-end mb-2">
-              <div className="w-full pb-4 pr-6 ml-6 mt-4">
+              <div className="w-full pb-4 pr-6 mt-4">
                 <label className ="mr-1" htmlFor='activo' >Activo</label>
                 {data.estado == '1' ?
                 <input type="radio" checked id='activo' name='estado' value='1' onChange={e => setData('estado', e.target.value)}/>
@@ -88,6 +90,16 @@ const Edit = () => {
                 <br/> {errors.estado && <div className="form-error">{errors.estado}</div>}
               </div>
             </div>
+            <TextInput
+              className="w-full pb-8 pr-6 lg:w-1/2"
+              label="Senha"
+              name="password"
+              type={`${senha ? 'text' : 'password'}`}
+              errors={errors.password}
+              value={data.password}
+              onChange={e => setData('password', e.target.value)}
+            />
+          <input type="checkbox" className="mb-6" id='password' onChange={e => setSenha(!senha)}/>
           <TextInput
               className="w-full pb-8 pr-6 lg:w-1/2"
               label="Criada"

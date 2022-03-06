@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import { Inertia } from '@inertiajs/inertia';
 import { InertiaLink, useForm, usePage } from '@inertiajs/inertia-react';
 import Layout from '@/Shared/Layout';
 import LoadingButton from '@/Shared/LoadingButton';

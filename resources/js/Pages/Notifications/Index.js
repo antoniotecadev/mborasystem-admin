@@ -1,7 +1,6 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import { InertiaLink, usePage, useForm } from '@inertiajs/inertia-react';
 import Layout from '@/Shared/Layout';
-import Icon from '@/Shared/Icon';
 import Pagination from '@/Shared/Pagination';
 import LoadingButton from '@/Shared/LoadingButton';
 import MenuMarcar from '@/Shared/MenuMarcar';
@@ -91,7 +90,7 @@ const ButtonQueryNotification = ({handleSubmit, processing, type, name, color}) 
            >
              {name}
            </LoadingButton>
-           </form> 
+           </form>
       </th>
   );
 }

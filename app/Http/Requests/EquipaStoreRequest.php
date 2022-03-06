@@ -27,7 +27,8 @@ class EquipaStoreRequest extends FormRequest
     {
         return [
             'codigo' => ['required', 'size:6'],
-            'estado' => ['required', 'boolean']
+            'estado' => ['required', 'boolean'],
+            'password' => ['required', 'min:8', 'max:15']
         ];
     }
 }

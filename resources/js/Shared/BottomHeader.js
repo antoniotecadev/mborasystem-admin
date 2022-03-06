@@ -1,9 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { InertiaLink, usePage } from '@inertiajs/inertia-react';
-import { Inertia } from '@inertiajs/inertia'
 import Icon from '@/Shared/Icon';
 import logo from '@/img/logotipo-yoga-original.png';
-import { borderRadius } from 'tailwindcss/defaultTheme';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
@@ -28,7 +26,7 @@ export default () => {
 
     };
   }, []);
-    
+
   return (
     <div className="flex items-center justify-between w-full p-4 text-sm bg-white border-b md:py-0 md:px-12 d:text-md">
       <div><img className="text-white fill-current" width="120" height="28" src={`./${logo}`} alt='sem foto'/></div>

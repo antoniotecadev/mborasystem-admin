@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import { InertiaLink, usePage, useForm } from '@inertiajs/inertia-react';
 import Layout from '@/Shared/Layout';
 import LoadingButton from '@/Shared/LoadingButton';
@@ -6,9 +6,11 @@ import TextInput from '@/Shared/TextInput';
 import Icon from '@/Shared/Icon';
 
 const Create = () => {
+  const [senha, setSenha] = useState(false);
   const { data, setData, errors, post, processing } = useForm({
     codigo: '',
-    estado: '0'
+    estado: '0',
+    password: ''
   });
 
   function handleSubmit(e) {
@@ -61,6 +63,18 @@ const Create = () => {
                 <input type="radio" checked id='desactivo' name='estado' value='0' onChange={e => setData('estado', e.target.value)}/>
                 <br/> {errors.estado && <div className="form-error">{errors.estado}</div>}
               </div>
+            </div>
+            <TextInput
+              className="w-full pb-8 pr-6 lg:w-1/2"
+              label="Senha"
+              name="password"
+              type={`${senha ? 'text' : 'password'}`}
+              errors={errors.password}
+              value={data.password}
+              onChange={e => setData('password', e.target.value)}
+            />
+            <div className="w-full pb-4 pr-6">
+              <input type="checkbox" id='password' onChange={e => setSenha(!senha)}/>
             </div>
           </div>
           <div className="flex items-center justify-end px-8 py-4 bg-gray-100 border-t border-gray-200">
