@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Support\Facades\Hash;
 
 class Equipa extends Model
 {
@@ -17,6 +18,13 @@ class Equipa extends Model
     public function getNameAttribute()
     {
         return $this->codigo;
+    }
+
+    public function setPasswordAttribute($password)
+    {
+        if(!$password) return;
+
+        $this->attributes['password'] = Hash::make($password);
     }
 
     public function scopeOrderByName($query)
