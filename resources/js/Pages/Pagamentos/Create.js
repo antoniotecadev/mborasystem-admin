@@ -20,7 +20,8 @@ const Create = () => {
     inicio: '',
     fim: '',
     nome: '',
-    contact_id: ''
+    contact_id: '',
+    pagamento: ''
   });
 
   function diasNoMes(mes, ano) {
@@ -228,7 +229,19 @@ const Create = () => {
               }
             />
           </div>
-          <div className="flex items-center justify-end px-8 py-4 bg-gray-100 border-t border-gray-200">
+          <div className="flex items-center justify-star px-8 py-4 bg-gray-100 border-t border-gray-200">
+          <SelectInput
+              className="w-full mt-2 pb-8 pr-6 lg:w-1/2"
+              label="Pagamento"
+              name="pagamento"
+              errors={errors.pagamento}
+              value={data.pagamento}
+              onChange={e => setData('pagamento', e.target.value)}
+            >
+              <option value=""></option>
+              <option value="0">NORMAL</option>
+              <option value="1">DE REGISTO</option>
+            </SelectInput>
             <LoadingButton
               loading={processing}
               type="submit"

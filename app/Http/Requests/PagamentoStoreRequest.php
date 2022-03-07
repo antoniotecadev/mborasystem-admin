@@ -31,6 +31,7 @@ class PagamentoStoreRequest extends FormRequest
             'preco' => ['required', 'integer'],
             'inicio' => ['required', 'date'],
             'fim' => ['required', 'date'],
+            'pagamento' => ['required'],
             'contact_id' => ['required', Rule::exists('contacts', 'id')->where(function ($query) {
                 $query->where('account_id', Auth::user()->account_id);
             })],

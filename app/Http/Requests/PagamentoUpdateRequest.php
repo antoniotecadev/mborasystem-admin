@@ -34,6 +34,7 @@ class PagamentoUpdateRequest extends FormRequest
             'preco' => ['required', 'integer'],
             'inicio' => ['required', 'date'],
             'fim' => ['required', 'date'],
+            'pagamento' => ['required']
         ];
     }
 }

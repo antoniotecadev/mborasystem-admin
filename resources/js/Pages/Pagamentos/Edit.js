@@ -19,6 +19,7 @@ const Edit = () => {
     preco: pagamento.preco || '',
     inicio: pagamento.inicio || '',
     fim: pagamento.fim || '',
+    pagamento: pagamento.pagamento || '',
     contact_id: pagamento.contact_id,
     created_at: pagamento.created_at || ''
   });
@@ -50,10 +51,10 @@ const Edit = () => {
           href={route('pagamentos')}
           className="text-indigo-600 hover:text-indigo-700"
         >
-          Pagamento {pagamento.id}
+          Pagamentos
         </InertiaLink>
         <span className="mx-2 font-medium text-indigo-600">/</span>
-        {data.inicio} - {data.fim}
+        {pagamento.id}/{data.inicio} - {data.fim}
       </h1>
       {pagamento.deleted_at && (
         <TrashedMessage onRestore={restore}>
@@ -169,6 +170,18 @@ const Edit = () => {
               value={data.fim}
               onChange={e => setData('fim', e.target.value)}
             />
+            <SelectInput
+              className="w-full pb-8 pr-6 lg:w-1/2"
+              label="Pagamento"
+              name="pagamento"
+              errors={errors.pagamento}
+              value={data.pagamento}
+              onChange={e => setData('pagamento', e.target.value)}
+            >
+              <option value=""></option>
+              <option value="0">NORMAL</option>
+              <option value="1">DE REGISTO</option>
+            </SelectInput>
             <TextInput
               className="w-full pb-8 pr-6 lg:w-1/2"
               label="Criado"
