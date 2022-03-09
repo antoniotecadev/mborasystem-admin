@@ -124,15 +124,25 @@ const Edit = () => {
               value={data.telefone_alternativo}
               onChange={e => setData('telefone_alternativo', e.target.value)}
             />
-            <TextInput
+            <SelectInput
               className="w-full pb-8 pr-6 lg:w-1/2"
               label="Município"
               name="municipio"
-              type="text"
               errors={errors.municipio}
               value={data.municipio}
               onChange={e => setData('municipio', e.target.value)}
-            />
+            >
+              <option value=""></option>
+              <option value="Luanda">LUANDA</option>
+              <option value="Belas">BELAS</option>
+              <option value="Cazenga">CAZENGA</option>
+              <option value="Cacuaco">CACUACO</option>
+              <option value="Viana">VIANA</option>
+              <option value="Icolo e Bengo">ICOLO E BENGO</option>
+              <option value="Quissama">QUISSAMA</option>
+              <option value="Talatona">TALATONA</option>
+              <option value="Quilamba Quiaxi">QUILAMBA QUIAXI</option>
+            </SelectInput>
             <TextInput
               className="w-full pb-8 pr-6 lg:w-1/2"
               label="Bairro"
