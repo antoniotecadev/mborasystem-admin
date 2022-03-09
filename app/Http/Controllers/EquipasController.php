@@ -7,6 +7,7 @@ use App\Http\Requests\EquipaUpdateRequest;
 use App\Http\Resources\EquipaCollection;
 use App\Http\Resources\equipaResource;
 use App\Models\Equipa;
+use App\Models\Contact;
 use Inertia\Inertia;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Request;
@@ -83,5 +84,34 @@ class EquipasController extends Controller
         $c->estado = $c->estado == '0' ? '1' : '0' ;
         $c->save();
         return Redirect::route('equipas')->with('success', 'Confirmado');
+    }
+
+    public function calcularLucroEquipa($id, $codigo, $inicio, $fim, $numeroagente){
+        $c = Contact::where('contacts.codigo_equipa', $codigo)
+        ->join('pagamentos', 'pagamentos.contact_id', '=', 'contacts.id')
+        ->whereBetween('contacts.created_at', [$inicio, $fim])
+        ->where('pagamentos.pagamento', '1')
+        ->orderBy('contacts.id', 'desc')
+        ->get(['contacts.id as idcontact', 'contacts.first_name', 'contacts.last_name', 'contacts.imei', 'contacts.read_contact', 'contacts.created_at as datacriacontact', 'pagamentos.pacote', 'pagamentos.preco', 'pagamentos.created_at as datacriapagamento']);
+
+        $r = 0;
+        $contact = [];
+        foreach($c as $p){
+            $r += $p->preco;
+            $contact[] = ["idcontact" => Crypt::encryptString($p->idcontact), "first_name" => $p->first_name, "last_name" => $p->last_name, "imei" => $p->imei, "read_contact" => $p->read_contact, "datacriacontact" => $p->datacriacontact, "pacote" => $p->pacote, "preco" => $p->preco, "datacriapagamento" => $p->datacriapagamento];
+        }
+
+        // return dd($contact);
+        return Inertia::render('Equipas/Edit', [
+            'equipa' => new EquipaResource(Equipa::withTrashed()->findOrFail($id)),
+            'parceiros' => $contact,
+            'valorcada' =>($r*(26/100)) / $numeroagente,
+            'valortotal' => ($r*(26/100)),
+            'valortotalbruto' => $r,
+            'iniciodata' => $inicio,
+            'fimdata' => $fim,
+            'numeroagente' => $numeroagente,
+            'quantidade' => count($c),
+        ]);
     }
 }
