@@ -3,12 +3,14 @@
 namespace App\Http\Controllers;
 
 use App\Models\Pagamento;
+use App\Models\Contact;
 use Inertia\Inertia;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Request;
 use App\Http\Resources\PagamentoCollection;
 use App\Http\Resources\PagamentoResource;
 use App\Http\Resources\UserContactCollection;
+use App\Http\Resources\ParceiroCollection;
 use App\Http\Requests\PagamentoStoreRequest;
 use App\Http\Requests\PagamentoUpdateRequest;
 use Illuminate\Support\Facades\Redirect;
@@ -37,11 +39,15 @@ class PagamentosController extends Controller
  public function create()
     {
         return Inertia::render('Pagamentos/Create', [
-            'contacts' => new UserContactCollection(
+            'filters' => Request::all('search', 'trashed'),
+            'parceiros' => new ParceiroCollection(
                 Auth::user()->account->contacts()
-                    ->orderBy('id')
-                    ->get()
+                    ->orderBy('id', 'desc')
+                    ->filter(Request::only('search', 'trashed'))
+                    ->paginate()
+                    ->appends(Request::all())
             ),
+            'quantidade' => Contact::count(),
         ]);
     }
 

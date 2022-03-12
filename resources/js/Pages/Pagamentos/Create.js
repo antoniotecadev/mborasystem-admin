@@ -4,6 +4,9 @@ import Layout from '@/Shared/Layout';
 import LoadingButton from '@/Shared/LoadingButton';
 import TextInput from '@/Shared/TextInput';
 import SelectInput from '@/Shared/SelectInput';
+import Pagination from '@/Shared/Pagination';
+import SearchFilter from '@/Shared/SearchFilter';
+import Icon from '@/Shared/Icon';
 import {
   getDataFimTrimestralSemestralAnual,
   tipoPacote,
@@ -11,8 +14,8 @@ import {
 } from '@/Util/utilitario';
 
 const Create = () => {
+  const [parceiro, setParceiro] = useState('');
   const [datafinal, setDataFinal] = useState();
-  const { contacts } = usePage().props;
   const { data, setData, errors, post, processing } = useForm({
     pacote: '',
     tipo_pagamento: '',
@@ -83,6 +86,12 @@ const Create = () => {
     Number(data.tipo_pagamento)
   );
 
+  function getParceiro (e, id, name, cantina, phone) {
+    e.preventDefault();
+    setData('contact_id', id);
+    setParceiro(name + ' - ' + cantina + ' - ' + phone);
+  }
+
   return (
     <div>
       <h1 className="mb-8 text-3xl font-bold">
@@ -133,24 +142,18 @@ const Create = () => {
         </table>
       </div>
       <br/>
+      <ListaParceiros getParceiro={getParceiro}/>
       <div className="max-w-3xl overflow-hidden bg-white rounded shadow">
         <form onSubmit={handleSubmit}>
           <div className="flex flex-wrap p-8 -mb-8 -mr-6">
-            <SelectInput
+          <TextInput
               className="w-full pb-8 pr-6 lg:w-1/2"
-              label="Parceiro"
-              name="contact_id"
+              label={"Parceiro:"}
+              type="text"
               errors={errors.contact_id}
-              value={data.contact_id}
-              onChange={e => setData('contact_id', e.target.value)}
-            >
-              <option value=""></option>
-              {contacts.map(({ id, first_name, last_name, cantina, phone }) => (
-                <option key={id} value={id}>
-                  {first_name} {last_name} - {cantina} - {phone}
-                </option>
-              ))}
-            </SelectInput>
+              value={parceiro}
+              readOnly
+            />
             <SelectInput
               className="w-full pb-8 pr-6 lg:w-1/2"
               label="Pacote"
@@ -255,6 +258,121 @@ const Create = () => {
     </div>
   );
 };
+
+const ListaParceiros = (props) => {
+
+  const { parceiros, quantidade } = usePage().props;
+  const {
+    data,
+    meta: { links }
+  } = parceiros;
+
+  return (
+    <>
+      <h1 className="mb-8 text-3xl font-bold">Parceiros ({data.length} - {quantidade})</h1>
+      <div className="flex items-center justify-between mb-6">
+        <SearchFilter />
+      </div>
+      <div className="overflow-x-auto bg-white rounded shadow">
+        <table className="w-full whitespace-nowrap">
+          <thead>
+            <tr className="font-bold text-left">
+              <th className="px-6 pt-5 pb-4">Nome</th>
+              <th className="px-6 pt-5 pb-4">Cantina</th>
+              <th className="px-6 pt-5 pb-4">Email</th>
+              <th className="px-6 pt-5 pb-4" colSpan="2">
+                Telefone
+              </th>
+              <th>Operação</th>
+            </tr>
+          </thead>
+          <tbody>
+            {data.map(
+              ({ id, idcrypt, name, cantina, email, phone, estado, read_contact, deleted_at }) => (
+                <tr
+                  key={id}
+                  className={`hover:bg-gray-100 focus-within:bg-yellow-100 ${
+                    estado == '0' ? 'bg-red-100' : 'bg-green-200'
+                  }`}
+                >
+                  <td className="border-t">
+                    <InertiaLink
+                      href={route('contacts.edit', [idcrypt, 1, read_contact])}
+                      className="flex items-center px-6 py-4 focus:text-indigo-700 focus:outline-none"
+                    >
+                      {name}
+                      {deleted_at && (
+                        <Icon
+                          name="trash"
+                          className="flex-shrink-0 w-3 h-3 ml-2 text-gray-400 fill-current"
+                        />
+                      )}
+                    </InertiaLink>
+                  </td>
+                  <td className="border-t">
+                    <InertiaLink
+                      tabIndex="1"
+                      className="flex items-center px-6 py-4 focus:text-indigo focus:outline-none"
+                      href={route('contacts.edit', [idcrypt, 1, read_contact])}
+                    >
+                      {cantina}
+                    </InertiaLink>
+                  </td>
+                  <td className="border-t">
+                    <InertiaLink
+                      tabIndex="-1"
+                      href={route('contacts.edit', [idcrypt, 1, read_contact])}
+                      className="flex items-center px-6 py-4 focus:text-indigo focus:outline-none"
+                    >
+                      {email}
+                    </InertiaLink>
+                  </td>
+                  <td className="border-t">
+                    <InertiaLink
+                      tabIndex="-1"
+                      href={route('contacts.edit', [idcrypt, 1, read_contact])}
+                      className="flex items-center px-6 py-4 focus:text-indigo focus:outline-none"
+                    >
+                      {phone}
+                    </InertiaLink>
+                  </td>
+                  <td className="w-px border-t">
+                    <InertiaLink
+                      tabIndex="-1"
+                      href={route('contacts.edit', [idcrypt, 1, read_contact])}
+                      className="flex items-center px-4 focus:outline-none"
+                    >
+                      <Icon
+                        name="cheveron-right"
+                        className="block w-6 h-6 text-gray-400 fill-current"
+                      />
+                    </InertiaLink>
+                  </td>
+                  <td>
+                      <LoadingButton
+                        onClick={ e => props.getParceiro(e, id, name, cantina, phone)}
+                        className={`ml-auto btn-danger`}
+                      >
+                        Seleccionar
+                      </LoadingButton>
+                  </td>
+                </tr>
+              )
+            )}
+            {data.length === 0 && (
+              <tr>
+                <td className="px-6 py-4 border-t" colSpan="4">
+                  Nenhum parceiro encontrado.
+                </td>
+              </tr>
+            )}
+          </tbody>
+        </table>
+      </div>
+      <Pagination links={links} />
+    </>
+  );
+}
 
 Create.layout = page => <Layout title="Efectuar pagamento" children={page} />;
 
