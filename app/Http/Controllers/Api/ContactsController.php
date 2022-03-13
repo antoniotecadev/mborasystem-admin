@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Contact;
+use App\Events\CreateContactEvent;
 use App\Http\Resources\ContactResource;
 use DateInterval;
 use DateTime;
@@ -89,6 +90,9 @@ class ContactsController extends Controller
             $c->imei = $request->imei;
 
             $c->save();
+
+            $contact = Contact::where('imei', $request->imei)->first();
+            CreateContactEvent::dispatch($contact);
 
             return ['insert' => 'ok'];
 
