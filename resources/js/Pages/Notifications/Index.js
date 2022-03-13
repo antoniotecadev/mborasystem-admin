@@ -7,7 +7,6 @@ import MenuMarcar from '@/Shared/MenuMarcar';
 
 var tipo = 4;
 const Index = () => {
-
   const { get, processing } = useForm({});
   const { contacts, quantidade } = usePage().props;
   const {

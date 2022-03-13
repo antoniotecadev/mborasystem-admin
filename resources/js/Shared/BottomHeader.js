@@ -21,7 +21,6 @@ export default () => {
       localStorage.setItem("notificacao_registo", (localStorage.getItem('notificacao_registo') ? (notsize + 1) : Number.parseInt(0 + 1)));
     });
 
-
     return () => {
 
     };
@@ -57,7 +56,6 @@ export default () => {
               </>
             </InertiaLink>
             <InertiaLink
-              href={route('users')}
               className="block px-6 py-2 hover:bg-indigo-600 hover:text-white"
               onClick={() => setMenuOpened(false)}
             >
