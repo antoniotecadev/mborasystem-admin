@@ -20,7 +20,7 @@ class EquipasController extends Controller
         ->get();
 
         if(empty($c['0'])) {
-            return [[ 'codigo' => '']];
+            return [[ 'codigo' => '', 'estado' => 0]];
         } else {
             return $c;
         }

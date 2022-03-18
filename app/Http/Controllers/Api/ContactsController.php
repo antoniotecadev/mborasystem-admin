@@ -71,9 +71,10 @@ class ContactsController extends Controller
 
     public function store(Request $request)
     {
-       try {
 
-            $c = new Contact();
+        $c = new Contact();
+
+        try {
 
             $c->account_id = $request->account_id;
             $c->codigo_equipa = $request->codigo_equipa;
@@ -91,10 +92,10 @@ class ContactsController extends Controller
 
             $c->save();
 
+            return ['insert' => 'ok'];
+
             $contact = Contact::where('imei', $request->imei)->first();
             CreateContactEvent::dispatch($contact);
-
-            return ['insert' => 'ok'];
 
        } catch (\Throwable $th) {
 
