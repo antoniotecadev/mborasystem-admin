@@ -45,9 +45,9 @@ class ContactsController extends Controller
             'fim' => '',
             'termina' => '1' ]];
         } else {
-            if($c['0']->fim <= date('Y-m-d') || $c['0']->estado == 0) {
+            if($c['0']->fim <= date('Y-m-d')) {
                 $termina = 1;
-            } else {
+            } elseif ($c['0']->estado == 0) {
                 $termina = 0;
             }
             return [[ 'first_name' => $c['0']->first_name,
