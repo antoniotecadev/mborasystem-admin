@@ -104,9 +104,14 @@ class ContactsController extends Controller
        }
     }
 
-    public function getBairros()
-    {
-    	return [['mr_bt' => 'Morro Bento']];
-    }
+    // public function getBairros($municipio)
+    // {
+    //     $bairros = [ 'luanda' => [
+    //         ['br' => 'Morro Bento'],
+    //         ['br' => 'Benfica']
+    //     ]
+    // ];
+    // 	return $bairros[$municipio];
+    // }
 
 }
