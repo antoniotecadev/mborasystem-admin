@@ -4,31 +4,74 @@ import Icon from '@/Shared/Icon';
 import logo from '@/img/logotipo-yoga-original.png';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { initializeApp } from "firebase/app";
+import { getDatabase, ref, onChildAdded, query, limitToLast } from "firebase/database";
+import { useLocalStorage } from 'react-use';
 
 export default () => {
   const { auth } = usePage().props;
   const [menuOpened, setMenuOpened] = useState(false);
   const [notificationOpened, setNotificationOpened] = useState(false);
 
+  const [value, setValue, remove] = useLocalStorage('imei');
+
+  const firebaseConfig = {
+    apiKey: "AIzaSyCRevSFiqHU5TfNNgGHc2bgAPi9MseAxaM",
+    authDomain: "mborasystem-admin.firebaseapp.com",
+    databaseURL: "https://mborasystem-admin-default-rtdb.firebaseio.com",
+    projectId: "mborasystem-admin",
+    storageBucket: "mborasystem-admin.appspot.com",
+    messagingSenderId: "1024278380960",
+    appId: "1:1024278380960:web:6ad069d4010a69662c24c5",
+    measurementId: "G-ZW05HBY5YG"
+  };
+
+
+
   useEffect(() => {
 
-    window.Echo.channel('contact')
-    .listen('CreateContactEvent', (e) => {
-      toast.success("Parceiro " + e.first_name + " " + e.last_name + " registado pela equipa YOGA " + e.codigo_equipa + ", IMEI: " + e.imei, {
-        toastId: e.id
-      });
-      const notsize = Number.parseInt(localStorage.getItem('notificacao_registo'));
-      localStorage.setItem("notificacao_registo", (localStorage.getItem('notificacao_registo') ? (notsize + 1) : Number.parseInt(0 + 1)));
+    // Initialize Firebase
+    const app = initializeApp(firebaseConfig);
+    // Get a reference to the database service
+    const database = getDatabase(app);
+
+    const cliente = query(ref(database, 'cliente'), limitToLast(1));
+
+    /* OUVIR EVENTOS DO REALTIME DATABASE */
+    onChildAdded(cliente, (snapshot) => {
+      const imei = snapshot.val().imei;
+      const nome = snapshot.val().nome;
+      const codigo_equipa = snapshot.val().codigoEquipa;
+
+      if (imei != value) {
+        toast.success("Parceiro " + nome + " registado pela equipa YOGA " + codigo_equipa + "\nIMEI: " + imei, {
+          toastId: imei
+        });
+        const notsize = Number.parseInt(localStorage.getItem('notificacao_registo'));
+        localStorage.setItem("notificacao_registo", (localStorage.getItem('notificacao_registo') ? (notsize + 1) : Number.parseInt(0 + 1)));
+        setValue(imei);
+      }
+
     });
 
-    return () => {
+    /* OUVIR EVENTOS DO LARAVEL WEBSOCKET */
+    window.Echo.channel('contact')
+      .listen('CreateContactEvent', (e) => {
+        toast.success("Parceiro " + e.first_name + " " + e.last_name + " registado pela equipa YOGA " + e.codigo_equipa + "\nIMEI: " + e.imei, {
+          toastId: e.id
+        });
+        const notsize = Number.parseInt(localStorage.getItem('notificacao_registo'));
+        localStorage.setItem("notificacao_registo", (localStorage.getItem('notificacao_registo') ? (notsize + 1) : Number.parseInt(0 + 1)));
+      });
 
+    return () => {
+      cliente.off();
     };
   }, []);
 
   return (
     <div className="flex items-center justify-between w-full p-4 text-sm bg-white border-b md:py-0 md:px-12 d:text-md">
-      <div><img className="text-white fill-current" width="120" height="28" src={`./${logo}`} alt='sem foto'/></div>
+      <div><img className="text-white fill-current" width="120" height="28" src={`./${logo}`} alt='sem foto' /></div>
       <div className="mt-1 mr-4 font-bold">{auth.user.account.name}</div>
       <ToastContainer />
       <div className="relative">
@@ -40,8 +83,8 @@ export default () => {
             className="w-5 h-5 text-gray-800 fill-current group-hover:text-indigo-600 focus:text-indigo-600"
             name="notificacao"
           />
-          <div className="absolute bg-indigo-100 text-white whitespace-nowrap group-hover:text-indigo-600 focus:text-indigo-600 mb-6" style={{backgroundColor: 'red', paddingRight: '5px', borderRadius: '10px'}}>
-            <span className="ml-1">{localStorage.getItem('notificacao_registo') && localStorage.getItem('notificacao_registo') }</span>
+          <div className="absolute bg-indigo-100 text-white whitespace-nowrap group-hover:text-indigo-600 focus:text-indigo-600 mb-6" style={{ backgroundColor: 'red', paddingRight: '5px', borderRadius: '10px' }}>
+            <span className="ml-1">{localStorage.getItem('notificacao_registo') && localStorage.getItem('notificacao_registo')}</span>
           </div>
         </div>
         <div className={notificationOpened ? '' : 'hidden'}>
@@ -52,7 +95,7 @@ export default () => {
               onClick={() => setMenuOpened(false)}
             >
               <>
-                Registo <span className="ml-1 absolute bg-indigo-100 text-white whitespace-nowrap group-hover:text-indigo-600 focus:text-indigo-600 mb-6" style={{backgroundColor: 'red', paddingRight: '5px', borderRadius: '10px'}}>{localStorage.getItem('notificacao') && localStorage.getItem('notificacao') }</span>
+                Registo <span className="ml-1 absolute bg-indigo-100 text-white whitespace-nowrap group-hover:text-indigo-600 focus:text-indigo-600 mb-6" style={{ backgroundColor: 'red', paddingRight: '5px', borderRadius: '10px' }}>{localStorage.getItem('notificacao') && localStorage.getItem('notificacao')}</span>
               </>
             </InertiaLink>
             <InertiaLink
