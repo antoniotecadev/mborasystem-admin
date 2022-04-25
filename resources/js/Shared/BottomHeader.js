@@ -10,10 +10,11 @@ import { useLocalStorage } from 'react-use';
 
 export default () => {
   const { auth } = usePage().props;
+  const [forceupdate, setForceUpdate] = useState(0)
   const [menuOpened, setMenuOpened] = useState(false);
   const [notificationOpened, setNotificationOpened] = useState(false);
 
-  const [value, setValue, remove] = useLocalStorage('imei');
+  const [value, setValue] = useLocalStorage('imei');
 
   const firebaseConfig = {
     apiKey: "AIzaSyCRevSFiqHU5TfNNgGHc2bgAPi9MseAxaM",
@@ -26,6 +27,10 @@ export default () => {
     measurementId: "G-ZW05HBY5YG"
   };
 
+  const zerarNotificacao = () => {
+    localStorage.setItem("notificacao_registo", Number.parseInt(0));
+    setForceUpdate(forceupdate + 1);
+  }
 
 
   useEffect(() => {
@@ -94,15 +99,13 @@ export default () => {
               className="block px-6 py-2 hover:bg-indigo-600 hover:text-white"
               onClick={() => setMenuOpened(false)}
             >
-              <>
-                Registo <span className="ml-1 absolute bg-indigo-100 text-white whitespace-nowrap group-hover:text-indigo-600 focus:text-indigo-600 mb-6" style={{ backgroundColor: 'red', paddingRight: '5px', borderRadius: '10px' }}>{localStorage.getItem('notificacao') && localStorage.getItem('notificacao')}</span>
-              </>
+              Registo <span className="ml-1 absolute bg-indigo-100 text-white whitespace-nowrap group-hover:text-indigo-600 focus:text-indigo-600 mb-6" style={{ backgroundColor: 'red', paddingRight: '5px', borderRadius: '10px' }}>{localStorage.getItem('notificacao') && localStorage.getItem('notificacao')}</span>
             </InertiaLink>
             <InertiaLink
               className="block px-6 py-2 hover:bg-indigo-600 hover:text-white"
-              onClick={() => setMenuOpened(false)}
+              onClick={() => zerarNotificacao()}
             >
-              Pagamento
+              Zerar
             </InertiaLink>
           </div>
           <div
