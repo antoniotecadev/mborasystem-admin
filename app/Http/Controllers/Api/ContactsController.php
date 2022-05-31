@@ -47,7 +47,7 @@ class ContactsController extends Controller
         } else {
             if($c['0']->fim <= date('Y-m-d')) {
                 $termina = 1;
-            } elseif ($c['0']->estado == 0) {
+            } else {
                 $termina = 0;
             }
             return [[ 'first_name' => $c['0']->first_name,
