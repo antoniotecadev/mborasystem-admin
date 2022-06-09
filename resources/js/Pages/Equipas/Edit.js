@@ -28,6 +28,10 @@ const Edit = () => {
     e.preventDefault();
     put(route('equipas.update', equipa.id));
   }
+  function handleSubmitPassword(e) {
+    e.preventDefault();
+    put(route('password.update', equipa.id));
+  }
 
   function destroy() {
     if (confirm('Você tem certeza que deseja eliminar esta equipa?')) {
@@ -43,9 +47,9 @@ const Edit = () => {
 
   function calcular(e) {
     e.preventDefault();
-    if(isUndefined(inicio)){
+    if (isUndefined(inicio)) {
       alert('Data de início não definada');
-    } else if (isUndefined(fim)){
+    } else if (isUndefined(fim)) {
       alert('Data de fim não definada');
     } else {
       Inertia.get(route('equipas.calcular', [equipa.id, equipa.codigo, inicio, fim, numeroAgente]));
@@ -67,9 +71,8 @@ const Edit = () => {
         <span className="mx-2 font-medium text-indigo-600">/</span>
         {data.codigo} /{' '}
         <span
-          className={`${
-            data.estado == '0' ? 'text-red-400' : 'text-green-400'
-          }`}
+          className={`${data.estado == '0' ? 'text-red-400' : 'text-green-400'
+            }`}
         >
           {data.estado == '0' ? 'Desactivo' : 'Activo'}
         </span>
@@ -144,21 +147,6 @@ const Edit = () => {
             </div>
             <TextInput
               className="w-full pb-8 pr-6 lg:w-1/2"
-              label="Senha"
-              name="password"
-              type={`${senha ? 'text' : 'password'}`}
-              errors={errors.password}
-              value={data.password}
-              onChange={e => setData('password', e.target.value)}
-            />
-            <input
-              type="checkbox"
-              className="mb-6"
-              id="password"
-              onChange={e => setSenha(!senha)}
-            />
-            <TextInput
-              className="w-full pb-8 pr-6 lg:w-1/2"
               label="Criada"
               type="text"
               value={data.created_at}
@@ -178,6 +166,40 @@ const Edit = () => {
             </LoadingButton>
           </div>
         </form>
+        <form onSubmit={handleSubmitPassword}>
+          <div className="flex flex-wrap p-8 -mb-8 -mr-6">
+            <TextInput
+              className="w-full pb-8 pr-6 lg:w-1/2"
+              label="Palavra passe"
+              name="password"
+              type={`${senha ? 'text' : 'password'}`}
+              errors={errors.password}
+              value={data.password}
+              onChange={e => setData('password', e.target.value)}
+            />
+            <div className="flex items-center justify-end mb-2">
+              <div className="w-full pb-4 pr-6 mt-4">
+                <label htmlFor="password" className="mr-4">
+                  {senha ? 'Ocultar' : 'Visualizar'}
+                </label>
+                <input
+                  type="checkbox"
+                  id="password"
+                  onChange={e => setSenha(!senha)}
+                />
+              </div>
+            </div>
+            <div className="flex items-center justify-end mb-2">
+              <LoadingButton
+                loading={processing}
+                type="submit"
+                className="ml-auto btn-indigo"
+              >
+                Alterar palavra passe
+              </LoadingButton>
+            </div>
+          </div>
+        </form>
       </div>
       <h2 className="mt-12 text-2xl font-bold">Agentes</h2>
       <div className="mt-6 overflow-x-auto bg-white rounded shadow">
@@ -195,9 +217,8 @@ const Edit = () => {
                 return (
                   <tr
                     key={id}
-                    className={`hover:bg-gray-100 focus-within:bg-gray-100 ${
-                      estado == '0' ? 'bg-red-100' : 'bg-green-200'
-                    }`}
+                    className={`hover:bg-gray-100 focus-within:bg-gray-100 ${estado == '0' ? 'bg-red-100' : 'bg-green-200'
+                      }`}
                   >
                     <td className="border-t">
                       <InertiaLink
@@ -371,7 +392,7 @@ const Edit = () => {
                         href={route('contacts.edit', [idcontact, 1, read_contact])}
                         className="flex items-center px-6 py-4 focus:text-indigo focus:outline-none"
                       >
-                        {first_name +" "+ last_name}
+                        {first_name + " " + last_name}
                       </InertiaLink>
                     </td>
                     <td className="border-t">

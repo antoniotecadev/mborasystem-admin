@@ -27,8 +27,7 @@ class EquipaUpdateRequest extends FormRequest
     {
         return [
             'codigo' => ['required', 'size:6', Rule::unique('equipas')->ignore($this->route('equipa')->id)],
-            'estado' => ['required', 'boolean'],
-            'password' => ['required', 'min:8', 'max:15']
+            'estado' => ['required', 'boolean']
         ];
     }
 }

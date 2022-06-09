@@ -59,8 +59,17 @@ class EquipasController extends Controller
         $equipa->update(
             $request->validated()
         );
-
         return Redirect::back()->with('success', 'Equipa actualizada.');
+    }
+
+    public function updatePassword(Equipa $equipa)
+    {
+        $equipa->update(
+            Request::validate([
+                'password' => ['required', 'min:8', 'max:15', 'alpha_num']
+            ])
+        );
+        return Redirect::back()->with('success', 'Palavra passe alterada.');
     }
 
     public function destroy($id)
