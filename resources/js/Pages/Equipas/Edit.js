@@ -16,7 +16,7 @@ const Edit = () => {
   const { equipa, parceiros, valorcada, valortotal, valortotalbruto, iniciodata, fimdata, numeroagente, quantidade } = usePage().props;
   const [inicio, setInicio] = useState(iniciodata);
   const [fim, setFim] = useState(fimdata);
-  const [numeroAgente, setNumeroAgente] = useState(3);
+  const [numeroAgente, setNumeroAgente] = useState(2);
   const { data, setData, errors, put, post, processing } = useForm({
     codigo: equipa.codigo || '',
     estado: equipa.estado || '',
