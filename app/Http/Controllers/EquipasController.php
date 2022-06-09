@@ -95,7 +95,7 @@ class EquipasController extends Controller
         return Redirect::route('equipas')->with('success', 'Confirmado');
     }
 
-    public function calcularLucroEquipa($id, $codigo, $inicio, $fim, $numeroagente){
+    public function calcularLucroEquipa($id, $codigo, $inicio, $fim, $numeroagente, $percentagemTaxa){
         $c = Contact::where('contacts.codigo_equipa', $codigo)
         ->join('pagamentos', 'pagamentos.contact_id', '=', 'contacts.id')
         ->whereBetween('contacts.created_at', [$inicio, $fim])
@@ -114,12 +114,13 @@ class EquipasController extends Controller
         return Inertia::render('Equipas/Edit', [
             'equipa' => new EquipaResource(Equipa::withTrashed()->findOrFail($id)),
             'parceiros' => $contact,
-            'valorcada' =>($r*(26/100)) / $numeroagente,
-            'valortotal' => ($r*(26/100)),
+            'valorcada' =>($r*($percentagemTaxa/100)) / $numeroagente,
+            'valortotal' => ($r*($percentagemTaxa/100)),
             'valortotalbruto' => $r,
             'iniciodata' => $inicio,
             'fimdata' => $fim,
             'numeroagente' => $numeroagente,
+            'percentagemtaxa' => $percentagemTaxa,
             'quantidade' => count($c),
         ]);
     }

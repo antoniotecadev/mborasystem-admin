@@ -13,10 +13,11 @@ import { isUndefined } from 'lodash';
 
 const Edit = () => {
   const [senha, setSenha] = useState(false);
-  const { equipa, parceiros, valorcada, valortotal, valortotalbruto, iniciodata, fimdata, numeroagente, quantidade } = usePage().props;
+  const { equipa, parceiros, valorcada, valortotal, valortotalbruto, iniciodata, fimdata, numeroagente, percentagemtaxa, quantidade } = usePage().props;
   const [inicio, setInicio] = useState(iniciodata);
   const [fim, setFim] = useState(fimdata);
   const [numeroAgente, setNumeroAgente] = useState(2);
+  const [percentagemTaxa, setPercentagemTaxa] = useState(30);
   const { data, setData, errors, put, post, processing } = useForm({
     codigo: equipa.codigo || '',
     estado: equipa.estado || '',
@@ -52,7 +53,7 @@ const Edit = () => {
     } else if (isUndefined(fim)) {
       alert('Data de fim não definada');
     } else {
-      Inertia.get(route('equipas.calcular', [equipa.id, equipa.codigo, inicio, fim, numeroAgente]));
+      Inertia.get(route('equipas.calcular', [equipa.id, equipa.codigo, inicio, fim, numeroAgente, percentagemTaxa]));
     }
   }
 
@@ -308,6 +309,16 @@ const Edit = () => {
               min={1}
               max={4}
             />
+            <TextInput
+              className="w-full pb-8 pr-6 lg:w-1/2"
+              label={"De: " + percentagemtaxa + " %"}
+              name="percentagem"
+              type="number"
+              value={percentagemTaxa}
+              onChange={e => setPercentagemTaxa(e.target.value)}
+              min={1}
+              max={100}
+            />
           </div>
           <div className="flex items-center justify-end px-8 py-4 bg-gray-100 border-t border-gray-200">
             <LoadingButton
@@ -338,7 +349,7 @@ const Edit = () => {
             >
               <td className="border-t">
                 <InertiaLink className="flex items-center px-6 py-4 focus:text-indigo focus:outline-none">
-                  26%
+                  {percentagemTaxa}%
                 </InertiaLink>
               </td>
               <td className="border-t">
