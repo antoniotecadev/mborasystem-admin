@@ -23,7 +23,7 @@ const Index = () => {
     <div>
       <h1 className="mb-8 text-3xl font-bold">Equipas ({data.length} - {quantidade})</h1>
       <div className="flex items-center justify-between mb-6">
-        <SearchFilter />
+        <SearchFilter placeHolder = "código yoga"/>
         <InertiaLink
           className="btn-indigo focus:outline-none"
           href={route('equipas.create')}

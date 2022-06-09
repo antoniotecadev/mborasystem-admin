@@ -37,7 +37,7 @@ const Index = () => {
     <div>
       <h1 className="mb-8 text-3xl font-bold">Pagamentos ({data.length} - {quantidade})</h1>
       <div className="flex items-center justify-between mb-6">
-        <SearchFilter />
+        <SearchFilter placeHolder = "data fim, nome, imei, cantina, nif/bi, telefone"/>
         <InertiaLink
           className="btn-indigo focus:outline-none"
           href={route('pagamentos.create')}

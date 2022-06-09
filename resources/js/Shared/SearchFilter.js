@@ -5,7 +5,7 @@ import { usePrevious } from 'react-use';
 import SelectInput from '@/Shared/SelectInput';
 import pickBy from 'lodash/pickBy';
 
-export default () => {
+export default ({ placeHolder }) => {
   const { filters } = usePage().props;
   const [opened, setOpened] = useState(false);
 
@@ -107,10 +107,9 @@ export default () => {
           autoComplete="off"
           type="text"
           name="search"
-          name="search"
           value={values.search}
           onChange={handleChange}
-          placeholder="Pesquisar…"
+          placeholder={placeHolder}
         />
       </div>
       <button

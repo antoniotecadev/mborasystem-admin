@@ -16,7 +16,7 @@ const Index = () => {
     <div>
       <h1 className="mb-8 text-3xl font-bold">Agentes ({data.length} - {quantidade})</h1>
       <div className="flex items-center justify-between mb-6">
-        <SearchFilter />
+        <SearchFilter placeHolder = "nome, bi, telefone, município, equipa"/>
         <InertiaLink
           className="btn-indigo focus:outline-none"
           href={route('agentes.create')}
