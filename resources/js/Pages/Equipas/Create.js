@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, { useState } from 'react';
 import { InertiaLink, usePage, useForm } from '@inertiajs/inertia-react';
 import Layout from '@/Shared/Layout';
 import LoadingButton from '@/Shared/LoadingButton';
@@ -54,27 +54,36 @@ const Create = () => {
                 onClick={gerarNumeroAleatorio}
                 className="btn-indigo"
               >
-                <Icon name='actualizar'/>
+                <Icon name='actualizar' />
               </LoadingButton>
               <div className="w-full pb-4 pr-6 ml-6 mt-4">
-                <label className ="mr-1" htmlFor='activo' >Activo</label>
-                <input type="radio" id='activo' name='estado' value='1' onChange={e => setData('estado', e.target.value)}/>
-                <label htmlFor='desactivo' className ="ml-4 mr-1">Desactivo</label>
-                <input type="radio" checked id='desactivo' name='estado' value='0' onChange={e => setData('estado', e.target.value)}/>
-                <br/> {errors.estado && <div className="form-error">{errors.estado}</div>}
+                <label className="mr-1" htmlFor='activo' >Activo</label>
+                <input type="radio" id='activo' name='estado' value='1' onChange={e => setData('estado', e.target.value)} />
+                <label htmlFor='desactivo' className="ml-4 mr-1">Desactivo</label>
+                <input type="radio" checked id='desactivo' name='estado' value='0' onChange={e => setData('estado', e.target.value)} />
+                <br /> {errors.estado && <div className="form-error">{errors.estado}</div>}
               </div>
             </div>
             <TextInput
               className="w-full pb-8 pr-6 lg:w-1/2"
-              label="Senha"
+              label="Palavra passe"
               name="password"
               type={`${senha ? 'text' : 'password'}`}
               errors={errors.password}
               value={data.password}
               onChange={e => setData('password', e.target.value)}
             />
-            <div className="w-full pb-4 pr-6">
-              <input type="checkbox" id='password' onChange={e => setSenha(!senha)}/>
+            <div className="flex items-center justify-end mb-2">
+              <div className="w-full pb-4 pr-6 mt-4">
+                <label htmlFor="password" className="mr-4">
+                  {senha ? 'Ocultar' : 'Visualizar'}
+                </label>
+                <input
+                  type="checkbox"
+                  id="password"
+                  onChange={e => setSenha(!senha)}
+                />
+              </div>
             </div>
           </div>
           <div className="flex items-center justify-end px-8 py-4 bg-gray-100 border-t border-gray-200">
