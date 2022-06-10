@@ -75,17 +75,19 @@ class AgentesController extends Controller
         return Redirect::back()->with('success', 'Agente actualizado(a) 😊');
     }
 
-    public function destroy(Agente $agente)
+    public function destroy(Agente $agente, $motivo)
     {
+        $agente->motivo_elimina = $motivo;
+        $agente->save();
         $agente->delete();
-
         return Redirect::back()->with('success', 'Agente eliminado(a).');
     }
 
     public function restore(Agente $agente)
     {
+        $agente->motivo_elimina = null;
         $agente->restore();
-
+        $agente->save();
         return Redirect::back()->with('success', 'Agente restaurado(a) 😊');
     }
 }

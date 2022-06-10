@@ -33,7 +33,14 @@ const Edit = () => {
 
   function destroy() {
     if (confirm('Você tem certeza que deseja eliminar este agente?')) {
-      Inertia.delete(route('agentes.destroy', agente.id));
+      var motivo = prompt('Qual é o motivo de sua eliminação?');
+      if (motivo) {
+        if (motivo.length > 150) {
+          alert('⚠ Só é permitido 150 caracteres');
+        } else {
+          Inertia.delete(route('agentes.destroy', [agente.id, motivo]));
+        }
+      }
     }
   }
 
@@ -64,13 +71,13 @@ const Edit = () => {
       </h1>
       {agente.deleted_at && (
         <TrashedMessage onRestore={restore}>
-          Este agente foi eliminado.
+          <p>Este agente foi eliminado.{' '}<DeleteButton onDelete={e => alert(agente.motivo_elimina)}>Motivo</DeleteButton></p>
         </TrashedMessage>
       )}
       <div className="max-w-3xl overflow-hidden bg-white rounded shadow">
         <form onSubmit={handleSubmit}>
           <div className="flex flex-wrap p-8 -mb-8 -mr-6">
-          <SelectInput
+            <SelectInput
               className="w-full pb-8 pr-6 lg:w-1/2"
               label="Equipa"
               name="equipa_id"
@@ -185,18 +192,18 @@ const Edit = () => {
               readOnly
             />
             <div className="w-full pb-4 pr-6 ml-2">
-                <label className ="mr-1" htmlFor='activo' >Activo</label>
-                {data.estado == '1' ?
-                <input type="radio" checked id='activo' name='estado' value='1' onChange={e => setData('estado', e.target.value)}/>
+              <label className="mr-1" htmlFor='activo' >Activo</label>
+              {data.estado == '1' ?
+                <input type="radio" checked id='activo' name='estado' value='1' onChange={e => setData('estado', e.target.value)} />
                 :
-                <input type="radio" id='activo' name='estado' value='1' onChange={e => setData('estado', e.target.value)}/>}
+                <input type="radio" id='activo' name='estado' value='1' onChange={e => setData('estado', e.target.value)} />}
 
-                <label htmlFor='desactivo' className ="ml-4 mr-1">Desactivo</label>
-                {data.estado == '1' ?
-                <input type="radio" id='desactivo' name='estado' value='0' onChange={e => setData('estado', e.target.value)}/>
+              <label htmlFor='desactivo' className="ml-4 mr-1">Desactivo</label>
+              {data.estado == '1' ?
+                <input type="radio" id='desactivo' name='estado' value='0' onChange={e => setData('estado', e.target.value)} />
                 :
-                <input type="radio" checked id='desactivo' name='estado' value='0' onChange={e => setData('estado', e.target.value)}/>}
-                <br/> {errors.estado && <div className="form-error">{errors.estado}</div>}
+                <input type="radio" checked id='desactivo' name='estado' value='0' onChange={e => setData('estado', e.target.value)} />}
+              <br /> {errors.estado && <div className="form-error">{errors.estado}</div>}
             </div>
           </div>
           <div className="flex items-center px-8 py-4 bg-gray-100 border-t border-gray-200">

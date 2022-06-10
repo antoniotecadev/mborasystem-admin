@@ -27,6 +27,7 @@ class agenteResource extends JsonResource
             'rua' => $this->rua,
             'banco' => $this->banco,
             'estado' => $this->estado,
+            'motivo_elimina' => $this->motivo_elimina,
             'created_at' => $this->created_at->format('Y-m-d H:m'),
             'deleted_at' => $this->deleted_at,
             'equipa_id' => $this->equipa_id

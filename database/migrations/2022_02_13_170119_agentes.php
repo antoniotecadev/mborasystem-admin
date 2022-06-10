@@ -28,6 +28,7 @@ class Agentes extends Migration
             $table->string('banco', 50);
             $table->enum('estado',['0', '1']);
             $table->string('photo_path', 100)->nullable();
+            $table->string('motivo_elimina', 150)->nullable();
             $table->timestamps();
             $table->softDeletes();
         });

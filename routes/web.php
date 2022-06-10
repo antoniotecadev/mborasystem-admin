@@ -70,7 +70,7 @@ Route::get('agentes/create')->name('agentes.create')->uses('AgentesController@cr
 Route::post('agentes')->name('agentes.store')->uses('AgentesController@store')->middleware('auth');
 Route::get('agentes/{agente}/edit')->name('agentes.edit')->uses('AgentesController@edit')->middleware('auth');
 Route::put('agentes/{agente}')->name('agentes.update')->uses('AgentesController@update')->middleware('auth');
-Route::delete('agentes/{agente}')->name('agentes.destroy')->uses('AgentesController@destroy')->middleware('auth');
+Route::delete('agentes/{agente}/motivo/{motivo}')->name('agentes.destroy')->uses('AgentesController@destroy')->middleware('auth');
 Route::put('agentes/{agente}/restore')->name('agentes.restore')->uses('AgentesController@restore')->middleware('auth');
 
 // Reports
