@@ -32,6 +32,7 @@ class ContactResource extends JsonResource
             'imei' => $this->imei,
             'read_contact' => $this->read_contact,
             'codigo_equipa' => $this->codigo_equipa,
+            'motivo_elimina' => $this->motivo_elimina,
             'created_at' => $this->created_at->format('Y-m-d H:m'),
             'deleted_at' => $this->deleted_at,
             'pagamentos' => $this->pagamentos()->orderBy('id', 'desc')->limit(10)->get()->map(function ($item) {return ['id' => Crypt::encryptString($item->id), 'pacote' => $item->pacote, 'inicio' => $item->inicio, 'fim' => $item->fim, 'deleted_at' => $item->deleted_at]; }),

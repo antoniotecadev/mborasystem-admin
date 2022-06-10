@@ -36,7 +36,7 @@ Route::get('contacts/create')->name('contacts.create')->uses('ContactsController
 Route::post('contacts')->name('contacts.store')->uses('ContactsController@store')->middleware('auth');
 Route::get('contacts/{contact}/edit/{type}/{read_contact}')->name('contacts.edit')->uses('ContactsController@edit')->middleware('auth');
 Route::put('contacts/{contact}')->name('contacts.update')->uses('ContactsController@update')->middleware('auth');
-Route::delete('contacts/{contact}')->name('contacts.destroy')->uses('ContactsController@destroy')->middleware('auth');
+Route::delete('contacts/{contact}/motivo/{motivo}')->name('contacts.destroy')->uses('ContactsController@destroy')->middleware('auth');
 Route::put('contacts/{contact}/restore')->name('contacts.restore')->uses('ContactsController@restore')->middleware('auth');
 Route::put('contacts/{id}/estado')->name('contacts.estado')->uses('ContactsController@estadoUpdate')->middleware('auth');
 Route::get('contacts/refresh')->name('contacts.refresh')->uses('ContactsController@refresh')->middleware('auth');

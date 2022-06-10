@@ -37,7 +37,14 @@ const Edit = () => {
 
   function destroy() {
     if (confirm('Você tem certeza que deseja eliminar este parceiro?')) {
-      Inertia.delete(route('contacts.destroy', contact.id));
+      var motivo = prompt('Qual é o motivo de sua eliminação?');
+      if (motivo) {
+        if (motivo.length > 150) {
+          alert('⚠ Só é permitido 150 caracteres');
+        } else {
+          Inertia.delete(route('contacts.destroy', [contact.id, motivo]));
+        }
+      }
     }
   }
 
@@ -69,7 +76,7 @@ const Edit = () => {
 
   var dataAmanha = yyyy + '-' + mm + '-' + dd;
 
-  if(contact.read_contact == '0'){
+  if (contact.read_contact == '0') {
     localStorage.setItem('notificacao_registo', '0');
   }
 
@@ -86,16 +93,15 @@ const Edit = () => {
         <span className="mx-2 font-medium text-indigo-600">/</span>
         {data.first_name} {data.last_name} /{' '}
         <span
-          className={`${
-            data.estado == '0' ? 'text-red-400' : 'text-green-400'
-          }`}
+          className={`${data.estado == '0' ? 'text-red-400' : 'text-green-400'
+            }`}
         >
           {data.estado == '0' ? 'Desactivo' : 'Activo'}
         </span>
       </h1>
       {contact.deleted_at && (
         <TrashedMessage onRestore={restore}>
-          Este parceiro foi eliminado.
+          <p>Este parceiro foi eliminado.{' '}<DeleteButton onDelete={e => alert(contact.motivo_elimina)}>Motivo</DeleteButton></p>
         </TrashedMessage>
       )}
       <div className="max-w-3xl overflow-hidden bg-white rounded shadow">
@@ -267,9 +273,8 @@ const Edit = () => {
                 return (
                   <tr
                     key={id}
-                    className={`hover:bg-gray-100 focus-within:bg-gray-100 ${
-                      Date.parse(fim) <= Date.parse(dataActual) ? 'bg-red-100' : Date.parse(fim) == Date.parse(dataAmanha)?'bg-yellow-400':'bg-green-200'
-                    }`}
+                    className={`hover:bg-gray-100 focus-within:bg-gray-100 ${Date.parse(fim) <= Date.parse(dataActual) ? 'bg-red-100' : Date.parse(fim) == Date.parse(dataAmanha) ? 'bg-yellow-400' : 'bg-green-200'
+                      }`}
                   >
                     <td className="border-t">
                       <InertiaLink

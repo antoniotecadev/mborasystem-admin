@@ -81,19 +81,20 @@ class ContactsController extends Controller
         return Redirect::back()->with('success', 'Parceiro actualizado.');
     }
 
-    public function destroy($id)
+    public function destroy($id, $motivo)
     {
         $contact = Contact::findOrFail($id);
-
+        $contact->motivo_elimina = $motivo;
+        $contact->save();
         $contact->delete();
-
         return Redirect::back()->with('success', 'Parceiro eliminado.');
     }
 
     public function restore(Contact $contact)
     {
+        $contact->motivo_elimina = null;
         $contact->restore();
-
+        $contact->save();
         return Redirect::back()->with('success', 'Parceiro restaurado.');
     }
 
