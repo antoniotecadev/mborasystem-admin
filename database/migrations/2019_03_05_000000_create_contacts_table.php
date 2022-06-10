@@ -25,6 +25,7 @@ class CreateContactsTable extends Migration
             $table->enum('estado',['0', '1']);
             $table->string('imei', 20)->index()->unique();
             $table->enum('read_contact',['0', '1', '2', '3']);
+            $table->string('motivo_elimina', 150)->nullable();
             $table->timestamps();
             $table->softDeletes();
         });
