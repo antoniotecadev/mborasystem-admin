@@ -49,7 +49,7 @@ Route::get('pagamentos/create')->name('pagamentos.create')->uses('PagamentosCont
 Route::post('pagamentos')->name('pagamentos.store')->uses('PagamentosController@store')->middleware('auth');
 Route::get('pagamentos/{pagamento}/edit')->name('pagamentos.edit')->uses('PagamentosController@edit')->middleware('auth');
 Route::put('pagamentos/{pagamento}')->name('pagamentos.update')->uses('PagamentosController@update')->middleware('auth');
-Route::delete('pagamentos/{pagamento}')->name('pagamentos.destroy')->uses('PagamentosController@destroy')->middleware('auth');
+Route::delete('pagamentos/{pagamento}/motivo/{motivo}')->name('pagamentos.destroy')->uses('PagamentosController@destroy')->middleware('auth');
 Route::put('pagamentos/{pagamento}/restore')->name('pagamentos.restore')->uses('PagamentosController@restore')->middleware('auth');
 
 // Equipas

@@ -112,17 +112,19 @@ class PagamentosController extends Controller
 
     }
 
-    public function destroy(Pagamento $pagamento)
+    public function destroy(Pagamento $pagamento, $motivo)
     {
+        $pagamento->motivo_elimina = $motivo;
+        $pagamento->save();
         $pagamento->delete();
-
         return Redirect::back()->with('success', 'Pagamento eliminado.');
     }
 
     public function restore(Pagamento $pagamento)
     {
+        $pagamento->motivo_elimina = null;
         $pagamento->restore();
-
+        $pagamento->save();
         return Redirect::back()->with('success', 'Pagamento restaurado.');
     }
 

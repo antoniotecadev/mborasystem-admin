@@ -23,6 +23,7 @@ class PagamentoResource extends JsonResource
             'inicio' => $this->inicio,
             'fim' => $this->fim,
             'pagamento' => $this->pagamento,
+            'motivo_elimina' => $this->motivo_elimina,
             'created_at' => $this->created_at->format('Y-m-d H:m'),
             'deleted_at' => $this->deleted_at,
             'contact_id' => $this->contact_id

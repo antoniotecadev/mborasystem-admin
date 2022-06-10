@@ -23,6 +23,7 @@ class Pagamentos extends Migration
             $table->date('inicio');
             $table->date('fim');
             $table->enum('pagamento', ['0', '1']);
+            $table->string('motivo_elimina', 150)->nullable();
             $table->timestamps();
             $table->softDeletes();
         });

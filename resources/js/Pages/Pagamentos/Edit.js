@@ -31,7 +31,14 @@ const Edit = () => {
 
   function destroy() {
     if (confirm('Você tem certeza que deseja eliminar este pagamento?')) {
-      Inertia.delete(route('pagamentos.destroy', pagamento.id));
+      var motivo = prompt('Qual é o motivo de sua eliminação?');
+      if (motivo) {
+        if (motivo.length > 150) {
+          alert('⚠ Só é permitido 150 caracteres');
+        } else {
+          Inertia.delete(route('pagamentos.destroy', [pagamento.id, motivo]));
+        }
+      }
     }
   }
 
@@ -58,7 +65,7 @@ const Edit = () => {
       </h1>
       {pagamento.deleted_at && (
         <TrashedMessage onRestore={restore}>
-          Este pagamento foi eliminado.
+          <p>Este pagamento foi eliminado.{' '}<DeleteButton onDelete={e => alert(pagamento.motivo_elimina)}>Motivo</DeleteButton></p>
         </TrashedMessage>
       )}
       <div className="overflow-x-auto bg-white rounded shadow">
@@ -99,18 +106,18 @@ const Edit = () => {
           </tbody>
         </table>
       </div>
-      <br/>
+      <br />
       <div className="max-w-3xl overflow-hidden bg-white rounded shadow">
         <form onSubmit={handleSubmit}>
           <div className="flex flex-wrap p-8 -mb-8 -mr-6">
-          <SelectInput
+            <SelectInput
               className="w-full pb-8 pr-6 lg:w-1/2"
               label="Parceiro"
               name="contact_id"
               errors={errors.contact_id}
               value={data.contact_id}
               onChange={e => setData('contact_id', e.target.value)}>
-             <option value=""></option>
+              <option value=""></option>
               {contacts.map(({ id, first_name, last_name, cantina, phone }) => (
                 <option key={id} value={id}>
                   {first_name} {last_name} - {cantina} - {phone}
@@ -143,7 +150,7 @@ const Edit = () => {
             </SelectInput>
             <SelectInput
               className="w-full pb-8 pr-6 lg:w-1/2"
-              label={"Preço: " + precopacote }
+              label={"Preço: " + precopacote}
               name="preco"
               errors={errors.preco}
               value={data.preco}
