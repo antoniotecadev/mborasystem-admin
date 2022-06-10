@@ -10,6 +10,7 @@ import TrashedMessage from '@/Shared/TrashedMessage';
 import Icon from '@/Shared/Icon';
 import { currency } from '@/Util/utilitario';
 import { isUndefined } from 'lodash';
+import { toast } from 'react-toastify';
 
 const Edit = () => {
   const [senha, setSenha] = useState(false);
@@ -49,9 +50,13 @@ const Edit = () => {
   function calcular(e) {
     e.preventDefault();
     if (isUndefined(inicio)) {
-      alert('Data de início não definada');
+      toast.warning('Data de início não definada', {
+        toastId: 0
+      });
     } else if (isUndefined(fim)) {
-      alert('Data de fim não definada');
+      toast.warning('Data de fim não definada', {
+        toastId: 1
+      });
     } else {
       Inertia.get(route('equipas.calcular', [equipa.id, equipa.codigo, inicio, fim, numeroAgente, percentagemTaxa]));
     }
