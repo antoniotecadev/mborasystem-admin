@@ -54,7 +54,13 @@ const Edit = () => {
           Agentes
         </InertiaLink>
         <span className="mx-2 font-medium text-indigo-600">/</span>
-        {data.nome_completo}
+        {data.nome_completo} /{' '}
+        <span
+          className={`${data.estado == '0' ? 'text-red-400' : 'text-green-400'
+            }`}
+        >
+          {data.estado == '0' ? 'Desactivo' : 'Activo'}
+        </span>
       </h1>
       {agente.deleted_at && (
         <TrashedMessage onRestore={restore}>
