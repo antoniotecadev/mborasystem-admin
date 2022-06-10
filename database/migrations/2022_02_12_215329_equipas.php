@@ -19,6 +19,7 @@ class Equipas extends Migration
             $table->integer('codigo')->index()->unique();
             $table->enum('estado',['0', '1']);
             $table->string('password', 15);
+            $table->string('motivo_elimina', 150)->nullable();
             $table->timestamps();
             $table->softDeletes();
         });

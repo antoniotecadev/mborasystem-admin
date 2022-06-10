@@ -58,7 +58,7 @@ Route::get('equipas/create')->name('equipas.create')->uses('EquipasController@cr
 Route::post('equipas')->name('equipas.store')->uses('EquipasController@store')->middleware('auth');
 Route::get('equipas/{equipa}/edit')->name('equipas.edit')->uses('EquipasController@edit')->middleware('auth');
 Route::put('equipas/{equipa}')->name('equipas.update')->uses('EquipasController@update')->middleware('auth');
-Route::delete('equipas/{equipa}')->name('equipas.destroy')->uses('EquipasController@destroy')->middleware('auth');
+Route::delete('equipas/{equipa}/motivo/{motivo}')->name('equipas.destroy')->uses('EquipasController@destroy')->middleware('auth');
 Route::put('equipas/{equipa}/restore')->name('equipas.restore')->uses('EquipasController@restore')->middleware('auth');
 Route::put('equipas/{id}/estado')->name('equipas.estado')->uses('EquipasController@estadoUpdate')->middleware('auth');
 Route::get('equipas/{equipa}/editar/{codigo}/codigo/{inicio}/inicio/{fim}/fim/{numero}/agente/{percentagem}')->name('equipas.calcular')->uses('EquipasController@calcularLucroEquipa')->middleware('auth');

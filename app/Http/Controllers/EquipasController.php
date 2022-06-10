@@ -72,19 +72,20 @@ class EquipasController extends Controller
         return Redirect::back()->with('success', 'Palavra passe alterada.');
     }
 
-    public function destroy($id)
+    public function destroy($id, $motivo)
     {
         $equipa = Equipa::findOrFail($id);
-
+        $equipa->motivo_elimina = $motivo;
+        $equipa->save();
         $equipa->delete();
-
         return Redirect::back()->with('success', 'Equipa eliminada.');
     }
 
     public function restore(Equipa $equipa)
     {
+        $equipa->motivo_elimina = null;
         $equipa->restore();
-
+        $equipa->save();
         return Redirect::back()->with('success', 'Equipa restaurada.');
     }
 

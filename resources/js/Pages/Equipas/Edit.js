@@ -37,7 +37,14 @@ const Edit = () => {
 
   function destroy() {
     if (confirm('Você tem certeza que deseja eliminar esta equipa?')) {
-      Inertia.delete(route('equipas.destroy', equipa.id));
+      var motivo = prompt('Qual é o motivo de sua eliminação?');
+      if (motivo) {
+        if (motivo.length > 150) {
+          alert('⚠ Só é permitido 150 caracteres');
+        } else {
+          Inertia.delete(route('equipas.destroy', [equipa.id, motivo]));
+        }
+      }
     }
   }
 
@@ -84,7 +91,7 @@ const Edit = () => {
       </h1>
       {equipa.deleted_at && (
         <TrashedMessage onRestore={restore}>
-          Esta equipa foi eliminada.
+          <p>Esta equipa foi eliminada.{' '}<DeleteButton onDelete={e => alert(equipa.motivo_elimina)}>Motivo</DeleteButton></p>
         </TrashedMessage>
       )}
       <div className="max-w-3xl overflow-hidden bg-white rounded shadow">
