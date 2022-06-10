@@ -75,7 +75,6 @@ const Edit = () => {
           Equipas
         </InertiaLink>
         <span className="mx-2 font-medium text-indigo-600">/</span>
-        {data.codigo} /{' '}
         <span
           className={`${data.estado == '0' ? 'text-red-400' : 'text-green-400'
             }`}

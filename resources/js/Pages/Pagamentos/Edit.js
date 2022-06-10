@@ -54,7 +54,7 @@ const Edit = () => {
           Pagamentos
         </InertiaLink>
         <span className="mx-2 font-medium text-indigo-600">/</span>
-        {pagamento.id}/{data.inicio} - {data.fim}
+        {data.inicio} - {data.fim}
       </h1>
       {pagamento.deleted_at && (
         <TrashedMessage onRestore={restore}>

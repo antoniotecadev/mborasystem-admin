@@ -54,7 +54,7 @@ const Edit = () => {
           Agentes
         </InertiaLink>
         <span className="mx-2 font-medium text-indigo-600">/</span>
-        {agente.id}/{data.nome_completo}
+        {data.nome_completo}
       </h1>
       {agente.deleted_at && (
         <TrashedMessage onRestore={restore}>
