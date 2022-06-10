@@ -279,13 +279,13 @@ const Edit = () => {
           </tbody>
         </table>
       </div>
-      <h2 className="mt-12 text-2xl font-bold">Lucro ({iniciodata + ' - ' + fimdata})</h2>
+      <h2 className="mt-12 text-2xl font-bold">Lucro ({iniciodata == undefined ? "" : iniciodata + ' - ' + fimdata == undefined ? "" : fimdata})</h2>
       <div className="mt-6 max-w-3xl overflow-hidden bg-white rounded shadow">
         <form onSubmit={calcular}>
           <div className="flex flex-wrap p-8 -mb-8 -mr-6">
             <TextInput
               className="w-full pb-8 pr-6 lg:w-1/2"
-              label={"De: " + iniciodata}
+              label={iniciodata == undefined ? "De" : "De: " + iniciodata}
               name="inicio"
               type="date"
               value={inicio}
@@ -293,7 +293,7 @@ const Edit = () => {
             />
             <TextInput
               className="w-full pb-8 pr-6 lg:w-1/2"
-              label={"Até: " + fimdata}
+              label={fimdata == undefined ? "Até" : "Até: " + fimdata}
               name="fim"
               type="date"
               value={fim}
@@ -301,7 +301,7 @@ const Edit = () => {
             />
             <TextInput
               className="w-full pb-8 pr-6 lg:w-1/2"
-              label={"Para: " + numeroagente}
+              label={numeroagente == undefined ? "Para" : "Para: " + numeroagente + "Agente(s)"}
               name="numero_agente"
               type="number"
               value={numeroAgente}
@@ -311,7 +311,7 @@ const Edit = () => {
             />
             <TextInput
               className="w-full pb-8 pr-6 lg:w-1/2"
-              label={"De: " + percentagemtaxa + " %"}
+              label={percentagemtaxa == undefined ? "Percentagem" : "Percentagem: " + percentagemtaxa + " %"}
               name="percentagem"
               type="number"
               value={percentagemTaxa}

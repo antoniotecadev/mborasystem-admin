@@ -4,27 +4,27 @@ function getDaysInMonth(month, year) {
 
 function formatDate(date) {
   var d = new Date(date),
-      month = '' + (d.getMonth() + 1),
-      day = '' + d.getDate(),
-      year = d.getFullYear();
+    month = '' + (d.getMonth() + 1),
+    day = '' + d.getDate(),
+    year = d.getFullYear();
 
   if (month.length < 2)
-      month = '0' + month;
+    month = '0' + month;
   if (day.length < 2)
-      day = '0' + day;
+    day = '0' + day;
 
   return [year, month, day].join('-');
 }
 
-export function getDataFimTrimestralSemestralAnual(dataInicio, monthNumber){
+export function getDataFimTrimestralSemestralAnual(dataInicio, monthNumber) {
   var dateStarted = new Date(Date.parse(dataInicio));
   var dateEnded = dateStarted.getTime();
   var termMonths = monthNumber // Pure Month Count
 
-  for(var monthCount = dateStarted.getMonth() + 1; monthCount < dateStarted.getMonth() + (termMonths + 1); monthCount++) {
-    dateEnded += (24*3600000) * getDaysInMonth(monthCount, dateStarted.getFullYear());
+  for (var monthCount = dateStarted.getMonth() + 1; monthCount < dateStarted.getMonth() + (termMonths + 1); monthCount++) {
+    dateEnded += (24 * 3600000) * getDaysInMonth(monthCount, dateStarted.getFullYear());
   }
-  return formatDate(dateEnded);
+  return formatDate(dateEnded) == "NaN-NaN-NaN" ? "" : formatDate(dateEnded);
 }
 
 export function tipoPacote(pacote, tipo) {
@@ -51,6 +51,6 @@ export function tipoPacote(pacote, tipo) {
   return tipo_pacote[pacote][tipo];
 }
 
-export const currency = function(number){
-    return new Intl.NumberFormat('pt-AO', {style: 'currency',currency: 'AOA', minimumFractionDigits: 2}).format(number);
+export const currency = function (number) {
+  return new Intl.NumberFormat('pt-AO', { style: 'currency', currency: 'AOA', minimumFractionDigits: 2 }).format(number);
 };

@@ -86,7 +86,7 @@ const Create = () => {
     Number(data.tipo_pagamento)
   );
 
-  function getParceiro (e, id, name, cantina, phone) {
+  function getParceiro(e, id, name, cantina, phone) {
     e.preventDefault();
     setData('contact_id', id);
     setParceiro(name + ' - ' + cantina + ' - ' + phone);
@@ -141,12 +141,12 @@ const Create = () => {
           </tbody>
         </table>
       </div>
-      <br/>
-      <ListaParceiros getParceiro={getParceiro}/>
+      <br />
+      <ListaParceiros getParceiro={getParceiro} />
       <div className="max-w-3xl overflow-hidden bg-white rounded shadow">
         <form onSubmit={handleSubmit}>
           <div className="flex flex-wrap p-8 -mb-8 -mr-6">
-          <TextInput
+            <TextInput
               className="w-full pb-8 pr-6 lg:w-1/2"
               label={"Parceiro:"}
               type="text"
@@ -183,7 +183,7 @@ const Create = () => {
             </SelectInput>
             <SelectInput
               className="w-full pb-8 pr-6 lg:w-1/2"
-              label={'Preço: ' + precopacote}
+              label={precopacote == undefined ? "Preço" : 'Preço: ' + precopacote}
               name="preco"
               errors={errors.preco}
               value={data.preco}
@@ -208,10 +208,10 @@ const Create = () => {
                 data.tipo_pagamento == '1'
                   ? 'Fim: ' + datafinal
                   : 'Fim: ' +
-                    getDataFimTrimestralSemestralAnual(
-                      data.inicio,
-                      Number(data.tipo_pagamento)
-                    )
+                  getDataFimTrimestralSemestralAnual(
+                    data.inicio,
+                    Number(data.tipo_pagamento)
+                  )
               }
               name="fim"
               type="date"
@@ -222,10 +222,10 @@ const Create = () => {
                   'fim',
                   e.target.value == datafinal ||
                     e.target.value ==
-                      getDataFimTrimestralSemestralAnual(
-                        data.inicio,
-                        Number(data.tipo_pagamento)
-                      )
+                    getDataFimTrimestralSemestralAnual(
+                      data.inicio,
+                      Number(data.tipo_pagamento)
+                    )
                     ? e.target.value
                     : ''
                 )
@@ -233,7 +233,7 @@ const Create = () => {
             />
           </div>
           <div className="flex items-center justify-star px-8 py-4 bg-gray-100 border-t border-gray-200">
-          <SelectInput
+            <SelectInput
               className="w-full mt-2 pb-8 pr-6 lg:w-1/2"
               label="Pagamento"
               name="pagamento"
@@ -291,9 +291,8 @@ const ListaParceiros = (props) => {
               ({ id, idcrypt, name, cantina, email, phone, estado, read_contact, deleted_at }) => (
                 <tr
                   key={id}
-                  className={`hover:bg-gray-100 focus-within:bg-yellow-100 ${
-                    estado == '0' ? 'bg-red-100' : 'bg-green-200'
-                  }`}
+                  className={`hover:bg-gray-100 focus-within:bg-yellow-100 ${estado == '0' ? 'bg-red-100' : 'bg-green-200'
+                    }`}
                 >
                   <td className="border-t">
                     <InertiaLink
@@ -349,12 +348,12 @@ const ListaParceiros = (props) => {
                     </InertiaLink>
                   </td>
                   <td>
-                      <LoadingButton
-                        onClick={ e => props.getParceiro(e, id, name, cantina, phone)}
-                        className={`ml-auto btn-danger`}
-                      >
-                        Seleccionar
-                      </LoadingButton>
+                    <LoadingButton
+                      onClick={e => props.getParceiro(e, id, name, cantina, phone)}
+                      className={`ml-auto btn-danger`}
+                    >
+                      Seleccionar
+                    </LoadingButton>
                   </td>
                 </tr>
               )
