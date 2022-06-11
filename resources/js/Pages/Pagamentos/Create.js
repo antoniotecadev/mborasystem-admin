@@ -183,14 +183,14 @@ const Create = () => {
             </SelectInput>
             <SelectInput
               className="w-full pb-8 pr-6 lg:w-1/2"
-              label={precopacote == undefined ? "Preço" : 'Preço: ' + precopacote}
+              label={precopacote == undefined ? "Preço" : 'Preço: ' + currency(precopacote)}
               name="preco"
               errors={errors.preco}
               value={data.preco}
               onChange={e => setData('preco', e.target.value)}
             >
               <option>Seleccionar preço</option>
-              <option value={precopacote}>{precopacote}</option>
+              <option value={precopacote}>{isNaN(precopacote) ? currency(0) : currency(precopacote)}</option>
             </SelectInput>
             <TextInput
               className="w-full pb-8 pr-6 lg:w-1/2"

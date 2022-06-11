@@ -152,7 +152,7 @@ class PagamentosController extends Controller
             '1'=> 12000,
             '3'=> 36000,
             '6'=> 72000,
-            '12'=> 100000
+            '12'=> 144000
           ]
         ];
         return $tipo_pacote[$pacote][$tipo];

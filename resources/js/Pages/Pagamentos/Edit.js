@@ -150,14 +150,14 @@ const Edit = () => {
             </SelectInput>
             <SelectInput
               className="w-full pb-8 pr-6 lg:w-1/2"
-              label={"Preço: " + precopacote}
+              label={"Preço: " + currency(precopacote)}
               name="preco"
               errors={errors.preco}
               value={data.preco}
               onChange={e => setData('preco', e.target.value)}
             >
               <option value="">Seleccionar preço</option>
-              <option value={precopacote}>{precopacote}</option>
+              <option value={precopacote}>{currency(precopacote)}</option>
             </SelectInput>
             <TextInput
               className="w-full pb-8 pr-6 lg:w-1/2"
