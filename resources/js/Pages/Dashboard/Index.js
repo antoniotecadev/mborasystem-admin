@@ -8,7 +8,7 @@ const data = [
   { name: 'Group B', value: 300 },
 ];
 
-const COLORS = ['#00C49F', '#0088FE'];
+const COLORS = ['#00C49F', '#ed5c5c'];
 
 const RADIAN = Math.PI / 180;
 const renderCustomizedLabel = ({ cx, cy, midAngle, innerRadius, outerRadius, percent, index }) => {
@@ -28,9 +28,9 @@ const Dashboard = () => {
     <div>
       <h1 className="mb-4 text-3xl font-bold">Dashboard</h1>
       <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 gap-2">
-        <CardHeader grafico={<GraficoQuantidadeParceiro />} />
-        <CardHeader grafico={<GraficoQuantidadeParceiro />} />
-        <CardHeader grafico={<GraficoQuantidadeParceiro />} />
+        <CardHeader grafico={<GraficoQuantidadeParceiro />} referente="PARCEIROS" quantidade="200.000" activos="150.000" desactivos="50.000" />
+        <CardHeader grafico={<GraficoQuantidadeParceiro />} referente="EQUIPAS" quantidade="100" activos="40" desactivos="60"/>
+        <CardHeader grafico={<GraficoQuantidadeParceiro />} referente="PAGAMENTOS" quantidade=" 130" activos="60" desactivos="70"/>
       </div>
       <p className="mb-12 leading-normal">
         Hey there! Welcome to Ping CRM, a demo app designed to help illustrate
@@ -68,22 +68,22 @@ Dashboard.layout = page => <Layout title="Dashboard" children={page} />;
 
 export default Dashboard;
 
-const CardHeader = ({ grafico }) => {
+const CardHeader = ({ grafico, referente, quantidade, activos, desactivos }) => {
   return (
     <div className="justify-center py-8 px-8 max-w bg-white rounded-xl shadow-lg space-y-2 sm:py-4 sm:flex sm:items-center sm:space-y-0 sm:space-x-6">
       <div className="text-center space-y-2 sm:text-left">
         <div className="space-y-0.5">
-          <p className="text-lg text-black font-bold">
-            PARCEIROS
+          <p className="text-md text-black font-bold">
+            {referente}
           </p>
-          <p className="text-lg font-light">
-            🤝 200.0000
-          </p>
-          <p className="text-xs font-medium">
-            <span style={{ color: '#00C49F' }}>●</span> 150.000 activos
+          <p className="text-md font-light">
+            {quantidade}
           </p>
           <p className="text-xs font-medium">
-            <span style={{ color: '#0088FE' }}>●</span> 50.000 desactivos
+            <span style={{ color: '#00C49F' }}>●</span> {activos} activos
+          </p>
+          <p className="text-xs font-medium">
+            <span style={{ color: '#0088FE' }}>●</span> {desactivos} desactivos
           </p>
         </div>
       </div>
