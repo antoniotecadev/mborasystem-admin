@@ -16,7 +16,6 @@ use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Gate;
 
-
 class AgentesController extends Controller
 {
     public function index()
