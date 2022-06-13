@@ -14,6 +14,7 @@ use App\Http\Requests\AgenteUpdateRequest;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Gate;
 
 
 class AgentesController extends Controller
@@ -36,58 +37,76 @@ class AgentesController extends Controller
 
  public function create()
     {
-        return Inertia::render('Agentes/Create', [
-            'equipas' => new UserEquipaCollection(
-                Auth::user()->account->equipas()
-                    ->orderBy('id')
-                    ->get()
-            ),
-        ]);
+        $response = Gate::inspect('isAdmin');
+        if ($response->allowed()) {
+            return Inertia::render('Agentes/Create', [
+                'equipas' => new UserEquipaCollection(
+                    Auth::user()->account->equipas()
+                        ->orderBy('id')
+                        ->get()
+                ),
+            ]);
+        }
     }
 
     public function store(AgenteStoreRequest $request)
     {
-        Auth::user()->account->agentes()->create(
-            $request->validated()
-        );
-        return Redirect::route('agentes')->with('success', 'Agente criado(a) 😊');
+        $response = Gate::inspect('isAdmin');
+        if ($response->allowed()) {
+            Auth::user()->account->agentes()->create(
+                $request->validated()
+            );
+            return Redirect::route('agentes')->with('success', 'Agente criado(a) 😊');
+        }
     }
 
 
     public function edit($id)
     {
-        return Inertia::render('Agentes/Edit', [
-            'agente' => new AgenteResource(Agente::withTrashed()->findOrFail(Crypt::decryptString($id))),
-            'equipas' => new UserEquipaCollection(
-                Auth::user()->account->equipas()
-                    ->orderBy('id', 'desc')
-                    ->get()
-            ),
-        ]);
+        $response = Gate::inspect('isAdmin');
+        if ($response->allowed()) {
+            return Inertia::render('Agentes/Edit', [
+                'agente' => new AgenteResource(Agente::withTrashed()->findOrFail(Crypt::decryptString($id))),
+                'equipas' => new UserEquipaCollection(
+                    Auth::user()->account->equipas()
+                        ->orderBy('id', 'desc')
+                        ->get()
+                ),
+            ]);
+        }
     }
 
     public function update(Agente $agente, AgenteUpdateRequest $request)
     {
-        $agente->update(
-            $request->validated()
-        );
+        $response = Gate::inspect('isAdmin');
+        if ($response->allowed()) {
+            $agente->update(
+                $request->validated()
+            );
 
-        return Redirect::back()->with('success', 'Agente actualizado(a) 😊');
+            return Redirect::back()->with('success', 'Agente actualizado(a) 😊');
+        }
     }
 
     public function destroy(Agente $agente, $motivo)
     {
-        $agente->motivo_elimina = $motivo;
-        $agente->save();
-        $agente->delete();
-        return Redirect::back()->with('success', 'Agente eliminado(a).');
+        $response = Gate::inspect('isAdmin');
+        if ($response->allowed()) {
+            $agente->motivo_elimina = $motivo;
+            $agente->save();
+            $agente->delete();
+            return Redirect::back()->with('success', 'Agente eliminado(a).');
+        }
     }
 
     public function restore(Agente $agente)
     {
-        $agente->motivo_elimina = null;
-        $agente->restore();
-        $agente->save();
-        return Redirect::back()->with('success', 'Agente restaurado(a) 😊');
+        $response = Gate::inspect('isAdmin');
+        if ($response->allowed()) {
+            $agente->motivo_elimina = null;
+            $agente->restore();
+            $agente->save();
+            return Redirect::back()->with('success', 'Agente restaurado(a) 😊');
+        }
     }
 }
