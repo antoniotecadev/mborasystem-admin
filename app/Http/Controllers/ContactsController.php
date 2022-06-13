@@ -17,6 +17,7 @@ use Illuminate\Support\Facades\Request;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Gate;
 
 class ContactsController extends Controller
 {
@@ -37,96 +38,113 @@ class ContactsController extends Controller
 
     public function create()
     {
-        return Inertia::render('Contacts/Create', [
-            'equipas' => new UserEquipaCollection(
-                Auth::user()->account->equipas()
-                    ->orderBy('id')
-                    ->get()
-            ),
-        ]);
+        $response = Gate::inspect('isAdmin');
+        if ($response->allowed()) {
+            return Inertia::render('Contacts/Create', [
+                'equipas' => new UserEquipaCollection(
+                    Auth::user()->account->equipas()
+                        ->orderBy('id')
+                        ->get()
+                ),
+            ]);
+        } 
     }
 
 
     public function store(ContactStoreRequest $request)
     {
-        Auth::user()->account->contacts()->create(
-            $request->validated()
-        );
+        $response = Gate::inspect('isAdmin');
+        if ($response->allowed()) {
+            Auth::user()->account->contacts()->create(
+                $request->validated()
+            );
 
-        $contact = Contact::where('imei', $request->imei)->first();
-        CreateContactEvent::dispatch($contact);
-        return Redirect::route('contacts')->with('success', 'Parceiro criado.');
+            $contact = Contact::where('imei', $request->imei)->first();
+            CreateContactEvent::dispatch($contact);
+            return Redirect::route('contacts')->with('success', 'Parceiro criado.');
+        }
     }
 
     public function edit($id, $type, $read_contact)
     {
+        $response = Gate::inspect('isAdmin');
+        if ($response->allowed()) {
+            if($read_contact == "0"):
+                DB::table('contacts')
+                ->where('contacts.id', Crypt::decryptString($id))
+                ->update(['contacts.read_contact' => $type]);
+            endif;
 
-        if($read_contact == "0"):
-            DB::table('contacts')
-            ->where('contacts.id', Crypt::decryptString($id))
-            ->update(['contacts.read_contact' => $type]);
-        endif;
-
-        return Inertia::render('Contacts/Edit', [
-            'contact' => new ContactResource(Contact::withTrashed()->findOrFail(Crypt::decryptString($id))),
-        ]);
+            return Inertia::render('Contacts/Edit', [
+                'contact' => new ContactResource(Contact::withTrashed()->findOrFail(Crypt::decryptString($id))),
+            ]);
+        }
     }
 
     public function update(Contact $contact, ContactUpdateRequest $request)
     {
-        $contact->update(
-            $request->validated()
-        );
-
-        return Redirect::back()->with('success', 'Parceiro actualizado.');
+        $response = Gate::inspect('isAdmin');
+        if ($response->allowed()) {
+            $contact->update(
+                $request->validated()
+            );
+            return Redirect::back()->with('success', 'Parceiro actualizado.');
+        }
     }
 
     public function destroy($id, $motivo)
     {
-        $contact = Contact::findOrFail($id);
-        $contact->motivo_elimina = $motivo;
-        $contact->save();
-        $contact->delete();
-        return Redirect::back()->with('success', 'Parceiro eliminado.');
+        $response = Gate::inspect('isAdmin');
+        if ($response->allowed()) {
+            $contact = Contact::findOrFail($id);
+            $contact->motivo_elimina = $motivo;
+            $contact->save();
+            $contact->delete();
+            return Redirect::back()->with('success', 'Parceiro eliminado.');
+        }
     }
 
     public function restore(Contact $contact)
     {
-        $contact->motivo_elimina = null;
-        $contact->restore();
-        $contact->save();
-        return Redirect::back()->with('success', 'Parceiro restaurado.');
+        $response = Gate::inspect('isAdmin');
+        if ($response->allowed()) {
+            $contact->motivo_elimina = null;
+            $contact->restore();
+            $contact->save();
+            return Redirect::back()->with('success', 'Parceiro restaurado.');
+        }
     }
 
     public function estadoUpdate($id){
+        $response = Gate::inspect('isAdmin');
+        if ($response->allowed()) {
+            $c = DB::table('contacts')
+            ->join('pagamentos', 'pagamentos.contact_id', '=', 'contacts.id')
+            ->where('contacts.id', Crypt::decryptString($id))
+            ->latest('pagamentos.id')
+            ->select('contacts.first_name', 'contacts.last_name', 'contacts.estado', 'pagamentos.fim')
+            ->limit(1)
+            ->get();
 
-        $c = DB::table('contacts')
-        ->join('pagamentos', 'pagamentos.contact_id', '=', 'contacts.id')
-        ->where('contacts.id', Crypt::decryptString($id))
-        ->latest('pagamentos.id')
-        ->select('contacts.first_name', 'contacts.last_name', 'contacts.estado', 'pagamentos.fim')
-        ->limit(1)
-        ->get();
-
-        if(!empty($c['0'])){
-            $nome_parceiro = $c['0']->first_name .' '. $c['0']->last_name;
-            if($c['0']->estado == '0' && $c['0']->fim <= date('Y-m-d')) {
-                return Redirect::route('contacts')->with('error', $nome_parceiro . ' com pagamento terminado 😢');
-            } elseif ($c['0']->estado == '1' && $c['0']->fim > date('Y-m-d')) {
-                return Redirect::route('contacts')->with('error', $nome_parceiro . ' com pagamento não terminado 😊');
+            if(!empty($c['0'])){
+                $nome_parceiro = $c['0']->first_name .' '. $c['0']->last_name;
+                if($c['0']->estado == '0' && $c['0']->fim <= date('Y-m-d')) {
+                    return Redirect::route('contacts')->with('error', $nome_parceiro . ' com pagamento terminado 😢');
+                } elseif ($c['0']->estado == '1' && $c['0']->fim > date('Y-m-d')) {
+                    return Redirect::route('contacts')->with('error', $nome_parceiro . ' com pagamento não terminado 😊');
+                } else {
+                    DB::table('contacts')
+                    ->where('contacts.id', Crypt::decryptString($id))
+                    ->update(['contacts.estado' => $c['0']->estado == '0' ? '1' : '0']);
+                    return Redirect::route('contacts')->with('success', $c['0']->estado == '0' ? $nome_parceiro . ' Activado 😊' : $nome_parceiro . ' Desactivado 😢');
+                }
             } else {
-                DB::table('contacts')
-                ->where('contacts.id', Crypt::decryptString($id))
-                ->update(['contacts.estado' => $c['0']->estado == '0' ? '1' : '0']);
-                return Redirect::route('contacts')->with('success', $c['0']->estado == '0' ? $nome_parceiro . ' Activado 😊' : $nome_parceiro . ' Desactivado 😢');
+                return Redirect::route('contacts')->with('error', 'Parceiro sem pagamento 😢');
             }
-        } else {
-            return Redirect::route('contacts')->with('error', 'Parceiro sem pagamento 😢');
         }
     }
 
     public function refresh(){
-
         $affected = DB::table('contacts')
         ->join('pagamentos', 'pagamentos.contact_id', '=', 'contacts.id')
         ->where('pagamentos.fim', '<=', date('Y-m-d'))
@@ -142,15 +160,28 @@ class ContactsController extends Controller
 
     public function indexContactNotification($type)
     {
-        if($type == "0"):
-            return $this->getNotificationLer($type);
-        elseif($type == "1"):
-            return $this->getNotificationLer($type);
-        elseif($type == "2"):
-            return $this->getNotificationEstado('1');
-        elseif($type == "3"):
-            return $this->getNotificationEstado('0');
-        else :
+        $response = Gate::inspect('isAdmin');
+        if ($response->allowed()) {
+            if($type == "0"):
+                return $this->getNotificationLer($type);
+            elseif($type == "1"):
+                return $this->getNotificationLer($type);
+            elseif($type == "2"):
+                return $this->getNotificationEstado('1');
+            elseif($type == "3"):
+                return $this->getNotificationEstado('0');
+            else :
+                return Inertia::render('Notifications/Index', [
+                    'contacts' => new NotificationCollection(
+                        Auth::user()->account->contacts()
+                            ->orderBy('id', 'desc')
+                            ->paginate()
+                            ->appends(Request::all())
+                    ),
+                    'quantidade' => Contact::count(),
+                ]);
+            endif;
+        } else {
             return Inertia::render('Notifications/Index', [
                 'contacts' => new NotificationCollection(
                     Auth::user()->account->contacts()
@@ -160,7 +191,7 @@ class ContactsController extends Controller
                 ),
                 'quantidade' => Contact::count(),
             ]);
-        endif;
+        }
     }
 
     function getNotificationEstado($estado){
@@ -189,16 +220,19 @@ class ContactsController extends Controller
     }
 
     function marcarNotificacao($id, $type, $local, $name){
-        if($type == "0"):
-            return $this->marcarLer($id, $type, $local, $name);
-        elseif($type == "1"):
-            return $this->marcarLer($id, $type, $local, $name);
-        elseif($type == "2"):
-            return $this->marcarEstado($id, '1', $local, $name);
-        elseif($type == "3"):
-            return $this->marcarEstado($id, '0', $local, $name);
-        else :
-        endif;
+        $response = Gate::inspect('isAdmin');
+        if ($response->allowed()) {
+            if($type == "0"):
+                return $this->marcarLer($id, $type, $local, $name);
+            elseif($type == "1"):
+                return $this->marcarLer($id, $type, $local, $name);
+            elseif($type == "2"):
+                return $this->marcarEstado($id, '1', $local, $name);
+            elseif($type == "3"):
+                return $this->marcarEstado($id, '0', $local, $name);
+            else :
+            endif;
+        }
     }
 
     function marcarEstado($id, $type, $local, $name){
