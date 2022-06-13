@@ -247,4 +247,8 @@ class ContactsController extends Controller
         ->update(['contacts.read_contact' => $type]);
         return Redirect::route('contacts.notification', $local)->with('success', $type == '0' ? $name . ' marcada como não lida 🔔' : $name . ' marcada como lida 🔔');
     }
+
+    function indexContactsFirebase() {
+        return Inertia::render('ContactFirebase/Index');
+    }
 }

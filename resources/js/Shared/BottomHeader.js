@@ -107,6 +107,13 @@ export default () => {
             >
               Zerar
             </InertiaLink>
+            <InertiaLink
+              href={route('contacts.notification.firebase')}
+              className="block px-6 py-2 hover:bg-indigo-600 hover:text-white"
+              onClick={() => setMenuOpened(false)}
+            >
+              Firebase
+            </InertiaLink>
           </div>
           <div
             onClick={() => {

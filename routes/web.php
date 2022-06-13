@@ -43,6 +43,7 @@ Route::put('contacts/{id}/estado')->name('contacts.estado')->uses('ContactsContr
 Route::get('contacts/refresh')->name('contacts.refresh')->uses('ContactsController@refresh')->middleware('auth');
 Route::get('contacts/notifications/registo/{type}')->name('contacts.notification')->uses('ContactsController@indexContactNotification')->middleware('auth');
 Route::put('contacts/notifications/registo/{contact}/marcar/{type}/local/{local}/name/{name}')->name('contacts.notification.marcar')->uses('ContactsController@marcarNotificacao')->middleware('auth');
+Route::get('contacts/notifications/firebase')->name('contacts.notification.firebase')->uses('ContactsController@indexContactsFirebase')->middleware('auth');
 
 // Pagamentos
 Route::get('pagamentos')->name('pagamentos')->uses('PagamentosController@index')->middleware('remember', 'auth');
