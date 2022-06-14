@@ -4,8 +4,8 @@ import Icon from '@/Shared/Icon';
 import logo from '@/img/logotipo-yoga-original.png';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import { initializeApp } from "firebase/app";
-import { getDatabase, ref, onChildAdded, query, limitToLast } from "firebase/database";
+import firebase from '@/firebase';
+import { ref, onChildAdded, query, limitToLast } from "firebase/database";
 import { useLocalStorage } from 'react-use';
 
 export default () => {
@@ -16,32 +16,13 @@ export default () => {
 
   const [value, setValue] = useLocalStorage('imei');
 
-  const firebaseConfig = {
-    apiKey: "AIzaSyCRevSFiqHU5TfNNgGHc2bgAPi9MseAxaM",
-    authDomain: "mborasystem-admin.firebaseapp.com",
-    databaseURL: "https://mborasystem-admin-default-rtdb.firebaseio.com",
-    projectId: "mborasystem-admin",
-    storageBucket: "mborasystem-admin.appspot.com",
-    messagingSenderId: "1024278380960",
-    appId: "1:1024278380960:web:6ad069d4010a69662c24c5",
-    measurementId: "G-ZW05HBY5YG"
-  };
-
   const zerarNotificacao = () => {
     localStorage.setItem("notificacao_registo", Number.parseInt(0));
     setForceUpdate(forceupdate + 1);
   }
 
-
   useEffect(() => {
-
-    // Initialize Firebase
-    const app = initializeApp(firebaseConfig);
-    // Get a reference to the database service
-    const database = getDatabase(app);
-
-    const cliente = query(ref(database, 'cliente'), limitToLast(1));
-
+    const cliente = query(ref(firebase, 'cliente'), limitToLast(1));
     /* OUVIR EVENTOS DO REALTIME DATABASE */
     onChildAdded(cliente, (snapshot) => {
       if (snapshot.exists()) {
