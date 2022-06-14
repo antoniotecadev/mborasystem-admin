@@ -44,19 +44,23 @@ export default () => {
 
     /* OUVIR EVENTOS DO REALTIME DATABASE */
     onChildAdded(cliente, (snapshot) => {
-      const imei = snapshot.val().imei;
-      const nome = snapshot.val().nome;
-      const codigo_equipa = snapshot.val().codigoEquipa;
+      if (snapshot.exists()) {
+        const imei = snapshot.val().imei;
+        const nome = snapshot.val().nome;
+        const codigo_equipa = snapshot.val().codigoEquipa;
+        const visualizado = snapshot.val().visualizado;
 
-      if (imei != value) {
-        toast.success("Parceiro " + nome + " registado pela equipa YOGA " + codigo_equipa + "\nIMEI: " + imei, {
-          toastId: imei
-        });
-        const notsize = Number.parseInt(localStorage.getItem('notificacao_registo'));
-        localStorage.setItem("notificacao_registo", (localStorage.getItem('notificacao_registo') ? (notsize + 1) : Number.parseInt(0 + 1)));
-        setValue(imei);
+        if (imei != value && visualizado == false) {
+          toast.success("Parceiro " + nome + " registado pela equipa YOGA " + codigo_equipa + "\nIMEI: " + imei, {
+            toastId: imei
+          });
+          const notsize = Number.parseInt(localStorage.getItem('notificacao_registo'));
+          localStorage.setItem("notificacao_registo", (localStorage.getItem('notificacao_registo') ? (notsize + 1) : Number.parseInt(0 + 1)));
+          setValue(imei);
+        }
+      } else {
+        toast.warning("Sem dados de notificação");
       }
-
     });
 
     /* OUVIR EVENTOS DO LARAVEL WEBSOCKET */
