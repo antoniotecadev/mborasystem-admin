@@ -17,6 +17,7 @@ use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Gate;
+use Illuminate\Support\Facades\Log;
 
 
 class PagamentosController extends Controller
@@ -74,6 +75,8 @@ class PagamentosController extends Controller
                 Auth::user()->account->pagamentos()->create(
                     $request->validated()
                 );
+                Log::channel('daily')->emergency('Pagamento de parceiro <<' . $request->contact_id . '>> registado com sucesso.' 
+                ,[ 'id' => Auth::id(), 'nome' => Auth::user()->first_name . " " . Auth::user()->last_name, 'email' =>  Auth::user()->email]);
                 return Redirect::route('pagamentos')->with('success', 'Pagamento efectuado.');
             else:
                 if($c['0']->estado == 0 && $c['0']->fim <= date('Y-m-d')):
@@ -81,13 +84,19 @@ class PagamentosController extends Controller
                     Auth::user()->account->pagamentos()->create(
                         $request->validated()
                     );
-                    return Redirect::route('pagamentos')->with('success', 'Pagamento efectuado (' .$c['0']->first_name.' '.$c['0']->last_name).')';
+                    Log::channel('daily')->emergency('Pagamento de parceiro <<' . $request->contact_id . ' - ' . $c['0']->first_name . ' ' . $c['0']->last_name . '>> registado com sucesso.' 
+                    ,[ 'id' => Auth::id(), 'nome' => Auth::user()->first_name . " " . Auth::user()->last_name, 'email' =>  Auth::user()->email]);
+                    return Redirect::route('pagamentos')->with('success', 'Pagamento efectuado (' . $c['0']->first_name . ' ' . $c['0']->last_name).')';
                 else:
-                    return Redirect::route('pagamentos')->with('error', 'Pagamento não efectuado, ' .$c['0']->first_name.' '.$c['0']->last_name . ' já está activo ou possui um pagamento em uso.');
+                    Log::channel('daily')->warning('Pagamento de parceiro <<' . $request->contact_id . ' - ' . $c['0']->first_name . ' ' . $c['0']->last_name . '>> não registado.' 
+                    ,[ 'id' => Auth::id(), 'nome' => Auth::user()->first_name . " " . Auth::user()->last_name, 'email' =>  Auth::user()->email]);
+                    return Redirect::route('pagamentos')->with('error', 'Pagamento não efectuado, ' . $c['0']->first_name.' '.$c['0']->last_name . ' já está activo ou possui um pagamento em uso.');
                 endif;
             endif;
 
         else:
+            Log::channel('daily')->error('Tentou registar um pagamento para o parceiro <<' . $request->contact_id . '>>.' 
+            ,[ 'id' => Auth::id(), 'nome' => Auth::user()->first_name . " " . Auth::user()->last_name, 'email' =>  Auth::user()->email]);
             return Redirect::route('pagamentos.create')->with('error', 'Seleccione o preço');
         endif;
         }
@@ -117,8 +126,12 @@ class PagamentosController extends Controller
                 $pagamento->update(
                     $request->validated()
                 );
+                Log::channel('daily')->emergency('Pagamento <<' . $pagamento->id . '>> do parceiro <<' . $request->contact_id . '>> actualizado.' 
+               ,[ 'id' => Auth::id(), 'nome' => Auth::user()->first_name . " " . Auth::user()->last_name, 'email' =>  Auth::user()->email]);
                 return Redirect::back()->with('success', 'Pagamento actualizado.');
             else:
+                Log::channel('daily')->error('Tentou actualizar o pagamento <<' . $pagamento->id . '>> do parceiro <<' . $request->contact_id . '>>.' 
+                ,[ 'id' => Auth::id(), 'nome' => Auth::user()->first_name . " " . Auth::user()->last_name, 'email' =>  Auth::user()->email]);
                 return Redirect::route('pagamentos.edit', Crypt::encryptString($request->id))->with('error', 'Seleccione o preço');
             endif;
         }
@@ -131,6 +144,7 @@ class PagamentosController extends Controller
             $pagamento->motivo_elimina = $motivo;
             $pagamento->save();
             $pagamento->delete();
+            Log::channel('daily')->alert('Pagamento <<' . $pagamento->id . '>> eliminado.',[ 'id' => Auth::id(), 'nome' => Auth::user()->first_name . " " . Auth::user()->last_name, 'email' =>  Auth::user()->email]);
             return Redirect::back()->with('success', 'Pagamento eliminado.');
         }
     }
@@ -142,6 +156,7 @@ class PagamentosController extends Controller
             $pagamento->motivo_elimina = null;
             $pagamento->restore();
             $pagamento->save();
+            Log::channel('daily')->alert('Pagamento <<' . $pagamento->id . '>> restaurado.',[ 'id' => Auth::id(), 'nome' => Auth::user()->first_name . " " . Auth::user()->last_name, 'email' =>  Auth::user()->email]);
             return Redirect::back()->with('success', 'Pagamento restaurado.');
         }
     }
