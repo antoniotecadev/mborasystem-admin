@@ -5,6 +5,9 @@ import Icon from '@/Shared/Icon';
 import Pagination from '@/Shared/Pagination';
 import SearchFilter from '@/Shared/SearchFilter';
 import LoadingButton from '@/Shared/LoadingButton';
+import firebase from '@/firebase';
+import { ref, update } from "firebase/database";
+import { numeroNotificacao } from '@/Util/utilitario';
 
 const Index = () => {
   const { contacts, quantidade } = usePage().props;
@@ -17,6 +20,30 @@ const Index = () => {
   function handleSubmit(id, e) {
     e.preventDefault();
     put(route('contacts.estado', id));
+  }
+
+  const abrirNotificacao = (id, type, read_contact, imei, name, codigo_equipa, created_at) => {
+    location.href = route('contacts.edit', [id, type, read_contact]);
+    const visualizadoData = {
+      id: id,
+      imei: imei,
+      nome: name,
+      codigoEquipa: codigo_equipa,
+      data_cria: created_at,
+      visualizado: true
+    };
+    if (read_contact == "0") {
+      const updates = {};
+      updates['/cliente/' + imei + '/'] = visualizadoData;
+      update(ref(firebase), updates)
+        .then(() => {
+          toast.info(first_name + " marcado como lido no firebase");
+        })
+        .catch(error => {
+          toast.error(first_name + " não marcado como lido no firebase: " + error.message);
+        });
+      localStorage.setItem("notificacao_registo", numeroNotificacao());
+    }
   }
 
   return (
@@ -54,7 +81,7 @@ const Index = () => {
           </thead>
           <tbody>
             {data.map(
-              ({ id, name, cantina, email, phone, estado, read_contact, deleted_at }) => (
+              ({ id, name, cantina, email, phone, estado, imei, codigo_equipa, read_contact, created_at, deleted_at }) => (
                 <tr
                   key={id}
                   className={`hover:bg-gray-100 focus-within:bg-yellow-100 ${
@@ -63,7 +90,7 @@ const Index = () => {
                 >
                   <td className="border-t">
                     <InertiaLink
-                      href={route('contacts.edit', [id, 1, read_contact])}
+                      onClick={() => abrirNotificacao(id, 1, read_contact, imei, name, codigo_equipa, created_at)}
                       className="flex items-center px-6 py-4 focus:text-indigo-700 focus:outline-none"
                     >
                       {name}

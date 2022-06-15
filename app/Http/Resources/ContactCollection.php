@@ -27,7 +27,10 @@ class ContactCollection extends ResourceCollection
                 'cantina' => $item->cantina,
                 'phone' => $item->phone,
                 'estado' => $item->estado,
+                'imei' => $item->imei,
+                'codigo_equipa' => $item->codigo_equipa,
                 'read_contact' => $item->read_contact,
+                'created_at' => $item->created_at->format('Y-m-d H:m'),
                 'deleted_at' => $item->deleted_at
             ];
         });

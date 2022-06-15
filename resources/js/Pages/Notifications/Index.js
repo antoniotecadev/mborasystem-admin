@@ -7,7 +7,6 @@ import MenuMarcar from '@/Shared/MenuMarcar';
 import { toast } from 'react-toastify';
 import firebase from '@/firebase';
 import { ref, update } from "firebase/database";
-import { isNull } from 'lodash';
 import { numeroNotificacao } from '@/Util/utilitario';
 
 var tipo = 4;
