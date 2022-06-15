@@ -106,7 +106,7 @@ const Index = () => {
                     <InertiaLink
                       tabIndex="1"
                       className="flex items-center px-6 py-4 focus:text-indigo focus:outline-none"
-                      href={route('contacts.edit', [id, 1, read_contact])}
+                      onClick={() => abrirNotificacao(id, 1, read_contact, imei, name, codigo_equipa, created_at)}
                     >
                       {cantina}
                     </InertiaLink>
@@ -114,7 +114,7 @@ const Index = () => {
                   <td className="border-t">
                     <InertiaLink
                       tabIndex="-1"
-                      href={route('contacts.edit', [id, 1, read_contact])}
+                      onClick={() => abrirNotificacao(id, 1, read_contact, imei, name, codigo_equipa, created_at)}
                       className="flex items-center px-6 py-4 focus:text-indigo focus:outline-none"
                     >
                       {email}
@@ -123,7 +123,7 @@ const Index = () => {
                   <td className="border-t">
                     <InertiaLink
                       tabIndex="-1"
-                      href={route('contacts.edit', [id, 1, read_contact])}
+                      onClick={() => abrirNotificacao(id, 1, read_contact, imei, name, codigo_equipa, created_at)}
                       className="flex items-center px-6 py-4 focus:text-indigo focus:outline-none"
                     >
                       {phone}
@@ -132,7 +132,7 @@ const Index = () => {
                   <td className="w-px border-t">
                     <InertiaLink
                       tabIndex="-1"
-                      href={route('contacts.edit', [id, 1, read_contact])}
+                      onClick={() => abrirNotificacao(id, 1, read_contact, imei, name, codigo_equipa, created_at)}
                       className="flex items-center px-4 focus:outline-none"
                     >
                       <Icon
