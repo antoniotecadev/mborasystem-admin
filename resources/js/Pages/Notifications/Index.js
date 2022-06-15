@@ -39,10 +39,10 @@ const Index = () => {
       updates['/cliente/' + imei + '/'] = visualizadoData;
       update(ref(firebase), updates)
         .then(() => {
-          toast.warning(first_name + " marcado como lido no firebase");
+          toast.info(first_name + " marcado como lido no firebase");
         })
         .catch(error => {
-          toast.warning(first_name + " não marcado como lido no firebase: " + error.message);
+          toast.error(first_name + " não marcado como lido no firebase: " + error.message);
         });
     }
   }
