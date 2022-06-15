@@ -7,6 +7,8 @@ import MenuMarcar from '@/Shared/MenuMarcar';
 import { toast } from 'react-toastify';
 import firebase from '@/firebase';
 import { ref, update } from "firebase/database";
+import { isNull } from 'lodash';
+import { numeroNotificacao } from '@/Util/utilitario';
 
 var tipo = 4;
 const Index = () => {
@@ -44,6 +46,7 @@ const Index = () => {
         .catch(error => {
           toast.error(first_name + " não marcado como lido no firebase: " + error.message);
         });
+      localStorage.setItem("notificacao_registo", numeroNotificacao());
     }
   }
 

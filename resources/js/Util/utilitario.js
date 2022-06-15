@@ -1,3 +1,5 @@
+import { isNull } from 'lodash';
+
 function getDaysInMonth(month, year) {
   return new Date(year, month, 0).getDate();
 }
@@ -54,3 +56,10 @@ export function tipoPacote(pacote, tipo) {
 export const currency = function (number) {
   return new Intl.NumberFormat('pt-AO', { style: 'currency', currency: 'AOA', minimumFractionDigits: 2 }).format(number);
 };
+
+export const numeroNotificacao = function () {
+  var not_reg = localStorage.getItem('notificacao_registo');
+  var notificacao_registo = isNull(not_reg) || isNaN(not_reg) ? Number.parseInt(0) : Number.parseInt(not_reg);
+  var sizeNot = notificacao_registo - Number.parseInt(1);
+  return sizeNot < Number.parseInt(0) ? Number.parseInt(0) : sizeNot;
+}
