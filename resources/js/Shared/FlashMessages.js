@@ -73,7 +73,7 @@ export default () => {
       {(flash.error || numOfErrors > 0) && visible && (
         <div className="mb-8 flex items-center justify-between bg-red-500 rounded max-w-3xl">
           <div className="flex items-center">
-            {toast.error("Erro no formulário", { toastId: "" })}
+            {toast.error("Erro", { toastId: "" })}
             <IconDanger />
             <div className="py-4 text-white text-sm font-medium">
               {flash.error && flash.error}
