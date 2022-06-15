@@ -10,8 +10,11 @@ import Icon from '@/Shared/Icon';
 import {
   getDataFimTrimestralSemestralAnual,
   tipoPacote,
-  currency
+  currency,
+  numeroNotificacao
 } from '@/Util/utilitario';
+import firebase from '@/firebase';
+import { ref, update } from "firebase/database";
 
 const Create = () => {
   const [parceiro, setParceiro] = useState('');
@@ -267,6 +270,30 @@ const ListaParceiros = (props) => {
     meta: { links }
   } = parceiros;
 
+  const abrirNotificacao = (id, type, read_contact, imei, name, codigo_equipa, created_at) => {
+    location.href = route('contacts.edit', [id, type, read_contact]);
+    const visualizadoData = {
+      id: id,
+      imei: imei,
+      nome: name,
+      codigoEquipa: codigo_equipa,
+      data_cria: created_at,
+      visualizado: true
+    };
+    if (read_contact == "0") {
+      const updates = {};
+      updates['/cliente/' + imei + '/'] = visualizadoData;
+      update(ref(firebase), updates)
+        .then(() => {
+          toast.info(first_name + " marcado como lido no firebase");
+        })
+        .catch(error => {
+          toast.error(first_name + " não marcado como lido no firebase: " + error.message);
+        });
+      localStorage.setItem("notificacao_registo", numeroNotificacao());
+    }
+  }
+
   return (
     <>
       <h1 className="mb-8 text-3xl font-bold">Parceiros ({data.length} - {quantidade})</h1>
@@ -288,7 +315,7 @@ const ListaParceiros = (props) => {
           </thead>
           <tbody>
             {data.map(
-              ({ id, idcrypt, name, cantina, email, phone, estado, read_contact, deleted_at }) => (
+              ({ id, idcrypt, name, cantina, email, phone, estado, imei, codigo_equipa, read_contact, created_at, deleted_at }) => (
                 <tr
                   key={id}
                   className={`hover:bg-gray-100 focus-within:bg-yellow-100 ${estado == '0' ? 'bg-red-100' : 'bg-green-200'
@@ -296,7 +323,7 @@ const ListaParceiros = (props) => {
                 >
                   <td className="border-t">
                     <InertiaLink
-                      href={route('contacts.edit', [idcrypt, 1, read_contact])}
+                      onClick={() => abrirNotificacao(idcrypt, 1, read_contact, imei, name, codigo_equipa, created_at)}
                       className="flex items-center px-6 py-4 focus:text-indigo-700 focus:outline-none"
                     >
                       {name}
@@ -312,7 +339,7 @@ const ListaParceiros = (props) => {
                     <InertiaLink
                       tabIndex="1"
                       className="flex items-center px-6 py-4 focus:text-indigo focus:outline-none"
-                      href={route('contacts.edit', [idcrypt, 1, read_contact])}
+                      onClick={() => abrirNotificacao(idcrypt, 1, read_contact, imei, name, codigo_equipa, created_at)}
                     >
                       {cantina}
                     </InertiaLink>
@@ -320,7 +347,7 @@ const ListaParceiros = (props) => {
                   <td className="border-t">
                     <InertiaLink
                       tabIndex="-1"
-                      href={route('contacts.edit', [idcrypt, 1, read_contact])}
+                      onClick={() => abrirNotificacao(idcrypt, 1, read_contact, imei, name, codigo_equipa, created_at)}
                       className="flex items-center px-6 py-4 focus:text-indigo focus:outline-none"
                     >
                       {email}
@@ -329,7 +356,7 @@ const ListaParceiros = (props) => {
                   <td className="border-t">
                     <InertiaLink
                       tabIndex="-1"
-                      href={route('contacts.edit', [idcrypt, 1, read_contact])}
+                      onClick={() => abrirNotificacao(idcrypt, 1, read_contact, imei, name, codigo_equipa, created_at)}
                       className="flex items-center px-6 py-4 focus:text-indigo focus:outline-none"
                     >
                       {phone}
@@ -338,7 +365,7 @@ const ListaParceiros = (props) => {
                   <td className="w-px border-t">
                     <InertiaLink
                       tabIndex="-1"
-                      href={route('contacts.edit', [idcrypt, 1, read_contact])}
+                      onClick={() => abrirNotificacao(idcrypt, 1, read_contact, imei, name, codigo_equipa, created_at)}
                       className="flex items-center px-4 focus:outline-none"
                     >
                       <Icon
