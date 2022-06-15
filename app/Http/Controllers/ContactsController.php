@@ -60,7 +60,7 @@ class ContactsController extends Controller
             );
 
             $contact = Contact::where('imei', $request->imei)->first();
-            CreateContactEvent::dispatch($contact);
+            // CreateContactEvent::dispatch($contact);
             return Redirect::route('contacts')->with('success', 'Parceiro criado.');
         }
     }
