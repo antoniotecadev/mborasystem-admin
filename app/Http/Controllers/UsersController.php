@@ -13,6 +13,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Request;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Gate;
+use Illuminate\Support\Facades\Log;
 
 class UsersController extends Controller
 {
@@ -48,6 +49,7 @@ class UsersController extends Controller
             Auth::user()->account->users()->create(
                 $request->validated()
             );
+            Log::channel('daily')->alert('Usuário <<' . $request->first_name . ' ' . $request->last_name . ' - ' . $request->email . '>> criado.',[ 'id' => Auth::id(), 'nome' => Auth::user()->first_name . " " . Auth::user()->last_name, 'email' =>  Auth::user()->email]);
             return Redirect::route('users')->with('success', 'Utilizador criado.');
         }
     }
@@ -69,6 +71,7 @@ class UsersController extends Controller
             $user->update(
                 $request->validated()
             );
+            Log::channel('daily')->alert('Usuário <<' . $request->first_name . ' ' . $request->last_name . ' - ' . $request->email . '>> actualizado.',[ 'id' => Auth::id(), 'nome' => Auth::user()->first_name . " " . Auth::user()->last_name, 'email' =>  Auth::user()->email]);
             return Redirect::back()->with('success', 'Utilizador actualizado.');
         }
     }
@@ -78,6 +81,7 @@ class UsersController extends Controller
         $response = Gate::inspect('isAdmin');
         if ($response->allowed()) {
             $user->delete();
+            Log::channel('daily')->emergency('Usuário <<' . $user->first_name . ' ' . $user->last_name . ' - ' . $user->email . '>> eliminado.',[ 'id' => Auth::id(), 'nome' => Auth::user()->first_name . " " . Auth::user()->last_name, 'email' =>  Auth::user()->email]);
             return Redirect::back()->with('success', 'Utilizador eliminado.');
         }
     }
@@ -87,6 +91,7 @@ class UsersController extends Controller
         $response = Gate::inspect('isAdmin');
         if ($response->allowed()) {
             $user->restore();
+            Log::channel('daily')->emergency('Usuário <<' . $user->first_name . ' ' . $user->last_name . ' - ' . $user->email . '>> restaurado.',[ 'id' => Auth::id(), 'nome' => Auth::user()->first_name . " " . Auth::user()->last_name, 'email' =>  Auth::user()->email]);
             return Redirect::back()->with('success', 'Utilizador restaurado.');
         }
     }
