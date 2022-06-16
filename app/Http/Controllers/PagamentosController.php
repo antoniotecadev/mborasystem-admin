@@ -103,7 +103,7 @@ class PagamentosController extends Controller
                 else:
                     Log::channel('daily')->warning('Pagamento de parceiro <<' . $request->contact_id . ' - ' . $c['0']->first_name . ' ' . $c['0']->last_name . '>> não registado.' 
                     ,[ 'id' => Auth::id(), 'nome' => Auth::user()->first_name . " " . Auth::user()->last_name, 'email' =>  Auth::user()->email]);
-                    return Redirect::route('pagamentos')->with('error', 'Pagamento não efectuado, ' . $c['0']->first_name.' '.$c['0']->last_name . ' já está activo ou possui um pagamento em uso.');
+                    return Redirect::route('pagamentos.create')->with('error', 'Pagamento não efectuado, ' . $c['0']->first_name.' '.$c['0']->last_name . ' já está activo ou possui um pagamento em uso.');
                 endif;
             endif;
 
