@@ -10,6 +10,8 @@ use App\Http\Resources\ContactResource;
 use DateInterval;
 use DateTime;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
+
 
 class ContactsController extends Controller
 {
@@ -89,9 +91,8 @@ class ContactsController extends Controller
             $c->district = $request->district;
             $c->street = $request->street;
             $c->imei = $request->imei;
-
             $c->save();
-
+            Log::channel('daily')->info('MBORASYSTEM:  Parceiro <<' . $request->first_name . ' ' . $request->last_name . ' - ' . $request->imei . '>> criado pela equipa <<' . $request->codigo_equipa . '>>.');
             return ['insert' => 'ok'];
 
             // $contact = Contact::where('imei', $request->imei)->first();
