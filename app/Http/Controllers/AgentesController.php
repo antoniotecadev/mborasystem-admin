@@ -96,7 +96,7 @@ class AgentesController extends Controller
             $agente->motivo_elimina = $motivo;
             $agente->save();
             $agente->delete();
-            Log::channel('daily')->alert('Agente <<' . $agente->nome_completo .' - ' . $agente->bi . '>> eliminado.',[ 'id' => Auth::id(), 'nome' => Auth::user()->first_name . " " . Auth::user()->last_name, 'email' =>  Auth::user()->email]);
+            Log::channel('daily')->emergency('Agente <<' . $agente->nome_completo .' - ' . $agente->bi . '>> eliminado.',[ 'id' => Auth::id(), 'nome' => Auth::user()->first_name . " " . Auth::user()->last_name, 'email' =>  Auth::user()->email]);
             return Redirect::back()->with('success', 'Agente eliminado(a).');
         }
     }
@@ -108,7 +108,7 @@ class AgentesController extends Controller
             $agente->motivo_elimina = null;
             $agente->restore();
             $agente->save();
-            Log::channel('daily')->alert('Agente <<' . $agente->nome_completo .' - ' . $agente->bi . '>> restaurado.',[ 'id' => Auth::id(), 'nome' => Auth::user()->first_name . " " . Auth::user()->last_name, 'email' =>  Auth::user()->email]);
+            Log::channel('daily')->emergency('Agente <<' . $agente->nome_completo .' - ' . $agente->bi . '>> restaurado.',[ 'id' => Auth::id(), 'nome' => Auth::user()->first_name . " " . Auth::user()->last_name, 'email' =>  Auth::user()->email]);
             return Redirect::back()->with('success', 'Agente restaurado(a) 😊');
         }
     }
