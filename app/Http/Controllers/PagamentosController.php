@@ -79,6 +79,19 @@ class PagamentosController extends Controller
                 ,[ 'id' => Auth::id(), 'nome' => Auth::user()->first_name . " " . Auth::user()->last_name, 'email' =>  Auth::user()->email]);
                 return Redirect::route('pagamentos')->with('success', 'Pagamento efectuado.');
             else:
+
+                $p = DB::table('contacts')
+                ->join('pagamentos', 'pagamentos.contact_id', '=', 'contacts.id')
+                ->where('contacts.id', $request->contact_id)
+                ->where('pagamentos.pagamento', "1")
+                ->select('pagamentos.pagamento')
+                ->limit(1)
+                ->get();
+
+                if(!empty($p['0'])){
+                    return Redirect::route('pagamentos.create')->with('error', 'O parceiro ' . $c['0']->first_name . ' ' . $c['0']->last_name . ' já possui um pagamento de registo.');
+                }
+
                 if($c['0']->estado == 0 && $c['0']->fim <= date('Y-m-d')):
                     $this->activarParceiro($request->contact_id);
                     Auth::user()->account->pagamentos()->create(
