@@ -94,8 +94,8 @@ class ContactsController extends Controller
 
             return ['insert' => 'ok'];
 
-            $contact = Contact::where('imei', $request->imei)->first();
-            CreateContactEvent::dispatch($contact);
+            // $contact = Contact::where('imei', $request->imei)->first();
+            // CreateContactEvent::dispatch($contact);
 
        } catch (\Throwable $th) {
 
