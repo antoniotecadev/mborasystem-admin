@@ -104,7 +104,7 @@ class ContactsController extends Controller
             $contact->motivo_elimina = $motivo;
             $contact->save();
             $contact->delete();
-            Log::channel('daily')->alert('Parceiro <<' . $id . '>> eliminado.',[ 'id' => Auth::id(), 'nome' => Auth::user()->first_name . " " . Auth::user()->last_name, 'email' =>  Auth::user()->email]);
+            Log::channel('daily')->alert('Parceiro <<' . $contact->imei . '>> eliminado.',[ 'id' => Auth::id(), 'nome' => Auth::user()->first_name . " " . Auth::user()->last_name, 'email' =>  Auth::user()->email]);
             return Redirect::back()->with('success', 'Parceiro eliminado.');
         }
     }
@@ -116,7 +116,7 @@ class ContactsController extends Controller
             $contact->motivo_elimina = null;
             $contact->restore();
             $contact->save();
-            Log::channel('daily')->alert('Parceiro <<' . $contact->id . '>> lido.',[ 'id' => Auth::id(), 'nome' => Auth::user()->first_name . " " . Auth::user()->last_name, 'email' =>  Auth::user()->email]);
+            Log::channel('daily')->alert('Parceiro <<' . $contact->imei . '>> lido.',[ 'id' => Auth::id(), 'nome' => Auth::user()->first_name . " " . Auth::user()->last_name, 'email' =>  Auth::user()->email]);
             return Redirect::back()->with('success', 'Parceiro restaurado.');
         }
     }
