@@ -135,6 +135,19 @@ class PagamentosController extends Controller
     {
         $response = Gate::inspect('isAdmin');
         if ($response->allowed()) {
+            if($request->pagamento == "1"):
+                $p = DB::table('contacts')
+                    ->join('pagamentos', 'pagamentos.contact_id', '=', 'contacts.id')
+                    ->where('contacts.id', $request->contact_id)
+                    ->where('pagamentos.pagamento', $request->pagamento)
+                    ->select('pagamentos.pagamento', 'contacts.first_name', 'contacts.last_name')
+                    ->limit(1)
+                    ->get();
+
+                    if(!empty($p['0'])){
+                        return Redirect::route('pagamentos.edit', Crypt::encryptString($request->id))->with('error', 'O parceiro ' . $p['0']->first_name . ' ' . $p['0']->last_name . ' já possui um pagamento de registo.');
+                    }
+            endif;
             if($this->tipoPacote($request->pacote, $request->tipo_pagamento) == $request->preco):
                 $pagamento->update(
                     $request->validated()
