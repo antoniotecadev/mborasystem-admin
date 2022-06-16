@@ -15,6 +15,7 @@ use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Gate;
+use Illuminate\Support\Facades\Log;
 
 class EquipasController extends Controller
 {
@@ -49,7 +50,7 @@ class EquipasController extends Controller
             Auth::user()->account->equipas()->create(
                 $request->validated()
             );
-
+            Log::channel('daily')->alert('Equipa <<' . $request->codigo . '>> criada.',[ 'id' => Auth::id(), 'nome' => Auth::user()->first_name . " " . Auth::user()->last_name, 'email' =>  Auth::user()->email]);
             return Redirect::route('equipas')->with('success', 'Equipa criada.');
         }
     }
@@ -71,6 +72,7 @@ class EquipasController extends Controller
             $equipa->update(
                 $request->validated()
             );
+            Log::channel('daily')->alert('Equipa <<' . $request->codigo . '>> actualizada.',[ 'id' => Auth::id(), 'nome' => Auth::user()->first_name . " " . Auth::user()->last_name, 'email' =>  Auth::user()->email]);
             return Redirect::back()->with('success', 'Equipa actualizada.');
         }
     }
@@ -84,6 +86,7 @@ class EquipasController extends Controller
                     'password' => ['required', 'min:8', 'max:15', 'alpha_num']
                 ])
             );
+            Log::channel('daily')->alert('Palavra passe da equipa <<' . $equipa->codigo . '>> alterada.',[ 'id' => Auth::id(), 'nome' => Auth::user()->first_name . " " . Auth::user()->last_name, 'email' =>  Auth::user()->email]);
             return Redirect::back()->with('success', 'Palavra passe alterada.');
         }
     }
@@ -96,6 +99,7 @@ class EquipasController extends Controller
             $equipa->motivo_elimina = $motivo;
             $equipa->save();
             $equipa->delete();
+            Log::channel('daily')->emergency('Equipa <<' . $equipa->codigo . '>> eliminada.',[ 'id' => Auth::id(), 'nome' => Auth::user()->first_name . " " . Auth::user()->last_name, 'email' =>  Auth::user()->email]);
             return Redirect::back()->with('success', 'Equipa eliminada.');
         }
     }
@@ -107,6 +111,7 @@ class EquipasController extends Controller
             $equipa->motivo_elimina = null;
             $equipa->restore();
             $equipa->save();
+            Log::channel('daily')->emergency('Equipa <<' . $equipa->codigo . '>> restaurada.',[ 'id' => Auth::id(), 'nome' => Auth::user()->first_name . " " . Auth::user()->last_name, 'email' =>  Auth::user()->email]);
             return Redirect::back()->with('success', 'Equipa restaurada.');
         }
     }
@@ -117,7 +122,8 @@ class EquipasController extends Controller
             $c = Equipa::findOrFail(Crypt::decryptString($id));
             $c->estado = $c->estado == '0' ? '1' : '0' ;
             $c->save();
-            return Redirect::route('equipas')->with('success', 'Confirmado');
+            Log::channel('daily')->emergency('Equipa <<' . $c->codigo . '>> ' . ($c->estado == '0' ? 'Desactivada' : 'Activada'),[ 'id' => Auth::id(), 'nome' => Auth::user()->first_name . " " . Auth::user()->last_name, 'email' =>  Auth::user()->email]);
+            return Redirect::route('equipas')->with('success', 'Equipa YOGA ' . $c->codigo . ' ' . ($c->estado == '0' ? 'Desactivada' : 'Activada'));
         }
     }
 
@@ -138,7 +144,6 @@ class EquipasController extends Controller
                 $contact[] = ["idcontact" => Crypt::encryptString($p->idcontact), "first_name" => $p->first_name, "last_name" => $p->last_name, "imei" => $p->imei, "read_contact" => $p->read_contact, "datacriacontact" => $p->datacriacontact, "pacote" => $p->pacote, "preco" => $p->preco, "datacriapagamento" => $p->datacriapagamento];
             }
 
-            // return dd($contact);
             return Inertia::render('Equipas/Edit', [
                 'equipa' => new EquipaResource(Equipa::withTrashed()->findOrFail($id)),
                 'parceiros' => $contact,
