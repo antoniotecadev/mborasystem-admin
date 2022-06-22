@@ -11,41 +11,33 @@ use DateInterval;
 use DateTime;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Str;
 
 
 class ContactsController extends Controller
 {
     public function index($imei){
 
-        $c = DB::table('contacts')
-        ->join('pagamentos', 'pagamentos.contact_id', '=', 'contacts.id')
-        ->where('imei', $imei)
-        ->latest('pagamentos.id')
-        ->select('contacts.first_name', 'contacts.last_name', 'contacts.nif_bi', 'contacts.email', 'contacts.phone', 'contacts.alternative_phone', 'contacts.cantina', 'contacts.municipality', 'contacts.district', 'contacts.street', 'contacts.estado', 'contacts.imei', 'pagamentos.pacote', 'pagamentos.inicio', 'pagamentos.fim')
-        ->limit(1)
-        ->get();
+        $imeiLength = Str::length($imei);
+
+        if($imeiLength > 10 and $imeiLength < 20):
+            $c = DB::table('contacts')
+            ->join('pagamentos', 'pagamentos.contact_id', '=', 'contacts.id')
+            ->where('imei', $imei)
+            ->latest('pagamentos.id')
+            ->select('contacts.first_name', 'contacts.last_name', 'contacts.nif_bi', 'contacts.email', 'contacts.phone', 'contacts.alternative_phone', 'contacts.cantina', 'contacts.municipality', 'contacts.district', 'contacts.street', 'contacts.estado', 'contacts.imei', 'pagamentos.pacote', 'pagamentos.inicio', 'pagamentos.fim')
+            ->limit(1)
+            ->get();
+        else:
+            return $this->dataEmpty();
+        endif;
 
         // $dataFim = new DateTime($collection['0']->inicio);
         // $dataFim->add(new DateInterval('P30D'));
         // $dataFim->format('Y-m-d');
 
         if(empty($c['0'])) {
-            return [[ 'first_name' => '',
-            'last_name' => '',
-            'nif_bi' => '',
-            'email' => '',
-            'phone' => '',
-            'alternative_phone' => '',
-            'cantina' => '',
-            'municipality' => '',
-            'district' => '',
-            'street' => '',
-            'estado' => 0,
-            'imei' => '',
-            'pacote' => 3,
-            'inicio' => '',
-            'fim' => '',
-            'termina' => '1' ]];
+            return $this->dataEmpty();
         } else {
             if($c['0']->fim <= date('Y-m-d')) {
                 $termina = 1;
@@ -71,12 +63,34 @@ class ContactsController extends Controller
         }
 }
 
+
+    private function dataEmpty(){
+        return [[ 'first_name' => '',
+            'last_name' => '',
+            'nif_bi' => '',
+            'email' => '',
+            'phone' => '',
+            'alternative_phone' => '',
+            'cantina' => '',
+            'municipality' => '',
+            'district' => '',
+            'street' => '',
+            'estado' => 0,
+            'imei' => '',
+            'pacote' => 3,
+            'inicio' => '',
+            'fim' => '',
+            'termina' => '1' ]];
+    }
+
     public function store(Request $request)
     {
 
         $c = new Contact();
 
         try {
+
+            if ($request->has(['codigo_equipa', 'first_name', 'last_name', 'nif_bi', 'email', 'phone', 'alternative_phone', 'cantina', 'municipality', 'district', 'street', 'imei'])) {
 
             $c->account_id = $request->account_id;
             $c->codigo_equipa = $request->codigo_equipa;
@@ -94,6 +108,12 @@ class ContactsController extends Controller
             $c->save();
             Log::channel('daily')->info('MBORASYSTEM:  Parceiro <<' . $request->first_name . ' ' . $request->last_name . ' - ' . $request->imei . '>> criado pela equipa <<' . $request->codigo_equipa . '>>.');
             return ['insert' => 'ok'];
+
+            } else {
+
+                return ['insert' => 'erro'];
+
+            }
 
             // $contact = Contact::where('imei', $request->imei)->first();
             // CreateContactEvent::dispatch($contact);
