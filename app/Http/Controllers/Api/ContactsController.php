@@ -106,22 +106,18 @@ class ContactsController extends Controller
             $c->street = $request->street;
             $c->imei = $request->imei;
             $c->save();
-            Log::channel('daily')->info('MBORASYSTEM:  Parceiro <<' . $request->first_name . ' ' . $request->last_name . ' - ' . $request->imei . '>> criado pela equipa <<' . $request->codigo_equipa . '>>.');
+            Log::channel('daily')->info('MBORASYSTEM CRIADO:  Parceiro <<' . $request->first_name . ' ' . $request->last_name . ' - ' . $request->imei . '>> criado pela equipa <<' . $request->codigo_equipa . '>>.');
             return ['insert' => 'ok'];
-
             } else {
-
                 return ['insert' => 'erro'];
-
             }
 
             // $contact = Contact::where('imei', $request->imei)->first();
             // CreateContactEvent::dispatch($contact);
 
        } catch (\Throwable $th) {
-
+            Log::channel('daily')->emergency('MBORASYSTEM ERRO AO CRIAR:  Parceiro <<' . $request->first_name . ' ' . $request->last_name . ' - ' . $request->imei . '>> Equipa <<' . $request->codigo_equipa . '>>.');
             return ['insert' => 'erro'];
-
        }
     }
 
