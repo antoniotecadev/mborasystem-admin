@@ -12,6 +12,7 @@ use DateTime;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Str;
+use Illuminate\Support\Arr;
 
 
 class ContactsController extends Controller
@@ -121,14 +122,116 @@ class ContactsController extends Controller
        }
     }
 
-    // public function getBairros($municipio)
-    // {
-    //     $bairros = [ 'luanda' => [
-    //         ['br' => 'Morro Bento'],
-    //         ['br' => 'Benfica']
-    //     ]
-    // ];
-    // 	return $bairros[$municipio];
-    // }
+    public function getBairros($municipio)
+    {
+        $bairros = [ 
+            'Belas' => [
+                ['br' => 'Barra do Kwanza'], 
+                ['br' => 'Cabolombo'], 
+                ['br' => 'Ilha da Cazanga'],
+                ['br' => 'Ilha dos Pássaros'],
+                ['br' => 'Kilamba'],
+                ['br' => 'KK5000'],
+                ['br' => 'Morro dos Veados'],
+                ['br' => 'Quenguela'],
+                ['br' => 'Ramiros'],
+                ['br' => 'Vila Verde 1'],
+                ['br' => 'Vila Verde 2']
+            ],
+            'Cacuaco' => [
+                ['br' => 'Cacuaco'],
+                ['br' => 'Funda'], 
+                ['br' => 'Kikolo'], 
+                ['br' => 'Mulenvos Baixos'],
+                ['br' => 'Kilamba'],
+                ['br' => 'Sequele'],
+                ['br' => 'Centralidade de Cacuaco']
+            ],
+            'Cazenga' => [
+                ['br' => '11 de Novembro'], 
+                ['br' => 'Cazenga'],
+                ['br' => 'Hoji-ya-Henda'], 
+                ['br' => 'Kalawenda'],
+                ['br' => 'Kima Kieza'],
+                ['br' => 'Tala Hadi']
+            ],
+            'IcoloeBengo' => [
+                ['br' => 'Bela Vista'],
+                ['br' => 'Bom Jesus'], 
+                ['br' => 'Cabiri'], 
+                ['br' => 'Caculo'],
+                ['br' => 'Caculo Cahango'],
+                ['br' => 'Cahango'],
+                ['br' => 'Cassoneca'],
+                ['br' => 'Catete'],
+                ['br' => 'Quiminha']
+            ],
+            'Quissama' => [
+                ['br' => 'Cabo Ledo'],
+                ['br' => 'Chio'], 
+                ['br' => 'Demba'], 
+                ['br' => 'Demba Chio'],
+                ['br' => 'Mumbondo'],
+                ['br' => 'Muxima'],
+                ['br' => 'Quixinge']
+            ],
+            'Talatona' => [
+                ['br' => '11 de Novembro'], 
+                ['br' => 'Benfica'],
+                ['br' => 'Cabolombo'], 
+                ['br' => 'Calemba 2'], 
+                ['br' => 'Camama'],
+                ['br' => 'Cidade Universitária'],
+                ['br' => 'Fubú'],
+                ['br' => 'Futungo de Belas'],
+                ['br' => 'Ilha do Mussulo'],
+                ['br' => 'Lar do Patriota'],
+                ['br' => 'Talatona']
+            ],
+            'KilambaKiaxi' => [
+                ['br' => 'Bairro Popular'], 
+                ['br' => 'Capolo 2'],
+                ['br' => 'Golf'], 
+                ['br' => 'Golf 2'], 
+                ['br' => 'Nova Vida'],
+                ['br' => 'Palanca'],
+                ['br' => 'Sapú'],
+                ['br' => 'Vila Estoril']
+            ],
+            'Viana' => [
+                ['br' => 'Baia'], 
+                ['br' => 'Calumbo'], 
+                ['br' => 'Estalagem'],
+                ['br' => 'Kikuxi'], 
+                ['br' => 'Luanda Sul'], 
+                ['br' => 'Viana'],
+                ['br' => 'Vila Flor'],
+                ['br' => 'Zango'],
+                ['br' => 'Zango 1'],
+                ['br' => 'Zango 2'],
+                ['br' => 'Zango 3'],
+                ['br' => 'Zango 4'],
+                ['br' => 'Zango 5']
+            ],
+            'Luanda' => [
+                ['br' => 'Corimba'], 
+                ['br' => 'Gamek'], 
+                ['br' => 'Gamek a Direita'], 
+                ['br' => 'Vila do Gamek'], 
+                ['br' => 'Ingombota'], 
+                ['br' => 'Maianga'], 
+                ['br' => 'Morro Bento'], 
+                ['br' => 'Morro Bento 2'], 
+                ['br' => 'Morro da Luz'], 
+                ['br' => 'Neves Bendinha'],
+                ['br' => 'Ngola Kiluanje'], 
+                ['br' => 'Rangel'], 
+                ['br' => 'Samba'],
+                ['br' => 'Sambizanga']
+            ]
+    ];
+
+    	return Arr::has($bairros, $municipio) ? $bairros[$municipio] : [['br' => '']];
+    }
 
 }
