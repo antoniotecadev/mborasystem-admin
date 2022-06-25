@@ -31,4 +31,5 @@ Route::namespace('Api')->group(function () {
     Route::post('/contacts', 'ContactsController@store');
     Route::get('{municipio}/bairros', 'ContactsController@getBairros');
     Route::get('/equipas/{codigo}/verificar', 'EquipasController@verificarCodigo')->where('codigo', '[0-9]+');;
+    Route::get('/contacts/contactos', 'ContactsController@getContactos');
 });

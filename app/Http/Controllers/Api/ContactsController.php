@@ -64,7 +64,6 @@ class ContactsController extends Controller
         }
 }
 
-
     private function dataEmpty(){
         return [[ 'first_name' => '',
             'last_name' => '',
@@ -120,6 +119,11 @@ class ContactsController extends Controller
             Log::channel('daily')->emergency('MBORASYSTEM ERRO AO CRIAR:  Parceiro <<' . $request->first_name . ' ' . $request->last_name . ' - ' . $request->imei . '>> Equipa <<' . $request->codigo_equipa . '>>.');
             return ['insert' => 'erro'];
        }
+    }
+
+    public function getContactos()
+    {
+        return [[ 'contactos' => "\nCALL: 222 727 519 | 937 115 891\nEMAIL: yoga.apoio.tecnico@gmail.com\nWHATSAPP: +244 937 115 891" ]];
     }
 
     public function getBairros($municipio)
