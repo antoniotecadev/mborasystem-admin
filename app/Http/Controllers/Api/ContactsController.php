@@ -146,7 +146,7 @@ class ContactsController extends Controller
                 ['br' => 'Bairro de Chapa - Via Espressa'],
                 ['br' => 'Bairro Vidrul Luanda'],
                 ['br' => 'Balumuka'],
-                ['br' => 'Boa Esperanç'],
+                ['br' => 'Boa Esperança'],
                 ['br' => 'Cacuaco'],
                 ['br' => 'Cimangola'],
                 ['br' => 'Funda'], 
