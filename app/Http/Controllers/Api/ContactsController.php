@@ -60,7 +60,9 @@ class ContactsController extends Controller
             'pacote' => $c['0']->pacote,
             'inicio' => $c['0']->inicio,
             'fim' => $c['0']->fim,
-            'termina' => $termina ]];
+            'termina' => $termina,
+            'contactos' => "\nCALL: 222 727 519 | 937 115 891\nEMAIL: yoga.apoio.tecnico@gmail.com\nWHATSAPP: +244 937 115 891"
+             ]];
         }
 }
 
@@ -80,7 +82,9 @@ class ContactsController extends Controller
             'pacote' => 3,
             'inicio' => '',
             'fim' => '',
-            'termina' => '1' ]];
+            'termina' => '1',
+            'contactos' => "\nCALL: 222 727 519 | 937 115 891\nEMAIL: yoga.apoio.tecnico@gmail.com\nWHATSAPP: +244 937 115 891"
+             ]];
     }
 
     public function store(Request $request)
