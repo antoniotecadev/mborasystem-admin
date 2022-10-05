@@ -163,9 +163,9 @@ class ContactsController extends Controller
         ->update(['contacts.estado' => '0']);
         Log::channel('daily')->alert('Estado de pagamento de parceiro verificado.',[ 'id' => Auth::id(), 'nome' => Auth::user()->first_name . " " . Auth::user()->last_name, 'email' =>  Auth::user()->email]);
         if($affected == '0'){
-            return Redirect::route('contacts')->with('success', 'Nenhum parceiro desactivado (sem pagamentos terminados)');
+            return Redirect::route('contacts')->with('success', 'Nenhum Parceiro desactivado (sem pagamentos terminados)');
         }else{
-            return Redirect::route('contacts')->with('success', $affected . ' parceiro(s) desactivado(s) - (com pagamento terminado)');
+            return Redirect::route('contacts')->with('success', $affected . ' Parceiro(s) desactivado(s) - (com pagamento terminado)');
         }
     }
 
