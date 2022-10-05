@@ -13,7 +13,7 @@ class Enc {
 
     public function desencriptar($valorEncriptado){
         try {
-            $decrypted = Crypt::decryptString($encryptedValue);
+            $decrypted = Crypt::decryptString($valorEncriptado);
         } catch (DecryptException $e) {
             //
         }
