@@ -19,7 +19,7 @@ const Edit = () => {
     email: contact.email || '',
     phone: contact.phone || '',
     alternative_phone: contact.alternative_phone || '',
-    cantina: contact.cantina || '',
+    empresa: contact.empresa || '',
     municipality: contact.municipality || '',
     district: contact.district || '',
     street: contact.street || '',
@@ -161,11 +161,11 @@ const Edit = () => {
             />
             <TextInput
               className="w-full pb-8 pr-6 lg:w-1/2"
-              label="Cantina"
-              name="cantina"
-              errors={errors.cantina}
-              value={data.cantina}
-              onChange={e => setData('cantina', e.target.value)}
+              label="Empresa"
+              name="empresa"
+              errors={errors.empresa}
+              value={data.empresa}
+              onChange={e => setData('empresa', e.target.value)}
             />
             <SelectInput
               className="w-full pb-8 pr-6 lg:w-1/2"

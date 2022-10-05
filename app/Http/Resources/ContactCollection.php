@@ -24,7 +24,7 @@ class ContactCollection extends ResourceCollection
                 'id' => Crypt::encryptString($item->id),
                 'name' => $item->name,
                 'email' => $item->email,
-                'cantina' => $item->cantina,
+                'empresa' => $item->empresa,
                 'phone' => $item->phone,
                 'estado' => $item->estado,
                 'imei' => $item->imei,

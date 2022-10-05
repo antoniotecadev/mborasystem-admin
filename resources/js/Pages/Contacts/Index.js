@@ -50,7 +50,7 @@ const Index = () => {
     <div>
       <h1 className="mb-8 text-3xl font-bold">Parceiros ({data.length} - {quantidade})</h1>
       <div className="flex items-center justify-between mb-6">
-        <SearchFilter placeHolder = "nome, imei, cantina, nif/bi, telefone"/>
+        <SearchFilter placeHolder = "nome, imei, empresa, nif/bi, telefone"/>
         <InertiaLink
           className="btn-indigo focus:outline-none"
           href={route('contacts.create')}
@@ -71,7 +71,7 @@ const Index = () => {
           <thead>
             <tr className="font-bold text-left">
               <th className="px-6 pt-5 pb-4">Nome</th>
-              <th className="px-6 pt-5 pb-4">Cantina</th>
+              <th className="px-6 pt-5 pb-4">Empresa</th>
               <th className="px-6 pt-5 pb-4">Email</th>
               <th className="px-6 pt-5 pb-4" colSpan="2">
                 Telefone
@@ -81,7 +81,7 @@ const Index = () => {
           </thead>
           <tbody>
             {data.map(
-              ({ id, name, cantina, email, phone, estado, imei, codigo_equipa, read_contact, created_at, deleted_at }) => (
+              ({ id, name, empresa, email, phone, estado, imei, codigo_equipa, read_contact, created_at, deleted_at }) => (
                 <tr
                   key={id}
                   className={`hover:bg-gray-100 focus-within:bg-yellow-100 ${
@@ -108,7 +108,7 @@ const Index = () => {
                       className="flex items-center px-6 py-4 focus:text-indigo focus:outline-none"
                       onClick={() => abrirNotificacao(id, 1, read_contact, imei, name, codigo_equipa, created_at)}
                     >
-                      {cantina}
+                      {empresa}
                     </InertiaLink>
                   </td>
                   <td className="border-t">

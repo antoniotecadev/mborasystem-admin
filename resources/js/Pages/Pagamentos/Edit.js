@@ -118,9 +118,9 @@ const Edit = () => {
               value={data.contact_id}
               onChange={e => setData('contact_id', e.target.value)}>
               <option value=""></option>
-              {contacts.map(({ id, first_name, last_name, cantina, phone }) => (
+              {contacts.map(({ id, first_name, last_name, empresa, phone }) => (
                 <option key={id} value={id}>
-                  {first_name} {last_name} - {cantina} - {phone}
+                  {first_name} {last_name} - {empresa} - {phone}
                 </option>
               ))}
             </SelectInput>

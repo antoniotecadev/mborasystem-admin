@@ -24,7 +24,7 @@ class ContactResource extends JsonResource
             'email' => $this->email,
             'phone' => $this->phone,
             'alternative_phone' => $this->alternative_phone,
-            'cantina' => $this->cantina,
+            'empresa' => $this->empresa,
             'municipality' => $this->municipality,
             'district' => $this->district,
             'street' => $this->street,

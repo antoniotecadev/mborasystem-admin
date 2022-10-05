@@ -37,7 +37,7 @@ class Contact extends Model
                 $query->where('first_name', 'like', '%'.$search.'%')
                     ->orWhere('last_name', 'like', '%'.$search.'%')
                     ->orWhere('imei', 'like', '%'.$search.'%')
-                    ->orWhere('cantina', 'like', '%'.$search.'%')
+                    ->orWhere('empresa', 'like', '%'.$search.'%')
                     ->orWhere('nif_bi', 'like', '%'.$search.'%')
                     ->orWhere('phone', 'like', '%'.$search.'%');
             });

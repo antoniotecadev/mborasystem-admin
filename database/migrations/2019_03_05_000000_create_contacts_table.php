@@ -18,7 +18,7 @@ class CreateContactsTable extends Migration
             $table->string('email', 50)->nullable();
             $table->string('phone', 15);
             $table->string('alternative_phone', 15);
-            $table->string('cantina', 20);
+            $table->string('empresa', 20);
             $table->string('municipality', 20);
             $table->string('district', 20);
             $table->string('street', 20);

@@ -32,7 +32,7 @@ class ContactStoreRequest extends FormRequest
             'email' => ['max:50', 'email'],
             'phone' => ['required', 'min:9', 'regex:/(9)[0-9]{8}/', 'max:9'],
             'alternative_phone' => ['required', 'regex:/(9)[0-9]{8}/', 'max:9'],
-            'cantina' => ['required', 'max:25', 'min:5'],
+            'empresa' => ['required', 'max:25', 'min:5'],
             'municipality' => ['required', 'max:20'],
             'district' => ['required', 'max:20'],
             'street' => ['required', 'max:20'],

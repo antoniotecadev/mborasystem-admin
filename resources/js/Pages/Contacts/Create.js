@@ -15,7 +15,7 @@ const Create = () => {
     email: '',
     phone: '',
     alternative_phone: '',
-    cantina: '',
+    empresa: '',
     municipality: '',
     district: '',
     street: '',
@@ -104,11 +104,11 @@ const Create = () => {
             />
             <TextInput
               className="w-full pb-8 pr-6 lg:w-1/2"
-              label="Cantina"
-              name="cantina"
-              errors={errors.cantina}
-              value={data.cantina}
-              onChange={e => setData('cantina', e.target.value)}
+              label="Empresa"
+              name="empresa"
+              errors={errors.empresa}
+              value={data.empresa}
+              onChange={e => setData('empresa', e.target.value)}
             />
             <SelectInput
               className="w-full pb-8 pr-6 lg:w-1/2"

@@ -89,10 +89,10 @@ const Create = () => {
     Number(data.tipo_pagamento)
   );
 
-  function getParceiro(e, id, name, cantina, phone) {
+  function getParceiro(e, id, name, empresa, phone) {
     e.preventDefault();
     setData('contact_id', id);
-    setParceiro(name + ' - ' + cantina + ' - ' + phone);
+    setParceiro(name + ' - ' + empresa + ' - ' + phone);
   }
 
   return (
@@ -305,7 +305,7 @@ const ListaParceiros = (props) => {
           <thead>
             <tr className="font-bold text-left">
               <th className="px-6 pt-5 pb-4">Nome</th>
-              <th className="px-6 pt-5 pb-4">Cantina</th>
+              <th className="px-6 pt-5 pb-4">Empresa</th>
               <th className="px-6 pt-5 pb-4">Email</th>
               <th className="px-6 pt-5 pb-4" colSpan="2">
                 Telefone
@@ -315,7 +315,7 @@ const ListaParceiros = (props) => {
           </thead>
           <tbody>
             {data.map(
-              ({ id, idcrypt, name, cantina, email, phone, estado, imei, codigo_equipa, read_contact, created_at, deleted_at }) => (
+              ({ id, idcrypt, name, empresa, email, phone, estado, imei, codigo_equipa, read_contact, created_at, deleted_at }) => (
                 <tr
                   key={id}
                   className={`hover:bg-gray-100 focus-within:bg-yellow-100 ${estado == '0' ? 'bg-red-100' : 'bg-green-200'
@@ -341,7 +341,7 @@ const ListaParceiros = (props) => {
                       className="flex items-center px-6 py-4 focus:text-indigo focus:outline-none"
                       onClick={() => abrirNotificacao(idcrypt, 1, read_contact, imei, name, codigo_equipa, created_at)}
                     >
-                      {cantina}
+                      {empresa}
                     </InertiaLink>
                   </td>
                   <td className="border-t">
@@ -376,7 +376,7 @@ const ListaParceiros = (props) => {
                   </td>
                   <td>
                     <LoadingButton
-                      onClick={e => props.getParceiro(e, id, name, cantina, phone)}
+                      onClick={e => props.getParceiro(e, id, name, empresa, phone)}
                       className={`ml-auto btn-danger`}
                     >
                       Seleccionar
