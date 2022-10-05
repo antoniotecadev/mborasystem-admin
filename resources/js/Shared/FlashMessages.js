@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { usePage } from '@inertiajs/inertia-react';
 import classNames from 'classnames';
-import { toast } from 'react-toastify';
+// import { toast } from 'react-toastify';
 
 const IconSuccess = () => (
   <svg
@@ -65,7 +65,7 @@ export default () => {
             <IconSuccess />
             <div className="py-4 text-white text-sm font-medium">
               {flash.success}
-              {toast.success(flash.success, { toastId: "" })}
+              {/* {toast.success(flash.success, { toastId: "" })} */}
             </div>
           </div>
           <ButtonClose onClick={() => setVisible(false)} color="green" />
@@ -75,7 +75,7 @@ export default () => {
         // <div className="mb-8 flex items-center justify-between bg-red-500 rounded max-w-3xl">
         <div className="flex items-center justify-between bg-red-500">
           <div className="flex items-center">
-            {toast.error("Erro", { toastId: "" })}
+            {/* {toast.error("Erro", { toastId: "" })} */}
             <IconDanger />
             <div className="py-4 text-white text-sm font-medium">
               {flash.error && flash.error}
