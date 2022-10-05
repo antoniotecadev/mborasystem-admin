@@ -9,6 +9,8 @@ import TextInput from '@/Shared/TextInput';
 import SelectInput from '@/Shared/SelectInput';
 import TrashedMessage from '@/Shared/TrashedMessage';
 import Icon from '@/Shared/Icon';
+import { toast } from 'react-toastify';
+
 
 const Edit = () => {
   const { contact } = usePage().props;
@@ -101,7 +103,13 @@ const Edit = () => {
       </h1>
       {contact.deleted_at && (
         <TrashedMessage onRestore={restore}>
-          <p>Este parceiro foi eliminado.{' '}<DeleteButton onDelete={e => alert(contact.motivo_elimina)}>Motivo</DeleteButton></p>
+          <p>Este parceiro foi eliminado.{'   '}<DeleteButton
+            onDelete={e => toast.info(contact.motivo_elimina, {
+              position: "top-center",
+              autoClose: false,
+              hideProgressBar: false,
+              closeOnClick: true,
+            })}>Motivo</DeleteButton></p>
         </TrashedMessage>
       )}
       <div className="max-w-3xl overflow-hidden bg-white rounded shadow">
