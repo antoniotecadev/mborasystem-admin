@@ -74,14 +74,14 @@ const Index = () => {
               <th className="px-6 pt-5 pb-4">Empresa</th>
               <th className="px-6 pt-5 pb-4">IMEI</th>
               <th className="px-6 pt-5 pb-4" colSpan="2">
-                Telefone
+                NIF/BI
               </th>
               <th>Operação</th>
             </tr>
           </thead>
           <tbody>
             {data.map(
-              ({ id, name, empresa, phone, estado, imei, codigo_equipa, read_contact, created_at, deleted_at }) => (
+              ({ id, name, empresa, nifbi, estado, imei, codigo_equipa, read_contact, created_at, deleted_at }) => (
                 <tr
                   key={id}
                   className={`hover:bg-gray-100 focus-within:bg-yellow-100 ${
@@ -126,7 +126,7 @@ const Index = () => {
                       onClick={() => abrirNotificacao(id, 1, read_contact, imei, name, codigo_equipa, created_at)}
                       className="flex items-center px-6 py-4 focus:text-indigo focus:outline-none"
                     >
-                      {phone}
+                      {nifbi}
                     </InertiaLink>
                   </td>
                   <td className="w-px border-t">
