@@ -28,7 +28,7 @@ class ContactStoreRequest extends FormRequest
         return [
             'first_name' => ['required', 'max:25', 'min:4'],
             'last_name' => ['required', 'max:25', 'min:4'],
-            'nif_bi' => ['required', 'size:14', 'alpha_num'],
+            'nif_bi' => ['required', 'min:10', 'max:14', 'alpha_num'],
             'email' => ['max:50', 'email'],
             'phone' => ['required', 'min:9', 'regex:/(9)[0-9]{8}/', 'max:9'],
             'alternative_phone' => ['required', 'regex:/(9)[0-9]{8}/', 'max:9'],
