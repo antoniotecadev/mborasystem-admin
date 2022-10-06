@@ -26,7 +26,7 @@ class ContactsController extends Controller
             ->join('pagamentos', 'pagamentos.contact_id', '=', 'contacts.id')
             ->where('imei', $imei)
             ->latest('pagamentos.id')
-            ->select('contacts.first_name', 'contacts.last_name', 'contacts.nif_bi', 'contacts.email', 'contacts.phone', 'contacts.alternative_phone', 'contacts.cantina', 'contacts.municipality', 'contacts.district', 'contacts.street', 'contacts.estado', 'contacts.imei', 'pagamentos.pacote', 'pagamentos.inicio', 'pagamentos.fim')
+            ->select('contacts.first_name', 'contacts.last_name', 'contacts.nif_bi', 'contacts.email', 'contacts.phone', 'contacts.alternative_phone', 'contacts.empresa', 'contacts.municipality', 'contacts.district', 'contacts.street', 'contacts.estado', 'contacts.imei', 'pagamentos.pacote', 'pagamentos.inicio', 'pagamentos.fim')
             ->limit(1)
             ->get();
         else:
@@ -51,7 +51,7 @@ class ContactsController extends Controller
             'email' => $c['0']->email,
             'phone' => $c['0']->phone,
             'alternative_phone' => $c['0']->alternative_phone,
-            'cantina' => $c['0']->cantina,
+            'empresa' => $c['0']->empresa,
             'municipality' => $c['0']->municipality,
             'district' => $c['0']->district,
             'street' => $c['0']->street,
@@ -73,7 +73,7 @@ class ContactsController extends Controller
             'email' => '',
             'phone' => '',
             'alternative_phone' => '',
-            'cantina' => '',
+            'empresa' => '',
             'municipality' => '',
             'district' => '',
             'street' => '',
@@ -89,40 +89,44 @@ class ContactsController extends Controller
 
     public function store(Request $request)
     {
-
         $c = new Contact();
 
         try {
 
-            if ($request->has(['codigo_equipa', 'first_name', 'last_name', 'nif_bi', 'email', 'phone', 'alternative_phone', 'cantina', 'municipality', 'district', 'street', 'imei'])) {
+            if ($request->has(['codigo_equipa', 'first_name', 'last_name', 'nif_bi', 'email', 'phone', 'alternative_phone', 'empresa', 'municipality', 'district', 'street', 'imei'])) {
 
-            $c->account_id = $request->account_id;
-            $c->codigo_equipa = $request->codigo_equipa;
-            $c->first_name = $request->first_name;
-            $c->last_name = $request->last_name;
-            $c->nif_bi = $request->nif_bi;
-            $c->email = $request->email;
-            $c->phone = $request->phone;
-            $c->alternative_phone = $request->alternative_phone;
-            $c->cantina = $request->cantina;
-            $c->municipality = $request->municipality;
-            $c->district = $request->district;
-            $c->street = $request->street;
-            $c->imei = $request->imei;
-            $c->save();
-            Log::channel('daily')->info('MBORASYSTEM CRIADO:  Parceiro <<' . $request->first_name . ' ' . $request->last_name . ' - ' . $request->imei . '>> criado pela equipa <<' . $request->codigo_equipa . '>>.');
-            return ['insert' => 'ok'];
+                $c->account_id = $request->account_id;
+                $c->codigo_equipa = $request->codigo_equipa;
+                $c->first_name = $request->first_name;
+                $c->last_name = $request->last_name;
+                $c->nif_bi = $request->nif_bi;
+                $c->email = $request->email;
+                $c->phone = $request->phone;
+                $c->alternative_phone = $request->alternative_phone;
+                $c->empresa = $request->empresa;
+                $c->municipality = $request->municipality;
+                $c->district = $request->district;
+                $c->street = $request->street;
+                $c->imei = $request->imei;
+                $c->save();
+                $this->storeDeviceDetail($request, $c->id);
+                return ['insert' => 'ok'];
+
             } else {
-                return ['insert' => 'erro'];
+                new \Throwable();
             }
-
             // $contact = Contact::where('imei', $request->imei)->first();
             // CreateContactEvent::dispatch($contact);
-
-       } catch (\Throwable $th) {
+        } catch (\Throwable $th) {
             Log::channel('daily')->emergency('MBORASYSTEM ERRO AO CRIAR:  Parceiro <<' . $request->first_name . ' ' . $request->last_name . ' - ' . $request->imei . '>> Equipa <<' . $request->codigo_equipa . '>>.');
             return ['insert' => 'erro'];
-       }
+        }
+    }
+
+    private function storeDeviceDetail($request, $contact_id){
+        $data = array('contact_id' => $contact_id , 'fabricante' => $request->fabricante, 'marca' => $request->marca, 'produto' => $request->produto, 'modelo' => $request->modelo, 'versao' => $request->versao, 'api' => $request->api, 'device' => $request->device);
+        DB::table('dispositivos')->insert($data);
+        Log::channel('daily')->info('MBORASYSTEM CRIADO:  Parceiro <<' . $request->first_name . ' ' . $request->last_name . ' - ' . $request->imei . '>> criado pela equipa <<' . $request->codigo_equipa . '>>.');
     }
 
     public function getContactos()

@@ -16,12 +16,13 @@ class Dispositivos extends Migration
         Schema::create('dispositivos', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('contact_id')->index();
-            $table->string('fabricante', 20);
-            $table->string('marca', 20);
-            $table->string('produto', 20);
-            $table->string('modelo', 20);
-            $table->string('versao', 10);
-            $table->integer('api');
+            $table->string('fabricante', 20)->nullable();
+            $table->string('marca', 20)->nullable();
+            $table->string('produto', 20)->nullable();
+            $table->string('modelo', 20)->nullable();
+            $table->string('versao', 10)->nullable();
+            $table->integer('api')->default(0);
+            $table->string('device', 20)->nullable();
         });
     }
 
