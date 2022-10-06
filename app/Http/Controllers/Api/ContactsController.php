@@ -24,9 +24,11 @@ class ContactsController extends Controller
         if($imeiLength > 10 and $imeiLength < 20):
             $c = DB::table('contacts')
             ->join('pagamentos', 'pagamentos.contact_id', '=', 'contacts.id')
+            ->join('dispositivos as d', 'd.contact_id', '=', 'contacts.id')
             ->where('imei', $imei)
             ->latest('pagamentos.id')
-            ->select('contacts.first_name', 'contacts.last_name', 'contacts.nif_bi', 'contacts.email', 'contacts.phone', 'contacts.alternative_phone', 'contacts.empresa', 'contacts.municipality', 'contacts.district', 'contacts.street', 'contacts.estado', 'contacts.imei', 'pagamentos.pacote', 'pagamentos.inicio', 'pagamentos.fim')
+            ->select('contacts.first_name', 'contacts.last_name', 'contacts.nif_bi', 'contacts.email', 'contacts.phone', 'contacts.alternative_phone', 'contacts.empresa', 'contacts.municipality', 'contacts.district', 'contacts.street', 'contacts.estado', 'contacts.imei', 'pagamentos.pacote', 'pagamentos.inicio', 'pagamentos.fim',
+            'd.fabricante', 'd.marca', 'd.produto', 'd.modelo', 'd.versao', 'd.api', 'd.device')
             ->limit(1)
             ->get();
         else:
@@ -61,7 +63,8 @@ class ContactsController extends Controller
             'inicio' => $c['0']->inicio,
             'fim' => $c['0']->fim,
             'termina' => $termina,
-            'contactos' => "\nCALL: 222 727 519 | 937 115 891\nEMAIL: yoga.apoio.tecnico@gmail.com\nWHATSAPP: +244 937 115 891"
+            'contactos' => "\nCALL: 222 727 519 | 937 115 891\nEMAIL: yoga.apoio.tecnico@gmail.com\nWHATSAPP: +244 937 115 891",
+            'device' => $c['0']->fabricante . $c['0']->marca . $c['0']->produto . $c['0']->modelo . $c['0']->versao . $c['0']->api . $c['0']->device
              ]];
         }
 }
@@ -83,7 +86,8 @@ class ContactsController extends Controller
             'inicio' => '',
             'fim' => '',
             'termina' => '1',
-            'contactos' => "\nCALL: 222 727 519 | 937 115 891\nEMAIL: yoga.apoio.tecnico@gmail.com\nWHATSAPP: +244 937 115 891"
+            'contactos' => "\nCALL: 222 727 519 | 937 115 891\nEMAIL: yoga.apoio.tecnico@gmail.com\nWHATSAPP: +244 937 115 891",
+            'device' => ''
              ]];
     }
 
