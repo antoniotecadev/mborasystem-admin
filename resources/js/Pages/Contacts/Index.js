@@ -50,7 +50,7 @@ const Index = () => {
     <div>
       <h1 className="mb-8 text-3xl font-bold">Parceiros ({data.length} - {quantidade})</h1>
       <div className="flex items-center justify-between mb-6">
-        <SearchFilter placeHolder = "nome, imei, empresa, nif/bi, telefone"/>
+        <SearchFilter placeHolder = "nome, imei, empresa, nif/bi, telefone, município, bairro"/>
         <InertiaLink
           className="btn-indigo focus:outline-none"
           href={route('contacts.create')}
