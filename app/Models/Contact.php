@@ -40,6 +40,7 @@ class Contact extends Model
                     ->orWhere('empresa', 'like', '%'.$search.'%')
                     ->orWhere('nif_bi', 'like', '%'.$search.'%')
                     ->orWhere('phone', 'like', '%'.$search.'%')
+                    ->orWhere('municipality', 'like', '%'.$search.'%')
                     ->orWhere('district', 'like', '%'.$search.'%')
                     ->orWhere('street', 'like', '%'.$search.'%');
             });
