@@ -27,7 +27,10 @@ class Pagamento extends Model
                             ->orWhere('imei', 'like', '%'.$search.'%')
                             ->orWhere('empresa', 'like', '%'.$search.'%')
                             ->orWhere('nif_bi', 'like', '%'.$search.'%')
-                            ->orWhere('phone', 'like', '%'.$search.'%');
+                            ->orWhere('phone', 'like', '%'.$search.'%')
+                            ->orWhere('municipality', 'like', '%'.$search.'%')
+                            ->orWhere('district', 'like', '%'.$search.'%')
+                            ->orWhere('street', 'like', '%'.$search.'%');
                     });
             });
         })->when($filters['trashed'] ?? null, function ($query, $trashed) {
