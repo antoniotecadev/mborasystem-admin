@@ -149,7 +149,7 @@ const Create = () => {
             />
             <TextInput
               className="w-full pb-8 pr-6 lg:w-1/2"
-              label="IMEI/Código de Série"
+              label="IMEI"
               name="imei"
               type="text"
               errors={errors.imei}
