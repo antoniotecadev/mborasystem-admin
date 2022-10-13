@@ -1,4 +1,5 @@
 import { isNull } from 'lodash';
+import { toast } from 'react-toastify';
 
 function getDaysInMonth(month, year) {
   return new Date(year, month, 0).getDate();
@@ -62,4 +63,14 @@ export const numeroNotificacao = function () {
   var notificacao_registo = isNull(not_reg) || isNaN(not_reg) ? Number.parseInt(0) : Number.parseInt(not_reg);
   var sizeNot = notificacao_registo - Number.parseInt(1);
   return sizeNot < Number.parseInt(0) ? Number.parseInt(0) : sizeNot;
+}
+
+export const alertToast = (message, idToast) => {
+  toast.info(message, {
+    toastId: idToast,
+    position: "top-center",
+    autoClose: false,
+    hideProgressBar: false,
+    closeOnClick: true,
+  });
 }

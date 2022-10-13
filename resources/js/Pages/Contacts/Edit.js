@@ -9,8 +9,7 @@ import TextInput from '@/Shared/TextInput';
 import SelectInput from '@/Shared/SelectInput';
 import TrashedMessage from '@/Shared/TrashedMessage';
 import Icon from '@/Shared/Icon';
-import { toast } from 'react-toastify';
-
+import { alertToast } from '@/Util/utilitario';
 
 const Edit = () => {
   const { contact } = usePage().props;
@@ -42,7 +41,7 @@ const Edit = () => {
       var motivo = prompt('Qual é o motivo de sua eliminação?');
       if (motivo) {
         if (motivo.length > 150) {
-          alert('⚠ Só é permitido 150 caracteres');
+          alertToast("⚠ Só é permitido 150 caracteres", "max_caractere");
         } else {
           Inertia.delete(route('contacts.destroy', [contact.id, motivo]));
         }
@@ -104,13 +103,7 @@ const Edit = () => {
       {contact.deleted_at && (
         <TrashedMessage onRestore={restore}>
           <p>Este parceiro foi eliminado.{'   '}<DeleteButton
-            onDelete={e => toast.info(contact.motivo_elimina, {
-              toastId: "contact_motivo_elimina",
-              position: "top-center",
-              autoClose: false,
-              hideProgressBar: false,
-              closeOnClick: true,
-            })}>Motivo</DeleteButton></p>
+            onDelete={e => alertToast(contact.motivo_elimina, "contact_motivo_elimina")}>Motivo</DeleteButton></p>
         </TrashedMessage>
       )}
       <div className="max-w-3xl overflow-hidden bg-white rounded shadow">
