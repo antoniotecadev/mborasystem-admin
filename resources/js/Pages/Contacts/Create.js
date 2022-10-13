@@ -181,35 +181,17 @@ const Create = () => {
                 </option>
               ))}
             </SelectInput>
-            <div className="w-full pb-4 pr-6">
-              <label className="mr-1 text-sm font-medium text-gray-700" htmlFor="activo">
-                Activo
-              </label>
-              <input
-                type="radio"
-                id="activo"
-                name="estado"
-                value="1"
-                className="h-4 w-4 border-gray-300 text-indigo-600 focus:ring-indigo-500"
-                onChange={e => setData('estado', e.target.value)}
-              />
-              <label htmlFor="desactivo" className="ml-4 mr-1 text-sm font-medium text-gray-700">
-                Desactivo
-              </label>
-              <input
-                type="radio"
-                checked
-                id="desactivo"
-                name="estado"
-                value="0"
-                className="h-4 w-4 border-gray-300 text-indigo-600 focus:ring-indigo-500"
-                onChange={e => setData('estado', e.target.value)}
-              />
-              <br />{' '}
-              {errors.estado && (
-                <div className="form-error">{errors.estado}</div>
-              )}
-            </div>
+            <SelectInput
+              className="w-full pb-8 pr-6 lg:w-1/2"
+              label="Estado"
+              name="estado"
+              errors={errors.estado}
+              value={data.estado}
+              onChange={e => setData('estado', e.target.value)}
+            >
+              <option value="1">ACTIVO</option>
+              <option value="0">DESACTIVO</option>
+            </SelectInput>
           </div>
           <div className="flex items-center justify-end px-8 py-4 bg-gray-100 border-t border-gray-200">
             <LoadingButton
