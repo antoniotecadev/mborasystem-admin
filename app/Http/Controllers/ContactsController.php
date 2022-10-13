@@ -63,7 +63,7 @@ class ContactsController extends Controller
             ,[ 'id' => Auth::id(), 'nome' => Auth::user()->first_name . " " . Auth::user()->last_name, 'email' =>  Auth::user()->email]);
             // $contact = Contact::where('imei', $request->imei)->first();
             // CreateContactEvent::dispatch($contact);
-            return Redirect::route('contacts')->with('success', 'Parceiro criado.');
+            return Redirect::route('contacts')->with('success', 'Parceiro <<' . $request->first_name . ' ' . $request->first_name . '>> ' . $request->imei . ' criado.');
         }
     }
 
