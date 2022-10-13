@@ -24,6 +24,8 @@ class Agente extends Model
                     ->orWhere('bi', 'like', '%'.$search.'%')
                     ->orWhere('telefone', 'like', '%'.$search.'%')
                     ->orWhere('municipio', 'like', '%'.$search.'%')
+                    ->orWhere('bairro', 'like', '%'.$search.'%')
+                    ->orWhere('rua', 'like', '%'.$search.'%')
                     ->orWhereHas('equipa', function ($query) use ($search) {
                         $query->where('codigo', 'like', '%'.$search.'%');
                     });
