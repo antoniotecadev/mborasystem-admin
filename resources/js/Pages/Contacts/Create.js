@@ -182,7 +182,7 @@ const Create = () => {
               ))}
             </SelectInput>
             <div className="w-full pb-4 pr-6">
-              <label className="mr-1" htmlFor="activo">
+              <label className="mr-1 text-sm font-medium text-gray-700" htmlFor="activo">
                 Activo
               </label>
               <input
@@ -190,9 +190,10 @@ const Create = () => {
                 id="activo"
                 name="estado"
                 value="1"
+                className="h-4 w-4 border-gray-300 text-indigo-600 focus:ring-indigo-500"
                 onChange={e => setData('estado', e.target.value)}
               />
-              <label htmlFor="desactivo" className="ml-4 mr-1">
+              <label htmlFor="desactivo" className="ml-4 mr-1 text-sm font-medium text-gray-700">
                 Desactivo
               </label>
               <input
@@ -201,6 +202,7 @@ const Create = () => {
                 id="desactivo"
                 name="estado"
                 value="0"
+                className="h-4 w-4 border-gray-300 text-indigo-600 focus:ring-indigo-500"
                 onChange={e => setData('estado', e.target.value)}
               />
               <br />{' '}
