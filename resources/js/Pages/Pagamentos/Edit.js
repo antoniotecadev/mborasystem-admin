@@ -9,6 +9,7 @@ import TextInput from '@/Shared/TextInput';
 import SelectInput from '@/Shared/SelectInput';
 import TrashedMessage from '@/Shared/TrashedMessage';
 import { tipoPacote, currency } from '@/Util/utilitario';
+import { toast } from 'react-toastify';
 
 const Edit = () => {
   const { pagamento, contacts } = usePage().props;
@@ -65,7 +66,15 @@ const Edit = () => {
       </h1>
       {pagamento.deleted_at && (
         <TrashedMessage onRestore={restore}>
-          <p>Este pagamento foi eliminado.{' '}<DeleteButton onDelete={e => alert(pagamento.motivo_elimina)}>Motivo</DeleteButton></p>
+          <p>Este pagamento foi eliminado.{' '}<DeleteButton onDelete={e =>
+            toast.info(pagamento.motivo_elimina, {
+              toastId: "pagamento_motivo_elimina",
+              position: "top-center",
+              autoClose: false,
+              hideProgressBar: false,
+              closeOnClick: true,
+            })
+          }>Motivo</DeleteButton></p>
         </TrashedMessage>
       )}
       <div className="overflow-x-auto bg-white rounded shadow">
