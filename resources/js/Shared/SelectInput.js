@@ -11,7 +11,7 @@ export default ({
   return (
     <div className={className}>
       {label && (
-        <label className="form-label" htmlFor={name}>
+        <label className="form-label block text-sm font-medium text-gray-700" htmlFor={name}>
           {label}:
         </label>
       )}
