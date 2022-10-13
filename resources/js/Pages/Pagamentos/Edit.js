@@ -9,7 +9,7 @@ import TextInput from '@/Shared/TextInput';
 import SelectInput from '@/Shared/SelectInput';
 import TrashedMessage from '@/Shared/TrashedMessage';
 import { tipoPacote, currency } from '@/Util/utilitario';
-import { toast } from 'react-toastify';
+import { alertToast } from '@/Util/utilitario';
 
 const Edit = () => {
   const { pagamento, contacts } = usePage().props;
@@ -35,7 +35,7 @@ const Edit = () => {
       var motivo = prompt('Qual é o motivo de sua eliminação?');
       if (motivo) {
         if (motivo.length > 150) {
-          alert('⚠ Só é permitido 150 caracteres');
+          alertToast("⚠ Só é permitido 150 caracteres", "max_caractere");
         } else {
           Inertia.delete(route('pagamentos.destroy', [pagamento.id, motivo]));
         }
@@ -67,14 +67,7 @@ const Edit = () => {
       {pagamento.deleted_at && (
         <TrashedMessage onRestore={restore}>
           <p>Este pagamento foi eliminado.{' '}<DeleteButton onDelete={e =>
-            toast.info(pagamento.motivo_elimina, {
-              toastId: "pagamento_motivo_elimina",
-              position: "top-center",
-              autoClose: false,
-              hideProgressBar: false,
-              closeOnClick: true,
-            })
-          }>Motivo</DeleteButton></p>
+            alertToast(pagamento.motivo_elimina, "pagamento_motivo_elimina")}>Motivo</DeleteButton></p>
         </TrashedMessage>
       )}
       <div className="overflow-x-auto bg-white rounded shadow">
