@@ -7,6 +7,7 @@ import DeleteButton from '@/Shared/DeleteButton';
 import LoadingButton from '@/Shared/LoadingButton';
 import TextInput from '@/Shared/TextInput';
 import SelectInput from '@/Shared/SelectInput';
+import TextArea from '@/Shared/TextArea';
 import TrashedMessage from '@/Shared/TrashedMessage';
 import { alertToast } from '@/Util/utilitario';
 
@@ -175,16 +176,14 @@ const Edit = () => {
               value={data.rua}
               onChange={e => setData('rua', e.target.value)}
             />
-            <TextInput
-              className="w-full pb-8 pr-6 lg:w-1/2"
-              label="Banco"
+            <TextArea
+              label="IBAN/NIB"
               name="banco"
-              type="text"
-              errors={errors.banco}
               value={data.banco}
               onChange={e => setData('banco', e.target.value)}
-              placeholder="CONTA - IBAN"
-            />
+              placeholder="BANCO: AO00 0000.0000.0000.0000.000.00"
+              defaultValue={''}
+              errors={errors.banco} />
             <TextInput
               className="w-full pb-8 pr-6 lg:w-1/2"
               label="Criado"

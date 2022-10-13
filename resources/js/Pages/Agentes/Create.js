@@ -3,6 +3,7 @@ import { InertiaLink, useForm, usePage } from '@inertiajs/inertia-react';
 import Layout from '@/Shared/Layout';
 import LoadingButton from '@/Shared/LoadingButton';
 import TextInput from '@/Shared/TextInput';
+import TextArea from '@/Shared/TextArea';
 import SelectInput from '@/Shared/SelectInput';
 
 const Create = () => {
@@ -137,22 +138,20 @@ const Create = () => {
               value={data.rua}
               onChange={e => setData('rua', e.target.value)}
             />
-            <TextInput
-              className="w-full pb-8 pr-6 lg:w-1/2"
-              label="Banco"
+            <TextArea
+              label="IBAN/NIB"
               name="banco"
-              type="text"
-              errors={errors.banco}
               value={data.banco}
               onChange={e => setData('banco', e.target.value)}
-              placeholder="CONTA - IBAN"
-            />
+              placeholder="BANCO: AO00 0000.0000.0000.0000.000.00"
+              defaultValue={''}
+              errors={errors.banco} />
             <div className="w-full pb-4 pr-6 ml-2">
-                <label className ="mr-1" htmlFor='activo' >Activo</label>
-                <input type="radio" id='activo' name='estado' value='1' onChange={e => setData('estado', e.target.value)}/>
-                <label htmlFor='desactivo' className ="ml-4 mr-1">Desactivo</label>
-                <input type="radio" id='desactivo' name='estado' value='0' onChange={e => setData('estado', e.target.value)}/>
-                <br/> {errors.estado && <div className="form-error">{errors.estado}</div>}
+              <label className="mr-1" htmlFor='activo' >Activo</label>
+              <input type="radio" id='activo' name='estado' value='1' onChange={e => setData('estado', e.target.value)} />
+              <label htmlFor='desactivo' className="ml-4 mr-1">Desactivo</label>
+              <input type="radio" id='desactivo' name='estado' value='0' onChange={e => setData('estado', e.target.value)} />
+              <br /> {errors.estado && <div className="form-error">{errors.estado}</div>}
             </div>
           </div>
           <div className="flex items-center justify-end px-8 py-4 bg-gray-100 border-t border-gray-200">
