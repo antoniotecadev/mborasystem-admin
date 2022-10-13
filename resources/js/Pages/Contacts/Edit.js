@@ -105,6 +105,7 @@ const Edit = () => {
         <TrashedMessage onRestore={restore}>
           <p>Este parceiro foi eliminado.{'   '}<DeleteButton
             onDelete={e => toast.info(contact.motivo_elimina, {
+              toastId: "contact_motivo_elimina",
               position: "top-center",
               autoClose: false,
               hideProgressBar: false,
