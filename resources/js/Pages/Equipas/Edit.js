@@ -11,6 +11,7 @@ import Icon from '@/Shared/Icon';
 import { currency } from '@/Util/utilitario';
 import { isUndefined } from 'lodash';
 import { toast } from 'react-toastify';
+import { alertToast } from '@/Util/utilitario';
 
 const Edit = () => {
   const [senha, setSenha] = useState(false);
@@ -40,7 +41,7 @@ const Edit = () => {
       var motivo = prompt('Qual é o motivo de sua eliminação?');
       if (motivo) {
         if (motivo.length > 150) {
-          alert('⚠ Só é permitido 150 caracteres');
+          alertToast("⚠ Só é permitido 150 caracteres", "max_caractere");
         } else {
           Inertia.delete(route('equipas.destroy', [equipa.id, motivo]));
         }
@@ -91,7 +92,7 @@ const Edit = () => {
       </h1>
       {equipa.deleted_at && (
         <TrashedMessage onRestore={restore}>
-          <p>Esta equipa foi eliminada.{' '}<DeleteButton onDelete={e => alert(equipa.motivo_elimina)}>Motivo</DeleteButton></p>
+          <p>Esta equipa foi eliminada.{' '}<DeleteButton onDelete={e => alertToast(equipa.motivo_elimina, "equipa_motivo_elimina")}>Motivo</DeleteButton></p>
         </TrashedMessage>
       )}
       <div className="max-w-3xl overflow-hidden bg-white rounded shadow">

@@ -8,6 +8,7 @@ import LoadingButton from '@/Shared/LoadingButton';
 import TextInput from '@/Shared/TextInput';
 import SelectInput from '@/Shared/SelectInput';
 import TrashedMessage from '@/Shared/TrashedMessage';
+import { alertToast } from '@/Util/utilitario';
 
 const Edit = () => {
   const { agente, equipas } = usePage().props;
@@ -36,7 +37,7 @@ const Edit = () => {
       var motivo = prompt('Qual é o motivo de sua eliminação?');
       if (motivo) {
         if (motivo.length > 150) {
-          alert('⚠ Só é permitido 150 caracteres');
+          alertToast("⚠ Só é permitido 150 caracteres", "max_caractere");
         } else {
           Inertia.delete(route('agentes.destroy', [agente.id, motivo]));
         }
@@ -71,7 +72,7 @@ const Edit = () => {
       </h1>
       {agente.deleted_at && (
         <TrashedMessage onRestore={restore}>
-          <p>Este agente foi eliminado.{' '}<DeleteButton onDelete={e => alert(agente.motivo_elimina)}>Motivo</DeleteButton></p>
+          <p>Este agente foi eliminado.{' '}<DeleteButton onDelete={e => alertToast(agente.motivo_elimina, "agente_motivo_elimina")}>Motivo</DeleteButton></p>
         </TrashedMessage>
       )}
       <div className="max-w-3xl overflow-hidden bg-white rounded shadow">
