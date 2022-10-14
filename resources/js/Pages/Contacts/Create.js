@@ -1,13 +1,15 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { InertiaLink, usePage, useForm } from '@inertiajs/inertia-react';
 import Layout from '@/Shared/Layout';
 import LoadingButton from '@/Shared/LoadingButton';
 import TextInput from '@/Shared/TextInput';
 import SelectInput from '@/Shared/SelectInput';
 import Icon from '@/Shared/Icon';
+import { Inertia } from '@inertiajs/inertia';
 
 const Create = () => {
-  const { equipas } = usePage().props;
+
+  const { equipas, municipios, bairros } = usePage().props;
   const { data, setData, errors, post, processing } = useForm({
     first_name: '',
     last_name: '',
@@ -26,7 +28,7 @@ const Create = () => {
 
   function handleSubmit(e) {
     e.preventDefault();
-    post(route('contacts.store'));
+      post(route('contacts.store'));
   }
 
   function gerarNumeroAleatorio(e) {
@@ -34,6 +36,11 @@ const Create = () => {
     let imei1 = Math.floor(Math.random() * (9999999 - 1000000)) + 1000000;
     let imei2 = Math.floor(Math.random() * (9999999 - 1000000)) + 1000000;
     setData('imei', imei1 + '' + imei2);
+  }
+
+  const getBairros = (municipio) => {
+    setData('municipality', municipio)
+    Inertia.get(route('contacts.bairros', municipio), {}, { preserveState: true });
   }
 
   return (
@@ -116,28 +123,30 @@ const Create = () => {
               name="municipality"
               errors={errors.municipality}
               value={data.municipality}
-              onChange={e => setData('municipality', e.target.value)}
+              onClick={e => setData('district', "")}
+              onChange={e => getBairros(e.target.value)}
             >
               <option value=""></option>
-              <option value="Luanda">LUANDA</option>
-              <option value="Belas">BELAS</option>
-              <option value="Cazenga">CAZENGA</option>
-              <option value="Cacuaco">CACUACO</option>
-              <option value="Viana">VIANA</option>
-              <option value="Icolo e Bengo">ICOLO E BENGO</option>
-              <option value="Quissama">QUISSAMA</option>
-              <option value="Talatona">TALATONA</option>
-              <option value="Quilamba Quiaxi">QUILAMBA QUIAXI</option>
+              {municipios != undefined && municipios.map(({ id, nome }) => (
+                <option key={id} value={nome}>
+                  {nome}
+                </option>
+              ))}
             </SelectInput>
-            <TextInput
+            <SelectInput
               className="w-full pb-8 pr-6 lg:w-1/2"
               label="Bairro"
               name="district"
-              type="text"
               errors={errors.district}
               value={data.district}
-              onChange={e => setData('district', e.target.value)}
-            />
+              onChange={e => setData('district', e.target.value)}>
+              <option value=""></option>
+              {(bairros != undefined && municipios != undefined) && bairros.map(({ id, nome }) => (
+                <option key={id} value={nome}>
+                  {nome}
+                </option>
+              ))}
+            </SelectInput>
             <TextInput
               className="w-full pb-8 pr-6 lg:w-1/2"
               label="Rua"

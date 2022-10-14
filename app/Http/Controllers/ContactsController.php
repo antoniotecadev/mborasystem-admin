@@ -47,8 +47,34 @@ class ContactsController extends Controller
                         ->orderBy('id')
                         ->get()
                 ),
+                'municipios' => $this->getMunicipios(),
             ]);
         } 
+    }
+
+    private function getMunicipios()
+    {
+        return DB::table('municipios')
+            ->select('id', 'nome')
+            ->get();   
+    }
+
+    public function getBairros($municipio)
+    {
+        $b = DB::table('municipios')
+            ->join('bairros as b', 'municipios.id', '=', 'b.municipio_id')
+            ->where('municipios.nome', $municipio)
+            ->select('b.id', 'b.nome')
+            ->get();
+            return Inertia::render('Contacts/Create', [
+                'equipas' => new UserEquipaCollection(
+                    Auth::user()->account->equipas()
+                        ->orderBy('id')
+                        ->get()
+                ),
+                'bairros' => $b,
+                'municipios' => $this->getMunicipios(),
+            ]);    
     }
 
 
@@ -79,6 +105,7 @@ class ContactsController extends Controller
             endif;
             return Inertia::render('Contacts/Edit', [
                 'contact' => new ContactResource(Contact::withTrashed()->findOrFail(Crypt::decryptString($id))),
+                'municipios' => $this->getMunicipios(),
             ]);
         }
     }

@@ -34,6 +34,7 @@ Route::get('/img/{path}', 'ImagesController@show')->where('path', '.*');
 // Contacts
 Route::get('contacts')->name('contacts')->uses('ContactsController@index')->middleware('remember', 'auth');
 Route::get('contacts/create')->name('contacts.create')->uses('ContactsController@create')->middleware('auth');
+Route::get('contacts/create/municipio/{municipio}')->name('contacts.bairros')->uses('ContactsController@getBairros')->middleware('auth');
 Route::post('contacts')->name('contacts.store')->uses('ContactsController@store')->middleware('auth');
 Route::get('contacts/{contact}/edit/{type}/{read_contact}')->name('contacts.edit')->uses('ContactsController@edit')->middleware('auth');
 Route::put('contacts/{contact}')->name('contacts.update')->uses('ContactsController@update')->middleware('auth');
