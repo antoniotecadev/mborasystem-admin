@@ -16,7 +16,7 @@ class Agentes extends Migration
         Schema::create('agentes', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('account_id')->index();
-            $table->integer('equipa_id')->index();
+            $table->integer('equipa_id')->index()->unsigned();
             $table->string('nome_completo', 50);
             $table->string('bi', 14);
             $table->string('email', 50)->nullable()->unique();

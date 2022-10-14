@@ -15,7 +15,7 @@ class Bairros extends Migration
     {
         Schema::create('bairros', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('municipio_id')->index();
+            $table->integer('municipio_id')->index()->unsigned();
             $table->string('nome', 50);
         });
     }

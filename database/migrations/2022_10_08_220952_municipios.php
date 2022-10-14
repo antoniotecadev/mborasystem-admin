@@ -15,7 +15,7 @@ class Municipios extends Migration
     {
         Schema::create('municipios', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('provincia_id')->index();
+            $table->integer('provincia_id')->index()->unsigned();
             $table->string('nome', 30);
         });
     }
