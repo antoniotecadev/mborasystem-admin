@@ -3,6 +3,7 @@ import { InertiaLink, usePage, useForm } from '@inertiajs/inertia-react';
 import Layout from '@/Shared/Layout';
 import LoadingButton from '@/Shared/LoadingButton';
 import TextInput from '@/Shared/TextInput';
+import SelectInput from '@/Shared/SelectInput';
 import Icon from '@/Shared/Icon';
 
 const Create = () => {
@@ -56,13 +57,6 @@ const Create = () => {
               >
                 <Icon name='actualizar' />
               </LoadingButton>
-              <div className="w-full pb-4 pr-6 ml-6 mt-4">
-                <label className="mr-1" htmlFor='activo' >Activo</label>
-                <input type="radio" id='activo' name='estado' value='1' onChange={e => setData('estado', e.target.value)} />
-                <label htmlFor='desactivo' className="ml-4 mr-1">Desactivo</label>
-                <input type="radio" checked id='desactivo' name='estado' value='0' onChange={e => setData('estado', e.target.value)} />
-                <br /> {errors.estado && <div className="form-error">{errors.estado}</div>}
-              </div>
             </div>
             <TextInput
               className="w-full pb-8 pr-6 lg:w-1/2"
@@ -85,6 +79,17 @@ const Create = () => {
                 />
               </div>
             </div>
+            <SelectInput
+              className="w-full pb-8 pr-6 lg:w-1/2"
+              label="Estado"
+              name="estado"
+              errors={errors.estado}
+              value={data.estado}
+              onChange={e => setData('estado', e.target.value)}
+            >
+              <option value="1">ACTIVO</option>
+              <option value="0">DESACTIVO</option>
+            </SelectInput>
           </div>
           <div className="flex items-center justify-end px-8 py-4 bg-gray-100 border-t border-gray-200">
             <LoadingButton
