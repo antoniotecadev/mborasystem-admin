@@ -1,14 +1,17 @@
 import React, { PureComponent } from 'react';
-import { InertiaLink } from '@inertiajs/inertia-react';
+import { InertiaLink, usePage } from '@inertiajs/inertia-react';
 import Layout from '@/Shared/Layout';
 import { PieChart, Pie, Sector, Cell, ResponsiveContainer } from 'recharts';
 
-const data = [
-  { name: 'Group A', value: 400 },
-  { name: 'Group B', value: 300 },
-];
+const dados = (data) => {
+  return [
+    { name: 'Group A', value: Number(data.activos) },
+    { name: 'Group B', value: Number(data.desactivos) },
+    { name: 'Group C', value: Number(data.eliminados) },
+  ];
+}
 
-const COLORS = ['#00C49F', '#ed5c5c'];
+const COLORS = ['#00C49F', '#FFBB28', '#ed5c5c'];
 
 const RADIAN = Math.PI / 180;
 const renderCustomizedLabel = ({ cx, cy, midAngle, innerRadius, outerRadius, percent, index }) => {
@@ -24,13 +27,18 @@ const renderCustomizedLabel = ({ cx, cy, midAngle, innerRadius, outerRadius, per
 };
 
 const Dashboard = () => {
+  const {
+    parceiro,
+    equipa,
+    pagamento,
+  } = usePage().props;
   return (
     <div>
       <h1 className="mb-4 text-3xl font-bold">Dashboard</h1>
       <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 gap-2">
-        <CardHeader grafico={<GraficoQuantidadeParceiro />} referente="PARCEIROS" quantidade="200.000" activos="150.000" desactivos="50.000" />
-        <CardHeader grafico={<GraficoQuantidadeParceiro />} referente="EQUIPAS" quantidade="100" activos="40" desactivos="60"/>
-        <CardHeader grafico={<GraficoQuantidadeParceiro />} referente="PAGAMENTOS" quantidade=" 130" activos="60" desactivos="70"/>
+        <CardHeader grafico={<GraficoQuantidadeParceiro data={dados(parceiro)} />} referente="PARCEIROS" data={parceiro} />
+        <CardHeader grafico={<GraficoQuantidadeParceiro data={dados(equipa)} />} referente="EQUIPAS" data={equipa} />
+        <CardHeader grafico={<GraficoQuantidadeParceiro data={dados(pagamento)} />} referente="PAGAMENTOS" data={pagamento} />
       </div>
       <p className="mb-12 leading-normal">
         Hey there! Welcome to Ping CRM, a demo app designed to help illustrate
@@ -68,7 +76,7 @@ Dashboard.layout = page => <Layout title="Dashboard" children={page} />;
 
 export default Dashboard;
 
-const CardHeader = ({ grafico, referente, quantidade, activos, desactivos }) => {
+const CardHeader = ({ grafico, referente, data }) => {
   return (
     <div className="justify-center py-8 px-8 max-w bg-white rounded-xl shadow-lg space-y-2 sm:py-4 sm:flex sm:items-center sm:space-y-0 sm:space-x-6">
       <div className="text-center space-y-2 sm:text-left">
@@ -77,13 +85,16 @@ const CardHeader = ({ grafico, referente, quantidade, activos, desactivos }) => 
             {referente}
           </p>
           <p className="text-md font-light">
-            {quantidade}
+            {data.total}
           </p>
           <p className="text-xs font-medium">
-            <span style={{ color: '#00C49F' }}>●</span> {activos} activos
+            <span style={{ color: '#00C49F' }}>●</span> {data.activos} activos
           </p>
           <p className="text-xs font-medium">
-            <span style={{ color: '#0088FE' }}>●</span> {desactivos} desactivos
+            <span style={{ color: '#FFBB28' }}>●</span> {data.desactivos} desactivos
+          </p>
+          <p className="text-xs font-medium">
+            <span style={{ color: '#ed5c5c' }}>●</span> {data.eliminados} Eliminados
           </p>
         </div>
       </div>
@@ -96,18 +107,25 @@ const CardHeader = ({ grafico, referente, quantidade, activos, desactivos }) => 
 class GraficoQuantidadeParceiro extends PureComponent {
   static demoUrl = 'https://codesandbox.io/s/pie-chart-with-padding-angle-7ux0o';
 
+  constructor(props) {
+    super(props);
+  }
+
   render() {
     return (
       <PieChart width={100} height={100} onMouseEnter={this.onPieEnter}>
         <Pie
-          data={data}
+          data={this.props.data}
+          cx="50%"
+          cy="50%"
+          labelLine={false}
           label={renderCustomizedLabel}
           outerRadius={50}
           fill="#8884d8"
-          paddingAngle={5}
+          paddingAngle={1}
           dataKey="value"
         >
-          {data.map((entry, index) => (
+          {this.props.data.map((entry, index) => (
             <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
           ))}
         </Pie>
