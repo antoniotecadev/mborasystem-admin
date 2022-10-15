@@ -5,6 +5,7 @@ import Icon from '@/Shared/Icon';
 import Pagination from '@/Shared/Pagination';
 import SearchFilter from '@/Shared/SearchFilter';
 import LoadingButton from '@/Shared/LoadingButton';
+import { alertToast } from '@/Util/utilitario';
 
 const Index = () => {
   const { equipas, quantidade } = usePage().props;
@@ -14,16 +15,20 @@ const Index = () => {
     meta: { links }
   } = equipas;
 
-  function handleSubmit(id, e) {
+  function handleSubmit(id, deleted_at, e) {
     e.preventDefault();
-    put(route('equipas.estado', id));
+    if (deleted_at) {
+      alertToast("⚠ Equipa eliminada não pode ser activada ou desactivada.", "update_equipa");
+    } else {
+      put(route('equipas.estado', id));
+    }
   }
 
   return (
     <div>
       <h1 className="mb-8 text-3xl font-bold">Equipas ({data.length} - {quantidade})</h1>
       <div className="flex items-center justify-between mb-6">
-        <SearchFilter placeHolder = "código yoga"/>
+        <SearchFilter placeHolder="código yoga" />
         <InertiaLink
           className="btn-indigo focus:outline-none"
           href={route('equipas.create')}
@@ -44,9 +49,8 @@ const Index = () => {
               ({ id, codigo, estado, deleted_at }) => (
                 <tr
                   key={id}
-                  className={`hover:bg-gray-100 focus-within:bg-yellow-100 ${
-                    estado == '0' ? 'bg-red-100' : 'bg-green-200'
-                  }`}
+                  className={`hover:bg-gray-100 focus-within:bg-yellow-100 ${estado == '0' ? 'bg-red-100' : 'bg-green-200'
+                    }`}
                 >
                   <td className="border-t">
                     <InertiaLink
@@ -63,13 +67,12 @@ const Index = () => {
                     </InertiaLink>
                   </td>
                   <td>
-                    <form onSubmit={e => handleSubmit(id, e)}>
+                    <form onSubmit={e => handleSubmit(id, deleted_at, e)}>
                       <LoadingButton
                         loading={processing}
                         type="submit"
-                        className={`ml-auto ${
-                          estado == '0' ? 'btn-sucess' : 'btn-danger'
-                        }`}
+                        className={`ml-auto ${estado == '0' ? 'btn-sucess' : 'btn-danger'
+                          }`}
                       >
                         {estado == '0' ? 'Activar' : 'Desactivar'}
                       </LoadingButton>

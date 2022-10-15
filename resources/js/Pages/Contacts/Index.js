@@ -8,6 +8,7 @@ import LoadingButton from '@/Shared/LoadingButton';
 import firebase from '@/firebase';
 import { ref, update } from "firebase/database";
 import { numeroNotificacao } from '@/Util/utilitario';
+import { alertToast } from '@/Util/utilitario';
 
 const Index = () => {
   const { contacts, quantidade } = usePage().props;
@@ -17,9 +18,13 @@ const Index = () => {
     meta: { links }
   } = contacts;
 
-  function handleSubmit(id, e) {
+  function handleSubmit(id, deleted_at, e) {
     e.preventDefault();
-    put(route('contacts.estado', id));
+    if (deleted_at) {
+      alertToast("⚠ Parceiro eliminado não pode ser activado ou desactivado.", "update_parceiro");
+    } else {
+      put(route('contacts.estado', id));
+    }
   }
 
   const abrirNotificacao = (id, type, read_contact, imei, name, codigo_equipa, created_at) => {
@@ -50,7 +55,7 @@ const Index = () => {
     <div>
       <h1 className="mb-8 text-3xl font-bold">Parceiros ({data.length} - {quantidade})</h1>
       <div className="flex items-center justify-between mb-6">
-        <SearchFilter placeHolder = "nome, imei, empresa, nif/bi, telefone, município, bairro"/>
+        <SearchFilter placeHolder="nome, imei, empresa, nif/bi, telefone, município, bairro" />
         <InertiaLink
           className="btn-indigo focus:outline-none"
           href={route('contacts.create')}
@@ -63,7 +68,7 @@ const Index = () => {
           className="btn-indigo focus:outline-none"
           href={route('contacts.refresh')}
         >
-          <Icon name='actualizar'/>
+          <Icon name='actualizar' />
         </InertiaLink>
       </div>
       <div className="overflow-x-auto bg-white rounded shadow">
@@ -84,9 +89,8 @@ const Index = () => {
               ({ id, name, empresa, bairro, rua, estado, imei, codigo_equipa, read_contact, created_at, deleted_at }) => (
                 <tr
                   key={id}
-                  className={`hover:bg-gray-100 focus-within:bg-yellow-100 ${
-                    estado == '0' ? 'bg-red-100' : 'bg-green-200'
-                  }`}
+                  className={`hover:bg-gray-100 focus-within:bg-yellow-100 ${estado == '0' ? 'bg-red-100' : 'bg-green-200'
+                    }`}
                 >
                   <td className="border-t">
                     <InertiaLink
@@ -142,13 +146,12 @@ const Index = () => {
                     </InertiaLink>
                   </td>
                   <td>
-                    <form onSubmit={e => handleSubmit(id, e)}>
+                    <form onSubmit={e => handleSubmit(id, deleted_at, e)}>
                       <LoadingButton
                         loading={processing}
                         type="submit"
-                        className={`ml-auto ${
-                          estado == '0' ? 'btn-sucess' : 'btn-danger'
-                        }`}
+                        className={`ml-auto ${estado == '0' ? 'btn-sucess' : 'btn-danger'
+                          }`}
                       >
                         {estado == '0' ? 'Activar' : 'Desactivar'}
                       </LoadingButton>

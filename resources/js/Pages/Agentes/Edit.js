@@ -30,7 +30,11 @@ const Edit = () => {
 
   function handleSubmit(e) {
     e.preventDefault();
-    put(route('agentes.update', agente.id));
+    if (agente.deleted_at) {
+      alertToast("⚠ Agente eliminado não pode ser actualizado.", "update_agente");
+    } else {
+      put(route('agentes.update', agente.id));
+    }
   }
 
   function destroy() {

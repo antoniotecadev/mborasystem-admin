@@ -27,7 +27,11 @@ const Edit = () => {
 
   function handleSubmit(e) {
     e.preventDefault();
-    put(route('pagamentos.update', pagamento.id));
+    if (pagamento.deleted_at) {
+      alertToast("⚠ Pagamento eliminado não pode ser actualizado.", "update_pagamento");
+    } else {
+      put(route('pagamentos.update', pagamento.id));
+    }
   }
 
   function destroy() {

@@ -33,7 +33,11 @@ const Edit = () => {
 
   function handleSubmit(e) {
     e.preventDefault();
-    put(route('contacts.update', contact.id));
+    if (contact.deleted_at) {
+      alertToast("⚠ Parceiro eliminado não pode ser actualizado.", "update_parceiro");
+    } else {
+      put(route('contacts.update', contact.id));
+    }
   }
 
   function destroy() {
@@ -41,7 +45,7 @@ const Edit = () => {
       var motivo = prompt('Qual é o motivo de sua eliminação?');
       if (motivo) {
         if (motivo.length > 150) {
-          alertToast("⚠ Só é permitido 150 caracteres", "max_caractere");
+          alertToast("⚠ Só é permitido 150 caracteres.", "max_caractere");
         } else {
           Inertia.delete(route('contacts.destroy', [contact.id, motivo]));
         }

@@ -29,11 +29,19 @@ const Edit = () => {
 
   function handleSubmit(e) {
     e.preventDefault();
-    put(route('equipas.update', equipa.id));
+    if (equipa.deleted_at) {
+      alertToast("⚠ Equipa eliminada não pode ser actualizada.", "update_equipa");
+    } else {
+      put(route('equipas.update', equipa.id));
+    }
   }
   function handleSubmitPassword(e) {
     e.preventDefault();
-    put(route('password.update', equipa.id));
+    if (equipa.deleted_at) {
+      alertToast("⚠ Password de Equipa eliminada não pode ser actualizada.", "update_equipa");
+    } else {
+      put(route('password.update', equipa.id));
+    }
   }
 
   function destroy() {
