@@ -5,8 +5,8 @@ namespace App\Http\Controllers;
 use Inertia\Inertia;
 use App\Models\Contact;
 use App\Models\Equipa;
-use App\Models\Model;
 use App\Models\Pagamento;
+use Illuminate\Support\Facades\DB;
 
 class DashboardController extends Controller
 {
@@ -31,6 +31,19 @@ class DashboardController extends Controller
                 'desactivos' => Pagamento::where('pagamento', '0')->count(),
                 'eliminados' => Pagamento::onlyTrashed()->count(),
             ],
+            'municipios_parceiros_desactivos' => $this->getMunicipios('0'),
+            'municipios_parceiros_activos' => $this->getMunicipios('1'),
         ]);
+    }
+
+    private function getMunicipios($estado)
+    {
+        return DB::table('municipios', 'm')
+            ->join('contacts as c', 'm.nome', '=', 'c.municipality')
+            ->select('c.id')
+            ->select(DB::raw('count(*) as numero_activo, c.municipality'))
+            ->groupBy('c.municipality') 
+            ->where('c.estado', $estado)
+            ->get();   
     }
 }

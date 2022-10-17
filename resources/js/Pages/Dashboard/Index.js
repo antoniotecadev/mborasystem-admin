@@ -1,7 +1,7 @@
 import React, { PureComponent } from 'react';
 import { InertiaLink, usePage } from '@inertiajs/inertia-react';
 import Layout from '@/Shared/Layout';
-import { PieChart, Pie, Sector, Cell, ResponsiveContainer } from 'recharts';
+import { PieChart, Pie, Cell, BarChart, Bar, XAxis, YAxis, CartesianGrid, ResponsiveContainer, Tooltip, Legend } from 'recharts';
 
 const dados = (data) => {
   return [
@@ -11,7 +11,9 @@ const dados = (data) => {
   ];
 }
 
-const COLORS = ['#00C49F', '#FFBB28', '#ed5c5c'];
+const COLORS_1 = ['#00C49F', '#FFBB28', '#ed5c5c'];
+const COLORS_2 = ['#0088FE', '#00C49F', '#0F0B28', '#FF8042', '#007879', '#2BB512', '#BB1478', '#00C49F', '#BBFF28'];
+
 
 const RADIAN = Math.PI / 180;
 const renderCustomizedLabel = ({ cx, cy, midAngle, innerRadius, outerRadius, percent, index }) => {
@@ -31,6 +33,8 @@ const Dashboard = () => {
     parceiro,
     equipa,
     pagamento,
+    municipios_parceiros_activos,
+    municipios_parceiros_desactivos,
   } = usePage().props;
   return (
     <div>
@@ -40,7 +44,11 @@ const Dashboard = () => {
         <CardHeader grafico={<GraficoQuantidadeParceiro data={dados(equipa)} />} referente="EQUIPAS" data={equipa} />
         <CardHeader grafico={<GraficoQuantidadeParceiro data={dados(pagamento)} />} referente="PAGAMENTOS" data={pagamento} />
       </div>
-      <p className="mb-12 leading-normal">
+      <div class="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-2 mt-2">
+        <GrafQuantParcMuni municipios_parceiros={municipios_parceiros_activos} estado="PARCEIROS ACTIVOS" />
+        <GrafQuantParcMuni municipios_parceiros={municipios_parceiros_desactivos} estado="PARCEIROS DESACTIVOS" />
+      </div>
+      {/* <p className="mb-12 leading-normal">
         Hey there! Welcome to Ping CRM, a demo app designed to help illustrate
         how
         <a
@@ -57,15 +65,15 @@ const Dashboard = () => {
           React
         </a>
         .
-      </p>
-      <div>
+      </p> */}
+      {/* <div>
         <InertiaLink className="mr-1 btn-indigo" href="/500">
           500 error
         </InertiaLink>
         <InertiaLink className="btn-indigo" href="/404">
           404 error
         </InertiaLink>
-      </div>
+      </div> */}
     </div>
   );
 };
@@ -126,10 +134,59 @@ class GraficoQuantidadeParceiro extends PureComponent {
           dataKey="value"
         >
           {this.props.data.map((entry, index) => (
-            <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
+            <Cell key={`cell-${index}`} fill={COLORS_1[index % COLORS_1.length]} />
           ))}
         </Pie>
       </PieChart>
     );
   }
+}
+
+
+function GrafQuantParcMuni({ municipios_parceiros, estado }) {
+  let i = 0;
+  const data = []
+  municipios_parceiros.map(({ numero_activo }) => {
+    data.push({
+      activos: numero_activo,
+    });
+  });
+  return (
+    <div className="justify-center py-8 max-w bg-white rounded-xl shadow-lg space-y-2 sm:py-4 sm:flex sm:items-center sm:space-y-0">
+      <div className="sm: text-center space-y-2">
+        <p className="text-md text-black font-bold">
+          {estado}
+        </p>
+        {municipios_parceiros.map(({ id, municipality, numero_activo }) => (
+          <p className="text-xs font-medium" key={id}>
+            <span style={{ color: COLORS_2[i++] }}>●</span> {municipality} - {(Number(numero_activo))}
+          </p>
+        ))}
+      </div>
+      <BarChart
+        width={300}
+        height={200}
+        data={data}
+        margin={{
+          top: 20,
+          right: 30,
+          left: 20,
+          bottom: 2
+        }}
+      >
+        <CartesianGrid strokeDasharray="3 3" />
+        <XAxis dataKey="name" />
+        <YAxis />
+        <Tooltip />
+        <Bar
+          dataKey="activos"
+          fill="#8884d8"
+          label={{ fontSize: "12" }}>
+          {data.map((entry, index) => (
+            <Cell key={`cell-${index}`} fill={COLORS_2[index % 20]} />
+          ))}
+        </Bar>
+      </BarChart>
+    </div>
+  );
 }
