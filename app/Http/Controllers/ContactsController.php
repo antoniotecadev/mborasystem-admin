@@ -8,9 +8,7 @@ use App\Http\Resources\ContactCollection;
 use App\Http\Resources\ContactResource;
 use App\Http\Resources\UserEquipaCollection;
 use App\Http\Resources\NotificationCollection;
-use App\Events\CreateContactEvent;
 use App\Models\Contact;
-use App\Notifications\NewContactNotification;
 use Inertia\Inertia;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Request;
@@ -163,20 +161,20 @@ class ContactsController extends Controller
                 $nome_parceiro = $c['0']->first_name .' '. $c['0']->last_name;
                 if($c['0']->estado == '0' && $c['0']->fim <= date('Y-m-d')) {
                     Log::channel('daily')->alert('Tentou activar o parceiro <<' . Crypt::decryptString($id) . ' - ' . $nome_parceiro . '>>.',[ 'id' => Auth::id(), 'nome' => Auth::user()->first_name . " " . Auth::user()->last_name, 'email' =>  Auth::user()->email]);
-                    return Redirect::route('contacts')->with('error', $nome_parceiro . ' com pagamento terminado 😢');
+                    return Redirect::route('contacts')->with('error', $nome_parceiro . ' com pagamento terminado.');
                 } elseif ($c['0']->estado == '1' && $c['0']->fim > date('Y-m-d')) {
                     Log::channel('daily')->alert('Tentou desactivar o parceiro <<' . Crypt::decryptString($id) . ' - ' . $nome_parceiro . '>>.',[ 'id' => Auth::id(), 'nome' => Auth::user()->first_name . " " . Auth::user()->last_name, 'email' =>  Auth::user()->email]);
-                    return Redirect::route('contacts')->with('error', $nome_parceiro . ' com pagamento não terminado 😊');
+                    return Redirect::route('contacts')->with('error', $nome_parceiro . ' com pagamento não terminado.');
                 } else {
                     DB::table('contacts')
                     ->where('contacts.id', Crypt::decryptString($id))
                     ->update(['contacts.estado' => $c['0']->estado == '0' ? '1' : '0']);
                     Log::channel('daily')->emergency('Parceiro <<' . Crypt::decryptString($id) . ' - ' . ($c['0']->estado == '0' ? $nome_parceiro . ' Activado' : $nome_parceiro . ' Desactivado') . '>>.',[ 'id' => Auth::id(), 'nome' => Auth::user()->first_name . " " . Auth::user()->last_name, 'email' =>  Auth::user()->email]);
-                    return Redirect::route('contacts')->with('success', $c['0']->estado == '0' ? $nome_parceiro . ' Activado 😊' : $nome_parceiro . ' Desactivado 😢');
+                    return Redirect::route('contacts')->with('success', $c['0']->estado == '0' ? $nome_parceiro . ' Activado.' : $nome_parceiro . ' Desactivado.');
                 }
             } else {
                 Log::channel('daily')->alert('Tentou activar o parceiro <<' . Crypt::decryptString($id) .'>>.',[ 'id' => Auth::id(), 'nome' => Auth::user()->first_name . " " . Auth::user()->last_name, 'email' =>  Auth::user()->email]);
-                return Redirect::route('contacts')->with('error', 'Parceiro sem pagamento 😢');
+                return Redirect::route('contacts')->with('error', 'Parceiro sem pagamento.');
             }
         }
     }
