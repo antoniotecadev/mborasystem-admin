@@ -270,7 +270,7 @@ const ListaParceiros = (props) => {
     meta: { links }
   } = parceiros;
 
-  const abrirNotificacao = (id, type, read_contact, imei, name, codigo_equipa, created_at) => {
+  const detalheParceiro = (id, type, read_contact, imei, name, codigo_equipa, created_at) => {
     location.href = route('contacts.edit', [id, type, read_contact]);
     const visualizadoData = {
       id: id,
@@ -323,7 +323,7 @@ const ListaParceiros = (props) => {
                 >
                   <td className="border-t">
                     <InertiaLink
-                      onClick={() => abrirNotificacao(idcrypt, 1, read_contact, imei, name, codigo_equipa, created_at)}
+                      onClick={() => detalheParceiro(idcrypt, 1, read_contact, imei, name, codigo_equipa, created_at)}
                       className="flex items-center px-6 py-4 focus:text-indigo-700 focus:outline-none"
                     >
                       {name}
@@ -339,7 +339,7 @@ const ListaParceiros = (props) => {
                     <InertiaLink
                       tabIndex="1"
                       className="flex items-center px-6 py-4 focus:text-indigo focus:outline-none"
-                      onClick={() => abrirNotificacao(idcrypt, 1, read_contact, imei, name, codigo_equipa, created_at)}
+                      onClick={() => detalheParceiro(idcrypt, 1, read_contact, imei, name, codigo_equipa, created_at)}
                     >
                       {empresa}
                     </InertiaLink>
@@ -347,7 +347,7 @@ const ListaParceiros = (props) => {
                   <td className="border-t">
                     <InertiaLink
                       tabIndex="-1"
-                      onClick={() => abrirNotificacao(idcrypt, 1, read_contact, imei, name, codigo_equipa, created_at)}
+                      onClick={() => detalheParceiro(idcrypt, 1, read_contact, imei, name, codigo_equipa, created_at)}
                       className="flex items-center px-6 py-4 focus:text-indigo focus:outline-none"
                     >
                       {email}
@@ -356,7 +356,7 @@ const ListaParceiros = (props) => {
                   <td className="border-t">
                     <InertiaLink
                       tabIndex="-1"
-                      onClick={() => abrirNotificacao(idcrypt, 1, read_contact, imei, name, codigo_equipa, created_at)}
+                      onClick={() => detalheParceiro(idcrypt, 1, read_contact, imei, name, codigo_equipa, created_at)}
                       className="flex items-center px-6 py-4 focus:text-indigo focus:outline-none"
                     >
                       {phone}
@@ -365,7 +365,7 @@ const ListaParceiros = (props) => {
                   <td className="w-px border-t">
                     <InertiaLink
                       tabIndex="-1"
-                      onClick={() => abrirNotificacao(idcrypt, 1, read_contact, imei, name, codigo_equipa, created_at)}
+                      onClick={() => detalheParceiro(idcrypt, 1, read_contact, imei, name, codigo_equipa, created_at)}
                       className="flex items-center px-4 focus:outline-none"
                     >
                       <Icon
