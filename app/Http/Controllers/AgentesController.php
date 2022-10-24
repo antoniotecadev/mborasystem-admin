@@ -13,7 +13,6 @@ use App\Http\Requests\AgenteStoreRequest;
 use App\Http\Requests\AgenteUpdateRequest;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Crypt;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Log;
 
@@ -57,7 +56,7 @@ class AgentesController extends Controller
                 $request->validated()
             );
             Log::channel('daily')->alert('Agente <<' . $request->nome_completo .' - ' . $request->bi . '>> criado.',[ 'id' => Auth::id(), 'nome' => Auth::user()->first_name . " " . Auth::user()->last_name, 'email' =>  Auth::user()->email]);
-            return Redirect::route('agentes')->with('success', 'Agente criado(a) 😊');
+            return Redirect::route('agentes')->with('success', 'Agente criado(a).');
         }
     }
 
@@ -85,7 +84,7 @@ class AgentesController extends Controller
                 $request->validated()
             );
             Log::channel('daily')->alert('Agente <<' . $request->nome_completo .' - ' . $request->bi . '>> actualizado.',[ 'id' => Auth::id(), 'nome' => Auth::user()->first_name . " " . Auth::user()->last_name, 'email' =>  Auth::user()->email]);
-            return Redirect::back()->with('success', 'Agente actualizado(a) 😊');
+            return Redirect::back()->with('success', 'Agente actualizado(a).');
         }
     }
 
@@ -109,7 +108,7 @@ class AgentesController extends Controller
             $agente->restore();
             $agente->save();
             Log::channel('daily')->emergency('Agente <<' . $agente->nome_completo .' - ' . $agente->bi . '>> restaurado.',[ 'id' => Auth::id(), 'nome' => Auth::user()->first_name . " " . Auth::user()->last_name, 'email' =>  Auth::user()->email]);
-            return Redirect::back()->with('success', 'Agente restaurado(a) 😊');
+            return Redirect::back()->with('success', 'Agente restaurado(a).');
         }
     }
 }
