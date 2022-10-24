@@ -5,15 +5,9 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Contact;
-use App\Events\CreateContactEvent;
-use App\Http\Resources\ContactResource;
-use DateInterval;
-use DateTime;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Str;
-use Illuminate\Support\Arr;
-
 
 class ContactsController extends Controller
 {
