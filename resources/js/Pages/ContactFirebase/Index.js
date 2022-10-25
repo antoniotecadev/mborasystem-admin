@@ -13,13 +13,13 @@ const Index = () => {
     }
 
     useEffect(() => {
-        const cliente = query(ref(firebase, 'cliente'));
+        const parceiro = query(ref(firebase, 'parceiros'));
         /* OUVIR EVENTOS DO REALTIME DATABASE */
-        onChildAdded(cliente, (snapshot) => {
+        onChildAdded(parceiro, (snapshot) => {
             setContact((contacts) => [...contacts, JSON.stringify(snapshot.val()) +"\n\n"]);
         });
         return () => {
-            cliente.off();
+            parceiro.off();
         };
     }, []);
 

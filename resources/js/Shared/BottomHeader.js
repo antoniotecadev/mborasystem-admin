@@ -22,17 +22,15 @@ export default () => {
   }
 
   useEffect(() => {
-    const cliente = query(ref(firebase, 'cliente'), limitToLast(1));
+    const parceiro = query(ref(firebase, 'parceiros'), limitToLast(1));
     /* OUVIR EVENTOS DO REALTIME DATABASE */
-    onChildAdded(cliente, (snapshot) => {
+    onChildAdded(parceiro, (snapshot) => {
       if (snapshot.exists()) {
         const imei = snapshot.val().imei;
-        const nome = snapshot.val().nome;
-        const codigo_equipa = snapshot.val().codigoEquipa;
         const visualizado = snapshot.val().visualizado;
 
         if (imei != value && visualizado == false) {
-          toast.success("Parceiro " + nome + " registado pela equipa YOGA " + codigo_equipa + "\nIMEI: " + imei, {
+          toast.success("Parceiro: " + imei + " registado.", {
             toastId: imei
           });
           const notsize = Number.parseInt(localStorage.getItem('notificacao_registo'));
@@ -55,7 +53,7 @@ export default () => {
       });
 
     return () => {
-      cliente.off();
+      parceiro.off();
     };
   }, []);
 

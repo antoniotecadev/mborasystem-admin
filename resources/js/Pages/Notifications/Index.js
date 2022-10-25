@@ -24,26 +24,21 @@ const Index = () => {
     tipo = type;
   }
 
-  const abrirNotificacao = (id, type, read_contact, imei, first_name, last_name, codigo_equipa, created_at) => {
+  const abrirNotificacao = (id, type, read_contact, imei, first_name, last_name) => {
     location.href = route('contacts.edit', [id, type, read_contact]);
     const visualizadoData = {
-      id: id,
       imei: imei,
-      nome: first_name,
-      sobrenome: last_name,
-      codigoEquipa: codigo_equipa,
-      data_cria: created_at,
       visualizado: true
     };
     if (read_contact == "0") {
       const updates = {};
-      updates['/cliente/' + imei + '/'] = visualizadoData;
+      updates['/parceiros/' + imei + '/'] = visualizadoData;
       update(ref(firebase), updates)
         .then(() => {
-          toast.info(first_name + " marcado como lido no firebase");
+          toast.info(first_name + " " + last_name + " marcado como lido no firebase");
         })
         .catch(error => {
-          toast.error(first_name + " não marcado como lido no firebase: " + error.message);
+          toast.error(first_name + " " + last_name + " não marcado como lido no firebase: " + error.message);
         });
       localStorage.setItem("notificacao_registo", numeroNotificacao());
     }
@@ -77,7 +72,7 @@ const Index = () => {
                 >
                   <td className="border-t">
                     <InertiaLink
-                      onClick={() => abrirNotificacao(id, 1, read_contact, imei, first_name, last_name, codigo_equipa, created_at)}
+                      onClick={() => abrirNotificacao(id, 1, read_contact, imei, first_name, last_name)}
                       className="flex items-center px-6 py-4 focus:text-indigo-700 focus:outline-none"
                     >
                       <span className="font-bold">{first_name + ' ' + last_name}</span>&nbsp;registado pela equipa&nbsp;<span className="font-bold">YOGA {codigo_equipa}</span>&nbsp;IMEI:&nbsp;<span className="font-bold">{imei}</span>&nbsp;{created_at}
