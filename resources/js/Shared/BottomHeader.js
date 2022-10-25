@@ -19,6 +19,7 @@ export default () => {
   const zerarNotificacao = () => {
     localStorage.setItem("notificacao_registo", Number.parseInt(0));
     setForceUpdate(forceupdate + 1);
+    setNotificationOpened(false);
   }
 
   useEffect(() => {
@@ -80,7 +81,7 @@ export default () => {
             <InertiaLink
               href={route('contacts.notification', 4)}
               className="block px-6 py-2 hover:bg-indigo-600 hover:text-white"
-              onClick={() => setMenuOpened(false)}
+              onClick={() => setNotificationOpened(false)}
             >
               Registo <span className="ml-1 absolute bg-indigo-100 text-white whitespace-nowrap group-hover:text-indigo-600 focus:text-indigo-600 mb-6" style={{ backgroundColor: 'red', paddingRight: '5px', borderRadius: '10px' }}>{localStorage.getItem('notificacao') && localStorage.getItem('notificacao')}</span>
             </InertiaLink>
@@ -93,7 +94,7 @@ export default () => {
             <InertiaLink
               href={route('contacts.notification.firebase')}
               className="block px-6 py-2 hover:bg-indigo-600 hover:text-white"
-              onClick={() => setMenuOpened(false)}
+              onClick={() => setNotificationOpened(false)}
             >
               Firebase
             </InertiaLink>
