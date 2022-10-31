@@ -16,11 +16,9 @@ const Index = () => {
         const parceiro = query(ref(firebase, 'parceiros'));
         /* OUVIR EVENTOS DO REALTIME DATABASE */
         onChildAdded(parceiro, (snapshot) => {
-            setContact((contacts) => [...contacts, JSON.stringify(snapshot.val()) +"\n\n"]);
+            setContact((contacts) => [...contacts, JSON.stringify(snapshot.val()) + "\n\n"]);
         });
-        return () => {
-            parceiro.off();
-        };
+        return () => ref(firebase, 'parceiros').off();
     }, []);
 
     return (

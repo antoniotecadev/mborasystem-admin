@@ -53,9 +53,7 @@ export default () => {
         localStorage.setItem("notificacao_registo", (localStorage.getItem('notificacao_registo') ? (notsize + 1) : Number.parseInt(0 + 1)));
       });
 
-    return () => {
-      parceiro.off();
-    };
+    return () => ref(firebase, 'parceiros').off();
   }, []);
 
   return (
