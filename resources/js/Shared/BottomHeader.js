@@ -7,6 +7,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import firebase from '@/firebase';
 import { ref, onChildAdded, query, limitToLast } from "firebase/database";
 import { useLocalStorage } from 'react-use';
+import { isEmpty } from 'lodash';
 
 export default () => {
   const { auth } = usePage().props;
@@ -28,9 +29,9 @@ export default () => {
     onChildAdded(parceiro, (snapshot) => {
       if (snapshot.exists()) {
         const imei = snapshot.val().imei;
-        const visualizado = snapshot.val().visualizado;
+        const id = snapshot.val().id;
 
-        if (imei != value && visualizado == false) {
+        if (imei != value && isEmpty(id)) {
           toast.success("Parceiro: " + imei + " registado.", {
             toastId: imei
           });

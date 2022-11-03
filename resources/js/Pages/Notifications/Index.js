@@ -26,19 +26,16 @@ const Index = () => {
 
   const abrirNotificacao = (id, type, read_contact, imei, first_name, last_name) => {
     location.href = route('contacts.edit', [id, type, read_contact]);
-    const visualizadoData = {
-      imei: imei,
-      visualizado: true
+    const childUpdates = {
+      id: id,
     };
     if (read_contact == "0") {
-      const updates = {};
-      updates['/parceiros/' + imei + '/'] = visualizadoData;
-      update(ref(firebase), updates)
+      update(ref(firebase, `/parceiros/${imei}/`), childUpdates)
         .then(() => {
-          toast.info(first_name + " " + last_name + " marcado como lido no firebase");
+          toast.info(first_name + " " + last_name + " marcado como lido.");
         })
         .catch(error => {
-          toast.error(first_name + " " + last_name + " não marcado como lido no firebase: " + error.message);
+          toast.error(first_name + " " + last_name + " não marcado como lido: " + error.message);
         });
       localStorage.setItem("notificacao_registo", numeroNotificacao());
     }
