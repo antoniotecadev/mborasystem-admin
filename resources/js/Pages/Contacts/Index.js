@@ -9,6 +9,7 @@ import firebase from '@/firebase';
 import { ref, update } from "firebase/database";
 import { numeroNotificacao } from '@/Util/utilitario';
 import { alertToast } from '@/Util/utilitario';
+import { toast } from 'react-toastify';
 
 const Index = () => {
   const { contacts, quantidade } = usePage().props;
@@ -27,28 +28,21 @@ const Index = () => {
     }
   }
 
-  const detalheParceiro = (id, type, read_contact, imei, name, codigo_equipa, created_at) => {
-    location.href = route('contacts.edit', [id, type, read_contact]);
-    const visualizadoData = {
+  const detalheParceiro = (id, type, read_contact, imei) => {
+    const childUpdates = {
       id: id,
-      imei: imei,
-      nome: name,
-      codigoEquipa: codigo_equipa,
-      data_cria: created_at,
-      visualizado: true
     };
     if (read_contact == "0") {
-      const updates = {};
-      updates['/cliente/' + imei + '/'] = visualizadoData;
-      update(ref(firebase), updates)
-        .then(() => {
-          toast.info(first_name + " marcado como lido no firebase");
-        })
-        .catch(error => {
-          toast.error(first_name + " não marcado como lido no firebase: " + error.message);
-        });
+      update(ref(firebase, `/parceiros/${imei}/`), childUpdates)
+      .then(() => {
+        toast.info(first_name + " marcado como lido.");
+      })
+      .catch(error => {
+        toast.error(first_name + " não marcado como lido: " + error.message);
+      });
       localStorage.setItem("notificacao_registo", numeroNotificacao());
     }
+    location.href = route('contacts.edit', [id, type, read_contact]);
   }
 
   return (
@@ -94,7 +88,7 @@ const Index = () => {
                 >
                   <td className="border-t">
                     <InertiaLink
-                      onClick={() => detalheParceiro(id, 1, read_contact, imei, name, codigo_equipa, created_at)}
+                      onClick={() => detalheParceiro(id, 1, read_contact, imei)}
                       className="flex items-center px-6 py-4 focus:text-indigo-700 focus:outline-none"
                     >
                       {estado == '0' ? '🔴' : '🟢'} {name}
@@ -110,7 +104,7 @@ const Index = () => {
                     <InertiaLink
                       tabIndex="1"
                       className="flex items-center px-6 py-4 focus:text-indigo focus:outline-none"
-                      onClick={() => detalheParceiro(id, 1, read_contact, imei, name, codigo_equipa, created_at)}
+                      onClick={() => detalheParceiro(id, 1, read_contact, imei)}
                     >
                       {empresa}
                     </InertiaLink>
@@ -118,7 +112,7 @@ const Index = () => {
                   <td className="border-t">
                     <InertiaLink
                       tabIndex="-1"
-                      onClick={() => detalheParceiro(id, 1, read_contact, imei, name, codigo_equipa, created_at)}
+                      onClick={() => detalheParceiro(id, 1, read_contact, imei)}
                       className="flex items-center px-6 py-4 focus:text-indigo focus:outline-none"
                     >
                       {bairro}
@@ -127,7 +121,7 @@ const Index = () => {
                   <td className="border-t">
                     <InertiaLink
                       tabIndex="-1"
-                      onClick={() => detalheParceiro(id, 1, read_contact, imei, name, codigo_equipa, created_at)}
+                      onClick={() => detalheParceiro(id, 1, read_contact, imei)}
                       className="flex items-center px-6 py-4 focus:text-indigo focus:outline-none"
                     >
                       {rua}
@@ -136,7 +130,7 @@ const Index = () => {
                   <td className="w-px border-t">
                     <InertiaLink
                       tabIndex="-1"
-                      onClick={() => detalheParceiro(id, 1, read_contact, imei, name, codigo_equipa, created_at)}
+                      onClick={() => detalheParceiro(id, 1, read_contact, imei)}
                       className="flex items-center px-4 focus:outline-none"
                     >
                       <Icon
