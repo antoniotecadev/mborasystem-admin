@@ -63,7 +63,7 @@ const Edit = () => {
     }
   }
 
-  function calcular(e) {
+  function calcularRendimento(e) {
     e.preventDefault();
     if (isUndefined(inicio)) {
       toast.warning('Data de início não definada', {
@@ -299,9 +299,9 @@ const Edit = () => {
           </tbody>
         </table>
       </div>
-      <h2 className="mt-12 text-2xl font-bold">Lucro ({iniciodata == undefined ? "" : iniciodata + ' - ' + fimdata == undefined ? "" : fimdata})</h2>
+      <h2 className="mt-12 text-2xl font-bold">Rendimento ({iniciodata == undefined ? "" : iniciodata + ' - ' + fimdata == undefined ? "" : fimdata})</h2>
       <div className="mt-6 max-w-3xl overflow-hidden bg-white rounded shadow">
-        <form onSubmit={calcular}>
+        <form onSubmit={calcularRendimento}>
           <div className="flex flex-wrap p-8 -mb-8 -mr-6">
             <TextInput
               className="w-full pb-8 pr-6 lg:w-1/2"
@@ -321,7 +321,7 @@ const Edit = () => {
             />
             <TextInput
               className="w-full pb-8 pr-6 lg:w-1/2"
-              label={numeroagente == undefined ? "Para" : "Para: " + numeroagente + "Agente(s)"}
+              label={numeroagente == undefined ? "Para" : "Para: " + numeroagente + " Agente(s)"}
               name="numero_agente"
               type="number"
               value={numeroAgente}

@@ -126,7 +126,7 @@ class EquipasController extends Controller
         }
     }
 
-    public function calcularLucroEquipa($id, $codigo, $inicio, $fim, $numeroagente, $percentagemTaxa){
+    public function calcularRendimentoEquipa($id, $codigo, $inicio, $fim, $numeroagente, $percentagemTaxa){
         $response = Gate::inspect('isAdmin');
         if ($response->allowed()) {
             $c = Contact::where('contacts.codigo_equipa', $codigo)

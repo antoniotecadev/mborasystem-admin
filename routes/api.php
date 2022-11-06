@@ -32,4 +32,8 @@ Route::namespace('Api')->group(function () {
     Route::get('{municipio}/bairros', 'ContactsController@getBairros');
     Route::get('/equipas/{codigo}/verificar', 'EquipasController@verificarCodigo')->where('codigo', '[0-9]+');;
     Route::get('/contacts/contactos', 'ContactsController@getContactos');
+    Route::get('view/lista/equipas')->name('api.lista.equipas')->uses('EquipasController@getListaEquipas');
+    Route::get('view/{equipa}/rendimento/equipas/{codigo}')->name('api.rendimento.equipas')->uses('EquipasController@rendimentoEquipas');
+    Route::get('view/login/equipa/{dds1}/{dds2}/{dds3}')->name('api.login.equipa')->uses('EquipasController@loginEquipa');
+    Route::get('equipas/{equipa}/editar/{codigo}/codigo/{inicio}/inicio/{fim}/fim/{numero}/agente/{percentagem}')->name('api.calcular.rendimento.equipa')->uses('EquipasController@calcularRendimentoEquipa');
 });
