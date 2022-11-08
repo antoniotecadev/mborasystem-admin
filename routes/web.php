@@ -1,4 +1,6 @@
 <?php
+
+use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Route;
 /*
 |--------------------------------------------------------------------------
@@ -10,6 +12,12 @@ use Illuminate\Support\Facades\Route;
 | contains the "web" middleware group. Now create something great!
 |
 */
+
+Route::get('/clear-cache', function() {
+    $exitCode = Artisan::call('cache:clear'); 
+    $exitCode = Artisan::call('config:clear');
+    return 'DONE';
+ });
 
 // Auth
 Route::get('login')->name('login')->uses('Auth\LoginController@showLoginForm')->middleware('guest');
