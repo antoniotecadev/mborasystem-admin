@@ -9,7 +9,7 @@
     "license": "MIT",
     "type": "project",
     "require": {
-        "php": "^7.2.5|^8.0.0",
+        "php": "^7.2.5|^8.0.2",
         "ext-exif": "*",
         "ext-gd": "*",
         "barryvdh/laravel-debugbar": "^3.2",
