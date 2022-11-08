@@ -21,7 +21,7 @@ class ContactsController extends Controller
             ->join('dispositivos as d', 'd.contact_id', '=', 'contacts.id')
             ->where('imei', $imei)
             ->latest('pagamentos.id')
-            ->select('contacts.first_name', 'contacts.last_name', 'contacts.nif_bi', 'contacts.email', 'contacts.phone', 'contacts.alternative_phone', 'contacts.empresa', 'contacts.municipality', 'contacts.district', 'contacts.street', 'contacts.estado', 'contacts.imei', 'pagamentos.pacote', 'pagamentos.inicio', 'pagamentos.fim',
+            ->select('contacts.first_name', 'contacts.last_name', 'contacts.nif_bi', 'contacts.email', 'contacts.phone', 'contacts.alternative_phone', 'contacts.empresa', 'contacts.municipality', 'contacts.district', 'contacts.street', 'contacts.estado', 'contacts.imei', 'pagamentos.pacote', 'pagamentos.tipo_pagamento', 'pagamentos.inicio', 'pagamentos.fim',
             'd.fabricante', 'd.marca', 'd.produto', 'd.modelo', 'd.versao', 'd.api', 'd.device')
             ->limit(1)
             ->get();
@@ -54,6 +54,8 @@ class ContactsController extends Controller
             'estado' => $c['0']->estado,
             'imei' => $c['0']->imei,
             'pacote' => $c['0']->pacote,
+            'tipo_pagamento' => $c['0']->tipo_pagamento,
+            'quantidade_produto' => $this->getQuantidadeProduto($c['0']->pacote, $c['0']->tipo_pagamento),
             'inicio' => $c['0']->inicio,
             'fim' => $c['0']->fim,
             'termina' => $termina,
@@ -77,6 +79,8 @@ class ContactsController extends Controller
             'estado' => 0,
             'imei' => '',
             'pacote' => 3,
+            'tipo_pagamento' => 4,
+            'quantidade_produto' => '0',
             'inicio' => '',
             'fim' => '',
             'termina' => '1',
@@ -138,6 +142,33 @@ class ContactsController extends Controller
                ->where('m.nome', $municipio)
                ->get('b.nome as br');
     }
+
+    public function getQuantidadeProduto($pacote, $tipo) {
+        $quantidade = [
+            '0' => [
+                '1' => '5',
+                '3' => '10',
+                '6' => '15',
+                '12' => '20',
+            ],
+            '1' => [
+                '1' => '25',
+                '3' => '30',
+                '6' => '35',
+                '12' => '40',
+            ],
+            '2' => [
+                '1' => '45',
+                '3' => '50',
+                '6' => '55',
+                '12' => '60',
+            ],
+        ];
+
+        $quantidade = $quantidade[$pacote];
+        return $quantidade[$tipo];
+    }
+
     // private function getBairrosExemplo($municipio) {
     //     $bairros = [ 
     //         'Belas' => [
