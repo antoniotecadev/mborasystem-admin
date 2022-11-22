@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\EquipaStoreRequest;
 use App\Http\Requests\EquipaUpdateRequest;
 use App\Http\Resources\EquipaCollection;
-use App\Http\Resources\equipaResource;
+use App\Http\Resources\EquipaResource;
 use App\Models\Equipa;
 use App\Models\Contact;
 use Inertia\Inertia;
