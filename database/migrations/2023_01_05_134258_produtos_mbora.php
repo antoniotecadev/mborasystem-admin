@@ -22,7 +22,7 @@ class ProdutosMbora extends Migration
             $table->integer('quantidade');
             $table->string('urlImage');
             $table->string('codigoBarra', 20)->nullable();
-            $table->string('tag', 20);
+            $table->string('tag', 30)->index();
             $table->timestamps();
             $table->softDeletes();
         });
