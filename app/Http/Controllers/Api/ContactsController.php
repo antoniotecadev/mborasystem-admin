@@ -55,7 +55,7 @@ class ContactsController extends Controller
             'imei' => $c['0']->imei,
             'pacote' => $c['0']->pacote,
             'tipo_pagamento' => $c['0']->tipo_pagamento,
-            'quantidade_produto' => $this->getQuantidadeProduto($c['0']->pacote, $c['0']->tipo_pagamento),
+            'quantidade_produto_pacote' => $this->getQuantidadeProdutoPacote($c['0']->pacote, $c['0']->tipo_pagamento),
             'inicio' => $c['0']->inicio,
             'fim' => $c['0']->fim,
             'termina' => $termina,
@@ -143,7 +143,7 @@ class ContactsController extends Controller
                ->get('b.nome as br');
     }
 
-    public function getQuantidadeProduto($pacote, $tipo) {
+    private function getQuantidadeProdutoPacote($pacote, $tipo) {
         $quantidade = [
             '0' => [
                 '1' => '5',
