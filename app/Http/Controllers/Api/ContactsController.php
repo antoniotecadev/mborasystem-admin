@@ -145,10 +145,24 @@ class ContactsController extends Controller
     }
 
     public function getQuantidadeProduto($imei){
-        return DB::table('produtos_mbora')
-        ->where('imei', '=', $imei)
-        ->get()
-        ->count();
+        
+        $quantidade = DB::table('produtos_mbora')
+                ->where('imei', $imei)
+                ->get()
+                ->count();
+
+        $c = DB::table('contacts')
+            ->join('pagamentos', 'pagamentos.contact_id', '=', 'contacts.id')
+            ->where('imei', $imei)
+            ->latest('pagamentos.id')   
+            ->select('pagamentos.pacote', 'pagamentos.tipo_pagamento')
+            ->limit(1)
+            ->get();
+            
+        return [[ 
+            'quantidade_produto_pacote' => $this->getQuantidadeProdutoPacote($c['0']->pacote, $c['0']->tipo_pagamento),
+            'quantidade_produto' => $quantidade
+            ]];
     }
 
     private function getQuantidadeProdutoPacote($pacote, $tipo) {
