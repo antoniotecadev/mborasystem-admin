@@ -56,6 +56,7 @@ class ContactsController extends Controller
             'pacote' => $c['0']->pacote,
             'tipo_pagamento' => $c['0']->tipo_pagamento,
             'quantidade_produto_pacote' => $this->getQuantidadeProdutoPacote($c['0']->pacote, $c['0']->tipo_pagamento),
+            'quantidade_produto' => $this->getQuantidadeProduto($imei),
             'inicio' => $c['0']->inicio,
             'fim' => $c['0']->fim,
             'termina' => $termina,
@@ -141,6 +142,13 @@ class ContactsController extends Controller
                ->join('bairros as b', 'b.municipio_id', '=', 'm.id')
                ->where('m.nome', $municipio)
                ->get('b.nome as br');
+    }
+
+    public function getQuantidadeProduto($imei){
+        return DB::table('produtos_mbora')
+        ->where('imei', '=', $imei)
+        ->get()
+        ->count();
     }
 
     private function getQuantidadeProdutoPacote($pacote, $tipo) {

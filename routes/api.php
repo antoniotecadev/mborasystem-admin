@@ -38,5 +38,6 @@ Route::namespace('Api')->group(function () {
     Route::get('equipas/{equipa}/editar/{codigo}/codigo/{inicio}/inicio/{fim}/fim/{numero}/agente/{percentagem}')->name('api.calcular.rendimento.equipa')->uses('EquipasController@calcularRendimentoEquipa');
 
     Route::get('categorias/mbora')->name('api.categorias.mbora')->uses('CategoriasMboraController@index');
+    Route::get('produtos/{imei}')->name('api.produtos')->uses('ContactsController@getQuantidadeProduto');
 
 });
