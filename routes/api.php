@@ -39,5 +39,6 @@ Route::namespace('Api')->group(function () {
 
     Route::get('categorias/mbora')->name('api.categorias.mbora')->uses('CategoriasMboraController@index');
     Route::get('produtos/mbora/{imei}')->name('api.produtos')->uses('ContactsController@getQuantidadeProduto');
+    Route::post('produtos/mbora/store', 'ProdutosMboraController@store');
 
 });
