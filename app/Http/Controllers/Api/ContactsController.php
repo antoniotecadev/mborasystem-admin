@@ -116,15 +116,14 @@ class ContactsController extends Controller
                 $c->save();
                 $this->storeDeviceDetail($request, $c->id);
                 return ['insert' => 'ok'];
-
             } else {
-                new \Throwable();
+                return ['insert' => 'erro', 'throwable' => 'parâmetro de parceiro errado.'];
             }
             // $contact = Contact::where('imei', $request->imei)->first();
             // CreateContactEvent::dispatch($contact);
         } catch (\Throwable $th) {
             Log::channel('daily')->emergency('MBORASYSTEM ERRO AO CRIAR:  Parceiro <<' . $request->first_name . ' ' . $request->last_name . ' - ' . $request->imei . '>> Equipa <<' . $request->codigo_equipa . '>>.');
-            return ['insert' => 'erro'];
+            return ['insert' => 'erro', 'throwable' => 'ouvi uma falha de registo.'];
         }
     }
 
