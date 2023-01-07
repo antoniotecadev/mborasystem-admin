@@ -11,7 +11,6 @@ class ProdutosMboraController extends Controller
     public function store(Request $request)
     {
         $pm = new ProdutosMbora();
-    
         try {
             if ($request->has(['imei', 'idcategoria', 'nome', 'preco', 'quantidade', 'urlImage', 'codigo_barra', 'tag'])) :
                 $pm->imei = $request->imei;
