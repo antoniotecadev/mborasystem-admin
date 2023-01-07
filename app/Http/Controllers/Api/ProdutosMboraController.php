@@ -4,9 +4,7 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
 use App\Models\ProdutosMbora;
-use Illuminate\Support\Facades\Log;
 
 class ProdutosMboraController extends Controller
 {
@@ -30,7 +28,6 @@ class ProdutosMboraController extends Controller
                 return ['insert' => 'erro', 'throwable' => 'Parâmetro de produto errado.'];
             endif;
         } catch (\Throwable $th) {
-            Log::channel('daily')->emergency($th->getMessage());
             return ['insert' => 'erro', 'throwable' => 'Produto não enviado, ouvi uma falha de registo.'];
         }
     }
