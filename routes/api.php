@@ -37,8 +37,8 @@ Route::namespace('Api')->group(function () {
     Route::get('view/login/equipa/{dds1}/{dds2}/{dds3}')->name('api.login.equipa')->uses('EquipasController@loginEquipa');
     Route::get('equipas/{equipa}/editar/{codigo}/codigo/{inicio}/inicio/{fim}/fim/{numero}/agente/{percentagem}')->name('api.calcular.rendimento.equipa')->uses('EquipasController@calcularRendimentoEquipa');
 
-    Route::get('categorias/mbora')->name('api.categorias.mbora')->uses('CategoriasMboraController@index');
-    Route::get('produtos/mbora/{imei}')->name('api.produtos')->uses('ContactsController@getQuantidadeProduto');
+    Route::get('categorias/mbora', 'CategoriasMboraController@index');
     Route::post('produtos/mbora/store', 'ProdutosMboraController@store');
+    Route::get('produtos/mbora/{imei}', 'ProdutosMboraController@getQuantidadeProduto');
 
 });

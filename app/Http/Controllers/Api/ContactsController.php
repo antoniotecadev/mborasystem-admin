@@ -13,6 +13,8 @@ class ContactsController extends Controller
 {
     public function index($imei){
 
+        $pm = new ProdutosMboraController();
+
         $imeiLength = Str::length($imei);
 
         if($imeiLength > 10 and $imeiLength < 20):
@@ -56,7 +58,7 @@ class ContactsController extends Controller
             'pacote' => $c['0']->pacote,
             'tipo_pagamento' => $c['0']->tipo_pagamento,
             'quantidade_produto_pacote' => $this->getQuantidadeProdutoPacote($c['0']->pacote, $c['0']->tipo_pagamento),
-            'quantidade_produto' => $this->getQuantidade($imei),
+            'quantidade_produto' => $pm->getQuantidade($imei),
             'inicio' => $c['0']->inicio,
             'fim' => $c['0']->fim,
             'termina' => $termina,
@@ -144,30 +146,8 @@ class ContactsController extends Controller
                ->get('b.nome as br');
     }
 
-    public function getQuantidade($imei){
-        return DB::table('produtos_mbora')
-        ->where('imei', $imei)
-        ->get()
-        ->count();
-    }
 
-    public function getQuantidadeProduto($imei) {
-        
-        $c = DB::table('contacts')
-            ->join('pagamentos', 'pagamentos.contact_id', '=', 'contacts.id')
-            ->where('imei', $imei)
-            ->latest('pagamentos.id')   
-            ->select('pagamentos.pacote', 'pagamentos.tipo_pagamento')
-            ->limit(1)
-            ->get();
-            
-        return [[ 
-            'quantidade_produto_pacote' => $this->getQuantidadeProdutoPacote($c['0']->pacote, $c['0']->tipo_pagamento),
-            'quantidade_produto' => $this->getQuantidade($imei)
-            ]];
-    }
-
-    private function getQuantidadeProdutoPacote($pacote, $tipo) {
+    public function getQuantidadeProdutoPacote($pacote, $tipo) {
         $quantidade = [
             '0' => [
                 '1' => '5',
