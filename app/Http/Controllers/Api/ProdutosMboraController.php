@@ -11,8 +11,7 @@ use App\Http\Controllers\Api\ContactsController;
 class ProdutosMboraController extends Controller
 {
     public function index() {
-        $produtos = ProdutosMbora::all()->random(8);
-        return response()->json($produtos);
+        return ProdutosMbora::all()->random(8);
     }
 
     public function store(Request $request)
