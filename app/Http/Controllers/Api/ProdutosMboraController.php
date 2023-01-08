@@ -34,10 +34,7 @@ class ProdutosMboraController extends Controller
     }
 
     public function getQuantidade($imei){
-        return DB::table('produtos_mbora')
-        ->where('imei', $imei)
-        ->get()
-        ->count();
+        return ProdutosMbora::where('imei', $imei)->count();
     }
 
     public function getQuantidadeProduto($imei) {
