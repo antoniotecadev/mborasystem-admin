@@ -40,5 +40,6 @@ Route::namespace('Api')->group(function () {
     Route::get('categorias/mbora', 'CategoriasMboraController@index');
     Route::post('produtos/mbora/store', 'ProdutosMboraController@store');
     Route::get('produtos/mbora/{imei}', 'ProdutosMboraController@getQuantidadeProduto');
+    Route::get('produtos/mbora/json/index', 'ProdutosMboraController@index');
 
 });
