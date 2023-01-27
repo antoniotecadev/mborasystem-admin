@@ -138,6 +138,13 @@ class ContactsController extends Controller
         return [[ 'contactos' => "\nCALL: 222 727 519 | 937 115 891\nEMAIL: yoga.apoio.tecnico@gmail.com\nWHATSAPP: +244 937 115 891" ]];
     }
 
+    public function getMunicipios($provincia){
+        return DB::table('provincias', 'p')
+               ->join('municipios as m', 'm.provincia_id', '=', 'p.id')
+               ->where('p.nome', $provincia)
+               ->get('m.nome as mc');
+    }
+
     public function getBairros($municipio){
         return DB::table('municipios', 'm')
                ->join('bairros as b', 'b.municipio_id', '=', 'm.id')

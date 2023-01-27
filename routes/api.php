@@ -29,6 +29,7 @@ Route::get('/politicaprivacidade', function () {
 Route::namespace('Api')->group(function () {
     Route::get('/contacts/{imei}/estado', 'ContactsController@index')->where('imei', '[0-9]+');
     Route::post('/contacts', 'ContactsController@store');
+    Route::get('{provincia}/municipios', 'ContactsController@getMunicipios');
     Route::get('{municipio}/bairros', 'ContactsController@getBairros');
     Route::get('/equipas/{codigo}/verificar', 'EquipasController@verificarCodigo')->where('codigo', '[0-9]+');;
     Route::get('/contacts/contactos', 'ContactsController@getContactos');
