@@ -98,10 +98,11 @@ class ContactsController extends Controller
 
         try {
 
-            if ($request->has(['codigo_equipa', 'first_name', 'last_name', 'nif_bi', 'email', 'phone', 'alternative_phone', 'empresa', 'municipality', 'district', 'street', 'imei'])) {
+            if ($request->has(['codigo_equipa', 'first_name', 'last_name', 'nif_bi', 'email', 'phone', 'alternative_phone', 'empresa', 'municipality', 'provincia', 'district', 'street', 'imei'])) {
 
                 $c->account_id = $request->account_id;
                 $c->codigo_equipa = $request->codigo_equipa;
+                $c->provincia_id = $this->getIdProvincia($request->provincia);
                 $c->first_name = $request->first_name;
                 $c->last_name = $request->last_name;
                 $c->nif_bi = $request->nif_bi;
@@ -125,6 +126,12 @@ class ContactsController extends Controller
             Log::channel('daily')->emergency('MBORASYSTEM ERRO AO CRIAR:  Parceiro <<' . $request->first_name . ' ' . $request->last_name . ' - ' . $request->imei . '>> Equipa <<' . $request->codigo_equipa . '>>.');
             return ['insert' => 'erro', 'throwable' => 'ouvi uma falha de registo.'];
         }
+    }
+
+    private function getIdProvincia($provincia){
+        return DB::table('provincias')
+        ->where('nome', $provincia)
+        ->get('id')[0]->id;
     }
 
     private function storeDeviceDetail($request, $contact_id){
