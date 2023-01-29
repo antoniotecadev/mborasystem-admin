@@ -23,7 +23,7 @@ class ContactsController extends Controller
             ->join('dispositivos as d', 'd.contact_id', '=', 'contacts.id')
             ->where('imei', $imei)
             ->latest('pagamentos.id')
-            ->select('contacts.first_name', 'contacts.last_name', 'contacts.nif_bi', 'contacts.email', 'contacts.phone', 'contacts.alternative_phone', 'contacts.empresa', 'contacts.municipality', 'contacts.district', 'contacts.street', 'contacts.estado', 'contacts.imei', 'pagamentos.pacote', 'pagamentos.tipo_pagamento', 'pagamentos.inicio', 'pagamentos.fim',
+            ->select('contacts.provincia_id', 'contacts.first_name', 'contacts.last_name', 'contacts.nif_bi', 'contacts.email', 'contacts.phone', 'contacts.alternative_phone', 'contacts.empresa', 'contacts.municipality', 'contacts.district', 'contacts.street', 'contacts.estado', 'contacts.imei', 'pagamentos.pacote', 'pagamentos.tipo_pagamento', 'pagamentos.inicio', 'pagamentos.fim',
             'd.fabricante', 'd.marca', 'd.produto', 'd.modelo', 'd.versao', 'd.api', 'd.device')
             ->limit(1)
             ->get();
@@ -43,7 +43,8 @@ class ContactsController extends Controller
             } else {
                 $termina = 0;
             }
-            return [[ 'first_name' => $c['0']->first_name,
+            return [[ 'provincia' => $this->getProvincia($c['0']->provincia_id),
+            'first_name' => $c['0']->first_name,
             'last_name' => $c['0']->last_name,
             'nif_bi' => $c['0']->nif_bi,
             'email' => $c['0']->email,
@@ -69,7 +70,8 @@ class ContactsController extends Controller
 }
 
     private function dataEmpty(){
-        return [[ 'first_name' => '',
+        return [[ 'provincia' => '',
+            'first_name' => '',
             'last_name' => '',
             'nif_bi' => '',
             'email' => '',
@@ -132,6 +134,12 @@ class ContactsController extends Controller
         return DB::table('provincias')
         ->where('nome', $provincia)
         ->get('id')[0]->id;
+    }
+
+    private function getProvincia($id){
+        return DB::table('provincias')
+        ->where('id', $id)
+        ->get('nome')[0]->nome;
     }
 
     private function storeDeviceDetail($request, $contact_id){
