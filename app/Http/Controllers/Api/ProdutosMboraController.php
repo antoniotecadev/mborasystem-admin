@@ -14,7 +14,8 @@ class ProdutosMboraController extends Controller
         return DB::table('produtos_mbora as pm')
             ->join('contacts as ct', 'pm.imei', '=', 'ct.imei')
             ->join('provincias as pv', 'pv.id', '=', 'ct.provincia_id')
-            ->select('pm.id', 'pm.imei', 'pm.idcategoria', 'pm.nome', 'pm.preco', 'pm.quantidade', 'pm.urlImage', 'pm.codigoBarra', 'pm.tag', 'pm.created_at', 'ct.empresa', 'ct.district', 'ct.street', 'pv.nome as nomeProvincia')
+            ->join('categorias_mbora as cm', 'cm.id', '=', 'pm.idcategoria')
+            ->select('pm.id', 'pm.imei', 'pm.idcategoria', 'pm.nome', 'pm.preco', 'pm.quantidade', 'pm.urlImage', 'pm.codigoBarra', 'pm.tag', 'pm.created_at', 'ct.empresa', 'ct.district', 'ct.street', 'pv.nome as nomeProvincia', 'cm.nome as nomeCategoria')
             ->get()->random(16);
     }
 
