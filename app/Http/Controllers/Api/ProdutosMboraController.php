@@ -11,7 +11,10 @@ use App\Http\Controllers\Api\ContactsController;
 class ProdutosMboraController extends Controller
 {
     public function index() {
-        return ProdutosMbora::all()->random(8);
+        return DB::table('produtos_mbora as pm')
+            ->join('contacts as ct', 'pm.imei', '=', 'ct.imei')
+            ->select('pm.id', 'pm.imei', 'pm.idcategoria', 'pm.nome', 'pm.preco', 'pm.quantidade', 'pm.urlImage', 'pm.codigoBarra', 'pm.tag', 'pm.created_at', 'ct.empresa', 'ct.district', 'ct.street')
+            ->get()->random(16);
     }
 
     public function store(Request $request)
