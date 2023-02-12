@@ -31,7 +31,7 @@ Route::namespace('Api')->group(function () {
     Route::post('/contacts', 'ContactsController@store');
     Route::get('{provincia}/municipios', 'ContactsController@getMunicipios');
     Route::get('{municipio}/bairros', 'ContactsController@getBairros');
-    Route::get('/equipas/{codigo}/verificar', 'EquipasController@verificarCodigo')->where('codigo', '[0-9]+');;
+    Route::get('/equipas/{codigo}/verificar', 'EquipasController@verificarCodigo')->where('codigo', '[0-9]+');
     Route::get('/contacts/contactos', 'ContactsController@getContactos');
     Route::get('view/lista/equipas')->name('api.lista.equipas')->uses('EquipasController@getListaEquipas');
     Route::get('view/{equipa}/rendimento/equipas/{codigo}')->name('api.rendimento.equipas')->uses('EquipasController@rendimentoEquipas');
