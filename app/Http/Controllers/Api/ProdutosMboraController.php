@@ -22,6 +22,16 @@ class ProdutosMboraController extends Controller
             ->get()->random(32);
     }
 
+    public function searchProduct($nome) {
+        return DB::table('produtos_mbora as pm')
+            ->where('pm.nome', 'LIKE', "%" . $nome . "%")
+            ->join('contacts as ct', 'pm.imei', '=', 'ct.imei')
+            ->join('provincias as pv', 'pv.id', '=', 'ct.provincia_id')
+            ->join('categorias_mbora as cm', 'cm.id', '=', 'pm.idcategoria')
+            ->select('pm.id', 'pm.imei', 'pm.idcategoria', 'pm.nome', 'pm.preco', 'pm.quantidade', 'pm.urlImage', 'pm.codigoBarra', 'pm.tag', 'pm.created_at', 'ct.empresa', 'ct.district', 'ct.street', 'pv.nome as nomeProvincia', 'cm.nome as nomeCategoria')
+            ->get();
+    }
+
     public function store(Request $request)
     {
         $pm = new ProdutosMbora();
