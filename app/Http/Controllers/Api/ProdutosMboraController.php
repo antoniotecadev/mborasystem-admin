@@ -76,4 +76,10 @@ class ProdutosMboraController extends Controller
             'quantidade_produto' => $this->getQuantidade($imei)
             ]];
     }
+
+    public function getViewNumberProduct($id){
+        $produto = ProdutosMbora::findOrFail($id);
+        $produto->increment('visualizacao');
+        return ['view' => $produto->visualizacao];
+    }
 }
