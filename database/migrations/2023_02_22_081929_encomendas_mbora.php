@@ -18,6 +18,8 @@ class EncomendasMbora extends Migration
             $table->string('imei_contacts', 20)->index();
             $table->string('id_users_mbora')->index();
             $table->integer('id_produtos_mbora', false, false)->index();
+            $table->timestamps();
+            $table->softDeletes();
         });
     }
 
