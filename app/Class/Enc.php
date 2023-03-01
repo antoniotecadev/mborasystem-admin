@@ -7,12 +7,12 @@ use Illuminate\Support\Facades\Crypt;
 
 class Enc {
 
-    public function encriptar($valor)
+    public static function encriptar($valor)
     {
         return Crypt::encryptString($valor);
     }
 
-    public function desencriptar($valorEncriptado) 
+    public static function desencriptar($valorEncriptado) 
     {
         try {
             return Crypt::decryptString($valorEncriptado);
