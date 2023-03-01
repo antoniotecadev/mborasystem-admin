@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\Class\Enc;
 use App\Http\Controllers\Api\BaseController;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -15,6 +16,7 @@ class AuthController extends BaseController
      * @param Request $request
      * @return User 
      */
+
     public function create(Request $request)
     {
         try {
@@ -39,7 +41,8 @@ class AuthController extends BaseController
                 'password' => $request->password,
                 'account_id' => 2
             ]);
-
+            $enc = new Enc();
+            $success['user_id'] = $enc->encriptar($user->id);
             $success['token'] =  $user->createToken($request->device_name)->plainTextToken;
 
             return $this->sendResponse($success, 'Conta de usuário criada com sucesso');
@@ -76,6 +79,8 @@ class AuthController extends BaseController
                 if(auth('sanctum')->check()):
                     $user->tokens()->delete();
                 endif;
+                $enc = new Enc();
+                $success['user_id'] = $enc->encriptar($user->id);
                 $success['token'] =  $user->createToken($request->device_name)->plainTextToken;
                 return $this->sendResponse($success, 'Usuário logado com sucesso'); 
             } else {
