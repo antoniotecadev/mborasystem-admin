@@ -52,9 +52,6 @@ class AuthController extends BaseController
             return $this->sendError('Erro de servidor', $error, 500 ); 
         }
     }
-    // 1|XcHPPRdlilHD3J5eR4zULkgWHHAqcbffPYtLnKY8
-    // 2|zui87UloDSbvxUe0rZ9H3g8uJmIdefYybMWVntRl
-    // 3|Aw1GyU2caAwR2DBmy8qtEIacg8AGzcwdnY9uu0HW
 
     /**
      * Login The User
