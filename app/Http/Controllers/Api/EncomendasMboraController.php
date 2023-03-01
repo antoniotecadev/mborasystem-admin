@@ -24,13 +24,13 @@ class EncomendasMboraController extends BaseController
             endif;
 
             EncomendasMbora::create($request->all());
-            $success['message'] = 'encomendado(a).';
+            $success['message'] = 'encomendado(a)';
 
-            return $this->sendResponse($success, 'Produto encomendado com sucesso.');
+            return $this->sendResponse($success, 'Produto encomendado com sucesso');
 
         } catch (\Throwable $th) {
             $error['message'] = $th->getMessage();
-            return $this->sendError('Produto não encomendado.', $error);
+            return $this->sendError('Produto não encomendado', $error);
         }
     }
 }
