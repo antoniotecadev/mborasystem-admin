@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\Api;
 
-use App\Http\Controllers\Controller;
+use App\Class\Enc;
 use App\Models\EncomendasMbora;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
@@ -22,7 +22,7 @@ class EncomendasMboraController extends BaseController
                 $error['message'] = $validator->errors();
                 return $this->sendError('Erro de validação', $error);
             endif;
-
+            $request['id_users_mbora'] = Enc::desencriptar($request->id_users_mbora);
             EncomendasMbora::create($request->all());
             $success['message'] = 'encomendado(a)';
 
