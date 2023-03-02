@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Api\BaseController;
 use Inertia\Inertia;
 use Illuminate\Support\Facades\Route;
 /*
@@ -48,6 +49,11 @@ Route::namespace('Api')->group(function () {
     Route::post('auth/login', 'AuthController@login');
     
     Route::middleware('auth:sanctum')->group(function() {
+        Route::post('user/autenticated', function() {
+            $bc = new BaseController();
+            $success['message'] = 'Usuário autenticado';
+            return $bc->sendResponse($success, 'Autenticado');
+        });
         Route::post('produtos/mbora/encomenda', 'EncomendasMboraController@store');
     });
 });
