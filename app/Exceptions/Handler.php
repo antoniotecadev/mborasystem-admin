@@ -2,6 +2,8 @@
 
 namespace App\Exceptions;
 
+use App\Http\Controllers\Api\BaseController;
+use Illuminate\Auth\AuthenticationException;
 Use Throwable;
 use Inertia\Inertia;
 use Illuminate\Support\Facades\App;
@@ -66,5 +68,16 @@ class Handler extends ExceptionHandler
         }
 
         return $response;
+    }
+
+    public function register()
+    {
+        $this->renderable(function (AuthenticationException $e, $request) {
+            if ($request->is('api/*')) {
+                $bc = new BaseController();
+                $error['message'] = 'Para efectuar esta operação o usuário precisa estar autenticado';
+                return $bc->sendError('Autenticação', $error);
+            }
+        });
     }
 }
