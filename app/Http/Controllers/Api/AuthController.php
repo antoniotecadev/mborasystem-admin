@@ -8,6 +8,7 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
+use Laravel\Sanctum\PersonalAccessToken;
 
 class AuthController extends BaseController
 {
@@ -83,6 +84,20 @@ class AuthController extends BaseController
                 return $this->sendError('Falha ao entrar', $error);
             }
 
+        } catch (\Throwable $th) {
+            $error['message'] = $th->getMessage();
+            return $this->sendError('Erro de servidor', $error, 500); 
+        }
+    }
+
+    public function logout(Request $request)
+    {
+        try {
+            $accessToken = $request->bearerToken();
+            $token = PersonalAccessToken::findToken($accessToken);
+            $token->delete();
+            $success['message'] = null;
+            return $this->sendResponse($success, 'Usuário deslogado com sucesso'); 
         } catch (\Throwable $th) {
             $error['message'] = $th->getMessage();
             return $this->sendError('Erro de servidor', $error, 500); 

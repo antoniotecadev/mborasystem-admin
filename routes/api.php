@@ -55,5 +55,6 @@ Route::namespace('Api')->group(function () {
             return $bc->sendResponse($success, 'Autenticado');
         });
         Route::post('produtos/mbora/encomenda', 'EncomendasMboraController@store');
+        Route::post('mbora/logout/user', 'AuthController@logout');
     });
 });
