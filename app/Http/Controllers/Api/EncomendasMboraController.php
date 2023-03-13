@@ -13,6 +13,9 @@ class EncomendasMboraController extends BaseController
         try {
 
             $validator = Validator::make($request->all(), [
+                'client_phone' => 'required|min:9',
+                'client_address' => 'required|max:50',
+                'client_info_ad' => 'max:50',
                 'imei_contacts' => 'required',
                 'id_users_mbora' => 'required',
                 'id_produtos_mbora' => 'required',

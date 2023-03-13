@@ -12,5 +12,5 @@ class EncomendasMbora extends Model
 
     protected $table = 'encomendas_mbora';
 
-    protected $fillable = ['imei_contacts', 'id_users_mbora', 'id_produtos_mbora'];
+    protected $fillable = ['imei_contacts', 'id_users_mbora', 'id_produtos_mbora', 'client_phone', 'client_address', 'client_info_ad'];
 }
