@@ -20,7 +20,7 @@ class EncomendasMbora extends Migration
             $table->integer('id_produtos_mbora', false, false)->index();
             $table->string('client_phone');
             $table->string('client_address', 50);
-            $table->string('client_info_ad', 50);
+            $table->string('client_info_ad', 50)->nullable();
             $table->json('client_coordinate');
             $table->timestamps();
             $table->softDeletes();
