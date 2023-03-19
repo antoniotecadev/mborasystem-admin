@@ -5,10 +5,23 @@ namespace App\Http\Controllers\Api;
 use App\Class\Enc;
 use App\Models\EncomendasMbora;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
 
 class EncomendasMboraController extends BaseController
 {
+    public function show(Request $request) {
+        $id_users_mbora = Enc::desencriptar($request->id_users_mbora);
+        return DB::table('produtos_mbora', 'pm')
+            ->join('encomendas_mbora as em', 'pm.id', '=', 'em.id_produtos_mbora')
+            ->join('contacts as ct', 'em.imei_contacts', '=', 'ct.imei')
+            ->join('provincias as pv', 'pv.id', '=', 'ct.provincia_id')
+            ->where('em.id_users_mbora', $id_users_mbora)
+            ->select('em.id', 'em.created_at', 'pm.nome', 'pm.preco', 'pm.urlImage', 'pm.codigoBarra', 'pm.visualizacao', 'ct.imei', 'ct.empresa', 'ct.district', 'ct.street', 'pv.nome as nomeProvincia')
+            ->orderByDesc('em.created_at')
+            ->get();
+    }
+
     public function store(Request $request) {
         try {
 
