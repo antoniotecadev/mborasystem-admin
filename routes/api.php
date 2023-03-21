@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Api\BaseController;
+use Illuminate\Support\Facades\Auth;
 use Inertia\Inertia;
 use Illuminate\Support\Facades\Route;
 /*
@@ -51,8 +52,11 @@ Route::namespace('Api')->group(function () {
     
     Route::middleware('auth:sanctum')->group(function() {
         Route::post('user/autenticated', function() {
+            $user = Auth::user();
             $bc = new BaseController();
             $success['message'] = 'Usuário autenticado';
+            $success['name'] =  $user->first_name . ' ' . $user->last_name;
+            $success['email'] =  $user->email;
             return $bc->sendResponse($success, 'Autenticado');
         });
         Route::get('encomendas/mbora/{id_users_mbora}/lastVisible/{lastVisible}/isMoreView/{isMoreView}', 'EncomendasMboraController@show');

@@ -44,7 +44,8 @@ class AuthController extends BaseController
             ]);
             $success['user_id'] = Enc::encriptar($user->id);
             $success['token'] =  $user->createToken($request->device_name)->plainTextToken;
-
+            $success['name'] =  $user->first_name . ' ' . $user->last_name;
+            $success['email'] =  $user->email;
             return $this->sendResponse($success, 'Conta de usuário criada com sucesso');
 
         } catch (\Throwable $th) {
@@ -78,6 +79,8 @@ class AuthController extends BaseController
                 endif;
                 $success['user_id'] = Enc::encriptar($user->id);
                 $success['token'] =  $user->createToken($request->device_name)->plainTextToken;
+                $success['name'] =  $user->first_name . ' ' . $user->last_name;
+                $success['email'] =  $user->email;
                 return $this->sendResponse($success, 'Usuário logado com sucesso'); 
             } else {
                 $error['message'] = 'Email ou Palavra - passe errada';
