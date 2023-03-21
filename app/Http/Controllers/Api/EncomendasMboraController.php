@@ -18,7 +18,7 @@ class EncomendasMboraController extends BaseController
             ->join('provincias as pv', 'pv.id', '=', 'ct.provincia_id')
             ->where('em.id_users_mbora', $id_users_mbora)
             ->where('em.id', ($isMoreView == 'false' ? '>' : '<') , ($isMoreView == 'false' ? 0 : $lastVisible)) // ORDEM DECRESCENTE
-            ->select('em.id', 'em.created_at', 'pm.nome', 'pm.preco', 'pm.urlImage', 'pm.codigoBarra', 'pm.visualizacao', 'ct.imei', 'ct.empresa', 'ct.district', 'ct.street', 'pv.nome as nomeProvincia')
+            ->select('em.id', 'em.estado', 'em.created_at', 'pm.nome', 'pm.preco', 'pm.urlImage', 'pm.codigoBarra', 'pm.visualizacao', 'ct.imei', 'ct.empresa', 'ct.district', 'ct.street', 'pv.nome as nomeProvincia')
             ->orderByDesc('em.created_at') // Remover ao usar ordem CRESCENTE
             ->limit(2)
             ->get();

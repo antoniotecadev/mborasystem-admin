@@ -11,7 +11,8 @@ class EncomendasMbora extends Model
     use HasFactory, SoftDeletes;
 
     protected $casts = [
-        'client_coordinate' => 'array'
+        'client_coordinate' => 'array',
+        'estado' => 'boolean'
     ];
 
     protected $table = 'encomendas_mbora';
