@@ -55,7 +55,7 @@ Route::namespace('Api')->group(function () {
             $success['message'] = 'Usuário autenticado';
             return $bc->sendResponse($success, 'Autenticado');
         });
-        Route::get('encomendas/mbora/{id_users_mbora}', 'EncomendasMboraController@show');
+        Route::get('encomendas/mbora/{id_users_mbora}/lastVisible/{lastVisible}/isMoreView/{isMoreView}', 'EncomendasMboraController@show');
         Route::post('produtos/mbora/encomenda', 'EncomendasMboraController@store');
         Route::post('mbora/logout/user', 'AuthController@logout');
     });
