@@ -55,4 +55,9 @@ class EncomendasMboraController extends BaseController
             return $this->sendError('Produto não encomendado', $error);
         }
     }
+
+    public function getCountEncomenda($id_users_mbora) {
+        $id_user = Enc::desencriptar($id_users_mbora);
+        return EncomendasMbora::where('id_users_mbora', $id_user)->count();
+    }
 }
