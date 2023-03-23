@@ -7,6 +7,7 @@ use App\Http\Controllers\Api\BaseController;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use Laravel\Sanctum\PersonalAccessToken;
 
@@ -104,6 +105,59 @@ class AuthController extends BaseController
         } catch (\Throwable $th) {
             $error['message'] = $th->getMessage();
             return $this->sendError('Erro de servidor', $error, 500); 
+        }
+    }
+
+    public function updateName(Request $request) {
+        try {
+            $validator = Validator::make($request->all(),[
+                'first_name' => 'required|string|min:4|max:15',
+                'last_name' => 'required|string|min:4|max:20',
+            ]);
+
+            if($validator->fails()) {
+                $error['message'] = $validator->errors();
+                return $this->sendError('Erro de validação', $error); 
+            }
+
+            User::where('id', auth()->user()->id)->update([
+                'first_name' => $request->first_name,
+                'last_name' => $request->last_name,
+            ]);
+            $success['name'] =  $request->first_name . ' ' . $request->last_name;
+            return $this->sendResponse($success, 'Alteração Guardada');
+        } catch (\Throwable $th) {
+            $error['message'] = $th->getMessage();
+            return $this->sendError('Erro de servidor', $error, 500 ); 
+        }
+    }
+
+    public function updatePassword(Request $request) {
+        try {
+            $validator = Validator::make($request->all(),[
+                'old_password' => 'required',
+                'password' => 'required|min:8',
+                'password_confirmation' => 'required|min:8|same:password',
+            ]);
+
+            if($validator->fails()) {
+                $error['message'] = $validator->errors();
+                return $this->sendError('Erro de validação', $error); 
+            }
+
+            if(!Hash::check($request->old_password, auth()->user()->password)){
+                $error['message'] = ['old_password' => 'Palavra - passe errada'];
+                return $this->sendError('Erro de validação', $error); 
+            }
+
+            User::where('id', auth()->user()->id)->update([
+                'password' => Hash::make($request->password),
+            ]);
+            $success['message'] =  null;
+            return $this->sendResponse($success, 'Palavra - passe alterada');
+        } catch (\Throwable $th) {
+            $error['message'] = $th->getMessage();
+            return $this->sendError('Erro de servidor', $error, 500 ); 
         }
     }
 }

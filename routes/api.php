@@ -62,6 +62,9 @@ Route::namespace('Api')->group(function () {
         Route::get('encomendas/mbora/count/{id_users_mbora}', 'EncomendasMboraController@getCountEncomenda');
         Route::get('encomendas/mbora/{id_users_mbora}/lastVisible/{lastVisible}/isMoreView/{isMoreView}', 'EncomendasMboraController@show');
         Route::post('produtos/mbora/encomenda', 'EncomendasMboraController@store');
+
+        Route::put('mbora/update/user', 'AuthController@updateName');
+        Route::put('mbora/update/password/user', 'AuthController@updatePassword');
         Route::post('mbora/logout/user', 'AuthController@logout');
     });
 });
