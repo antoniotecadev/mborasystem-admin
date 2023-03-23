@@ -10,13 +10,12 @@ use Illuminate\Support\Facades\Validator;
 
 class EncomendasMboraController extends BaseController
 {
-    public function show($id_users_mbora, $lastVisible, $isMoreView) {
-        $id_users_mbora = Enc::desencriptar($id_users_mbora);
+    public function show($lastVisible, $isMoreView) {
         return DB::table('produtos_mbora', 'pm')
             ->join('encomendas_mbora as em', 'pm.id', '=', 'em.id_produtos_mbora')
             ->join('contacts as ct', 'em.imei_contacts', '=', 'ct.imei')
             ->join('provincias as pv', 'pv.id', '=', 'ct.provincia_id')
-            ->where('em.id_users_mbora', $id_users_mbora)
+            ->where('em.id_users_mbora', auth()->user()->id)
             ->where('em.id', ($isMoreView == 'false' ? '>' : '<') , ($isMoreView == 'false' ? 0 : $lastVisible)) // ORDEM DECRESCENTE
             ->select('em.id', 'em.estado', 'em.created_at', 'pm.nome', 'pm.preco', 'pm.urlImage', 'pm.codigoBarra', 'pm.visualizacao', 'ct.imei', 'ct.empresa', 'ct.district', 'ct.street', 'pv.nome as nomeProvincia')
             ->orderByDesc('em.created_at') // Remover ao usar ordem CRESCENTE
@@ -36,7 +35,6 @@ class EncomendasMboraController extends BaseController
                 'client_address' => 'required|max:50',
                 'client_info_ad' => 'max:50',
                 'imei_contacts' => 'required',
-                'id_users_mbora' => 'required',
                 'id_produtos_mbora' => 'required',
             ]);
 
@@ -44,10 +42,9 @@ class EncomendasMboraController extends BaseController
                 $error['message'] = $validator->errors();
                 return $this->sendError('Erro de validação', $error);
             endif;
-            $request['id_users_mbora'] = Enc::desencriptar($request->id_users_mbora);
+            $request['id_users_mbora'] = auth()->user()->id;
             EncomendasMbora::create($request->all());
             $success['message'] = 'encomendado(a)';
-
             return $this->sendResponse($success, 'Produto encomendado com sucesso');
 
         } catch (\Throwable $th) {
@@ -56,8 +53,7 @@ class EncomendasMboraController extends BaseController
         }
     }
 
-    public function getCountEncomenda($id_users_mbora) {
-        $id_user = Enc::desencriptar($id_users_mbora);
-        return EncomendasMbora::where('id_users_mbora', $id_user)->count();
+    public function getCountEncomenda() {
+        return EncomendasMbora::where('id_users_mbora', auth()->user()->id)->count();
     }
 }

@@ -43,7 +43,7 @@ class AuthController extends BaseController
                 'password' => $request->password,
                 'account_id' => 2
             ]);
-            $success['user_id'] = Enc::encriptar($user->id);
+
             $success['token'] =  $user->createToken($request->device_name)->plainTextToken;
             $success['name'] =  $user->first_name . ' ' . $user->last_name;
             $success['email'] =  $user->email;
@@ -78,7 +78,7 @@ class AuthController extends BaseController
                 if(auth('sanctum')->check()):
                     $user->tokens()->delete();
                 endif;
-                $success['user_id'] = Enc::encriptar($user->id);
+                
                 $success['token'] =  $user->createToken($request->device_name)->plainTextToken;
                 $success['name'] =  $user->first_name . ' ' . $user->last_name;
                 $success['email'] =  $user->email;

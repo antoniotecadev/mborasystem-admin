@@ -59,8 +59,8 @@ Route::namespace('Api')->group(function () {
             $success['email'] =  $user->email;
             return $bc->sendResponse($success, 'Autenticado');
         });
-        Route::get('encomendas/mbora/count/{id_users_mbora}', 'EncomendasMboraController@getCountEncomenda');
-        Route::get('encomendas/mbora/{id_users_mbora}/lastVisible/{lastVisible}/isMoreView/{isMoreView}', 'EncomendasMboraController@show');
+        Route::get('encomendas/mbora/count', 'EncomendasMboraController@getCountEncomenda');
+        Route::get('encomendas/mbora/lastVisible/{lastVisible}/isMoreView/{isMoreView}', 'EncomendasMboraController@show');
         Route::post('produtos/mbora/encomenda', 'EncomendasMboraController@store');
 
         Route::put('mbora/update/user', 'AuthController@updateName');
