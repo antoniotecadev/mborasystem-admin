@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers\Api;
 
-use App\Class\Enc;
 use App\Models\EncomendasMbora;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -12,7 +11,7 @@ class EncomendasMboraController extends BaseController
 {
     public function show($lastVisible, $isMoreView) {
         return DB::table('produtos_mbora', 'pm')
-            ->join('encomendas_mbora as em', 'pm.id', '=', 'em.id_produtos_mbora')
+            ->join('encomendas_mbora as em', 'pm.id', '=', 'em.id_produts_mbora')
             ->join('contacts as ct', 'em.imei_contacts', '=', 'ct.imei')
             ->join('provincias as pv', 'pv.id', '=', 'ct.provincia_id')
             ->where('em.id_users_mbora', auth()->user()->id)
@@ -35,19 +34,33 @@ class EncomendasMboraController extends BaseController
                 'client_address' => 'required|max:50',
                 'client_info_ad' => 'max:50',
                 'imei_contacts' => 'required',
-                'id_produtos_mbora' => 'required',
+                'id_produts_mbora' => 'required',
             ]);
 
             if($validator->fails()):
                 $error['message'] = $validator->errors();
                 return $this->sendError('Erro de validação', $error);
             endif;
+
             $request['id_users_mbora'] = auth()->user()->id;
-            EncomendasMbora::create($request->all());
+            
+            DB::beginTransaction();
+            $array_qty = $request['prod_quant'];
+            $array_imei = $request['imei_contacts'];
+            $array_id = $request['id_produts_mbora'];
+
+            for ($i=0; $i < count($array_id); $i++) 
+            { 
+                $request['prod_quant'] = $array_qty[$i];
+                $request['imei_contacts'] = $array_imei[$i];
+                $request['id_produts_mbora'] = $array_id[$i];
+                EncomendasMbora::create($request->all());
+            }
+            DB::commit();
             $success['message'] = 'encomendado(a)';
             return $this->sendResponse($success, 'Produto encomendado com sucesso');
-
         } catch (\Throwable $th) {
+            DB::rollback();
             $error['message'] = $th->getMessage();
             return $this->sendError('Produto não encomendado', $error);
         }
