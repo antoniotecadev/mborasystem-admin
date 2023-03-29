@@ -2,9 +2,12 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\Models\Contact;
 use App\Models\EncomendasMbora;
+use App\Notifications\EncomendaNotification;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Notification;
 use Illuminate\Support\Facades\Validator;
 
 class EncomendasMboraController extends BaseController
@@ -42,7 +45,9 @@ class EncomendasMboraController extends BaseController
                 return $this->sendError('Erro de validação', $error);
             endif;
 
-            $request['id_users_mbora'] = auth()->user()->id;
+            $user = auth()->user();
+            $request['id_users_mbora'] = $user->id;
+            $user_name = $user->first_name . ' ' . $user->last_name;
             
             DB::beginTransaction();
             $array_qty = $request['prod_quant'];
@@ -55,6 +60,8 @@ class EncomendasMboraController extends BaseController
                 $request['imei_contacts'] = $array_imei[$i];
                 $request['id_produts_mbora'] = $array_id[$i];
                 EncomendasMbora::create($request->all());
+                $contact = Contact::where('imei', $request['imei_contacts'])->get();
+                Notification::send($contact, new EncomendaNotification($user_name, $request['product_name'][$i]));
             }
             DB::commit();
             $success['message'] = 'encomendado(a)';
