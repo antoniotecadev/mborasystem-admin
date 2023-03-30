@@ -45,7 +45,11 @@ class EncomendasMboraController extends BaseController
                 return $this->sendError('Erro de validação', $error);
             endif;
 
+            $array_product = array();
+            $products = null;
+
             $user = auth()->user();
+            $user_email = $user->email;
             $request['id_users_mbora'] = $user->id;
             $user_name = $user->first_name . ' ' . $user->last_name;
             
@@ -59,9 +63,20 @@ class EncomendasMboraController extends BaseController
                 $request['prod_quant'] = $array_qty[$i];
                 $request['imei_contacts'] = $array_imei[$i];
                 $request['id_produts_mbora'] = $array_id[$i];
+
+                $array_product[$request['imei_contacts']][$request['id_produts_mbora']] = $request['product_name'][$i];
+
                 EncomendasMbora::create($request->all());
-                $contact = Contact::where('imei', $request['imei_contacts'])->get();
-                Notification::send($contact, new EncomendaNotification($user_name, $request['product_name'][$i]));
+            }
+            foreach ($array_product as $imei => $product) {
+                foreach ($product as $name) {
+                    $products .= $name . ', ';
+                }
+                $contact = Contact::where('imei', $imei)->first();
+                $company_name = $contact->empresa;
+                $owner_name = $contact->first_name . ' ' . $contact->last_name;
+                Notification::send($contact, new EncomendaNotification($user_name, $user_email, $products, $company_name, $owner_name));
+                Notification::route('mail', [$contact->email => $owner_name])->notify(new EncomendaNotification($user_name, $user_email, $products, $company_name, $owner_name));
             }
             DB::commit();
             $success['message'] = 'encomendado(a)';
@@ -71,6 +86,7 @@ class EncomendasMboraController extends BaseController
             $error['message'] = $th->getMessage();
             return $this->sendError('Produto não encomendado', $error);
         }
+
     }
 
     public function getCountEncomenda() {

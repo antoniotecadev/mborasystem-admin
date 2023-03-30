@@ -12,18 +12,24 @@ class EncomendaNotification extends Notification implements ShouldQueue
     use Queueable;
 
     private $user_name;
+    private $user_email;
     private $product_name;
+    private $company_name;
+    private $owner_name;
 
     /**
      * Create a new notification instance.
      *
      * @return void
      */
-    public function __construct($user_name, $product_name)
+    public function __construct($user_name, $user_email, $product_name, $company_name, $owner_name)
     {
         $this->afterCommit();
         $this->user_name = $user_name;
+        $this->user_email = $user_email;
         $this->product_name = $product_name;
+        $this->company_name = $company_name;
+        $this->owner_name = $owner_name;
     }
 
     /**
@@ -34,7 +40,7 @@ class EncomendaNotification extends Notification implements ShouldQueue
      */
     public function via($notifiable)
     {
-        return ['database'];
+        return ['database', 'mail'];
     }
 
     /**
@@ -46,9 +52,12 @@ class EncomendaNotification extends Notification implements ShouldQueue
     public function toMail($notifiable)
     {
         return (new MailMessage)
-                    ->line('The introduction to the notification.')
-                    ->action('Notification Action', url('/'))
-                    ->line('Thank you for using our application!');
+                    ->subject('Encomenda - ' . $this->user_name)
+                    ->greeting($this->company_name)
+                    ->line($this->owner_name)
+                    ->line('Encomenda: ' . $this->product_name)
+                    ->line('Por: ' . $this->user_name)
+                    ->line('Email: ' . $this->user_email);
     }
 
     /**
