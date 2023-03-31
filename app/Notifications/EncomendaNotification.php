@@ -13,6 +13,8 @@ class EncomendaNotification extends Notification implements ShouldQueue
 
     private $user_name;
     private $user_email;
+    private $client_phone;
+    private $client_latlng;
     private $product_name;
     private $company_name;
     private $owner_name;
@@ -22,11 +24,13 @@ class EncomendaNotification extends Notification implements ShouldQueue
      *
      * @return void
      */
-    public function __construct($user_name, $user_email, $product_name, $company_name, $owner_name)
+    public function __construct($user_name, $user_email, $client_phone, $client_latlng, $product_name, $company_name, $owner_name)
     {
         $this->afterCommit();
         $this->user_name = $user_name;
         $this->user_email = $user_email;
+        $this->client_phone = $client_phone;
+        $this->client_latlng = $client_latlng;
         $this->product_name = $product_name;
         $this->company_name = $company_name;
         $this->owner_name = $owner_name;
@@ -48,16 +52,22 @@ class EncomendaNotification extends Notification implements ShouldQueue
      *
      * @param  mixed  $notifiable
      * @return \Illuminate\Notifications\Messages\MailMessage
+     * %2C == , na URL do Mapa 
      */
     public function toMail($notifiable)
     {
+        $latitude = $this->client_latlng['latitude']; 
+        $longitude = $this->client_latlng['longitude'];
+        $result = $latitude == 0 || $longitude == 0;
         return (new MailMessage)
                     ->subject('Encomenda - ' . $this->user_name)
                     ->greeting($this->company_name)
                     ->line($this->owner_name)
                     ->line('Encomenda: ' . $this->product_name)
                     ->line('Por: ' . $this->user_name)
-                    ->line('Email: ' . $this->user_email);
+                    ->line('Email: ' . $this->user_email)
+                    ->line('Telefone: ' . $this->client_phone)
+                    ->action($result ? 'Sem lozalização no Google Maps' : 'Localização no Google Maps', $result ? '' : 'https://www.google.com/maps/search/?api=1&query=' . $latitude . '%2C' . $longitude);
     }
 
     /**
@@ -70,7 +80,7 @@ class EncomendaNotification extends Notification implements ShouldQueue
     {
         return [
             'user_name' =>  $this->user_name,
-            'message' => 'encomendaou',
+            'message' => 'encomendou',
             'product_name' => $this->product_name
         ];
     }

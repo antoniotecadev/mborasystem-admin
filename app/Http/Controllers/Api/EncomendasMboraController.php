@@ -50,13 +50,16 @@ class EncomendasMboraController extends BaseController
 
             $user = auth()->user();
             $user_email = $user->email;
-            $request['id_users_mbora'] = $user->id;
             $user_name = $user->first_name . ' ' . $user->last_name;
             
+            $request['id_users_mbora'] = $user->id;
+
             DB::beginTransaction();
             $array_qty = $request['prod_quant'];
             $array_imei = $request['imei_contacts'];
             $array_id = $request['id_produts_mbora'];
+            $client_phone = $request['client_phone'];
+            $client_coordinate = $request['client_coordinate'];
 
             for ($i=0; $i < count($array_id); $i++) 
             { 
@@ -66,7 +69,7 @@ class EncomendasMboraController extends BaseController
 
                 $array_product[$request['imei_contacts']][$request['id_produts_mbora']] = $request['product_name'][$i];
 
-                EncomendasMbora::create($request->all());
+                // EncomendasMbora::create($request->all());
             }
             foreach ($array_product as $imei => $product) {
                 foreach ($product as $name) {
@@ -75,8 +78,8 @@ class EncomendasMboraController extends BaseController
                 $contact = Contact::where('imei', $imei)->first();
                 $company_name = $contact->empresa;
                 $owner_name = $contact->first_name . ' ' . $contact->last_name;
-                Notification::send($contact, new EncomendaNotification($user_name, $user_email, $products, $company_name, $owner_name));
-                Notification::route('mail', [$contact->email => $owner_name])->notify(new EncomendaNotification($user_name, $user_email, $products, $company_name, $owner_name));
+                Notification::send($contact, new EncomendaNotification($user_name, $user_email, $client_phone, $client_coordinate['latlng'], $products, $company_name, $owner_name));
+                Notification::route('mail', ['antonioteca@hotmail.com' => $owner_name])->notify(new EncomendaNotification($user_name, $user_email, $client_phone, $client_coordinate['latlng'], $products, $company_name, $owner_name));
             }
             DB::commit();
             $success['message'] = 'encomendado(a)';
