@@ -69,7 +69,7 @@ class EncomendasMboraController extends BaseController
 
                 $array_product[$request['imei_contacts']][$request['id_produts_mbora']] = $request['product_name'][$i];
 
-                // EncomendasMbora::create($request->all());
+                EncomendasMbora::create($request->all());
             }
             foreach ($array_product as $imei => $product) {
                 foreach ($product as $name) {
