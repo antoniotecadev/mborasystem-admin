@@ -21,7 +21,7 @@ class EncomendasMboraController extends BaseController
             ->where('em.id', ($isMoreView == 'false' ? '>' : '<') , ($isMoreView == 'false' ? 0 : $lastVisible)) // ORDEM DECRESCENTE
             ->select('em.id', 'em.prod_quant', 'em.estado', 'em.created_at', 'pm.nome', 'pm.preco', 'pm.urlImage', 'pm.codigoBarra', 'pm.visualizacao', 'ct.imei', 'ct.empresa', 'ct.district', 'ct.street', 'pv.nome as nomeProvincia')
             ->orderByDesc('em.created_at') // Remover ao usar ordem CRESCENTE
-            ->limit(2)
+            ->limit(10)
             ->get();
 
             /** ORDEM CRESCENTE
