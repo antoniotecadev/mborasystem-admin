@@ -160,4 +160,27 @@ class AuthController extends BaseController
             return $this->sendError('Erro de servidor', $error, 500 ); 
         }
     }
+
+    public function updateProfilePhoto(Request $request) {
+        try {
+            $validator = Validator::make($request->all(),[
+                'photoURL' => 'required|url',
+            ]);
+            if($validator->fails()) {
+                $error['message'] = $validator->errors();
+                return $this->sendError('Erro de validação', $error); 
+            }
+            User::where('id', auth()->user()->id)->update([
+                'photo_path' => $request->photoURL,
+            ]);
+            $success['message'] =  null;
+            return $this->sendResponse($success, 'Foto de perfil alterada');
+        } catch (\Throwable $th) {
+            $error['message'] = $th->getMessage();
+            return $this->sendError('Erro de servidor', $error, 500 ); 
+        }
+    }
+    public function getURLProfilePhoto() {
+        return ['photo_url' => auth()->user()->photo_path];
+    }
 }

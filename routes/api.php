@@ -65,6 +65,8 @@ Route::namespace('Api')->group(function () {
 
         Route::put('mbora/update/user', 'AuthController@updateName');
         Route::put('mbora/update/password/user', 'AuthController@updatePassword');
+        Route::put('mbora/update/profilephoto/user', 'AuthController@updateProfilePhoto');
+        Route::get('mbora/profilephoto/user/url', 'AuthController@getURLProfilePhoto');
         Route::post('mbora/logout/user', 'AuthController@logout');
     });
 });
