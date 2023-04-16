@@ -18,7 +18,7 @@ class EncomendasMbora extends Migration
             $table->string('imei_contacts', 20)->index();
             $table->integer('id_users_mbora')->index();
             $table->integer('id_produts_mbora', false, false)->index();
-            $table->string('client_phone');
+            $table->string('client_phone', 20);
             $table->string('client_address', 50);
             $table->string('client_info_ad', 50)->nullable();
             $table->json('client_coordinate');
