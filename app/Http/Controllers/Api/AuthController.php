@@ -27,6 +27,7 @@ class AuthController extends BaseController
                 'first_name' => 'required|string|min:4|max:15',
                 'last_name' => 'required|string|min:4|max:20',
                 'email' => 'required|email|unique:users,email',
+                'telephone' => 'required|min:9|regex:/^([0-9\s\-\+\(\)]*)$/|unique:users,telephone',
                 'password' => 'required|min:8',
                 'password_confirmation' => 'required|min:8|same:password',
             ]);
@@ -39,6 +40,7 @@ class AuthController extends BaseController
             $user = User::create([
                 'first_name' => $request->first_name,
                 'last_name' => $request->last_name,
+                'telephone' => $request->telephone,
                 'email' => $request->email,
                 'password' => $request->password,
                 'account_id' => 2

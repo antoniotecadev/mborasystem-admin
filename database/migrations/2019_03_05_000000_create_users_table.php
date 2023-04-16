@@ -13,6 +13,7 @@ class CreateUsersTable extends Migration
             $table->integer('account_id')->index();
             $table->string('first_name', 25);
             $table->string('last_name', 25);
+            $table->string('telephone', 20)->unique();
             $table->string('email', 50)->unique();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password')->nullable();
