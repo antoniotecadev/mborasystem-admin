@@ -181,6 +181,6 @@ class AuthController extends BaseController
         }
     }
     public function getURLProfilePhoto() {
-        return ['photo_url' => auth()->user()->photo_path];
+        return ['photo_url' => auth()->user()->photo_path, 'user_id' => auth()->user()->id];
     }
 }
