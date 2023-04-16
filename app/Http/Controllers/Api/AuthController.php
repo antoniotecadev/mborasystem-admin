@@ -48,6 +48,7 @@ class AuthController extends BaseController
 
             $success['token'] =  $user->createToken($request->device_name)->plainTextToken;
             $success['name'] =  $user->first_name . ' ' . $user->last_name;
+            $success['telephone'] =  $user->telephone;
             $success['email'] =  $user->email;
             return $this->sendResponse($success, 'Conta de usuário criada com sucesso');
 
@@ -83,6 +84,7 @@ class AuthController extends BaseController
                 
                 $success['token'] =  $user->createToken($request->device_name)->plainTextToken;
                 $success['name'] =  $user->first_name . ' ' . $user->last_name;
+                $success['telephone'] =  $user->telephone;
                 $success['email'] =  $user->email;
                 return $this->sendResponse($success, 'Usuário logado com sucesso'); 
             } else {
