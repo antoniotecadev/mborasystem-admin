@@ -143,7 +143,7 @@ class AuthController extends BaseController
         try {
             $validator = Validator::make($request->all(),[
                 'email' => 'required|email',
-                'password' => 'required',
+                'password_verify_email' => 'required',
             ]);
 
             if($validator->fails()) {
@@ -152,7 +152,7 @@ class AuthController extends BaseController
             }
 
             if(!Hash::check($request->password, auth()->user()->password)){
-                $error['message'] = ['password' => 'Palavra - passe errada'];
+                $error['message'] = ['password_verify_email' => 'Palavra - passe errada'];
                 return $this->sendError('Erro de validação', $error); 
             }
 
