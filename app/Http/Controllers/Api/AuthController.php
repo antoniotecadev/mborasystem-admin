@@ -139,6 +139,34 @@ class AuthController extends BaseController
         }
     }
 
+    public function updateEmail(Request $request) {
+        try {
+            $validator = Validator::make($request->all(),[
+                'email' => 'required|email',
+                'password' => 'required',
+            ]);
+
+            if($validator->fails()) {
+                $error['message'] = $validator->errors();
+                return $this->sendError('Erro de validação', $error); 
+            }
+
+            if(!Hash::check($request->password, auth()->user()->password)){
+                $error['message'] = ['password' => 'Palavra - passe errada'];
+                return $this->sendError('Erro de validação', $error); 
+            }
+
+            User::where('id', auth()->user()->id)->update([
+                'email' => $request->email,
+            ]);
+            $success['message'] =  null;
+            return $this->sendResponse($success, 'Email alterado');
+        } catch (\Throwable $th) {
+            $error['message'] = $th->getMessage();
+            return $this->sendError('Erro de servidor', $error, 500 ); 
+        }
+    }
+
     public function updatePassword(Request $request) {
         try {
             $validator = Validator::make($request->all(),[
