@@ -55,7 +55,8 @@ Route::namespace('Api')->group(function () {
             $user = Auth::user();
             $bc = new BaseController();
             $success['message'] = 'Usuário autenticado';
-            $success['name'] =  $user->first_name . ' ' . $user->last_name;
+            $success['first_name'] =  $user->first_name;
+            $success['last_name'] =  $user->last_name;
             $success['email'] =  $user->email;
             return $bc->sendResponse($success, 'Autenticado');
         });

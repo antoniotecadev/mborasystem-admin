@@ -47,7 +47,8 @@ class AuthController extends BaseController
             ]);
 
             $success['token'] =  $user->createToken($request->device_name)->plainTextToken;
-            $success['name'] =  $user->first_name . ' ' . $user->last_name;
+            $success['first_name'] =  $user->first_name;
+            $success['last_name'] =  $user->last_name;
             $success['telephone'] =  $user->telephone;
             $success['email'] =  $user->email;
             return $this->sendResponse($success, 'Conta de usuário criada com sucesso');
@@ -83,7 +84,8 @@ class AuthController extends BaseController
                 endif;
                 
                 $success['token'] =  $user->createToken($request->device_name)->plainTextToken;
-                $success['name'] =  $user->first_name . ' ' . $user->last_name;
+                $success['first_name'] =  $user->first_name;
+                $success['last_name'] =  $user->last_name;
                 $success['telephone'] =  $user->telephone;
                 $success['email'] =  $user->email;
                 return $this->sendResponse($success, 'Usuário logado com sucesso'); 
@@ -128,8 +130,9 @@ class AuthController extends BaseController
                 'first_name' => $request->first_name,
                 'last_name' => $request->last_name,
             ]);
-            $success['name'] =  $request->first_name . ' ' . $request->last_name;
-            return $this->sendResponse($success, 'Alteração Guardada');
+            $success['first_name'] =  $request->first_name;
+            $success['last_name'] =  $request->last_name;
+            return $this->sendResponse($success, 'Alteração feita');
         } catch (\Throwable $th) {
             $error['message'] = $th->getMessage();
             return $this->sendError('Erro de servidor', $error, 500 ); 
