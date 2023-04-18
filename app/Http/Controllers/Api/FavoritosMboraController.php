@@ -4,10 +4,26 @@ namespace App\Http\Controllers\Api;
 
 use App\Models\FavoritosMbora;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
 
 class FavoritosMboraController extends BaseController
 {
+    public function show($lastVisible, $isMoreView) {
+        return DB::table('produtos_mbora', 'pm')
+            ->join('favoritos_mbora as fm', 'pm.id', '=', 'fm.id_products_mbora')
+            ->join('users as us', 'fm.id_users_mbora', '=', 'us.id')
+            ->join('contacts as ct', 'pm.imei', '=', 'ct.imei')
+            ->join('provincias as pv', 'pv.id', '=', 'ct.provincia_id')
+            ->join('categorias_mbora as cm', 'cm.id', '=', 'pm.idcategoria')
+            ->where('fm.id_users_mbora', auth()->user()->id)
+            ->where('fm.id', ($isMoreView == 'false' ? '>' : '<') , ($isMoreView == 'false' ? 0 : $lastVisible)) // ORDEM DECRESCENTE
+            ->select('fm.id', 'pm.id', 'pm.imei', 'pm.idcategoria', 'pm.nome', 'pm.preco', 'pm.quantidade', 'pm.urlImage', 'pm.codigoBarra', 'pm.tag', 'pm.visualizacao', 'pm.created_at', 'ct.imei', 'ct.empresa', 'ct.district', 'ct.street', 'pv.nome as nomeProvincia', 'cm.nome as nomeCategoria')
+            ->orderByDesc('fm.created_at')
+            ->limit(10)
+            ->get();
+    }
+
     public function store(Request $request) {
         try {
             $validator = Validator::make($request->all(), [
