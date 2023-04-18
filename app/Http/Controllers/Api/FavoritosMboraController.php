@@ -22,6 +22,7 @@ class FavoritosMboraController extends BaseController
             $request['id_users_mbora'] = auth()->user()->id;
             FavoritosMbora::create($request->all());
             $success['message'] = 'Favorito';
+            $success['favorito'] = $this->iSfavorito($request->id_products_mbora);
             return $this->sendResponse($success, 'Produto adicionado aos favoritos');
         } catch (\Throwable $th) {
             $error['message'] = $th->getMessage();
@@ -42,6 +43,7 @@ class FavoritosMboraController extends BaseController
 
             FavoritosMbora::where('id_users_mbora', auth()->user()->id)->where('id_products_mbora', $request->id_products_mbora)->forceDelete();
             $success['message'] = 'Favorito';
+            $success['favorito'] = $this->iSfavorito($request->id_products_mbora);
             return $this->sendResponse($success, 'Produto eliminado dos favoritos');
         } catch (\Throwable $th) {
             $error['message'] = $th->getMessage();
