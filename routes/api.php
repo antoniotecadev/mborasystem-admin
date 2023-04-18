@@ -48,7 +48,8 @@ Route::namespace('Api')->group(function () {
     
     Route::post('auth/register', 'AuthController@create');
     Route::post('auth/login', 'AuthController@login');
-
+    
+    Route::get('produto/mbora/isfavorito/{idProduto}', 'FavoritosMboraController@iSfavorito');
     
     Route::middleware('auth:sanctum')->group(function() {
         Route::post('user/autenticated', function() {
@@ -65,7 +66,8 @@ Route::namespace('Api')->group(function () {
         Route::get('encomendas/mbora/lastVisible/{lastVisible}/isMoreView/{isMoreView}', 'EncomendasMboraController@show');
         Route::post('produtos/mbora/encomenda', 'EncomendasMboraController@store');
 
-        Route::post('adicionar/produtos/mbora/favorito', 'FavoritosMboraController@store');
+        Route::post('adicionar/produto/mbora/favorito', 'FavoritosMboraController@store');
+        Route::delete('eliminar/produto/mbora/favorito', 'FavoritosMboraController@delete');
 
         Route::put('mbora/update/name/user', 'AuthController@updateName');
         Route::put('mbora/update/email/user', 'AuthController@updateEmail');
