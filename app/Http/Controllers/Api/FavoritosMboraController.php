@@ -50,6 +50,6 @@ class FavoritosMboraController extends BaseController
     }
 
     public function iSfavorito($idProduto) {
-        return FavoritosMbora::where('id_products_mbora', $idProduto)->get('id_products_mbora');
+        return FavoritosMbora::where('id_users_mbora', auth()->user()->id)->where('id_products_mbora', $idProduto)->get('id_products_mbora');
     }
 }
