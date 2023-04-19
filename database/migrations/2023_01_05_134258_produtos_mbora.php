@@ -16,10 +16,10 @@ class ProdutosMbora extends Migration
         Schema::create('produtos_mbora', function (Blueprint $table) {
             $table->increments('id');
             $table->string('imei', 20)->index();
-            $table->integer('idcategoria')->index();
+            $table->integer('idcategoria')->index()->unsigned();
             $table->string('nome', 30);
-            $table->integer('preco');
-            $table->integer('quantidade');
+            $table->integer('preco')->unsigned();
+            $table->integer('quantidade')->unsigned();
             $table->string('urlImage');
             $table->string('codigoBarra', 20)->nullable();
             $table->string('tag', 30)->index();

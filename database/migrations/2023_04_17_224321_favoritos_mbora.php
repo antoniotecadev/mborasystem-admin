@@ -15,8 +15,8 @@ class FavoritosMbora extends Migration
     {
         Schema::create('favoritos_mbora', function(Blueprint $table){
             $table->increments('id');
-            $table->integer('id_users_mbora', false, true)->index();
-            $table->integer('id_products_mbora', false, true)->index();
+            $table->integer('id_users_mbora')->index()->unsigned();
+            $table->integer('id_products_mbora')->index()->unsigned();
             $table->timestamps();
             $table->softDeletes();
         });

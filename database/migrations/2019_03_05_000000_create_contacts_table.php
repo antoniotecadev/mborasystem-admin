@@ -12,7 +12,7 @@ class CreateContactsTable extends Migration
             $table->increments('id');
             $table->integer('account_id')->index();
             $table->integer('codigo_equipa')->index()->unsigned();
-            $table->integer('provincia_id')->index();
+            $table->integer('provincia_id')->index()->unsigned();
             $table->string('first_name', 25);
             $table->string('last_name', 25);
             $table->string('nif_bi', 25);

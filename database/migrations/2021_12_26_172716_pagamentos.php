@@ -19,7 +19,7 @@ class Pagamentos extends Migration
             $table->integer('contact_id')->index()->unsigned();
             $table->enum('pacote', ['0', '1', '2']);
             $table->enum('tipo_pagamento', ['1', '3', '6', '12']);
-            $table->integer('preco');
+            $table->integer('preco')->unsigned();
             $table->date('inicio');
             $table->date('fim');
             $table->enum('pagamento', ['0', '1']);
