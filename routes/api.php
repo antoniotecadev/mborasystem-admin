@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Api\BaseController;
+use App\Http\Controllers\Api\SendCodeResetPasswordController;
 use Illuminate\Support\Facades\Auth;
 use Inertia\Inertia;
 use Illuminate\Support\Facades\Route;
@@ -50,6 +51,7 @@ Route::namespace('Api')->group(function () {
     Route::post('auth/login', 'AuthController@login');
     Route::get('mbora/find/account/user/{email}', 'AuthController@findAccount');
     
+    Route::post('mbora/send/code/reset/password',  'SendCodeResetPasswordController@sendCodeResetPassword');
     
     Route::middleware('auth:sanctum')->group(function() {
         Route::post('user/autenticated', function() {
