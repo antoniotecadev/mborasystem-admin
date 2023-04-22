@@ -215,7 +215,12 @@ class AuthController extends BaseController
             return $this->sendError('Erro de servidor', $error, 500 ); 
         }
     }
+
     public function getURLProfilePhoto() {
         return ['photo_url' => auth()->user()->photo_path, 'user_id' => auth()->user()->id];
+    }
+
+    public function findAccount($email) {
+        return User::where('email', $email)->get(['first_name', 'last_name', 'email', 'photo_path']);
     }
 }

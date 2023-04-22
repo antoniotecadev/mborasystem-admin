@@ -48,6 +48,7 @@ Route::namespace('Api')->group(function () {
     
     Route::post('auth/register', 'AuthController@create');
     Route::post('auth/login', 'AuthController@login');
+    Route::get('mbora/find/account/user/{email}', 'AuthController@findAccount');
     
     
     Route::middleware('auth:sanctum')->group(function() {
