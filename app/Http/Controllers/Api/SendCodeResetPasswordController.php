@@ -22,7 +22,7 @@ class SendCodeResetPasswordController extends BaseController
     
             if($data->fails()):
                 $error['message'] = $data->errors();
-                return $this->sendError($request, $error);
+                return $this->sendError('Erro de validação', $error);
             endif;
             DB::beginTransaction();
             //Get user
