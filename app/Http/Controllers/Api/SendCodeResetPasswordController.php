@@ -31,6 +31,9 @@ class SendCodeResetPasswordController extends BaseController
             // Delete all old code that user send before.
             ResetCodePassword::where('email', $request->email)->delete();
 
+            // Get date with hours
+            $request['created_at'] = now()->addHour();
+
             // Generate random code
             $request['code'] = mt_rand(100000, 999999);
 
