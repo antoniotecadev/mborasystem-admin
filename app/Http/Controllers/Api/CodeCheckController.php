@@ -25,7 +25,7 @@ class CodeCheckController extends BaseController
             // check if it does not expired: the time is one hour
             if ($passwordReset->created_at > now()->addHour()) {
                 $passwordReset->delete();
-                $error['message'] = 'Código inserido não é válido, reenvie.';
+                $error['message'] = 'Código inserido não é válido.';
                 return $this->sendError('Código expirado', $error);
             }
             $success['message'] = 'Código válido';
