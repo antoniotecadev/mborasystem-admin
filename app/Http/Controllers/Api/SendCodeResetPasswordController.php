@@ -43,7 +43,7 @@ class SendCodeResetPasswordController extends BaseController
             $codeData = ResetCodePassword::create($request->all());
 
             // Send email to user
-            // Notification::route('mail', ['antonioteca@hotmail.com' => $user->first_name . ' ' . $user->last_name])->notify(new SendCodeResetPasswordNotification($codeData->code));
+            Notification::route('mail', ['antonioteca@hotmail.com' => $user->first_name . ' ' . $user->last_name])->notify(new SendCodeResetPasswordNotification($codeData->code));
             DB::commit();
             $success['message'] = 'Código enviado';
             return $this->sendResponse($success, 'Produto encomendado com sucesso');
