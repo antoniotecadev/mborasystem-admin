@@ -30,6 +30,9 @@ class AuthController extends BaseController
                 'telephone' => 'required|min:9|regex:/^([0-9\s\-\+\(\)]*)$/|unique:users,telephone',
                 'password' => 'required|min:8',
                 'password_confirmation' => 'required|min:8|same:password',
+            ],[
+                'unique:users,email' => 'Este e-mail já foi ultilizado.',
+                'unique:users,telephone' => 'Este número já foi ultilizado.'
             ]);
 
             if($validator->fails()) {
