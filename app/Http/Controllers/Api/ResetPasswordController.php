@@ -29,9 +29,9 @@ class ResetPasswordController extends BaseController
 
             // Delete all old code that user send before.
             ResetCodePassword::where('email', $request->email)->delete();
-            
+
             $success['message'] = 'Palavra - passe criada';
-            return $this->sendResponse($success, 'Palavra - passe criada com sucesso');
+            return $this->sendResponse($success, 'Palavra - passe criada');
         } catch (\Throwable $th) {
             $error['message'] = $th->getMessage();
             return $this->sendError('Palavra - passe não criada.', $error);
