@@ -53,6 +53,7 @@ Route::namespace('Api')->group(function () {
     
     Route::post('mbora/send/code/reset/password',  'SendCodeResetPasswordController@sendCodeResetPassword');
     Route::post('mbora/code/check/reset',  'CodeCheckController@codeCheck');
+    Route::post('mbora/reset/password',  'ResetPasswordController@resetPassword');
     
     Route::middleware('auth:sanctum')->group(function() {
         Route::post('user/autenticated', function() {
