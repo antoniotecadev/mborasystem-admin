@@ -11,9 +11,10 @@ class CodeCheckController extends BaseController
     public function codeCheck(Request $request) {
         try {
             $data = Validator::make($request->all(), [
-                'code' => 'required|string|exists:reset_code_passwords',
+                'code' => 'required|numeric|exists:reset_code_passwords',
             ], [
-                'exists' => 'Código inserido não é válido.'
+                'exists' => 'Código inserido não é válido.',
+                'numeric' => 'Código inserido não é válido.',
             ]);
 
             if($data->fails()):
