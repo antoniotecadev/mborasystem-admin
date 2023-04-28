@@ -87,4 +87,21 @@ class ProdutosMboraController extends Controller
         $produto->increment('visualizacao');
         return ['view' => $produto->visualizacao];
     }
+
+    public function showProductServiceCompany($lastVisible, $isMoreView, $imei) {
+        return DB::table('produtos_mbora', 'pm')
+            ->join('contacts as ct', 'pm.imei', '=', 'ct.imei')
+            ->join('provincias as pv', 'pv.id', '=', 'ct.provincia_id')
+            ->join('categorias_mbora as cm', 'cm.id', '=', 'pm.idcategoria')
+            ->where('ct.imei', $imei)
+            ->where('pm.id', ($isMoreView == 'false' ? '>' : '<') , ($isMoreView == 'false' ? 0 : $lastVisible)) // ORDEM DECRESCENTE
+            ->select('pm.id', 'pm.imei', 'pm.idcategoria', 'pm.nome', 'pm.preco', 'pm.quantidade', 'pm.urlImage', 'pm.codigoBarra', 'pm.tag', 'pm.visualizacao', 'pm.created_at', 'ct.imei', 'ct.empresa', 'ct.district', 'ct.street', 'pv.nome as nomeProvincia', 'cm.nome as nomeCategoria')
+            ->orderByDesc('pm.created_at')
+            ->limit(10)
+            ->get();
+    }
+
+    public function countProductServiceCompany($imei) {
+        return ProdutosMbora::where('imei', $imei)->count();
+    }
 }

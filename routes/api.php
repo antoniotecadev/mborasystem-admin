@@ -78,12 +78,15 @@ Route::namespace('Api')->group(function () {
         Route::delete('eliminar/produto/mbora/favorito', 'FavoritosMboraController@delete');
         Route::get('produto/mbora/isfavorito/{idProduto}', 'FavoritosMboraController@iSfavorito');
         Route::get('produtos/favorito/mbora/lastVisible/{lastVisible}/isMoreView/{isMoreView}', 'FavoritosMboraController@show');
-
+        
         Route::put('mbora/update/name/user', 'AuthController@updateName');
         Route::put('mbora/update/email/user', 'AuthController@updateEmail');
         Route::put('mbora/update/password/user', 'AuthController@updatePassword');
         Route::put('mbora/update/profilephoto/user', 'AuthController@updateProfilePhoto');
         Route::get('mbora/profilephoto/user/url', 'AuthController@getURLProfilePhoto');
         Route::post('mbora/logout/user', 'AuthController@logout');
+        
+        Route::get('count/produtos/servicos/mbora/imei/{imei}', 'ProdutosMboraController@countProductServiceCompany');
+        Route::get('produtos/servicos/mbora/lastVisible/{lastVisible}/isMoreView/{isMoreView}/imei/{imei}', 'ProdutosMboraController@showProductServiceCompany');
     });
 });
