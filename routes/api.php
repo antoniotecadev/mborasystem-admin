@@ -44,7 +44,7 @@ Route::namespace('Api')->group(function () {
     Route::post('produtos/mbora/store', 'ProdutosMboraController@store');
     Route::get('produtos/mbora/{imei}', 'ProdutosMboraController@getQuantidadeProduto');
     Route::get('produtos/mbora/index/json', 'ProdutosMboraController@index');
-    Route::get('produtos/mbora/searchproduct/{nome}/isMoreProduct/{isMoreProduct}/leastViewed/{leastViewed}', 'ProdutosMboraController@searchProduct');
+    Route::get('produtos/mbora/searchproduct/{name}/isMoreProduct/{isMoreProduct}/leastViewed/{leastViewed}', 'ProdutosMboraController@searchProduct');
     Route::get('produtos/mbora/view/count/{id}', 'ProdutosMboraController@getViewNumberProduct');
     
     Route::post('auth/register', 'AuthController@create');
@@ -56,6 +56,7 @@ Route::namespace('Api')->group(function () {
     Route::put('mbora/reset/password',  'ResetPasswordController@resetPassword');
 
     Route::get('empresas/mbora', 'EmpresasMboraController@index');
+    Route::get('empresas/mbora/searchcompany/{name}/isMoreCompany/{isMoreCompany}/leastViewed/{leastViewed}', 'EmpresasMboraController@searchCompany');
     
     Route::middleware('auth:sanctum')->group(function() {
         Route::post('user/autenticated', function() {

@@ -22,9 +22,9 @@ class ProdutosMboraController extends Controller
             ->get()->random(32);
     }
 
-    public function searchProduct($nome, $isMoreProduct, $leastViewed) {
+    public function searchProduct($name, $isMoreProduct, $leastViewed) {
         return DB::table('produtos_mbora as pm')
-            ->where('pm.nome', 'LIKE', "%" . $nome . "%")
+            ->where('pm.nome', 'LIKE', "%" . $name . "%")
             ->where(function($query) use($isMoreProduct, $leastViewed) {
                 $query->where('pm.visualizacao', ($isMoreProduct == 'false' ? '>=' : '<') , ($isMoreProduct == 'false' ? 0 : $leastViewed)); // ORDEM DECRESCENTE
             })
