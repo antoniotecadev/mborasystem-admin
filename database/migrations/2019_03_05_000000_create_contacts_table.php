@@ -28,6 +28,7 @@ class CreateContactsTable extends Migration
             $table->enum('read_contact',['0', '1', '2', '3']);
             $table->string('motivo_elimina', 150)->nullable();
             $table->integer('followers_mbora')->default(0)->unsigned();
+            $table->integer('views_mbora')->default(0)->unsigned();
             $table->timestamps();
             $table->softDeletes();
         });
