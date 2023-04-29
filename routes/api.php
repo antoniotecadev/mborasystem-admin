@@ -72,6 +72,8 @@ Route::namespace('Api')->group(function () {
         Route::get('encomendas/mbora/count', 'EncomendasMboraController@getCountEncomenda');
         Route::get('encomendas/mbora/lastVisible/{lastVisible}/isMoreView/{isMoreView}', 'EncomendasMboraController@show');
         Route::post('produtos/mbora/encomenda', 'EncomendasMboraController@store');
+
+        Route::get('empresas/encomendas/mbora/imei/{imei}/lastVisible/{lastVisible}/isMoreView/{isMoreView}', 'EncomendasMboraController@showMyInCompany');
         
         Route::get('mbora/count/favorito', 'FavoritosMboraController@getCountFavorito');
         Route::post('adicionar/produto/mbora/favorito', 'FavoritosMboraController@store');

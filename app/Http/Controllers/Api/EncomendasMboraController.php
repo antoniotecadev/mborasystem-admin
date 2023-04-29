@@ -29,6 +29,20 @@ class EncomendasMboraController extends BaseController
             */
     }
 
+    public function showMyInCompany($imei, $lastVisible, $isMoreView) {
+        return DB::table('produtos_mbora', 'pm')
+            ->join('encomendas_mbora as em', 'pm.id', '=', 'em.id_produts_mbora')
+            ->join('contacts as ct', 'em.imei_contacts', '=', 'ct.imei')
+            ->join('provincias as pv', 'pv.id', '=', 'ct.provincia_id')
+            ->where('em.id_users_mbora', auth()->user()->id)
+            ->where('em.imei_contacts', $imei)
+            ->where('em.id', ($isMoreView == 'false' ? '>' : '<') , ($isMoreView == 'false' ? 0 : $lastVisible))
+            ->select('em.id', 'em.prod_quant', 'em.estado', 'em.created_at', 'pm.nome', 'pm.preco', 'pm.urlImage', 'pm.codigoBarra', 'pm.visualizacao', 'ct.imei', 'ct.empresa', 'ct.district', 'ct.street', 'pv.nome as nomeProvincia')
+            ->orderByDesc('em.created_at')
+            ->limit(10)
+            ->get();
+    }
+
     public function store(Request $request) {
         try {
 
