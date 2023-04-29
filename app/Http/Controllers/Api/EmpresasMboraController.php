@@ -16,10 +16,10 @@ class EmpresasMboraController extends Controller
             ->get()->random(10);
     }
 
-    public function searchCompany($name, $isMoreCompany, $leastViewed) {
+    public function searchCompany($nameImei, $isMoreCompany, $leastViewed) {
         return DB::table('contacts as ct')
-            ->where('ct.empresa', 'LIKE', $name . "%")
-            ->orWhere('ct.imei', 'LIKE', $name . "%")
+            ->where('ct.empresa', 'LIKE', $nameImei . "%")
+            ->orWhere('ct.imei', 'LIKE', $nameImei . "%")
             ->where(function($query) use($isMoreCompany, $leastViewed) {
                 $query->where('ct.views_mbora', ($isMoreCompany == 'false' ? '>=' : '<') , ($isMoreCompany == 'false' ? 0 : $leastViewed)); // ORDEM DECRESCENTE
             })

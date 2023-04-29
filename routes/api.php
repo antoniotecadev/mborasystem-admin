@@ -56,7 +56,7 @@ Route::namespace('Api')->group(function () {
     Route::put('mbora/reset/password',  'ResetPasswordController@resetPassword');
 
     Route::get('empresas/mbora', 'EmpresasMboraController@index');
-    Route::get('empresas/mbora/searchcompany/{name}/isMoreCompany/{isMoreCompany}/leastViewed/{leastViewed}', 'EmpresasMboraController@searchCompany');
+    Route::get('empresas/mbora/searchcompany/{nameImei}/isMoreCompany/{isMoreCompany}/leastViewed/{leastViewed}', 'EmpresasMboraController@searchCompany');
     
     Route::middleware('auth:sanctum')->group(function() {
         Route::post('user/autenticated', function() {
