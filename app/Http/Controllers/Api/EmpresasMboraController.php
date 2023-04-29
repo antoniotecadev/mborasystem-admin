@@ -18,7 +18,8 @@ class EmpresasMboraController extends Controller
 
     public function searchCompany($name, $isMoreCompany, $leastViewed) {
         return DB::table('contacts as ct')
-            ->where('ct.empresa', 'LIKE', "%" . $name . "%")
+            ->where('ct.empresa', 'LIKE', $name . "%")
+            ->orWhere('ct.imei', 'LIKE', $name . "%")
             ->where(function($query) use($isMoreCompany, $leastViewed) {
                 $query->where('ct.views_mbora', ($isMoreCompany == 'false' ? '>=' : '<') , ($isMoreCompany == 'false' ? 0 : $leastViewed)); // ORDEM DECRESCENTE
             })
