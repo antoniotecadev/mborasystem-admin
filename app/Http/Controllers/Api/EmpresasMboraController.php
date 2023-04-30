@@ -41,4 +41,10 @@ class EmpresasMboraController extends Controller
             ->limit(10)
             ->get();
     }
+
+    public function numberViewsCompany($imei){
+        $empresa = Contact::where('imei', $imei)->first();
+        $empresa->increment('views_mbora');
+        return ['views' => $empresa->views_mbora];
+    }
 }
