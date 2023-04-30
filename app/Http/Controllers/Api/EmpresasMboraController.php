@@ -12,6 +12,12 @@ class EmpresasMboraController extends Controller
         return DB::table('contacts as ct')
             ->join('provincias as pv', 'pv.id', '=', 'ct.provincia_id')
             ->select('ct.id', 'ct.first_name', 'ct.last_name', 'ct.email', 'ct.phone', 'ct.alternative_phone', 'ct.imei', 'ct.empresa', 'ct.district', 'ct.street', 'pv.nome as nomeProvincia', 'ct.followers_mbora', 'ct.views_mbora')
+            ->selectSub(function($query) {
+                $query->selectRaw('count(*)')->from('produtos_mbora')->whereColumn('imei', 'ct.imei');
+            }, 'product_number')
+            ->selectSub(function($query) {
+                $query->selectRaw('count(*)')->from('encomendas_mbora')->whereColumn('imei_contacts', 'ct.imei')->where('id_users_mbora', auth()->user()->id);
+            }, 'encomenda_number')
             ->orderByDesc('ct.followers_mbora')
             ->get()->random(10);
     }
@@ -25,6 +31,12 @@ class EmpresasMboraController extends Controller
             })
             ->join('provincias as pv', 'pv.id', '=', 'ct.provincia_id')
             ->select('ct.id', 'ct.first_name', 'ct.last_name', 'ct.email', 'ct.phone', 'ct.alternative_phone', 'ct.imei', 'ct.empresa', 'ct.district', 'ct.street', 'pv.nome as nomeProvincia', 'ct.followers_mbora', 'ct.views_mbora')
+            ->selectSub(function($query) {
+                $query->selectRaw('count(*)')->from('produtos_mbora')->whereColumn('imei', 'ct.imei');
+            }, 'product_number')
+            ->selectSub(function($query) {
+                $query->selectRaw('count(*)')->from('encomendas_mbora')->whereColumn('imei_contacts', 'ct.imei')->where('id_users_mbora', auth()->user()->id);
+            }, 'encomenda_number')
             ->orderByDesc('ct.views_mbora')
             ->limit(10)
             ->get();
