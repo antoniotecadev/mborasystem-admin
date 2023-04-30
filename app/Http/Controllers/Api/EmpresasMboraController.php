@@ -29,9 +29,4 @@ class EmpresasMboraController extends Controller
             ->limit(10)
             ->get();
     }
-
-    public function getNumberFollowers($imei) {
-        $seguidores = Contact::where('imei', $imei)->first('followers_mbora');
-        return $seguidores->followers_mbora;
-    }
 }
