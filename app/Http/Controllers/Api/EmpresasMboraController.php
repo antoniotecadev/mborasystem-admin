@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
+use App\Models\Contact;
 use Illuminate\Support\Facades\DB;
 
 class EmpresasMboraController extends Controller
@@ -28,5 +28,10 @@ class EmpresasMboraController extends Controller
             ->orderByDesc('ct.views_mbora')
             ->limit(10)
             ->get();
+    }
+
+    public function getNumberFollowers($imei) {
+        $seguidores = Contact::where('imei', $imei)->first('followers_mbora');
+        return $seguidores->followers_mbora;
     }
 }

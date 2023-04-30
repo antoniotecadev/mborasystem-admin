@@ -91,5 +91,7 @@ Route::namespace('Api')->group(function () {
         
         Route::get('count/produtos/servicos/mbora/imei/{imei}', 'ProdutosMboraController@countProductServiceCompany');
         Route::get('produtos/servicos/mbora/lastVisible/{lastVisible}/isMoreView/{isMoreView}/imei/{imei}', 'ProdutosMboraController@showProductServiceCompany');
+
+        Route::get('count/seguidores/empresas/mbora/imei/{imei}', 'EmpresasMboraController@getNumberFollowers');
     });
 });
