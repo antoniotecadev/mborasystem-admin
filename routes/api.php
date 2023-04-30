@@ -44,7 +44,6 @@ Route::namespace('Api')->group(function () {
     Route::post('produtos/mbora/store', 'ProdutosMboraController@store');
     Route::get('produtos/mbora/{imei}', 'ProdutosMboraController@getQuantidadeProduto');
     Route::get('produtos/mbora/index/json', 'ProdutosMboraController@index');
-    Route::get('produtos/mbora/searchproduct/{name}/isMoreProduct/{isMoreProduct}/leastViewed/{leastViewed}', 'ProdutosMboraController@searchProduct');
     Route::get('produtos/mbora/view/count/{id}', 'ProdutosMboraController@getViewNumberProduct');
     
     Route::post('auth/register', 'AuthController@create');
@@ -54,9 +53,7 @@ Route::namespace('Api')->group(function () {
     Route::post('mbora/send/code/reset/password',  'SendCodeResetPasswordController@sendCodeResetPassword');
     Route::post('mbora/code/check/reset',  'CodeCheckController@codeCheck');
     Route::put('mbora/reset/password',  'ResetPasswordController@resetPassword');
-
-    Route::get('empresas/mbora', 'EmpresasMboraController@index');
-    Route::get('empresas/mbora/searchcompany/{nameImei}/isMoreCompany/{isMoreCompany}/leastViewed/{leastViewed}', 'EmpresasMboraController@searchCompany');
+    
     
     Route::middleware('auth:sanctum')->group(function() {
         Route::post('user/autenticated', function() {
@@ -90,8 +87,12 @@ Route::namespace('Api')->group(function () {
         Route::post('mbora/logout/user', 'AuthController@logout');
         
         Route::get('number/produtos/servicos/mbora/imei/{imei}', 'ProdutosMboraController@getNumberProductServiceCompany');
+        Route::get('produtos/mbora/searchproduct/{name}/isMoreProduct/{isMoreProduct}/leastViewed/{leastViewed}', 'ProdutosMboraController@searchProduct');
         Route::get('produtos/servicos/mbora/lastVisible/{lastVisible}/isMoreView/{isMoreView}/imei/{imei}', 'ProdutosMboraController@showProductServiceCompany');
-
+        
         Route::get('number/seguidores/empresas/mbora/imei/{imei}', 'SeguidoresEmpresasMboraController@getNumberFollowers');
+        
+        Route::get('empresas/mbora', 'EmpresasMboraController@index');
+        Route::get('empresas/mbora/searchcompany/{nameImei}/isMoreCompany/{isMoreCompany}/leastViewed/{leastViewed}', 'EmpresasMboraController@searchCompany');
     });
 });
