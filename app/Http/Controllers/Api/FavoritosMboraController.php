@@ -67,7 +67,7 @@ class FavoritosMboraController extends BaseController
         }
     }
 
-    public function getCountFavorito() {
+    public function getNumberFavorito() {
         return FavoritosMbora::where('id_users_mbora', auth()->user()->id)->count();
     }
 

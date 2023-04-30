@@ -69,14 +69,14 @@ Route::namespace('Api')->group(function () {
             $success['email'] =  $user->email;
             return $bc->sendResponse($success, 'Autenticado');
         });
-        Route::get('encomendas/mbora/count', 'EncomendasMboraController@getCountEncomenda');
+        Route::get('encomendas/mbora/count', 'EncomendasMboraController@getNumberEncomenda');
         Route::get('encomendas/mbora/lastVisible/{lastVisible}/isMoreView/{isMoreView}', 'EncomendasMboraController@show');
         Route::post('produtos/mbora/encomenda', 'EncomendasMboraController@store');
         
-        Route::get('count/encomendas/empresas/mbora/imei/{imei}', 'EncomendasMboraController@getCompanyCountEncomenda');
+        Route::get('number/encomendas/empresas/mbora/imei/{imei}', 'EncomendasMboraController@getNumberCompanyEncomenda');
         Route::get('empresas/encomendas/mbora/imei/{imei}/lastVisible/{lastVisible}/isMoreView/{isMoreView}', 'EncomendasMboraController@showMyInCompany');
         
-        Route::get('mbora/count/favorito', 'FavoritosMboraController@getCountFavorito');
+        Route::get('mbora/count/favorito', 'FavoritosMboraController@getNumberFavorito');
         Route::post('adicionar/produto/mbora/favorito', 'FavoritosMboraController@store');
         Route::delete('eliminar/produto/mbora/favorito', 'FavoritosMboraController@delete');
         Route::get('produto/mbora/isfavorito/{idProduto}', 'FavoritosMboraController@iSfavorito');
@@ -89,9 +89,9 @@ Route::namespace('Api')->group(function () {
         Route::get('mbora/profilephoto/user/url', 'AuthController@getURLProfilePhoto');
         Route::post('mbora/logout/user', 'AuthController@logout');
         
-        Route::get('count/produtos/servicos/mbora/imei/{imei}', 'ProdutosMboraController@countProductServiceCompany');
+        Route::get('number/produtos/servicos/mbora/imei/{imei}', 'ProdutosMboraController@getNumberProductServiceCompany');
         Route::get('produtos/servicos/mbora/lastVisible/{lastVisible}/isMoreView/{isMoreView}/imei/{imei}', 'ProdutosMboraController@showProductServiceCompany');
 
-        Route::get('count/seguidores/empresas/mbora/imei/{imei}', 'EmpresasMboraController@getNumberFollowers');
+        Route::get('number/seguidores/empresas/mbora/imei/{imei}', 'EmpresasMboraController@getNumberFollowers');
     });
 });

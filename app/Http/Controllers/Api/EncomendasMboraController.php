@@ -106,10 +106,10 @@ class EncomendasMboraController extends BaseController
 
     }
 
-    public function getCountEncomenda() {
+    public function getNumberEncomenda() {
         return EncomendasMbora::where('id_users_mbora', auth()->user()->id)->count();
     }
-    public function getCompanyCountEncomenda($imei) {
+    public function getNumberCompanyEncomenda($imei) {
         return EncomendasMbora::where('id_users_mbora', auth()->user()->id)
             ->where('imei_contacts', $imei)
             ->count();

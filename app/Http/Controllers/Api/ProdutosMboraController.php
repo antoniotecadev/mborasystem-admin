@@ -101,7 +101,7 @@ class ProdutosMboraController extends Controller
             ->get();
     }
 
-    public function countProductServiceCompany($imei) {
+    public function getNumberProductServiceCompany($imei) {
         return ProdutosMbora::where('imei', $imei)->count();
     }
 }
