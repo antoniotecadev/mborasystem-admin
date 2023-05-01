@@ -15,8 +15,9 @@ class SeguidoresEmpresasMbora extends Migration
     {
         Schema::create('seguidores_empresas_mbora', function(Blueprint $table) {
             $table->increments('id');
-            $table->integer('id_empresa_mbora')->index()->unsigned();
-            $table->integer('id_seguidor_mbora')->index()->unsigned();
+            $table->string('id_empresas_mbora', 20)->index();
+            $table->integer('id_users_mbora')->index()->unsigned();
+            $table->tinyInteger('estado', 1)->default(1);
             $table->timestamps();
             $table->softDeletes();
         });
