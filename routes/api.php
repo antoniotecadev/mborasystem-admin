@@ -92,6 +92,7 @@ Route::namespace('Api')->group(function () {
         Route::get('produtos/servicos/mbora/lastVisible/{lastVisible}/isMoreView/{isMoreView}/imei/{imei}', 'ProdutosMboraController@showProductServiceCompany');
         
         Route::get('number/seguidores/empresas/mbora/imei/{imei}', 'SeguidoresEmpresasMboraController@getNumberFollowers');
+        Route::get('seguir/empresas/mbora/imei/{imei}/isFollower/{isFollower}', 'SeguidoresEmpresasMboraController@followCompany');
         
         Route::get('empresas/mbora', 'EmpresasMboraController@index');
         Route::get('empresas/mbora/searchcompany/{nameImei}/isMoreCompany/{isMoreCompany}/leastViewed/{leastViewed}', 'EmpresasMboraController@searchCompany');
