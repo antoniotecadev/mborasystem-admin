@@ -19,8 +19,8 @@ class EmpresasMboraController extends Controller
                 $query->selectRaw('count(*)')->from('encomendas_mbora')->whereColumn('imei_contacts', 'ct.imei')->where('id_users_mbora', auth()->user()->id);
             }, 'encomenda_number')
             ->selectSub(function($query) {
-                $query->selectRaw('deleted_at')->from('seguidores_empresas_mbora')->whereColumn('imei_empresas_mbora', 'ct.imei')->where('id_users_mbora', auth()->user()->id)->limit(1);
-            }, 'deleted_at')
+                $query->selectRaw('estado')->from('seguidores_empresas_mbora')->whereColumn('imei_empresas_mbora', 'ct.imei')->where('id_users_mbora', auth()->user()->id)->limit(1);
+            }, 'estado')
             ->orderByDesc('ct.followers_mbora')
             ->get()->random(10);
     }
