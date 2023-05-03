@@ -43,7 +43,6 @@ Route::namespace('Api')->group(function () {
     Route::get('categorias/mbora', 'CategoriasMboraController@index');
     Route::post('produtos/mbora/store', 'ProdutosMboraController@store');
     Route::get('produtos/mbora/{imei}', 'ProdutosMboraController@getQuantidadeProduto');
-    Route::get('produtos/mbora/index/json', 'ProdutosMboraController@index');
     Route::get('produtos/mbora/view/count/{id}', 'ProdutosMboraController@getViewNumberProduct');
     
     Route::post('auth/register', 'AuthController@create');
@@ -75,7 +74,6 @@ Route::namespace('Api')->group(function () {
         
         Route::post('adicionar/produto/mbora/favorito', 'FavoritosMboraController@store');
         Route::delete('eliminar/produto/mbora/favorito', 'FavoritosMboraController@delete');
-        Route::get('produto/mbora/isfavorito/{idProduto}', 'FavoritosMboraController@iSfavorito');
         Route::get('produtos/favorito/mbora/lastVisible/{lastVisible}/isMoreView/{isMoreView}', 'FavoritosMboraController@show');
         
         Route::put('mbora/update/name/user', 'AuthController@updateName');
@@ -85,6 +83,7 @@ Route::namespace('Api')->group(function () {
         Route::get('mbora/profilephoto/user/url', 'AuthController@getURLProfilePhoto');
         Route::post('mbora/logout/user', 'AuthController@logout');
         
+        Route::get('produtos/mbora/index/json', 'ProdutosMboraController@index');
         Route::get('number/produtos/servicos/mbora/imei/{imei}', 'ProdutosMboraController@getNumberProductServiceCompany');
         Route::get('produtos/mbora/searchproduct/{name}/isMoreProduct/{isMoreProduct}/leastViewed/{leastViewed}', 'ProdutosMboraController@searchProduct');
         Route::get('produtos/servicos/mbora/lastVisible/{lastVisible}/isMoreView/{isMoreView}/imei/{imei}', 'ProdutosMboraController@showProductServiceCompany');
