@@ -10,7 +10,7 @@ use Illuminate\Support\Facades\Validator;
 class FavoritosMboraController extends BaseController
 {
     public function show($lastVisible, $isMoreView) {
-        return DB::table('produtos_mbora', 'pm')
+        $favorito = DB::table('produtos_mbora', 'pm')
             ->join('favoritos_mbora as fm', 'pm.id', '=', 'fm.id_products_mbora')
             ->join('users as us', 'fm.id_users_mbora', '=', 'us.id')
             ->join('contacts as ct', 'pm.imei', '=', 'ct.imei')
@@ -22,6 +22,7 @@ class FavoritosMboraController extends BaseController
             ->orderByDesc('fm.created_at')
             ->limit(10)
             ->get();
+        return ['favorito' => $favorito, 'numeroFavorito' => $isMoreView == 'true' ? 0 : $this->getNumberFavorito()];
     }
 
     public function store(Request $request) {
@@ -67,7 +68,7 @@ class FavoritosMboraController extends BaseController
         }
     }
 
-    public function getNumberFavorito() {
+    private function getNumberFavorito() {
         return FavoritosMbora::where('id_users_mbora', auth()->user()->id)->count();
     }
 

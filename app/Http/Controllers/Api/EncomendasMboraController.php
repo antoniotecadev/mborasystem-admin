@@ -13,7 +13,7 @@ use Illuminate\Support\Facades\Validator;
 class EncomendasMboraController extends BaseController
 {
     public function show($lastVisible, $isMoreView) {
-        return DB::table('produtos_mbora', 'pm')
+        $encomendas = DB::table('produtos_mbora', 'pm')
             ->join('encomendas_mbora as em', 'pm.id', '=', 'em.id_produts_mbora')
             ->join('contacts as ct', 'em.imei_contacts', '=', 'ct.imei')
             ->join('provincias as pv', 'pv.id', '=', 'ct.provincia_id')
@@ -24,6 +24,7 @@ class EncomendasMboraController extends BaseController
             ->limit(10)
             ->get();
 
+        return ['encomenda' => $encomendas, 'numeroEncomenda' => $isMoreView == 'true' ? 0 : $this->getNumberEncomenda()];
             /** ORDEM CRESCENTE
             * ->where('em.id', '>' , ($isMoreView == 'true' ? $lastVisible : 0)) 
             */
@@ -106,7 +107,7 @@ class EncomendasMboraController extends BaseController
 
     }
 
-    public function getNumberEncomenda() {
+    private function getNumberEncomenda() {
         return EncomendasMbora::where('id_users_mbora', auth()->user()->id)->count();
     }
     public function getNumberCompanyEncomenda($imei) {

@@ -67,14 +67,12 @@ Route::namespace('Api')->group(function () {
             $success['email'] =  $user->email;
             return $bc->sendResponse($success, 'Autenticado');
         });
-        Route::get('encomendas/mbora/count', 'EncomendasMboraController@getNumberEncomenda');
         Route::get('encomendas/mbora/lastVisible/{lastVisible}/isMoreView/{isMoreView}', 'EncomendasMboraController@show');
         Route::post('produtos/mbora/encomenda', 'EncomendasMboraController@store');
         
         Route::get('number/encomendas/empresas/mbora/imei/{imei}', 'EncomendasMboraController@getNumberCompanyEncomenda');
         Route::get('empresas/encomendas/mbora/imei/{imei}/lastVisible/{lastVisible}/isMoreView/{isMoreView}', 'EncomendasMboraController@showMyInCompany');
         
-        Route::get('mbora/count/favorito', 'FavoritosMboraController@getNumberFavorito');
         Route::post('adicionar/produto/mbora/favorito', 'FavoritosMboraController@store');
         Route::delete('eliminar/produto/mbora/favorito', 'FavoritosMboraController@delete');
         Route::get('produto/mbora/isfavorito/{idProduto}', 'FavoritosMboraController@iSfavorito');
