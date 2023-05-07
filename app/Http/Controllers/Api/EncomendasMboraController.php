@@ -24,7 +24,7 @@ class EncomendasMboraController extends BaseController
             ->limit(10)
             ->get();
 
-        return ['encomenda' => $encomendas, 'numeroEncomenda' => $isMoreView == 'true' ? 0 : $this->getNumberEncomenda()];
+        return ['encomenda' => $encomendas, 'numeroEncomenda' => $isMoreView == 'true' ? 0 : $this->getNumberEncomenda(), 'numeroEmpresasAseguir' => $isMoreView == 'true' ? 0 : SeguidoresEmpresasMboraController::getNumberEmpresasAseguir()];
             /** ORDEM CRESCENTE
             * ->where('em.id', '>' , ($isMoreView == 'true' ? $lastVisible : 0)) 
             */

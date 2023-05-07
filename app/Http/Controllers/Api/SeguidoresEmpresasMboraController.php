@@ -44,4 +44,10 @@ class SeguidoresEmpresasMboraController extends Controller
         //     return ['estado' => $estado];
         // }
     }
+
+    public static function getNumberEmpresasAseguir() {
+        return SeguidoresEmpresasMbora::where('id_users_mbora', auth()->user()->id)
+                ->where('estado', 1)
+                ->count();
+    }
 }
