@@ -11,7 +11,7 @@ class EmpresasMboraController extends Controller
     public function index() {
         return DB::table('contacts as ct')
             ->join('provincias as pv', 'pv.id', '=', 'ct.provincia_id')
-            ->select('ct.id', 'ct.first_name', 'ct.last_name', 'ct.email', 'ct.phone', 'ct.alternative_phone', 'ct.imei', 'ct.empresa', 'ct.district', 'ct.street', 'pv.nome as nomeProvincia', 'ct.views_mbora')
+            ->select('ct.id', 'ct.first_name', 'ct.last_name', 'ct.email', 'ct.phone', 'ct.alternative_phone', 'ct.imei', 'ct.empresa', 'ct.district', 'ct.street', 'ct.views_mbora', 'ct.description', 'pv.nome as nomeProvincia')
             ->selectSub(function($query) {
                 $query->selectRaw('count(*)')->from('produtos_mbora')->whereColumn('imei', 'ct.imei');
             }, 'product_number')
@@ -36,7 +36,7 @@ class EmpresasMboraController extends Controller
                 $query->where('ct.views_mbora', ($isMoreCompany == 'false' ? '>=' : '<') , ($isMoreCompany == 'false' ? 0 : $leastViewed)); // ORDEM DECRESCENTE
             })
             ->join('provincias as pv', 'pv.id', '=', 'ct.provincia_id')
-            ->select('ct.id', 'ct.first_name', 'ct.last_name', 'ct.email', 'ct.phone', 'ct.alternative_phone', 'ct.imei', 'ct.empresa', 'ct.district', 'ct.street', 'pv.nome as nomeProvincia', 'ct.views_mbora')
+            ->select('ct.id', 'ct.first_name', 'ct.last_name', 'ct.email', 'ct.phone', 'ct.alternative_phone', 'ct.imei', 'ct.empresa', 'ct.district', 'ct.street', 'ct.views_mbora', 'ct.description', 'pv.nome as nomeProvincia')
             ->selectSub(function($query) {
                 $query->selectRaw('count(*)')->from('produtos_mbora')->whereColumn('imei', 'ct.imei');
             }, 'product_number')
