@@ -61,7 +61,7 @@ class EmpresasMboraController extends Controller
     }
 
     public function companyFollowers($lastVisible, $isMoreView) {
-        return DB::table('contacts as ct')
+        $empresas = DB::table('contacts as ct')
             ->join('provincias as pv', 'pv.id', '=', 'ct.provincia_id')
             ->join('seguidores_empresas_mbora as sm', 'sm.imei_empresas_mbora', '=', 'ct.imei')
             ->where('sm.id_users_mbora', auth()->user()->id)
@@ -83,5 +83,7 @@ class EmpresasMboraController extends Controller
             ->limit(10)
             ->orderByDesc('sm.created_at')
             ->get();
+            return ['empresa' => $empresas, 'numeroEmpresasAseguir' => $isMoreView == 'true' ? 0 : SeguidoresEmpresasMboraController::getNumberEmpresasAseguir()];
+
     }
 }
