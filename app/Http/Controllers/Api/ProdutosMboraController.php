@@ -35,6 +35,9 @@ class ProdutosMboraController extends Controller
             ->join('provincias as pv', 'pv.id', '=', 'ct.provincia_id')
             ->join('categorias_mbora as cm', 'cm.id', '=', 'pm.idcategoria')
             ->select('pm.id', 'pm.imei', 'pm.idcategoria', 'pm.nome', 'pm.preco', 'pm.quantidade', 'pm.urlImage', 'pm.codigoBarra', 'pm.tag', 'pm.visualizacao', 'pm.created_at', 'ct.imei', 'ct.empresa', 'ct.district', 'ct.street', 'pv.nome as nomeProvincia', 'cm.nome as nomeCategoria')
+            ->selectSub(function($query) {
+                $query->selectRaw('id_products_mbora')->from('favoritos_mbora')->whereColumn('id_products_mbora', 'pm.id')->where('id_users_mbora', auth()->user()->id)->limit(1);
+            }, 'isFavorito')
             ->orderByDesc('pm.visualizacao')
             ->limit(10)
             ->get();
