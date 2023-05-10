@@ -3,17 +3,11 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
-use App\Models\Contact;
 use App\Models\SeguidoresEmpresasMbora;
-use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class SeguidoresEmpresasMboraController extends Controller
 {
-    public function getNumberFollowers($imei) {
-        $seguidores = Contact::where('imei', $imei)->first('followers_mbora');
-        return $seguidores->followers_mbora;
-    }
-
     public function followCompany($imei, $isFollower) {
         try {
             $id_user = auth()->user()->id;
@@ -47,6 +41,25 @@ class SeguidoresEmpresasMboraController extends Controller
 
     public static function getNumberEmpresasAseguir() {
         return SeguidoresEmpresasMbora::where('id_users_mbora', auth()->user()->id)
+                ->where('estado', 1)
+                ->count();
+    }
+
+    public function followersCompany($imei, $lastVisible, $isMoreView) {
+        $seguidores = DB::table('users as us')
+            ->join('seguidores_empresas_mbora as sm', 'sm.id_users_mbora', '=', 'us.id')
+            ->where('sm.imei_empresas_mbora', $imei)
+            ->where('sm.estado', 1)
+            ->where('sm.id', ($isMoreView == 'false' ? '>' : '<') , ($isMoreView == 'false' ? 0 : $lastVisible))
+            ->select('sm.id as id_table_followers', 'us.first_name', 'us.last_name', 'us.photo_path')
+            ->limit(10)
+            ->orderByDesc('sm.created_at')
+            ->get();
+            return ['seguidor' => $seguidores, 'numeroSeguidor' => $isMoreView == 'true' ? 0 : $this->getNumberFollowers($imei)];
+    }
+
+    private function getNumberFollowers($imei) {
+        return SeguidoresEmpresasMbora::where('imei_empresas_mbora', $imei)
                 ->where('estado', 1)
                 ->count();
     }
