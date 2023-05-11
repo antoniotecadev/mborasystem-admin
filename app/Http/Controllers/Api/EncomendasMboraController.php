@@ -82,7 +82,7 @@ class EncomendasMboraController extends BaseController
 
             for ($i=0; $i < count($array_id); $i++) 
             { 
-                $request['codigo'] = $random_code;
+                $request['code'] = $random_code;
                 $request['prod_quant'] = $array_qty[$i];
                 $request['imei_contacts'] = $array_imei[$i];
                 $request['id_produts_mbora'] = $array_id[$i];
