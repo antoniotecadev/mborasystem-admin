@@ -15,6 +15,7 @@ class EncomendasMbora extends Migration
     {
         Schema::create('encomendas_mbora', function(Blueprint $table){
             $table->increments('id');
+            $table->integer('codigo')->index()->unsigned();
             $table->string('imei_contacts', 20)->index();
             $table->integer('id_users_mbora')->index()->unsigned();
             $table->integer('id_produts_mbora')->index()->unsigned();

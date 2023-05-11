@@ -76,8 +76,13 @@ class EncomendasMboraController extends BaseController
             $client_phone = $request['client_phone'];
             $client_coordinate = $request['client_coordinate'];
 
+            $seed = date('YmdHis');
+            srand($seed);
+            $random_code = rand();
+
             for ($i=0; $i < count($array_id); $i++) 
             { 
+                $request['codigo'] = $random_code;
                 $request['prod_quant'] = $array_qty[$i];
                 $request['imei_contacts'] = $array_imei[$i];
                 $request['id_produts_mbora'] = $array_id[$i];
