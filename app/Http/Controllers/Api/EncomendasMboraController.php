@@ -19,7 +19,7 @@ class EncomendasMboraController extends BaseController
             ->join('provincias as pv', 'pv.id', '=', 'ct.provincia_id')
             ->where('em.id_users_mbora', auth()->user()->id)
             ->where('em.id', ($isMoreView == 'false' ? '>' : '<') , ($isMoreView == 'false' ? 0 : $lastVisible)) // ORDEM DECRESCENTE
-            ->select('em.id', 'em.prod_quant', 'em.estado', 'em.created_at', 'pm.nome', 'pm.preco', 'pm.urlImage', 'pm.codigoBarra', 'pm.visualizacao', 'ct.imei', 'ct.empresa', 'ct.district', 'ct.street', 'pv.nome as nomeProvincia')
+            ->select('em.id', 'em.code', 'em.prod_quant', 'em.estado', 'em.created_at', 'pm.nome', 'pm.preco', 'pm.urlImage', 'pm.codigoBarra', 'pm.visualizacao', 'ct.imei', 'ct.empresa', 'ct.district', 'ct.street', 'pv.nome as nomeProvincia')
             ->orderByDesc('em.created_at') // Remover ao usar ordem CRESCENTE
             ->limit(10)
             ->get();
@@ -38,7 +38,7 @@ class EncomendasMboraController extends BaseController
             ->where('em.id_users_mbora', auth()->user()->id)
             ->where('em.imei_contacts', $imei)
             ->where('em.id', ($isMoreView == 'false' ? '>' : '<') , ($isMoreView == 'false' ? 0 : $lastVisible))
-            ->select('em.id', 'em.prod_quant', 'em.estado', 'em.created_at', 'pm.nome', 'pm.preco', 'pm.urlImage', 'pm.codigoBarra', 'pm.visualizacao', 'ct.imei', 'ct.empresa', 'ct.district', 'ct.street', 'pv.nome as nomeProvincia')
+            ->select('em.id', 'em.code', 'em.prod_quant', 'em.estado', 'em.created_at', 'pm.nome', 'pm.preco', 'pm.urlImage', 'pm.codigoBarra', 'pm.visualizacao', 'ct.imei', 'ct.empresa', 'ct.district', 'ct.street', 'pv.nome as nomeProvincia')
             ->orderByDesc('em.created_at')
             ->limit(10)
             ->get();
