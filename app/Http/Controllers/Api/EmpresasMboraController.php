@@ -86,4 +86,25 @@ class EmpresasMboraController extends Controller
             return ['empresa' => $empresas, 'numeroEmpresasAseguir' => $isMoreView == 'true' ? 0 : SeguidoresEmpresasMboraController::getNumberEmpresasAseguir()];
 
     }
+
+    public function getCompany($imei) {
+        return DB::table('contacts as ct')
+            ->where('ct.imei', '=', $imei)
+            ->join('provincias as pv', 'pv.id', '=', 'ct.provincia_id')
+            ->select('ct.id', 'ct.first_name', 'ct.last_name', 'ct.email', 'ct.phone', 'ct.alternative_phone', 'ct.imei', 'ct.empresa', 'ct.district', 'ct.street', 'ct.views_mbora', 'ct.description', 'pv.nome as nomeProvincia')
+            ->selectSub(function($query) {
+                $query->selectRaw('count(*)')->from('produtos_mbora')->whereColumn('imei', 'ct.imei');
+            }, 'product_number')
+            ->selectSub(function($query) {
+                $query->selectRaw('count(*)')->from('encomendas_mbora')->whereColumn('imei_contacts', 'ct.imei')->where('id_users_mbora', auth()->user()->id);
+            }, 'encomenda_number')
+            ->selectSub(function($query) {
+                $query->selectRaw('estado')->from('seguidores_empresas_mbora')->whereColumn('imei_empresas_mbora', 'ct.imei')->where('id_users_mbora', auth()->user()->id)->limit(1);
+            }, 'estado')
+            ->selectSub(function($query) {
+                $query->selectRaw('count(*)')->from('seguidores_empresas_mbora')->whereColumn('imei_empresas_mbora', 'ct.imei')->where('estado', 1);
+            }, 'followers_number')
+            ->limit(1)
+            ->get();
+    }
 }
