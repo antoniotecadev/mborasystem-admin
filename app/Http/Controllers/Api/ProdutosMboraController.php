@@ -95,19 +95,28 @@ class ProdutosMboraController extends Controller
     }
 
     public function showProductServiceCompany($lastVisible, $isMoreView, $imei) {
-        return DB::table('produtos_mbora', 'pm')
+        $produtos = DB::table('produtos_mbora', 'pm')
             ->join('contacts as ct', 'pm.imei', '=', 'ct.imei')
             ->join('provincias as pv', 'pv.id', '=', 'ct.provincia_id')
             ->join('categorias_mbora as cm', 'cm.id', '=', 'pm.idcategoria')
-            ->where('ct.imei', $imei)
+            ->where('pm.imei', $imei)
             ->where('pm.id', ($isMoreView == 'false' ? '>' : '<') , ($isMoreView == 'false' ? 0 : $lastVisible)) // ORDEM DECRESCENTE
             ->select('pm.id', 'pm.imei', 'pm.idcategoria', 'pm.nome', 'pm.preco', 'pm.quantidade', 'pm.urlImage', 'pm.codigoBarra', 'pm.tag', 'pm.visualizacao', 'pm.created_at', 'ct.imei', 'ct.empresa', 'ct.district', 'ct.street', 'pv.nome as nomeProvincia', 'cm.nome as nomeCategoria')
             ->selectSub(function($query) {
                 $query->selectRaw('id_products_mbora')->from('favoritos_mbora')->whereColumn('id_products_mbora', 'pm.id')->where('id_users_mbora', auth()->user()->id)->limit(1);
             }, 'isFavorito')
-            ->orderByDesc('pm.created_at')
+            ->orderByDesc('pm.id')
             ->limit(10)
             ->get();
+        
+            return ['produtoServico' => $produtos, 'idProdutoServico' => $this->getIdProdutoServico($imei)];
+    }
+
+    private function getIdProdutoServico($imei) {
+        $segundoProduto = ProdutosMbora::where('imei', $imei)->skip(1)->take(1)->get('id');
+        if ($segundoProduto->count() > 0) {
+            return $segundoProduto[0]->id;
+        }
     }
 
     public function getNumberProductServiceCompany($imei) {

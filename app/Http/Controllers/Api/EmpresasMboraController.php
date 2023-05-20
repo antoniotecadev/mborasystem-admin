@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Models\Contact;
+use App\Models\SeguidoresEmpresasMbora;
 use Illuminate\Support\Facades\DB;
 
 class EmpresasMboraController extends Controller
@@ -81,10 +82,17 @@ class EmpresasMboraController extends Controller
                 $query->selectRaw('count(*)')->from('seguidores_empresas_mbora')->whereColumn('imei_empresas_mbora', 'ct.imei')->where('estado', 1);
             }, 'followers_number')
             ->limit(10)
-            ->orderByDesc('sm.created_at')
+            ->orderByDesc('sm.id')
             ->get();
-            return ['empresa' => $empresas, 'numeroEmpresasAseguir' => $isMoreView == 'true' ? 0 : SeguidoresEmpresasMboraController::getNumberEmpresasAseguir()];
+            return ['empresa' => $empresas, 'numeroEmpresasAseguir' => $isMoreView == 'true' ? 0 : SeguidoresEmpresasMboraController::getNumberEmpresasAseguir(), 'idEmpresaAseguirPaginacao' => $this->getIdEmpresaAseguir()];
+    }
 
+    private function getIdEmpresaAseguir() {
+        $segundaEmpresaAseguir = SeguidoresEmpresasMbora::where('id_users_mbora', auth()->user()->id)
+            ->skip(1)->take(1)->get('id');
+        if ($segundaEmpresaAseguir->count() > 0) {
+            return $segundaEmpresaAseguir[0]->id;
+        }
     }
 
     public function getCompany($imei) {

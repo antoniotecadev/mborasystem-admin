@@ -22,10 +22,17 @@ class FavoritosMboraController extends BaseController
             ->selectSub(function($query) {
                 $query->selectRaw('id_products_mbora')->from('favoritos_mbora')->whereColumn('id_products_mbora', 'pm.id')->where('id_users_mbora', auth()->user()->id)->limit(1);
             }, 'isFavorito')
-            ->orderByDesc('fm.created_at')
+            ->orderByDesc('fm.id')
             ->limit(10)
             ->get();
-        return ['favorito' => $favorito, 'numeroFavorito' => $isMoreView == 'true' ? 0 : $this->getNumberFavorito()];
+        return ['favorito' => $favorito, 'numeroFavorito' => $isMoreView == 'true' ? 0 : $this->getNumberFavorito(), 'idFavoritoPaginacao' => $this->getIdFavoritoMbora()];
+    }
+
+    private function getIdFavoritoMbora() {
+        $segundoFavorito = FavoritosMbora::where('id_users_mbora', auth()->user()->id)->skip(1)->take(1)->get('id');
+        if ($segundoFavorito->count() > 0) {
+            return $segundoFavorito[0]->id;
+        }
     }
 
     public function store(Request $request) {

@@ -20,18 +20,25 @@ class EncomendasMboraController extends BaseController
             ->where('em.id_users_mbora', auth()->user()->id)
             ->where('em.id', ($isMoreView == 'false' ? '>' : '<') , ($isMoreView == 'false' ? 0 : $lastVisible)) // ORDEM DECRESCENTE
             ->select('em.id', 'em.code', 'em.prod_quant', 'em.estado', 'em.created_at', 'pm.nome', 'pm.preco', 'pm.urlImage', 'pm.codigoBarra', 'pm.visualizacao', 'ct.imei', 'ct.empresa', 'ct.district', 'ct.street', 'pv.nome as nomeProvincia')
-            ->orderByDesc('em.created_at') // Remover ao usar ordem CRESCENTE
+            ->orderByDesc('em.id') // Remover ao usar ordem CRESCENTE
             ->limit(10)
             ->get();
 
-        return ['encomenda' => $encomendas, 'numeroEncomenda' => $isMoreView == 'true' ? 0 : $this->getNumberEncomenda(), 'numeroEmpresasAseguir' => $isMoreView == 'true' ? 0 : SeguidoresEmpresasMboraController::getNumberEmpresasAseguir()];
+        return ['encomenda' => $encomendas, 'numeroEncomenda' => $isMoreView == 'true' ? 0 : $this->getNumberEncomenda(), 'numeroEmpresasAseguir' => $isMoreView == 'true' ? 0 : SeguidoresEmpresasMboraController::getNumberEmpresasAseguir(), 'idEncomendaPaginacao' => $this->getIdEncomendaForIDuser()];
             /** ORDEM CRESCENTE
             * ->where('em.id', '>' , ($isMoreView == 'true' ? $lastVisible : 0)) 
             */
     }
 
+    private function getIdEncomendaForIDuser() {
+        $segundaEncomenda = EncomendasMbora::where('id_users_mbora', auth()->user()->id)->skip(1)->take(1)->get('id');
+        if ($segundaEncomenda->count() > 0) {
+            return $segundaEncomenda[0]->id;
+        }
+    }
+
     public function showMyInCompany($imei, $lastVisible, $isMoreView) {
-        return DB::table('produtos_mbora', 'pm')
+        $encomendas = DB::table('produtos_mbora', 'pm')
             ->join('encomendas_mbora as em', 'pm.id', '=', 'em.id_produts_mbora')
             ->join('contacts as ct', 'em.imei_contacts', '=', 'ct.imei')
             ->join('provincias as pv', 'pv.id', '=', 'ct.provincia_id')
@@ -39,9 +46,17 @@ class EncomendasMboraController extends BaseController
             ->where('em.imei_contacts', $imei)
             ->where('em.id', ($isMoreView == 'false' ? '>' : '<') , ($isMoreView == 'false' ? 0 : $lastVisible))
             ->select('em.id', 'em.code', 'em.prod_quant', 'em.estado', 'em.created_at', 'pm.nome', 'pm.preco', 'pm.urlImage', 'pm.codigoBarra', 'pm.visualizacao', 'ct.imei', 'ct.empresa', 'ct.district', 'ct.street', 'pv.nome as nomeProvincia')
-            ->orderByDesc('em.created_at')
+            ->orderByDesc('em.id')
             ->limit(10)
             ->get();
+        return ['encomenda' => $encomendas, 'idEncomenda' => $this->getIdEncomendaForIMEI($imei)];    
+    }
+
+    private function getIdEncomendaForIMEI($imei) {
+        $segundaEncomenda = EncomendasMbora::where('imei_contacts', $imei)->skip(1)->take(1)->get('id');
+        if ($segundaEncomenda->count() > 0) {
+            return $segundaEncomenda[0]->id;
+        }
     }
 
     public function store(Request $request) {

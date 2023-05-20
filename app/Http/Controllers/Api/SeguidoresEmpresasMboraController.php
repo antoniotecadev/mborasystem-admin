@@ -55,12 +55,20 @@ class SeguidoresEmpresasMboraController extends Controller
             ->limit(10)
             ->orderByDesc('sm.created_at')
             ->get();
-            return ['seguidor' => $seguidores, 'numeroSeguidor' => $isMoreView == 'true' ? 0 : $this->getNumberFollowers($imei)];
+            return ['seguidor' => $seguidores, 'numeroSeguidor' => $isMoreView == 'true' ? 0 : $this->getNumberFollowers($imei), 'idSeguidor' => $this->getIdSeguidor($imei)];
     }
 
     private function getNumberFollowers($imei) {
         return SeguidoresEmpresasMbora::where('imei_empresas_mbora', $imei)
                 ->where('estado', 1)
                 ->count();
+    }
+
+    private function getIdSeguidor($imei) {
+        $segundoSeguidor = SeguidoresEmpresasMbora::where('imei_empresas_mbora', $imei)
+            ->skip(1)->take(1)->get('id');
+        if ($segundoSeguidor->count() > 0) {
+            return $segundoSeguidor[0]->id;
+        }
     }
 }
