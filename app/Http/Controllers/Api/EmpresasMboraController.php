@@ -36,6 +36,19 @@ class EmpresasMboraController extends Controller
             ->where(function($query) use($isMoreCompany, $leastViewed) {
                 $query->where('ct.views_mbora', ($isMoreCompany == 'false' ? '>=' : '<') , ($isMoreCompany == 'false' ? 0 : $leastViewed)); // ORDEM DECRESCENTE
             })
+            ->select('ct.id', 'ct.imei', 'ct.empresa')
+            ->orderByDesc('ct.views_mbora')
+            ->limit(20)
+            ->get();
+    }
+    
+    public function fetchCompany($nameImei, $isMoreCompany, $leastViewed) {
+        return DB::table('contacts as ct')
+            ->where('ct.empresa', 'LIKE', $nameImei . "%")
+            ->orWhere('ct.imei', 'LIKE', $nameImei . "%")
+            ->where(function($query) use($isMoreCompany, $leastViewed) {
+                $query->where('ct.views_mbora', ($isMoreCompany == 'false' ? '>=' : '<') , ($isMoreCompany == 'false' ? 0 : $leastViewed)); // ORDEM DECRESCENTE
+            })
             ->join('provincias as pv', 'pv.id', '=', 'ct.provincia_id')
             ->select('ct.id', 'ct.first_name', 'ct.last_name', 'ct.email', 'ct.phone', 'ct.alternative_phone', 'ct.imei', 'ct.empresa', 'ct.district', 'ct.street', 'ct.views_mbora', 'ct.description', 'pv.nome as nomeProvincia')
             ->selectSub(function($query) {
