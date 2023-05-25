@@ -10,6 +10,12 @@ use Illuminate\Support\Facades\DB;
 class EmpresasMboraController extends Controller
 {
     public function index() {
+        $number = Contact::count();
+        if($number == 0):
+            return [];
+        elseif ($number > 10):
+            $number = 10;
+        endif;
         return DB::table('contacts as ct')
             ->join('provincias as pv', 'pv.id', '=', 'ct.provincia_id')
             ->select('ct.id', 'ct.first_name', 'ct.last_name', 'ct.email', 'ct.phone', 'ct.alternative_phone', 'ct.imei', 'ct.empresa', 'ct.district', 'ct.street', 'ct.views_mbora', 'ct.description', 'pv.nome as nomeProvincia')
@@ -26,7 +32,7 @@ class EmpresasMboraController extends Controller
                 $query->selectRaw('count(*)')->from('seguidores_empresas_mbora')->whereColumn('imei_empresas_mbora', 'ct.imei')->where('estado', 1);
             }, 'followers_number')
             ->orderByDesc('ct.views_mbora')
-            ->get()->random(10);
+            ->get()->random($number);
     }
 
     public function searchCompany($nameImei, $isMoreCompany, $leastViewed) {
@@ -41,7 +47,7 @@ class EmpresasMboraController extends Controller
             ->limit(20)
             ->get();
     }
-    
+
     public function fetchCompany($nameImei, $isMoreCompany, $leastViewed) {
         return DB::table('contacts as ct')
             ->where('ct.empresa', 'LIKE', $nameImei . "%")

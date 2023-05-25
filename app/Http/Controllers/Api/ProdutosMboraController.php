@@ -12,6 +12,12 @@ class ProdutosMboraController extends Controller
 {
     public function index() {
         $date = date('Y-m-d');
+        $number = ProdutosMbora::count();
+        if($number == 0):
+            return [];
+        elseif ($number > 32):
+            $number = 32;
+        endif;
         return DB::table('produtos_mbora as pm')
             ->whereDate('pm.created_at', '<=', $date)
             ->join('contacts as ct', 'pm.imei', '=', 'ct.imei')
@@ -22,7 +28,7 @@ class ProdutosMboraController extends Controller
                 $query->selectRaw('id_products_mbora')->from('favoritos_mbora')->whereColumn('id_products_mbora', 'pm.id')->where('id_users_mbora', auth()->user()->id)->limit(1);
             }, 'isFavorito')
             ->orderByDesc('pm.created_at')
-            ->get()->random(32);
+            ->get()->random($number);
     }
 
     public function showProductCategory($idcategoria) {
