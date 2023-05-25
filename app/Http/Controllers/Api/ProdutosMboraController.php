@@ -25,6 +25,30 @@ class ProdutosMboraController extends Controller
             ->get()->random(32);
     }
 
+    public function showProductCategory($idcategoria) {
+        $date = date('Y-m-d');
+        $number = ProdutosMbora::where('idcategoria', $idcategoria)->count();
+
+        if($number == 0):
+            return [];
+        elseif ($number > 32):
+            $number = 32;
+        endif;
+
+        return DB::table('produtos_mbora as pm')
+            ->where('idcategoria', $idcategoria)
+            ->whereDate('pm.created_at', '<=', $date)
+            ->join('contacts as ct', 'pm.imei', '=', 'ct.imei')
+            ->join('provincias as pv', 'pv.id', '=', 'ct.provincia_id')
+            ->join('categorias_mbora as cm', 'cm.id', '=', 'pm.idcategoria')
+            ->select('pm.id', 'pm.imei', 'pm.idcategoria', 'pm.nome', 'pm.preco', 'pm.quantidade', 'pm.urlImage', 'pm.codigoBarra', 'pm.tag', 'pm.visualizacao', 'pm.created_at', 'ct.imei', 'ct.empresa', 'ct.district', 'ct.street', 'pv.nome as nomeProvincia', 'cm.nome as nomeCategoria')
+            ->selectSub(function($query) {
+                $query->selectRaw('id_products_mbora')->from('favoritos_mbora')->whereColumn('id_products_mbora', 'pm.id')->where('id_users_mbora', auth()->user()->id)->limit(1);
+            }, 'isFavorito')
+            ->orderByDesc('pm.created_at')
+            ->get()->random($number);
+    }
+
     public function searchProduct($name, $isMoreProduct, $leastViewed) {
         return DB::table('produtos_mbora as pm')
             ->where('pm.nome', 'LIKE', $name . "%")
