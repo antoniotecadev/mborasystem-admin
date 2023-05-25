@@ -15,7 +15,7 @@ class CategoriasMbora extends Migration
     {
         Schema::create('categorias_mbora', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('nome', 30);
+            $table->string('nome', 40);
         });
     }
 
