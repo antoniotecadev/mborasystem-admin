@@ -11,12 +11,13 @@ class EmpresasMboraController extends Controller
 {
     public function index() {
         $number = Contact::count();
+        $numeroEmpresas = $number;
         if($number == 0):
             return [];
         elseif ($number > 10):
             $number = 10;
         endif;
-        return DB::table('contacts as ct')
+        $empresas = DB::table('contacts as ct')
             ->join('provincias as pv', 'pv.id', '=', 'ct.provincia_id')
             ->select('ct.id', 'ct.first_name', 'ct.last_name', 'ct.email', 'ct.phone', 'ct.alternative_phone', 'ct.imei', 'ct.empresa', 'ct.district', 'ct.street', 'ct.views_mbora', 'ct.description', 'pv.nome as nomeProvincia')
             ->selectSub(function($query) {
@@ -33,6 +34,7 @@ class EmpresasMboraController extends Controller
             }, 'followers_number')
             ->orderByDesc('ct.views_mbora')
             ->get()->random($number);
+            return ['empresas' => $empresas, 'numeroEmpresas' => $numeroEmpresas];
     }
 
     public function searchCompany($nameImei, $isMoreCompany, $leastViewed) {
