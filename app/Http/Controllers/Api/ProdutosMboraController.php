@@ -33,9 +33,10 @@ class ProdutosMboraController extends Controller
             return ['produtos' => $produtos, 'numeroProdutos' => $numeroProdutos];
     }
 
-    public function showProductCategory($idcategoria) {
+    public function showProductCategory($idcategoria, $isTag, $tag) {
         $date = date('Y-m-d');
-        $number = ProdutosMbora::where('idcategoria', $idcategoria)->count();
+        $column = $isTag == 'true' ? ['name' => 'tag', 'value' => '%' . $tag . '%', 'operator' => 'LIKE'] : ['name' => 'idcategoria', 'value' => $idcategoria, 'operator' => '='];
+        $number = ProdutosMbora::where($column['name'], $column['operator'], $column['value'])->count();
         $numeroProdutos = $number;
         if($number == 0):
             return [];
@@ -44,7 +45,7 @@ class ProdutosMboraController extends Controller
         endif;
 
         $produtos = DB::table('produtos_mbora as pm')
-            ->where('idcategoria', $idcategoria)
+            ->where($column['name'], $column['operator'], $column['value'])
             ->whereDate('pm.created_at', '<=', $date)
             ->join('contacts as ct', 'pm.imei', '=', 'ct.imei')
             ->join('provincias as pv', 'pv.id', '=', 'ct.provincia_id')

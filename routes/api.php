@@ -84,7 +84,7 @@ Route::namespace('Api')->group(function () {
         Route::post('mbora/logout/user', 'AuthController@logout');
         
         Route::get('produtos/mbora/index/json', 'ProdutosMboraController@index');
-        Route::get('produtos/mbora/categoria/{idCategoria}', 'ProdutosMboraController@showProductCategory');
+        Route::get('produtos/mbora/categoria/{idCategoria}/isTag/{isTag}/tag/{tag}', 'ProdutosMboraController@showProductCategory');
         Route::get('number/produtos/servicos/mbora/imei/{imei}', 'ProdutosMboraController@getNumberProductServiceCompany');
         Route::get('produtos/mbora/searchproduct/{name}/isMoreProduct/{isMoreProduct}/leastViewed/{leastViewed}', 'ProdutosMboraController@searchProduct');
         Route::get('produtos/servicos/mbora/lastVisible/{lastVisible}/isMoreView/{isMoreView}/imei/{imei}', 'ProdutosMboraController@showProductServiceCompany');
