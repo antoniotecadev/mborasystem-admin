@@ -71,7 +71,7 @@ class AuthController extends BaseController
     {
         try {
             $validator = Validator::make($request->all(), [
-                'email' => 'required|email',
+                'email' => 'required', // Email e Telefone
                 'password' => 'required'
             ]);
 
@@ -80,8 +80,11 @@ class AuthController extends BaseController
                 return $this->sendError('Erro de validação', $error);
             }
 
-            if(Auth::attempt($request->only(['email', 'password']))){
-                $user = User::where('email', $request->email)->first();
+            $isEmail =  preg_match('/^[^\s@]+@[^\s@]+\.[^\s@]+$/', $request->email);
+            $column = $isEmail ? 'email' : 'telephone';
+
+            if(Auth::attempt([$column => $request->email, 'password' => $request->password])) {
+                $user = User::where($column, $request->email)->first();
                 if(auth('sanctum')->check()):
                     $user->tokens()->delete();
                 endif;
@@ -93,7 +96,7 @@ class AuthController extends BaseController
                 $success['email'] =  $user->email;
                 return $this->sendResponse($success, 'Usuário logado com sucesso'); 
             } else {
-                $error['message'] = 'Email ou Palavra - passe errada';
+                $error['message'] = ($isEmail ? 'Email' : 'Telefone') . ' ou Palavra - passe errada';
                 return $this->sendError('Falha ao entrar', $error);
             }
 
