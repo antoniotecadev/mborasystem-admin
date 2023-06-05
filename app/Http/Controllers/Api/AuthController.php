@@ -227,6 +227,8 @@ class AuthController extends BaseController
     }
 
     public function findAccount($email) {
-        return User::where('email', $email)->get(['first_name', 'last_name', 'email', 'photo_path']);
+        return User::where('email', $email)
+            ->orWhere('telephone', $email) // Número de telefone
+            ->get(['first_name', 'last_name', 'email', 'photo_path']);
     }
 }
