@@ -83,7 +83,7 @@ class AuthController extends BaseController
             $isEmail =  preg_match('/^[^\s@]+@[^\s@]+\.[^\s@]+$/', $request->email);
             $column = $isEmail ? 'email' : 'telephone';
 
-            if(Auth::attempt([$column => $request->email, 'password' => $request->password])) {
+            if(Auth::attempt([$column => $request->email, 'password' => $request->password, 'account_id' => 2])) {
                 $user = User::where($column, $request->email)->first();
                 if(auth('sanctum')->check()):
                     $user->tokens()->delete();
