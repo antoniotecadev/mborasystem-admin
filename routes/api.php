@@ -64,6 +64,7 @@ Route::namespace('Api')->group(function () {
             $success['last_name'] =  $user->last_name;
             $success['telephone'] =  $user->telephone;
             $success['email'] =  $user->email;
+            $success['account_admin'] =  $user->account_id == 3 ? true : false;
             return $bc->sendResponse($success, 'Autenticado');
         });
         Route::get('encomendas/mbora/lastVisible/{lastVisible}/isMoreView/{isMoreView}', 'EncomendasMboraController@show');
