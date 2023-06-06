@@ -10,17 +10,18 @@ use Illuminate\Support\Facades\Validator;
 class FavoritosMboraController extends BaseController
 {
     public function show($lastVisible, $isMoreView) {
+        $user = auth()->user();
         $favorito = DB::table('produtos_mbora', 'pm')
             ->join('favoritos_mbora as fm', 'pm.id', '=', 'fm.id_products_mbora')
             ->join('users as us', 'fm.id_users_mbora', '=', 'us.id')
             ->join('contacts as ct', 'pm.imei', '=', 'ct.imei')
             ->join('provincias as pv', 'pv.id', '=', 'ct.provincia_id')
             ->join('categorias_mbora as cm', 'cm.id', '=', 'pm.idcategoria')
-            ->where('fm.id_users_mbora', auth()->user()->id)
+            ->where('fm.id_users_mbora', $user->id)
             ->where('fm.id', ($isMoreView == 'false' ? '>' : '<') , ($isMoreView == 'false' ? 0 : $lastVisible)) // ORDEM DECRESCENTE
             ->select('fm.id as idFavorito', 'pm.id', 'pm.imei', 'pm.idcategoria', 'pm.nome', 'pm.preco', 'pm.quantidade', 'pm.urlImage', 'pm.codigoBarra', 'pm.tag', 'pm.visualizacao', 'pm.created_at', 'ct.imei', 'ct.empresa', 'ct.district', 'ct.street', 'pv.nome as nomeProvincia', 'cm.nome as nomeCategoria')
-            ->selectSub(function($query) {
-                $query->selectRaw('id_products_mbora')->from('favoritos_mbora')->whereColumn('id_products_mbora', 'pm.id')->where('id_users_mbora', auth()->user()->id)->limit(1);
+            ->selectSub(function($query) use ($user) {
+                $query->selectRaw('id_products_mbora')->from('favoritos_mbora')->whereColumn('id_products_mbora', 'pm.id')->where('id_users_mbora', $user->id)->limit(1);
             }, 'isFavorito')
             ->orderByDesc('fm.id')
             ->limit(10)

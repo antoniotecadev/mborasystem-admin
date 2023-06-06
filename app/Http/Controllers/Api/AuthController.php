@@ -148,6 +148,7 @@ class AuthController extends BaseController
 
     public function updateEmail(Request $request) {
         try {
+            $user = auth()->user();
             $validator = Validator::make($request->all(),[
                 'email' => 'required|email',
                 'password_verify_email' => 'required',
@@ -158,12 +159,12 @@ class AuthController extends BaseController
                 return $this->sendError('Erro de validação', $error); 
             }
 
-            if(!Hash::check($request->password, auth()->user()->password)){
+            if(!Hash::check($request->password, $user->password)){
                 $error['message'] = ['password_verify_email' => 'Palavra - passe errada'];
                 return $this->sendError('Erro de validação', $error); 
             }
 
-            User::where('id', auth()->user()->id)->update([
+            User::where('id', $user->id)->update([
                 'email' => $request->email,
             ]);
             $success['message'] =  null;
@@ -176,6 +177,7 @@ class AuthController extends BaseController
 
     public function updatePassword(Request $request) {
         try {
+            $user = auth()->user();
             $validator = Validator::make($request->all(),[
                 'old_password' => 'required',
                 'password' => 'required|min:8',
@@ -187,12 +189,12 @@ class AuthController extends BaseController
                 return $this->sendError('Erro de validação', $error); 
             }
 
-            if(!Hash::check($request->old_password, auth()->user()->password)){
+            if(!Hash::check($request->old_password, $user->password)){
                 $error['message'] = ['old_password' => 'Palavra - passe errada'];
                 return $this->sendError('Erro de validação', $error); 
             }
 
-            User::where('id', auth()->user()->id)->update([
+            User::where('id', $user->id)->update([
                 'password' => Hash::make($request->password),
             ]);
             $success['message'] =  null;
@@ -224,7 +226,8 @@ class AuthController extends BaseController
     }
 
     public function getURLProfilePhoto() {
-        return ['photo_url' => auth()->user()->photo_path, 'user_id' => auth()->user()->id];
+        $user = auth()->user();
+        return ['photo_url' => $user->photo_path, 'user_id' => $user->id];
     }
 
     public function findAccount($email) {
