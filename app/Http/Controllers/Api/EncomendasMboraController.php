@@ -37,12 +37,15 @@ class EncomendasMboraController extends BaseController
         }
     }
 
-    public function showMyInCompany($imei, $lastVisible, $isMoreView) {
+    public function showInCompanyProfile($imei, $lastVisible, $isMoreView) {
+        $user = auth()->user();
         $encomendas = DB::table('produtos_mbora', 'pm')
             ->join('encomendas_mbora as em', 'pm.id', '=', 'em.id_produts_mbora')
             ->join('contacts as ct', 'em.imei_contacts', '=', 'ct.imei')
             ->join('provincias as pv', 'pv.id', '=', 'ct.provincia_id')
-            ->where('em.id_users_mbora', auth()->user()->id)
+            ->when(($imei != $user->imei_contact), function($query) use ($user) {
+                return $query->where('em.id_users_mbora', $user->id);
+            })
             ->where('em.imei_contacts', $imei)
             ->where('em.id', ($isMoreView == 'false' ? '>' : '<') , ($isMoreView == 'false' ? 0 : $lastVisible))
             ->select('em.id', 'em.code', 'em.prod_quant', 'em.estado', 'em.created_at', 'pm.nome', 'pm.preco', 'pm.urlImage', 'pm.codigoBarra', 'pm.visualizacao', 'ct.imei', 'ct.empresa', 'ct.district', 'ct.street', 'pv.nome as nomeProvincia')
@@ -130,8 +133,11 @@ class EncomendasMboraController extends BaseController
     private function getNumberEncomenda() {
         return EncomendasMbora::where('id_users_mbora', auth()->user()->id)->count();
     }
-    public function getNumberCompanyEncomenda($imei) {
-        return EncomendasMbora::where('id_users_mbora', auth()->user()->id)
+    public function getNumberCompanyProfileEncomenda($imei) {
+        $user = auth()->user();
+        return EncomendasMbora::when(($imei != $user->imei_contact), function($query) use ($user) {
+                return $query->where('id_users_mbora', $user->id);
+            })
             ->where('imei_contacts', $imei)
             ->count();
     }

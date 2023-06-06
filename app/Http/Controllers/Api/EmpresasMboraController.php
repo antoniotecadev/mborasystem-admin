@@ -136,4 +136,26 @@ class EmpresasMboraController extends Controller
             ->limit(1)
             ->get();
     }
+
+    public function getCompanyProfile() {
+        $user = auth()->user();
+        return DB::table('contacts as ct')
+            ->where('ct.imei', '=', $user->imei_contact)
+            ->join('provincias as pv', 'pv.id', '=', 'ct.provincia_id')
+            ->select('ct.id', 'ct.first_name', 'ct.last_name', 'ct.email', 'ct.phone', 'ct.alternative_phone', 'ct.imei', 'ct.empresa', 'ct.district', 'ct.street', 'ct.views_mbora', 'ct.description', 'pv.nome as nomeProvincia')
+            ->selectSub(function($query) {
+                $query->selectRaw('count(*)')->from('produtos_mbora')->whereColumn('imei', 'ct.imei');
+            }, 'product_number')
+            ->selectSub(function($query) use ($user) {
+                $query->selectRaw('count(*)')->from('encomendas_mbora')->whereColumn('imei_contacts', 'ct.imei')->where('imei_contacts', $user->imei_contact);
+            }, 'encomenda_number')
+            ->selectSub(function($query) use ($user) {
+                $query->selectRaw('estado')->from('seguidores_empresas_mbora')->whereColumn('imei_empresas_mbora', 'ct.imei')->where('imei_empresas_mbora', $user->imei_contact)->limit(1);
+            }, 'estado')
+            ->selectSub(function($query) {
+                $query->selectRaw('count(*)')->from('seguidores_empresas_mbora')->whereColumn('imei_empresas_mbora', 'ct.imei')->where('estado', 1);
+            }, 'followers_number')
+            ->limit(1)
+            ->get();
+    }
 }

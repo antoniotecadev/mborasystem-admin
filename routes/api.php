@@ -70,8 +70,8 @@ Route::namespace('Api')->group(function () {
         Route::get('encomendas/mbora/lastVisible/{lastVisible}/isMoreView/{isMoreView}', 'EncomendasMboraController@show');
         Route::post('produtos/mbora/encomenda', 'EncomendasMboraController@store');
         
-        Route::get('number/encomendas/empresas/mbora/imei/{imei}', 'EncomendasMboraController@getNumberCompanyEncomenda');
-        Route::get('empresas/encomendas/mbora/imei/{imei}/lastVisible/{lastVisible}/isMoreView/{isMoreView}', 'EncomendasMboraController@showMyInCompany');
+        Route::get('number/encomendas/empresas/mbora/imei/{imei}', 'EncomendasMboraController@getNumberCompanyProfileEncomenda');
+        Route::get('empresas/encomendas/mbora/imei/{imei}/lastVisible/{lastVisible}/isMoreView/{isMoreView}', 'EncomendasMboraController@showInCompanyProfile');
         
         Route::post('adicionar/produto/mbora/favorito', 'FavoritosMboraController@store');
         Route::delete('eliminar/produto/mbora/favorito', 'FavoritosMboraController@delete');
@@ -98,5 +98,6 @@ Route::namespace('Api')->group(function () {
         Route::get('empresas/mbora/searchcompany/search/{nameImei}/isMoreCompany/{isMoreCompany}/leastViewed/{leastViewed}', 'EmpresasMboraController@fetchCompany');
         Route::get('empresas/mbora/aseguir/lastVisible/{lastVisible}/isMoreView/{isMoreView}', 'EmpresasMboraController@companyFollowers');
         Route::get('empresas/mbora/imei/{imei}', 'EmpresasMboraController@getCompany');
+        Route::get('empresa/mbora/perfil', 'EmpresasMboraController@getCompanyProfile');
     });
 });
