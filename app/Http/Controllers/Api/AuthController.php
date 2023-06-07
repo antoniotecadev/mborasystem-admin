@@ -150,7 +150,7 @@ class AuthController extends BaseController
         try {
             $user = auth()->user();
             $validator = Validator::make($request->all(),[
-                'email' => 'required|email',
+                'email' => 'required|email|unique:users,email',
                 'password_verify_email' => 'required',
             ]);
 
