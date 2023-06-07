@@ -5,9 +5,11 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use App\Models\Contact;
 use App\Models\SeguidoresEmpresasMbora;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Validator;
 
-class EmpresasMboraController extends Controller
+class EmpresasMboraController extends BaseController
 {
     public function index() {
         $user = auth()->user();
@@ -161,5 +163,38 @@ class EmpresasMboraController extends Controller
             }, 'followers_number')
             ->limit(1)
             ->get();
+    }
+
+    public function update(Request $request) {
+        try {
+            $column = [
+                1 => ['empresa' => $request->empresa],
+                2 => ['description' => $request->description],
+                3 => ['email' => $request->email],
+                4 => ['phone' => $request->phone, 'alternative_phone' => $request->alternative_phone],
+            ];
+
+            $columnValidator = [
+                1 => ['empresa' => 'required|string|min:4|max:20'],
+                2 => ['description' => 'required|string|max:30'],
+                3 => ['email' => 'required|email|max:50'],
+                4 => [
+                        'phone' => 'required|min:9|regex:/^([0-9\s\-\+\(\)]*)$/', 
+                        'alternative_phone' => 'required|min:9|regex:/^([0-9\s\-\+\(\)]*)$/'
+                    ],
+            ];
+            
+            $validator = Validator::make($request->all(), $columnValidator[$request->action]);
+            if($validator->fails()) {
+                $error['message'] = $validator->errors();
+                return $this->sendError('Erro de validação', $error); 
+            }
+            Contact::where('imei', auth()->user()->imei_contact)->update($column[$request->action]);
+            $success['empresa'] =  $request->empresa;
+            return $this->sendResponse($success, 'Alteração feita');
+        } catch (\Throwable $th) {
+            $error['message'] = $th->getMessage();
+            return $this->sendError('Erro de servidor', $error, 500); 
+        }
     }
 }
