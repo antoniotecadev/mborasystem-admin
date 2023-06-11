@@ -165,13 +165,23 @@ class EmpresasMboraController extends BaseController
             ->get();
     }
 
+    private function getProvinceId($provincia){
+        return DB::table('provincias')->where('nome', $provincia)->first('id');
+    }
+
     public function update(Request $request) {
         try {
+            $request['provincia_id'] = $this->getProvinceId($request->province)->id;
             $column = [
                 1 => ['empresa' => $request->empresa],
                 2 => ['description' => $request->description],
                 3 => ['email' => $request->email],
                 4 => ['phone' => $request->phone, 'alternative_phone' => $request->alternative_phone],
+                5 => [
+                        'provincia_id' => $request->provincia_id, 
+                        'district' => $request->district,
+                        'street' => $request->street,
+                ],
             ];
 
             $columnValidator = [
@@ -182,6 +192,11 @@ class EmpresasMboraController extends BaseController
                         'phone' => 'required|min:9|regex:/^([0-9\s\-\+\(\)]*)$/', 
                         'alternative_phone' => 'required|min:9|regex:/^([0-9\s\-\+\(\)]*)$/'
                     ],
+                5 => [
+                        'provincia_id' => 'required|integer', 
+                        'district' => 'required|string|min:4|max:20',
+                        'street' => 'required|string|min:4|max:20',
+                ],
             ];
             
             $validator = Validator::make($request->all(), $columnValidator[$request->action]);
