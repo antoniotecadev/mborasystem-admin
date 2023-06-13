@@ -172,7 +172,7 @@ class EmpresasMboraController extends BaseController
     public function update(Request $request) {
         try {
             if($request->action == 5):
-                $request['provincia_id'] = $this->getProvinceId($request->province)->id;
+                $request['provincia_id'] = $this->getProvinceId($request->nomeProvincia)->id;
             endif;
             $column = [
                 1 => ['empresa' => $request->empresa],
