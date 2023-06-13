@@ -80,9 +80,11 @@ class EmpresasMboraController extends BaseController
             ->get();
     }
 
-    public function numberViewsCompany($imei){
+    public function numberViewsCompany($imei, $userIMEI){
         $empresa = Contact::where('imei', $imei)->first();
-        $empresa->increment('views_mbora');
+        if($imei != $userIMEI):
+            $empresa->increment('views_mbora');
+        endif;
         return ['views' => $empresa->views_mbora];
     }
 
