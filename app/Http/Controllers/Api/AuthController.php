@@ -188,7 +188,7 @@ class AuthController extends BaseController
                 return $this->sendError('Erro de validação', $error); 
             }
 
-            if(!Hash::check($request->password, $user->password)){
+            if(!Hash::check($request->password_verify_email, $user->password)){
                 $error['message'] = ['password_verify_email' => 'Palavra - passe errada'];
                 return $this->sendError('Erro de validação', $error); 
             }
