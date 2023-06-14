@@ -143,14 +143,14 @@ class EncomendasMboraController extends BaseController
             ->count();
     }
 
-    public function markAsViewed(Request $request) {
+    public function markAsAnswered(Request $request) {
         try {
             $imei = auth()->user()->imei_contact;
             EncomendasMbora::where('imei_contacts', $imei)
                 ->where('code', $request->code)
                 ->update(['estado' => '1']);
             $success['message'] =  null;
-            return $this->sendResponse($success, 'Marcada como lida');
+            return $this->sendResponse($success, 'Marcada como etendida');
         } catch (\Throwable $th) {
             $error['message'] = $th->getMessage();
             return $this->sendError('Erro de servidor', $error, 500); 
