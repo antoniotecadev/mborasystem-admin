@@ -147,6 +147,34 @@ class AuthController extends BaseController
         }
     }
 
+    public function updateTelephone(Request $request) {
+        try {
+            $user = auth()->user();
+            $validator = Validator::make($request->all(),[
+                'telephone' => 'required|min:9|regex:/^([0-9\s\-\+\(\)]*)$/|unique:users,telephone',
+                'password_verify_telephone' => 'required',
+            ]);
+
+            if($validator->fails()) {
+                $error['message'] = $validator->errors();
+                return $this->sendError('Erro de validação', $error); 
+            }
+
+            if(!Hash::check($request->password_verify_telephone, $user->password)){
+                $error['message'] = ['password_verify_telephone' => 'Palavra - passe errada'];
+                return $this->sendError('Erro de validação', $error); 
+            }
+
+            User::where('id', $user->id)->update([
+                'telephone' => $request->telephone,
+            ]);
+            $success['message'] =  null;
+            return $this->sendResponse($success, 'Telefone alterado');
+        } catch (\Throwable $th) {
+            $error['message'] = $th->getMessage();
+            return $this->sendError('Erro de servidor', $error, 500 ); 
+        }
+    }
     public function updateEmail(Request $request) {
         try {
             $user = auth()->user();
