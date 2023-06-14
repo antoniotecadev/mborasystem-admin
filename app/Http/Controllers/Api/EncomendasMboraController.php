@@ -133,6 +133,7 @@ class EncomendasMboraController extends BaseController
     private function getNumberEncomenda() {
         return EncomendasMbora::where('id_users_mbora', auth()->user()->id)->count();
     }
+
     public function getNumberCompanyProfileEncomenda($imei) {
         $user = auth()->user();
         return EncomendasMbora::when(($imei != $user->imei_contact), function($query) use ($user) {
@@ -140,5 +141,19 @@ class EncomendasMboraController extends BaseController
             })
             ->where('imei_contacts', $imei)
             ->count();
+    }
+
+    public function markAsViewed(Request $request) {
+        try {
+            $imei = auth()->user()->imei_contact;
+            EncomendasMbora::where('imei_contacts', $imei)
+                ->where('code', $request->code)
+                ->update(['estado' => '1']);
+            $success['message'] =  null;
+            return $this->sendResponse($success, 'Marcada como lida');
+        } catch (\Throwable $th) {
+            $error['message'] = $th->getMessage();
+            return $this->sendError('Erro de servidor', $error, 500); 
+        }
     }
 }
