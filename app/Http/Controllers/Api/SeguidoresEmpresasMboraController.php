@@ -51,7 +51,7 @@ class SeguidoresEmpresasMboraController extends Controller
             ->where('sm.imei_empresas_mbora', $imei)
             ->where('sm.estado', 1)
             ->where('sm.id', ($isMoreView == 'false' ? '>' : '<') , ($isMoreView == 'false' ? 0 : $lastVisible))
-            ->select('sm.id as id_table_followers', 'us.first_name', 'us.last_name', 'us.photo_path')
+            ->select('sm.id as id_table_followers', 'us.first_name', 'us.last_name', 'us.photo_path', 'us.imei_contact')
             ->limit(10)
             ->orderByDesc('sm.created_at')
             ->get();
