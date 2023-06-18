@@ -8,7 +8,7 @@ use App\Models\ProdutosMbora;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Api\ContactsController;
 
-class ProdutosMboraController extends Controller
+class ProdutosMboraController extends BaseController
 {
     public function index() {
         $date = date('Y-m-d');
@@ -135,6 +135,7 @@ class ProdutosMboraController extends Controller
             ->join('categorias_mbora as cm', 'cm.id', '=', 'pm.idcategoria')
             ->where('pm.imei', $imei)
             ->where('pm.id', ($isMoreView == 'false' ? '>' : '<') , ($isMoreView == 'false' ? 0 : $lastVisible)) // ORDEM DECRESCENTE
+            ->whereNull('pm.deleted_at')
             ->select('pm.id', 'pm.imei', 'pm.idcategoria', 'pm.nome', 'pm.preco', 'pm.quantidade', 'pm.urlImage', 'pm.codigoBarra', 'pm.tag', 'pm.visualizacao', 'pm.created_at', 'ct.imei', 'ct.empresa', 'ct.district', 'ct.street', 'pv.nome as nomeProvincia', 'cm.nome as nomeCategoria')
             ->selectSub(function($query) {
                 $query->selectRaw('id_products_mbora')->from('favoritos_mbora')->whereColumn('id_products_mbora', 'pm.id')->where('id_users_mbora', auth()->user()->id)->limit(1);
@@ -155,5 +156,16 @@ class ProdutosMboraController extends Controller
 
     public function getNumberProductServiceCompany($imei) {
         return ProdutosMbora::where('imei', $imei)->count();
+    }
+
+    public function deleteProductService(Request $request) {
+        try {
+            ProdutosMbora::where('id', $request->productId)->where('imei', $request->companyImei)->delete();
+            $success['message'] = 'Produto | Serviço';
+            return $this->sendResponse($success, 'Produto | Serviço eliminado(a)');
+        } catch (\Throwable $th) {
+            $error['message'] = $th->getMessage();
+            return $this->sendError('Produto | Serviço não eliminado(a)', $error);
+        }
     }
 }
