@@ -24,7 +24,7 @@ class EmpresasMboraController extends BaseController
             ->join('provincias as pv', 'pv.id', '=', 'ct.provincia_id')
             ->select('ct.id', 'ct.first_name', 'ct.last_name', 'ct.email', 'ct.phone', 'ct.alternative_phone', 'ct.imei', 'ct.empresa', 'ct.district', 'ct.street', 'ct.views_mbora', 'ct.description', 'pv.nome as nomeProvincia')
             ->selectSub(function($query) {
-                $query->selectRaw('count(*)')->from('produtos_mbora')->whereColumn('imei', 'ct.imei');
+                $query->selectRaw('count(*)')->from('produtos_mbora')->whereColumn('imei', 'ct.imei')->whereNull('deleted_at');
             }, 'product_number')
             ->selectSub(function($query) use ($user) {
                 $query->selectRaw('count(*)')->from('encomendas_mbora')->whereColumn('imei_contacts', 'ct.imei')->where('id_users_mbora', $user->id);
@@ -64,7 +64,7 @@ class EmpresasMboraController extends BaseController
             ->join('provincias as pv', 'pv.id', '=', 'ct.provincia_id')
             ->select('ct.id', 'ct.first_name', 'ct.last_name', 'ct.email', 'ct.phone', 'ct.alternative_phone', 'ct.imei', 'ct.empresa', 'ct.district', 'ct.street', 'ct.views_mbora', 'ct.description', 'pv.nome as nomeProvincia')
             ->selectSub(function($query) {
-                $query->selectRaw('count(*)')->from('produtos_mbora')->whereColumn('imei', 'ct.imei');
+                $query->selectRaw('count(*)')->from('produtos_mbora')->whereColumn('imei', 'ct.imei')->whereNull('deleted_at');
             }, 'product_number')
             ->selectSub(function($query) use ($user) {
                 $query->selectRaw('count(*)')->from('encomendas_mbora')->whereColumn('imei_contacts', 'ct.imei')->where('id_users_mbora', $user->id);
@@ -98,7 +98,7 @@ class EmpresasMboraController extends BaseController
             ->where('sm.id', ($isMoreView == 'false' ? '>' : '<') , ($isMoreView == 'false' ? 0 : $lastVisible))
             ->select('sm.id as id_table_followers', 'ct.id', 'ct.first_name', 'ct.last_name', 'ct.email', 'ct.phone', 'ct.alternative_phone', 'ct.imei', 'ct.empresa', 'ct.district', 'ct.street', 'ct.views_mbora', 'ct.description', 'pv.nome as nomeProvincia')
             ->selectSub(function($query) {
-                $query->selectRaw('count(*)')->from('produtos_mbora')->whereColumn('imei', 'ct.imei');
+                $query->selectRaw('count(*)')->from('produtos_mbora')->whereColumn('imei', 'ct.imei')->whereNull('deleted_at');
             }, 'product_number')
             ->selectSub(function($query) use ($user) {
                 $query->selectRaw('count(*)')->from('encomendas_mbora')->whereColumn('imei_contacts', 'ct.imei')->where('id_users_mbora', $user->id);
@@ -130,7 +130,7 @@ class EmpresasMboraController extends BaseController
             ->join('provincias as pv', 'pv.id', '=', 'ct.provincia_id')
             ->select('ct.id', 'ct.first_name', 'ct.last_name', 'ct.email', 'ct.phone', 'ct.alternative_phone', 'ct.imei', 'ct.empresa', 'ct.district', 'ct.street', 'ct.views_mbora', 'ct.description', 'pv.nome as nomeProvincia')
             ->selectSub(function($query) {
-                $query->selectRaw('count(*)')->from('produtos_mbora')->whereColumn('imei', 'ct.imei');
+                $query->selectRaw('count(*)')->from('produtos_mbora')->whereColumn('imei', 'ct.imei')->whereNull('deleted_at');
             }, 'product_number')
             ->selectSub(function($query) use ($user) {
                 $query->selectRaw('count(*)')->from('encomendas_mbora')->whereColumn('imei_contacts', 'ct.imei')->where('id_users_mbora', $user->id);
@@ -152,7 +152,7 @@ class EmpresasMboraController extends BaseController
             ->join('provincias as pv', 'pv.id', '=', 'ct.provincia_id')
             ->select('ct.id', 'ct.first_name', 'ct.last_name', 'ct.email', 'ct.phone', 'ct.alternative_phone', 'ct.imei', 'ct.empresa', 'ct.district', 'ct.street', 'ct.views_mbora', 'ct.description', 'pv.nome as nomeProvincia')
             ->selectSub(function($query) {
-                $query->selectRaw('count(*)')->from('produtos_mbora')->whereColumn('imei', 'ct.imei');
+                $query->selectRaw('count(*)')->from('produtos_mbora')->whereColumn('imei', 'ct.imei')->whereNull('deleted_at');
             }, 'product_number')
             ->selectSub(function($query) use ($user) {
                 $query->selectRaw('count(*)')->from('encomendas_mbora')->whereColumn('imei_contacts', 'ct.imei')->where('imei_contacts', $user->imei_contact);

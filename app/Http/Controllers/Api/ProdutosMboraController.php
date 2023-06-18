@@ -12,7 +12,7 @@ class ProdutosMboraController extends BaseController
 {
     public function index() {
         $date = date('Y-m-d');
-        $number = ProdutosMbora::count();
+        $number = ProdutosMbora::all()->count();
         $numeroProdutos = $number;
         if($number == 0):
             return [];
@@ -21,6 +21,7 @@ class ProdutosMboraController extends BaseController
         endif;
         $produtos = DB::table('produtos_mbora as pm')
             ->whereDate('pm.created_at', '<=', $date)
+            ->whereNull('pm.deleted_at')
             ->join('contacts as ct', 'pm.imei', '=', 'ct.imei')
             ->join('provincias as pv', 'pv.id', '=', 'ct.provincia_id')
             ->join('categorias_mbora as cm', 'cm.id', '=', 'pm.idcategoria')
@@ -36,7 +37,7 @@ class ProdutosMboraController extends BaseController
     public function showProductCategory($idcategoria, $isTag, $tag) {
         $date = date('Y-m-d');
         $column = $isTag == 'true' ? ['name' => 'tag', 'value' => '%' . $tag . '%', 'operator' => 'LIKE'] : ['name' => 'idcategoria', 'value' => $idcategoria, 'operator' => '='];
-        $number = ProdutosMbora::where($column['name'], $column['operator'], $column['value'])->count();
+        $number = ProdutosMbora::where($column['name'], $column['operator'], $column['value'])->whereNull('deleted_at')->count();
         $numeroProdutos = $number;
         if($number == 0):
             return [];
@@ -47,6 +48,7 @@ class ProdutosMboraController extends BaseController
         $produtos = DB::table('produtos_mbora as pm')
             ->where($column['name'], $column['operator'], $column['value'])
             ->whereDate('pm.created_at', '<=', $date)
+            ->whereNull('pm.deleted_at')
             ->join('contacts as ct', 'pm.imei', '=', 'ct.imei')
             ->join('provincias as pv', 'pv.id', '=', 'ct.provincia_id')
             ->join('categorias_mbora as cm', 'cm.id', '=', 'pm.idcategoria')
@@ -65,6 +67,7 @@ class ProdutosMboraController extends BaseController
             ->where(function($query) use($isMoreProduct, $leastViewed) {
                 $query->where('pm.visualizacao', ($isMoreProduct == 'false' ? '>=' : '<') , ($isMoreProduct == 'false' ? 0 : $leastViewed)); // ORDEM DECRESCENTE
             })
+            ->whereNull('pm.deleted_at')
             ->join('contacts as ct', 'pm.imei', '=', 'ct.imei')
             ->join('provincias as pv', 'pv.id', '=', 'ct.provincia_id')
             ->join('categorias_mbora as cm', 'cm.id', '=', 'pm.idcategoria')
@@ -101,7 +104,7 @@ class ProdutosMboraController extends BaseController
     }
 
     public function getQuantidade($imei){
-        return ProdutosMbora::where('imei', $imei)->count();
+        return ProdutosMbora::where('imei', $imei)->whereNull('deleted_at')->count();
     }
 
     public function getQuantidadeProduto($imei) {
@@ -148,14 +151,14 @@ class ProdutosMboraController extends BaseController
     }
 
     private function getIdProdutoServico($imei) {
-        $segundoProduto = ProdutosMbora::where('imei', $imei)->skip(1)->take(1)->get('id');
+        $segundoProduto = ProdutosMbora::where('imei', $imei)->whereNull('deleted_at')->skip(1)->take(1)->get('id');
         if ($segundoProduto->count() > 0) {
             return $segundoProduto[0]->id;
         }
     }
 
     public function getNumberProductServiceCompany($imei) {
-        return ProdutosMbora::where('imei', $imei)->count();
+        return ProdutosMbora::where('imei', $imei)->whereNull('deleted_at')->count();
     }
 
     public function deleteProductService(Request $request) {
