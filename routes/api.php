@@ -83,8 +83,8 @@ Route::namespace('Api')->group(function () {
         Route::put('mbora/update/telephone/user', 'AuthController@updateTelephone');
         Route::put('mbora/update/email/user', 'AuthController@updateEmail');
         Route::put('mbora/update/password/user', 'AuthController@updatePassword');
-        Route::put('mbora/update/profilephoto/user', 'AuthController@updateProfilePhoto');
-        Route::get('mbora/profilephoto/user/url', 'AuthController@getURLProfilePhoto');
+        Route::put('mbora/update/profile/photo/user', 'AuthController@updateProfilePhoto');
+        Route::get('mbora/profile/photo/user/path', 'AuthController@getPathProfilePhoto');
         Route::post('mbora/logout/user', 'AuthController@logout');
         
         Route::get('produtos/mbora/index/json', 'ProdutosMboraController@index');
@@ -104,5 +104,7 @@ Route::namespace('Api')->group(function () {
         Route::get('empresas/mbora/imei/{imei}', 'EmpresasMboraController@getCompany');
         Route::get('empresa/mbora/perfil', 'EmpresasMboraController@getCompanyProfile');
         Route::put('empresa/mbora/update', 'EmpresasMboraController@update');
+        Route::put('empresa/mbora/update/profile/photo', 'EmpresasMboraController@updateProfilePhoto');
+        Route::get('empresa/mbora/profile/photo/path', 'EmpresasMboraController@getPathProfilePhoto');
     });
 });

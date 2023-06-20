@@ -29,6 +29,7 @@ class CreateContactsTable extends Migration
             $table->string('motivo_elimina', 150)->nullable();
             $table->integer('views_mbora')->default(0)->unsigned();
             $table->string('description', 30);
+            $table->string('photo_path')->nullable();
             $table->timestamps();
             $table->softDeletes();
         });
