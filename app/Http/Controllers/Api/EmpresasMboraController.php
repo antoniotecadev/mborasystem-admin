@@ -237,7 +237,7 @@ class EmpresasMboraController extends BaseController
         }
     }
 
-    public function getPathProfilePhoto() {
-        return Contact::where('imei', auth()->user()->imei_contact)->first('photo_path');        
+    public function getPathProfilePhoto($imei) {
+        return Contact::where('imei', $imei)->first('photo_path');        
     }
 }

@@ -105,6 +105,6 @@ Route::namespace('Api')->group(function () {
         Route::get('empresa/mbora/perfil', 'EmpresasMboraController@getCompanyProfile');
         Route::put('empresa/mbora/update', 'EmpresasMboraController@update');
         Route::put('empresa/mbora/update/profile/photo', 'EmpresasMboraController@updateProfilePhoto');
-        Route::get('empresa/mbora/profile/photo/path', 'EmpresasMboraController@getPathProfilePhoto');
+        Route::get('empresa/mbora/profile/photo/path/{imei}', 'EmpresasMboraController@getPathProfilePhoto');
     });
 });
