@@ -20,7 +20,7 @@ class EncomendasMboraController extends BaseController
             ->join('provincias as pv', 'pv.id', '=', 'ct.provincia_id')
             ->where('em.id_users_mbora', auth()->user()->id)
             ->where('em.id', ($isMoreView == 'false' ? '>' : '<') , ($isMoreView == 'false' ? 0 : $lastVisible)) // ORDEM DECRESCENTE
-            ->select('em.id', 'em.client_phone', 'em.client_address', 'em.client_info_ad','em.client_coordinate', 'em.code', 'em.prod_quant', 'em.estado', 'em.created_at', 'pm.nome', 'pm.preco', 'pm.urlImage', 'pm.codigoBarra', 'pm.visualizacao', 'ct.imei', 'ct.empresa', 'ct.district', 'ct.street', 'us.first_name', 'us.last_name', 'us.email', 'us.photo_path', 'pv.nome as nomeProvincia')
+            ->select('em.id', 'em.client_phone', 'em.client_address', 'em.client_info_ad','em.client_coordinate', 'em.code', 'em.prod_quant', 'em.estado', 'em.created_at', 'pm.nome', 'pm.preco', 'pm.urlImage', 'pm.codigoBarra', 'pm.visualizacao', 'ct.imei', 'ct.empresa', 'ct.district', 'ct.street', 'ct.photo_path', 'us.first_name', 'us.last_name', 'us.email', 'pv.nome as nomeProvincia')
             ->orderByDesc('em.id') // Remover ao usar ordem CRESCENTE
             ->limit(10)
             ->get();
