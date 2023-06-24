@@ -16,10 +16,11 @@ class EncomendasMboraController extends BaseController
         $encomendas = DB::table('produtos_mbora', 'pm')
             ->join('encomendas_mbora as em', 'pm.id', '=', 'em.id_produts_mbora')
             ->join('contacts as ct', 'em.imei_contacts', '=', 'ct.imei')
+            ->join('users as us', 'em.id_users_mbora', '=', 'us.id')
             ->join('provincias as pv', 'pv.id', '=', 'ct.provincia_id')
             ->where('em.id_users_mbora', auth()->user()->id)
             ->where('em.id', ($isMoreView == 'false' ? '>' : '<') , ($isMoreView == 'false' ? 0 : $lastVisible)) // ORDEM DECRESCENTE
-            ->select('em.id', 'em.client_phone', 'em.client_address', 'em.client_info_ad','em.client_coordinate', 'em.code', 'em.prod_quant', 'em.estado', 'em.created_at', 'pm.nome', 'pm.preco', 'pm.urlImage', 'pm.codigoBarra', 'pm.visualizacao', 'ct.imei', 'ct.empresa', 'ct.district', 'ct.street', 'pv.nome as nomeProvincia')
+            ->select('em.id', 'em.client_phone', 'em.client_address', 'em.client_info_ad','em.client_coordinate', 'em.code', 'em.prod_quant', 'em.estado', 'em.created_at', 'pm.nome', 'pm.preco', 'pm.urlImage', 'pm.codigoBarra', 'pm.visualizacao', 'ct.imei', 'ct.empresa', 'ct.district', 'ct.street', 'us.first_name', 'us.last_name', 'us.email', 'us.photo_path', 'pv.nome as nomeProvincia')
             ->orderByDesc('em.id') // Remover ao usar ordem CRESCENTE
             ->limit(10)
             ->get();
@@ -42,13 +43,14 @@ class EncomendasMboraController extends BaseController
         $encomendas = DB::table('produtos_mbora', 'pm')
             ->join('encomendas_mbora as em', 'pm.id', '=', 'em.id_produts_mbora')
             ->join('contacts as ct', 'em.imei_contacts', '=', 'ct.imei')
+            ->join('users as us', 'em.id_users_mbora', '=', 'us.id')
             ->join('provincias as pv', 'pv.id', '=', 'ct.provincia_id')
             ->when(($imei != $user->imei_contact), function($query) use ($user) {
                 return $query->where('em.id_users_mbora', $user->id);
             })
             ->where('em.imei_contacts', $imei)
             ->where('em.id', ($isMoreView == 'false' ? '>' : '<') , ($isMoreView == 'false' ? 0 : $lastVisible))
-            ->select('em.id', 'em.client_phone', 'em.client_address', 'em.client_info_ad','em.client_coordinate', 'em.code', 'em.prod_quant', 'em.estado', 'em.created_at', 'pm.nome', 'pm.preco', 'pm.urlImage', 'pm.codigoBarra', 'pm.visualizacao', 'ct.imei', 'ct.empresa', 'ct.district', 'ct.street', 'pv.nome as nomeProvincia')
+            ->select('em.id', 'em.client_phone', 'em.client_address', 'em.client_info_ad','em.client_coordinate', 'em.code', 'em.prod_quant', 'em.estado', 'em.created_at', 'pm.nome', 'pm.preco', 'pm.urlImage', 'pm.codigoBarra', 'pm.visualizacao', 'ct.imei', 'ct.empresa', 'ct.district', 'ct.street', 'us.first_name', 'us.last_name', 'us.email', 'us.photo_path', 'pv.nome as nomeProvincia')
             ->orderByDesc('em.id')
             ->limit(10)
             ->get();
