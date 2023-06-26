@@ -30,6 +30,7 @@ class CreateContactsTable extends Migration
             $table->integer('views_mbora')->default(0)->unsigned();
             $table->string('description', 30);
             $table->string('photo_path')->nullable();
+            $table->json('client_coordinate')->default('{"latlng":{"latitude":0,"longitude":0},"locationGeocode":[]}');
             $table->timestamps();
             $table->softDeletes();
         });

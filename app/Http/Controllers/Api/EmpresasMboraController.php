@@ -22,7 +22,7 @@ class EmpresasMboraController extends BaseController
         endif;
         $empresas = DB::table('contacts as ct')
             ->join('provincias as pv', 'pv.id', '=', 'ct.provincia_id')
-            ->select('ct.id', 'ct.first_name', 'ct.last_name', 'ct.email', 'ct.phone', 'ct.alternative_phone', 'ct.imei', 'ct.empresa', 'ct.district', 'ct.street', 'ct.views_mbora', 'ct.description', 'ct.photo_path', 'pv.nome as nomeProvincia')
+            ->select('ct.id', 'ct.first_name', 'ct.last_name', 'ct.email', 'ct.phone', 'ct.alternative_phone', 'ct.imei', 'ct.empresa', 'ct.district', 'ct.street', 'ct.views_mbora', 'ct.description', 'ct.photo_path', 'ct.coordinate', 'pv.nome as nomeProvincia')
             ->selectSub(function($query) {
                 $query->selectRaw('count(*)')->from('produtos_mbora')->whereColumn('imei', 'ct.imei')->whereNull('deleted_at');
             }, 'product_number')
@@ -62,7 +62,7 @@ class EmpresasMboraController extends BaseController
                 $query->where('ct.views_mbora', ($isMoreCompany == 'false' ? '>=' : '<') , ($isMoreCompany == 'false' ? 0 : $leastViewed)); // ORDEM DECRESCENTE
             })
             ->join('provincias as pv', 'pv.id', '=', 'ct.provincia_id')
-            ->select('ct.id', 'ct.first_name', 'ct.last_name', 'ct.email', 'ct.phone', 'ct.alternative_phone', 'ct.imei', 'ct.empresa', 'ct.district', 'ct.street', 'ct.views_mbora', 'ct.description', 'ct.photo_path', 'pv.nome as nomeProvincia')
+            ->select('ct.id', 'ct.first_name', 'ct.last_name', 'ct.email', 'ct.phone', 'ct.alternative_phone', 'ct.imei', 'ct.empresa', 'ct.district', 'ct.street', 'ct.views_mbora', 'ct.description', 'ct.photo_path', 'ct.coordinate', 'pv.nome as nomeProvincia')
             ->selectSub(function($query) {
                 $query->selectRaw('count(*)')->from('produtos_mbora')->whereColumn('imei', 'ct.imei')->whereNull('deleted_at');
             }, 'product_number')
@@ -96,7 +96,7 @@ class EmpresasMboraController extends BaseController
             ->where('sm.id_users_mbora', $user->id)
             ->where('sm.estado', 1)
             ->where('sm.id', ($isMoreView == 'false' ? '>' : '<') , ($isMoreView == 'false' ? 0 : $lastVisible))
-            ->select('sm.id as id_table_followers', 'ct.id', 'ct.first_name', 'ct.last_name', 'ct.email', 'ct.phone', 'ct.alternative_phone', 'ct.imei', 'ct.empresa', 'ct.district', 'ct.street', 'ct.views_mbora', 'ct.description', 'pv.nome as nomeProvincia')
+            ->select('sm.id as id_table_followers', 'ct.id', 'ct.first_name', 'ct.last_name', 'ct.email', 'ct.phone', 'ct.alternative_phone', 'ct.imei', 'ct.empresa', 'ct.district', 'ct.street', 'ct.views_mbora', 'ct.description', 'ct.coordinate', 'pv.nome as nomeProvincia')
             ->selectSub(function($query) {
                 $query->selectRaw('count(*)')->from('produtos_mbora')->whereColumn('imei', 'ct.imei')->whereNull('deleted_at');
             }, 'product_number')
@@ -128,7 +128,7 @@ class EmpresasMboraController extends BaseController
         return DB::table('contacts as ct')
             ->where('ct.imei', '=', $imei)
             ->join('provincias as pv', 'pv.id', '=', 'ct.provincia_id')
-            ->select('ct.id', 'ct.first_name', 'ct.last_name', 'ct.email', 'ct.phone', 'ct.alternative_phone', 'ct.imei', 'ct.empresa', 'ct.district', 'ct.street', 'ct.views_mbora', 'ct.description', 'pv.nome as nomeProvincia')
+            ->select('ct.id', 'ct.first_name', 'ct.last_name', 'ct.email', 'ct.phone', 'ct.alternative_phone', 'ct.imei', 'ct.empresa', 'ct.district', 'ct.street', 'ct.views_mbora', 'ct.description', 'ct.coordinate', 'pv.nome as nomeProvincia')
             ->selectSub(function($query) {
                 $query->selectRaw('count(*)')->from('produtos_mbora')->whereColumn('imei', 'ct.imei')->whereNull('deleted_at');
             }, 'product_number')
@@ -150,7 +150,7 @@ class EmpresasMboraController extends BaseController
         return DB::table('contacts as ct')
             ->where('ct.imei', '=', $user->imei_contact)
             ->join('provincias as pv', 'pv.id', '=', 'ct.provincia_id')
-            ->select('ct.id', 'ct.first_name', 'ct.last_name', 'ct.email', 'ct.phone', 'ct.alternative_phone', 'ct.imei', 'ct.empresa', 'ct.district', 'ct.street', 'ct.views_mbora', 'ct.description', 'pv.nome as nomeProvincia')
+            ->select('ct.id', 'ct.first_name', 'ct.last_name', 'ct.email', 'ct.phone', 'ct.alternative_phone', 'ct.imei', 'ct.empresa', 'ct.district', 'ct.street', 'ct.views_mbora', 'ct.description', 'ct.coordinate', 'pv.nome as nomeProvincia')
             ->selectSub(function($query) {
                 $query->selectRaw('count(*)')->from('produtos_mbora')->whereColumn('imei', 'ct.imei')->whereNull('deleted_at');
             }, 'product_number')
@@ -182,10 +182,11 @@ class EmpresasMboraController extends BaseController
                 3 => ['email' => $request->email],
                 4 => ['phone' => $request->phone, 'alternative_phone' => $request->alternative_phone],
                 5 => [
-                        'provincia_id' => $request->provincia_id, 
-                        'district' => $request->district,
-                        'street' => $request->street,
+                    'provincia_id' => $request->provincia_id, 
+                    'district' => $request->district,
+                    'street' => $request->street,
                 ],
+                6 => ['coordinate' => $request->coordinate],
             ];
 
             $columnValidator = [
@@ -193,14 +194,15 @@ class EmpresasMboraController extends BaseController
                 2 => ['description' => 'required|string|max:30'],
                 3 => ['email' => 'required|email|max:50'],
                 4 => [
-                        'phone' => 'required|min:9|regex:/^([0-9\s\-\+\(\)]*)$/', 
-                        'alternative_phone' => 'required|min:9|regex:/^([0-9\s\-\+\(\)]*)$/'
-                    ],
-                5 => [
-                        'provincia_id' => 'required|integer', 
-                        'district' => 'required|string|min:4|max:20',
-                        'street' => 'required|string|min:4|max:20',
+                    'phone' => 'required|min:9|regex:/^([0-9\s\-\+\(\)]*)$/', 
+                    'alternative_phone' => 'required|min:9|regex:/^([0-9\s\-\+\(\)]*)$/'
                 ],
+                5 => [
+                    'provincia_id' => 'required|integer', 
+                    'district' => 'required|string|min:4|max:20',
+                    'street' => 'required|string|min:4|max:20',
+                ],
+                6 => ['coordinate' => 'required'],
             ];
             
             $validator = Validator::make($request->all(), $columnValidator[$request->action]);
