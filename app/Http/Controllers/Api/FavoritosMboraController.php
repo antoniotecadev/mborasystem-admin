@@ -19,7 +19,7 @@ class FavoritosMboraController extends BaseController
             ->join('categorias_mbora as cm', 'cm.id', '=', 'pm.idcategoria')
             ->where('fm.id_users_mbora', $user->id)
             ->where('fm.id', ($isMoreView == 'false' ? '>' : '<') , ($isMoreView == 'false' ? 0 : $lastVisible)) // ORDEM DECRESCENTE
-            ->select('fm.id as idFavorito', 'pm.id', 'pm.imei', 'pm.idcategoria', 'pm.nome', 'pm.preco', 'pm.quantidade', 'pm.urlImage', 'pm.codigoBarra', 'pm.tag', 'pm.visualizacao', 'pm.created_at', 'ct.imei', 'ct.empresa', 'ct.district', 'ct.street', 'pv.nome as nomeProvincia', 'cm.nome as nomeCategoria')
+            ->select('fm.id as idFavorito', 'pm.id', 'pm.imei', 'pm.idcategoria', 'pm.nome', 'pm.preco', 'pm.quantidade', 'pm.urlImage', 'pm.codigoBarra', 'pm.tag', 'pm.visualizacao', 'pm.created_at', 'ct.imei', 'ct.empresa', 'ct.district', 'ct.street', 'ct.coordinate as company_coordinate', 'pv.nome as nomeProvincia', 'cm.nome as nomeCategoria')
             ->selectSub(function($query) use ($user) {
                 $query->selectRaw('id_products_mbora')->from('favoritos_mbora')->whereColumn('id_products_mbora', 'pm.id')->where('id_users_mbora', $user->id)->limit(1);
             }, 'isFavorito')
