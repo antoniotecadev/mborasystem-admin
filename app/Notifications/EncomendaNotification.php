@@ -18,13 +18,14 @@ class EncomendaNotification extends Notification implements ShouldQueue
     private $product_name;
     private $company_name;
     private $owner_name;
+    private $company_coordinate;
 
     /**
      * Create a new notification instance.
      *
      * @return void
      */
-    public function __construct($user_name, $user_email, $client_phone, $client_latlng, $product_name, $company_name, $owner_name)
+    public function __construct($user_name, $user_email, $client_phone, $client_latlng, $product_name, $company_name, $owner_name, $company_coordinate)
     {
         $this->afterCommit();
         $this->user_name = $user_name;
@@ -34,6 +35,7 @@ class EncomendaNotification extends Notification implements ShouldQueue
         $this->product_name = $product_name;
         $this->company_name = $company_name;
         $this->owner_name = $owner_name;
+        $this->company_coordinate = $company_coordinate;
     }
 
     /**
@@ -56,9 +58,15 @@ class EncomendaNotification extends Notification implements ShouldQueue
      */
     public function toMail($notifiable)
     {
-        $latitude = $this->client_latlng['latitude']; 
-        $longitude = $this->client_latlng['longitude'];
-        $result = $latitude == 0 || $longitude == 0;
+        $latitude_client = $this->client_latlng['latitude']; 
+        $longitude_client = $this->client_latlng['longitude'];
+
+        $latitude_company = $this->company_coordinate->latitude; 
+        $longitude_company = $this->company_coordinate->longitude;
+
+        $empty_client = ($latitude_client == 0 || $longitude_client == 0);
+        $empty_company = ($latitude_client == 0 || $longitude_company == 0);
+
         return (new MailMessage)
                     ->subject('Encomenda - ' . $this->user_name)
                     ->greeting($this->company_name)
@@ -67,7 +75,8 @@ class EncomendaNotification extends Notification implements ShouldQueue
                     ->line('Por: ' . $this->user_name)
                     ->line('Email: ' . $this->user_email)
                     ->line('Telefone: ' . $this->client_phone)
-                    ->action($result ? 'Sem lozalização no Google Maps' : 'Localização no Google Maps', $result ? '' : 'https://www.google.com/maps/search/?api=1&query=' . $latitude . '%2C' . $longitude);
+                    ->action($empty_client ? 'Sem lozalização no Google Maps' : 'Localização no Google Maps', ($empty_client ? '' : 'https://www.google.com/maps/dir/?api=1') . ($empty_company ? '' : '&origin=' . $latitude_company . '%2C' . $longitude_company) . '&destination=' . $latitude_client . '%2C' . $longitude_client);
+                    //Mapa sem routa ->action($result ? 'Sem lozalização no Google Maps' : 'Localização no Google Maps', $result ? '' : 'https://www.google.com/maps/search/?api=1&query=' . $latitude . '%2C' . $longitude);
     }
 
     /**
