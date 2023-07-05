@@ -159,4 +159,43 @@ class EncomendasMboraController extends BaseController
             return $this->sendError('Erro de servidor', $error, 500); 
         }
     }
+
+    public function getNotifications($lastVisible, $isMoreView) {
+        $imei = auth()->user()->imei_contact;
+        $contact = Contact::where('imei', $imei)->first();
+        $notificacao = $contact->notifications
+                        ->take(10)
+                        ->each(function($notication){
+                            $notication->formatted_created_at = $notication->created_at->format('d-m-Y h:m');
+                        })
+                        ->where('notification_id', ($isMoreView == 'false' ? '>' : '<') , ($isMoreView == 'false' ? 0 : $lastVisible));
+        return ['notificacao' => $notificacao, 'numeroNotificacoesNaolida' => $this->getUnreadNotificationsNumber($contact), 'numeroTotalNotificacoes' => $isMoreView == 'true' ? 0 : $this->getNotificationsNumberTotal($contact), 'idNotificacao' => $this->getIdNotification($contact)];
+    }
+
+    public function getUnreadNotificationsNumber($contact) {
+        return $contact->unreadNotifications->count();
+    }
+
+    private function getNotificationsNumberTotal($contact) {
+        return $contact->notifications->count();
+    }
+    
+    private function getIdNotification($contact) {
+        $segundaNotificacao = $contact->notifications->skip(1)->take(1);
+        if ($segundaNotificacao->count() > 0) {
+            return $segundaNotificacao['1']->notification_id;
+        }
+    }
+
+    public function markAsRead(Request $request) {
+        try {
+            $contact = Contact::where('imei', auth()->user()->imei_contact)->first();
+            $contact->notifications()->where('id', $request->idNotification)->update(['read_at' => now()]);
+            $success['message'] =  'Para ver os detalhes desta encomenda vai em encomendas no perfil da empresa.';
+            return $this->sendResponse($success, 'Notificação de encomenda');
+        } catch (\Throwable $th) {
+            $error['message'] = $th->getMessage();
+            return $this->sendError('Erro de servidor', $error, 500); 
+        }
+    }
 }

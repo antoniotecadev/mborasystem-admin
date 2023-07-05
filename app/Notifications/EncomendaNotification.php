@@ -88,9 +88,8 @@ class EncomendaNotification extends Notification implements ShouldQueue
     public function toArray($notifiable)
     {
         return [
-            'user_name' =>  $this->user_name,
-            'message' => 'encomendou',
-            'product_name' => $this->product_name
+            'name' =>  $this->user_name,
+            'message' => 'encomendou ' . str_replace(',', ' ', $this->product_name),
         ];
     }
 }
