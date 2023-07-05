@@ -120,7 +120,7 @@ class EncomendasMboraController extends BaseController
                 $owner_name = $contact->first_name . ' ' . $contact->last_name;
                 $company_coordinate = json_decode($contact->coordinate);
                 Notification::send($contact, new EncomendaNotification($user_name, $user_email, $client_phone, $client_coordinate['latlng'], $products, $company_name, $owner_name, $company_coordinate->latlng));
-                Notification::route('mail', ['antonioteca@hotmail.com' => $owner_name])->notify(new EncomendaNotification($user_name, $user_email, $client_phone, $client_coordinate['latlng'], $products, $company_name, $owner_name, $company_coordinate->latlng));
+                Notification::route('mail', [$contact->email => $owner_name])->notify(new EncomendaNotification($user_name, $user_email, $client_phone, $client_coordinate['latlng'], $products, $company_name, $owner_name, $company_coordinate->latlng));
             }
             DB::commit();
             $success['message'] = 'encomendado(a)';
