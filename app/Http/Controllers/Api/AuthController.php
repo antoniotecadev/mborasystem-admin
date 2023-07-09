@@ -96,6 +96,7 @@ class AuthController extends BaseController
                 $success['email'] =  $user->email;
                 $success['imei'] =  $user->imei_contact;
                 $success['account_admin'] =  $user->account_id == 3 ? true : false;
+                $this->updateExponentPushToken($user->id, $request->exponentPushToken);
                 return $this->sendResponse($success, 'Usuário logado com sucesso'); 
             } else {
                 $error['message'] = ($isEmail ? 'Email' : 'Telefone') . ' ou Palavra - passe errada';
@@ -106,6 +107,12 @@ class AuthController extends BaseController
             $error['message'] = $th->getMessage();
             return $this->sendError('Erro de servidor', $error, 500); 
         }
+    }
+
+    private function updateExponentPushToken($id, $token) {
+        User::where('id', $id)->update([
+            'exponentPushToken' => $token,
+        ]);
     }
 
     public function logout(Request $request)
