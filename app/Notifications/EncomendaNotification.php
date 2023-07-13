@@ -75,8 +75,8 @@ class EncomendaNotification extends Notification implements ShouldQueue
                     ->line('Por: ' . $this->user_name)
                     ->line('Email: ' . $this->user_email)
                     ->line('Telefone: ' . $this->client_phone)
-                    ->action($empty_client ? 'Sem lozalização no Google Maps' : 'Localização no Google Maps', ($empty_client ? '' : 'https://www.google.com/maps/dir/?api=1') . ($empty_company ? '' : '&origin=' . $latitude_company . '%2C' . $longitude_company) . '&destination=' . $latitude_client . '%2C' . $longitude_client);
-                    //Mapa sem routa ->action($result ? 'Sem lozalização no Google Maps' : 'Localização no Google Maps', $result ? '' : 'https://www.google.com/maps/search/?api=1&query=' . $latitude . '%2C' . $longitude);
+                    ->action($empty_client ? 'Sem lozalização no Google Maps' : 'Localização no Google Maps', $empty_client ? '' : ('https://www.google.com/maps/dir/?api=1' . ($empty_company ? '' : '&origin=' . $latitude_company . '%2C' . $longitude_company) . '&destination=' . $latitude_client . '%2C' . $longitude_client));
+                    //Mapa sem routa ->action($empty_client ? 'Sem lozalização no Google Maps' : 'Localização no Google Maps', $result ? '' : 'https://www.google.com/maps/search/?api=1&query=' . $latitude_client . '%2C' . $longitude_client);
     }
 
     /**
