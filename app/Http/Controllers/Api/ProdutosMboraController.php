@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Models\ProdutosMbora;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Api\ContactsController;
+use App\Models\Contact;
 
 class ProdutosMboraController extends BaseController
 {
@@ -147,7 +148,7 @@ class ProdutosMboraController extends BaseController
             ->limit(10)
             ->get();
         
-            return ['produtoServico' => $produtos, 'idProdutoServico' => $this->getIdProdutoServico($imei)];
+            return ['produtoServico' => $produtos, 'idProdutoServico' => $this->getIdProdutoServico($imei), 'numeroNotificacoesNaolida' => $this->getUnreadNotifications()];
     }
 
     private function getIdProdutoServico($imei) {
@@ -169,6 +170,16 @@ class ProdutosMboraController extends BaseController
         } catch (\Throwable $th) {
             $error['message'] = $th->getMessage();
             return $this->sendError('Produto | Serviço não eliminado(a)', $error);
+        }
+    }
+
+    private function getUnreadNotifications() {
+        $user = auth()->user();
+        if($user->account_id == 3) {
+            $contact = Contact::where('imei', $user->imei_contact)->first();
+            return EncomendasMboraController::getUnreadNotificationsNumber($contact);
+        } else {
+            return 0; 
         }
     }
 }
