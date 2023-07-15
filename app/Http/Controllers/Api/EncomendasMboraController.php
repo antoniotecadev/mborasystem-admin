@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api;
 
 use App\Models\Contact;
 use App\Models\EncomendasMbora;
+use App\Models\User;
 use App\Notifications\EncomendaNotification;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -122,9 +123,11 @@ class EncomendasMboraController extends BaseController
                 Notification::send($contact, new EncomendaNotification($user_name, $user_email, $client_phone, $client_coordinate['latlng'], $products, $company_name, $owner_name, $company_coordinate->latlng));
                 Notification::route('mail', [$contact->email => $owner_name])->notify(new EncomendaNotification($user_name, $user_email, $client_phone, $client_coordinate['latlng'], $products, $company_name, $owner_name, $company_coordinate->latlng));
             }
+            $exponentPushTokens = User::whereIn('imei_contact', $array_imei)->whereNotNull('exponentPushToken')->pluck('exponentPushToken');
             DB::commit();
-            $success['message'] = 'encomendado(a)';
-            return $this->sendResponse($success, 'Produto encomendado com sucesso');
+            $success['user_name'] = $user_name;
+            $success['exponentPushTokens'] = $exponentPushTokens;
+            return $this->sendResponse($success, 'encomendado(a)');
         } catch (\Throwable $th) {
             DB::rollback();
             $error['message'] = $th->getMessage();
@@ -172,7 +175,7 @@ class EncomendasMboraController extends BaseController
         return ['notificacao' => $notificacao, 'numeroNotificacoesNaolida' => $this->getUnreadNotificationsNumber($contact), 'numeroTotalNotificacoes' => $isMoreView == 'true' ? 0 : $this->getNotificationsNumberTotal($contact), 'idNotificacao' => $this->getIdNotification($contact)];
     }
 
-    public function getUnreadNotificationsNumber($contact) {
+    public static function getUnreadNotificationsNumber($contact) {
         return $contact->unreadNotifications->count();
     }
 
