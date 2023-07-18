@@ -28,7 +28,7 @@ class CreateContactsTable extends Migration
             $table->enum('read_contact',['0', '1', '2', '3']);
             $table->string('motivo_elimina', 150)->nullable();
             $table->integer('views_mbora')->default(0)->unsigned();
-            $table->string('description', 30);
+            $table->string('description', 30)->nullable();
             $table->string('photo_path')->nullable();
             $table->json('client_coordinate')->default('{"latlng":{"latitude":0,"longitude":0},"locationGeocode":[]}');
             $table->timestamps();
