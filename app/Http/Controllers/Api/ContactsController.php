@@ -125,7 +125,7 @@ class ContactsController extends Controller
             // $contact = Contact::where('imei', $request->imei)->first();
             // CreateContactEvent::dispatch($contact);
         } catch (\Throwable $th) {
-            Log::channel('daily')->emergency('MBORASYSTEM ERRO AO CRIAR:  Empresa <<' . $request->empresa . ' - ' . $request->first_name . ' ' . $request->last_name . ' - ' . $request->imei . '>> Equipa <<' . $request->codigo_equipa . '>>.');
+            Log::channel('daily')->emergency('MBORASYSTEM ERRO AO CRIAR:  Empresa <<' . $request->empresa . ' - ' . $request->first_name . ' ' . $request->last_name . ' - ' . $request->imei . '>> Equipa <<' . $request->codigo_equipa . '>> Throwable: ' . $th->getMessage());
             return ['insert' => 'erro', 'throwable' => 'ocorreu um erro ao registar empresa.'];
         }
     }
