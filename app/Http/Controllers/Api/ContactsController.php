@@ -145,7 +145,7 @@ class ContactsController extends Controller
     private function storeDeviceDetail($request, $contact_id){
         $data = array('contact_id' => $contact_id , 'fabricante' => $request->fabricante, 'marca' => $request->marca, 'produto' => $request->produto, 'modelo' => $request->modelo, 'versao' => $request->versao, 'api' => $request->api, 'device' => $request->device);
         DB::table('dispositivos')->insert($data);
-        Log::channel('daily')->info('MBORASYSTEM CRIADO:  Parceiro <<' . $request->first_name . ' ' . $request->last_name . ' - ' . $request->imei . '>> criado pela equipa <<' . $request->codigo_equipa . '>>.');
+        Log::channel('daily')->info('MBORASYSTEM CRIADO:  Empresa <<' . $request->empresa . ' - ' . $request->first_name . ' ' . $request->last_name . ' - ' . $request->imei . '>> criada pela equipa <<' . $request->codigo_equipa . '>>.');
     }
 
     public function getContactos()
