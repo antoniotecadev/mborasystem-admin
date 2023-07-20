@@ -5,8 +5,10 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Contact;
+use App\Models\User;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
 
 class ContactsController extends Controller
@@ -101,6 +103,27 @@ class ContactsController extends Controller
         try {
 
             if ($request->has(['codigo_equipa', 'first_name', 'last_name', 'nif_bi', 'email', 'phone', 'alternative_phone', 'empresa', 'municipality', 'provincia', 'district', 'street', 'imei'])) {
+                
+                DB::beginTransaction();
+
+                $validator = Validator::make(['telephone' => $request->phone], [
+                    'telephone' => 'unique:users,telephone',
+                ]);
+
+                if($validator->fails()) {
+                    DB::rollback();
+                    return ['insert' => 'erro', 'throwable' => 'número de telefone já foi registado, aconselhamos a ultilizar um outro número.'];
+                }
+
+                User::create([
+                    'account_id' => 3,
+                    'first_name' => $request->first_name,
+                    'last_name' => $request->last_name,
+                    'telephone' => $request->phone,
+                    'email' => $request->email,
+                    'password' => $request->password,
+                    'imei_contact' => $request->imei,
+                ]);
 
                 $c->account_id = $request->account_id;
                 $c->codigo_equipa = $request->codigo_equipa;
@@ -118,6 +141,7 @@ class ContactsController extends Controller
                 $c->imei = $request->imei;
                 $c->save();
                 $this->storeDeviceDetail($request, $c->id);
+                DB::commit();
                 return ['insert' => 'ok'];
             } else {
                 return ['insert' => 'erro', 'throwable' => 'parâmetro de empresa errado.'];
@@ -125,6 +149,7 @@ class ContactsController extends Controller
             // $contact = Contact::where('imei', $request->imei)->first();
             // CreateContactEvent::dispatch($contact);
         } catch (\Throwable $th) {
+            DB::rollback();
             Log::channel('daily')->emergency('MBORASYSTEM ERRO AO CRIAR:  Empresa <<' . $request->empresa . ' - ' . $request->first_name . ' ' . $request->last_name . ' - ' . $request->imei . '>> Equipa <<' . $request->codigo_equipa . '>> Throwable: ' . $th->getMessage());
             return ['insert' => 'erro', 'throwable' => 'ocorreu um erro ao registar empresa.'];
         }
