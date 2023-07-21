@@ -34,14 +34,14 @@ const Edit = () => {
   function handleSubmit(e) {
     e.preventDefault();
     if (contact.deleted_at) {
-      alertToast("⚠ Parceiro eliminado não pode ser actualizado.", "update_parceiro");
+      alertToast("⚠ Empresa eliminada não pode ser actualizada.", "update_empresa");
     } else {
       put(route('contacts.update', contact.id));
     }
   }
 
   function destroy() {
-    if (confirm('Você tem certeza que deseja eliminar este parceiro?')) {
+    if (confirm('Você tem certeza que deseja eliminar esta empresa?')) {
       var motivo = prompt('Qual é o motivo de sua eliminação?');
       if (motivo) {
         if (motivo.length > 150) {
@@ -54,7 +54,7 @@ const Edit = () => {
   }
 
   function restore() {
-    if (confirm('Tem certeza que deseja restaurar esse parceiro?')) {
+    if (confirm('Tem certeza que deseja restaurar essa empresa?')) {
       Inertia.put(route('contacts.restore', contact.id));
     }
   }
@@ -93,7 +93,7 @@ const Edit = () => {
           href={route('contacts')}
           className="text-indigo-600 hover:text-indigo-700"
         >
-          Parceiro
+          Empresa
         </InertiaLink>
         <span className="mx-2 font-medium text-indigo-600">/</span>
         {data.first_name} {data.last_name} /{' '}
@@ -106,7 +106,7 @@ const Edit = () => {
       </h1>
       {contact.deleted_at && (
         <TrashedMessage onRestore={restore}>
-          <p>Este parceiro foi eliminado.{'   '}<DeleteButton
+          <p>Esta empresa foi eliminada.{'   '}<DeleteButton
             onDelete={e => alertToast(contact.motivo_elimina, "contact_motivo_elimina")}>Motivo</DeleteButton></p>
         </TrashedMessage>
       )}
@@ -247,14 +247,14 @@ const Edit = () => {
           </div>
           <div className="flex items-center px-8 py-4 bg-gray-100 border-t border-gray-200">
             {!contact.deleted_at && (
-              <DeleteButton onDelete={destroy}>Eliminar parceiro</DeleteButton>
+              <DeleteButton onDelete={destroy}>Eliminar empresa</DeleteButton>
             )}
             <LoadingButton
               loading={processing}
               type="submit"
               className="ml-auto btn-indigo"
             >
-              Actualizar parceiro
+              Actualizar empresa
             </LoadingButton>
           </div>
         </form>

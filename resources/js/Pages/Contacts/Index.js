@@ -22,18 +22,18 @@ const Index = () => {
   function handleSubmit(id, deleted_at, e) {
     e.preventDefault();
     if (deleted_at) {
-      alertToast("⚠ Parceiro eliminado não pode ser activado ou desactivado.", "update_parceiro");
+      alertToast("⚠ Empresa eliminada não pode ser activada ou desactivada.", "update_empresa");
     } else {
       put(route('contacts.estado', id));
     }
   }
 
-  const detalheParceiro = (id, type, read_contact, imei) => {
+  const detalheEmpresa = (id, type, read_contact, imei) => {
     const childUpdates = {
       id: id,
     };
     if (read_contact == "0") {
-      update(ref(firebase, `/parceiros/${imei}/`), childUpdates)
+      update(ref(firebase, `/empresas/${imei}/`), childUpdates)
       .then(() => {
         toast.info(first_name + " marcado como lido.");
       })
@@ -47,7 +47,7 @@ const Index = () => {
 
   return (
     <div>
-      <h1 className="mb-8 text-3xl font-bold">Parceiros ({data.length} - {quantidade})</h1>
+      <h1 className="mb-8 text-3xl font-bold">Empresas ({data.length} - {quantidade})</h1>
       <div className="flex items-center justify-between mb-6">
         <SearchFilter placeHolder="nome, imei, empresa, nif/bi, telefone, município, bairro" />
         <InertiaLink
@@ -55,7 +55,7 @@ const Index = () => {
           href={route('contacts.create')}
         >
           <span>Criar</span>
-          <span className="hidden md:inline"> Parceiros</span>
+          <span className="hidden md:inline"> Empresas</span>
         </InertiaLink>
         {'-'}
         <InertiaLink
@@ -88,7 +88,7 @@ const Index = () => {
                 >
                   <td className="border-t">
                     <InertiaLink
-                      onClick={() => detalheParceiro(id, 1, read_contact, imei)}
+                      onClick={() => detalheEmpresa(id, 1, read_contact, imei)}
                       className="flex items-center px-6 py-4 focus:text-indigo-700 focus:outline-none"
                     >
                       {estado == '0' ? '🔴' : '🟢'} {name}
@@ -104,7 +104,7 @@ const Index = () => {
                     <InertiaLink
                       tabIndex="1"
                       className="flex items-center px-6 py-4 focus:text-indigo focus:outline-none"
-                      onClick={() => detalheParceiro(id, 1, read_contact, imei)}
+                      onClick={() => detalheEmpresa(id, 1, read_contact, imei)}
                     >
                       {empresa}
                     </InertiaLink>
@@ -112,7 +112,7 @@ const Index = () => {
                   <td className="border-t">
                     <InertiaLink
                       tabIndex="-1"
-                      onClick={() => detalheParceiro(id, 1, read_contact, imei)}
+                      onClick={() => detalheEmpresa(id, 1, read_contact, imei)}
                       className="flex items-center px-6 py-4 focus:text-indigo focus:outline-none"
                     >
                       {bairro}
@@ -121,7 +121,7 @@ const Index = () => {
                   <td className="border-t">
                     <InertiaLink
                       tabIndex="-1"
-                      onClick={() => detalheParceiro(id, 1, read_contact, imei)}
+                      onClick={() => detalheEmpresa(id, 1, read_contact, imei)}
                       className="flex items-center px-6 py-4 focus:text-indigo focus:outline-none"
                     >
                       {rua}
@@ -130,7 +130,7 @@ const Index = () => {
                   <td className="w-px border-t">
                     <InertiaLink
                       tabIndex="-1"
-                      onClick={() => detalheParceiro(id, 1, read_contact, imei)}
+                      onClick={() => detalheEmpresa(id, 1, read_contact, imei)}
                       className="flex items-center px-4 focus:outline-none"
                     >
                       <Icon
@@ -157,7 +157,7 @@ const Index = () => {
             {data.length === 0 && (
               <tr>
                 <td className="px-6 py-4 border-t" colSpan="4">
-                  Nenhum parceiro encontrado.
+                  Nenhuma empresa encontrada.
                 </td>
               </tr>
             )}
@@ -169,6 +169,6 @@ const Index = () => {
   );
 };
 
-Index.layout = page => <Layout title="Parceiros" children={page} />;
+Index.layout = page => <Layout title="Empresas" children={page} />;
 
 export default Index;

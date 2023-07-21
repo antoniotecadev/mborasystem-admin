@@ -50,7 +50,7 @@ const Create = () => {
           href={route('contacts')}
           className="text-indigo-600 hover:text-indigo-700"
         >
-          Parceiros
+          Empresas
         </InertiaLink>
         <span className="font-medium text-indigo-600"> /</span> Criar
       </h1>
@@ -208,7 +208,7 @@ const Create = () => {
               type="submit"
               className="btn-indigo"
             >
-              Criar parceiro
+              Criar empresa
             </LoadingButton>
           </div>
         </form>
@@ -217,6 +217,6 @@ const Create = () => {
   );
 };
 
-Create.layout = page => <Layout title="Criar parceiro" children={page} />;
+Create.layout = page => <Layout title="Criar empresa" children={page} />;
 
 export default Create;

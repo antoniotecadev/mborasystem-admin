@@ -83,11 +83,11 @@ class ContactsController extends Controller
             Auth::user()->account->contacts()->create(
                 $request->validated()
             );
-            Log::channel('daily')->info('Parceiro <<' . $request->first_name . ' ' . $request->first_name . '>> ' . $request->imei . ' criado' . ' pela equipa: ' . $request->codigo_equipa 
+            Log::channel('daily')->info('Empresa <<' . $request->empresa . ' - ' . $request->first_name . ' ' . $request->first_name . '>> ' . $request->imei . ' criada' . ' pela equipa: ' . $request->codigo_equipa 
             ,[ 'id' => Auth::id(), 'nome' => Auth::user()->first_name . " " . Auth::user()->last_name, 'email' =>  Auth::user()->email]);
             // $contact = Contact::where('imei', $request->imei)->first();
             // CreateContactEvent::dispatch($contact);
-            return Redirect::route('contacts')->with('success', 'Parceiro <<' . $request->first_name . ' ' . $request->first_name . '>> ' . $request->imei . ' criado.');
+            return Redirect::route('contacts')->with('success', 'Empresa <<' . $request->empresa . ' - ' . $request->first_name . ' ' . $request->first_name . '>> ' . $request->imei . ' criada.');
         }
     }
 
@@ -99,7 +99,7 @@ class ContactsController extends Controller
                 DB::table('contacts')
                 ->where('contacts.id', Crypt::decryptString($id))
                 ->update(['contacts.read_contact' => $type]);
-                Log::channel('daily')->info('Parceiro <<' . Crypt::decryptString($id) . '>> lido.',[ 'id' => Auth::id(), 'nome' => Auth::user()->first_name . " " . Auth::user()->last_name, 'email' =>  Auth::user()->email]);
+                Log::channel('daily')->info('Empresa <<' . Crypt::decryptString($id) . '>> lido.',[ 'id' => Auth::id(), 'nome' => Auth::user()->first_name . " " . Auth::user()->last_name, 'email' =>  Auth::user()->email]);
             endif;
             return Inertia::render('Contacts/Edit', [
                 'contact' => new ContactResource(Contact::withTrashed()->findOrFail(Crypt::decryptString($id))),
@@ -115,9 +115,9 @@ class ContactsController extends Controller
             $contact->update(
                 $request->validated()
             );
-            Log::channel('daily')->info('Parceiro <<' . $request->first_name . ' ' . $request->first_name . '>> ' . $request->imei . ' actualizado.' 
+            Log::channel('daily')->info('Empresa <<' . $request->empresa . ' - ' . $request->first_name . ' ' . $request->first_name . '>> ' . $request->imei . ' actualizado.' 
             ,[ 'id' => Auth::id(), 'nome' => Auth::user()->first_name . " " . Auth::user()->last_name, 'email' =>  Auth::user()->email]);            
-            return Redirect::back()->with('success', 'Parceiro actualizado.');
+            return Redirect::back()->with('success', 'Empresa actualizada.');
         }
     }
 
@@ -129,8 +129,8 @@ class ContactsController extends Controller
             $contact->motivo_elimina = $motivo;
             $contact->save();
             $contact->delete();
-            Log::channel('daily')->alert('Parceiro <<' . $contact->imei . '>> eliminado.',[ 'id' => Auth::id(), 'nome' => Auth::user()->first_name . " " . Auth::user()->last_name, 'email' =>  Auth::user()->email]);
-            return Redirect::back()->with('success', 'Parceiro eliminado.');
+            Log::channel('daily')->alert('Empresa <<' . $contact->imei . '>> eliminada.',[ 'id' => Auth::id(), 'nome' => Auth::user()->first_name . " " . Auth::user()->last_name, 'email' =>  Auth::user()->email]);
+            return Redirect::back()->with('success', 'Empresa eliminada.');
         }
     }
 
@@ -141,8 +141,8 @@ class ContactsController extends Controller
             $contact->motivo_elimina = null;
             $contact->restore();
             $contact->save();
-            Log::channel('daily')->alert('Parceiro <<' . $contact->imei . '>> lido.',[ 'id' => Auth::id(), 'nome' => Auth::user()->first_name . " " . Auth::user()->last_name, 'email' =>  Auth::user()->email]);
-            return Redirect::back()->with('success', 'Parceiro restaurado.');
+            Log::channel('daily')->alert('Empresa <<' . $contact->imei . '>> lida.',[ 'id' => Auth::id(), 'nome' => Auth::user()->first_name . " " . Auth::user()->last_name, 'email' =>  Auth::user()->email]);
+            return Redirect::back()->with('success', 'Empresa restaurada.');
         }
     }
 
@@ -158,23 +158,23 @@ class ContactsController extends Controller
             ->get();
 
             if(!empty($c['0'])){
-                $nome_parceiro = $c['0']->first_name .' '. $c['0']->last_name;
+                $nome_empresa = $c['0']->first_name .' '. $c['0']->last_name;
                 if($c['0']->estado == '0' && $c['0']->fim <= date('Y-m-d')) {
-                    Log::channel('daily')->alert('Tentou activar o parceiro <<' . Crypt::decryptString($id) . ' - ' . $nome_parceiro . '>>.',[ 'id' => Auth::id(), 'nome' => Auth::user()->first_name . " " . Auth::user()->last_name, 'email' =>  Auth::user()->email]);
-                    return Redirect::route('contacts')->with('error', $nome_parceiro . ' com pagamento terminado.');
+                    Log::channel('daily')->alert('Tentou activar a empresa <<' . Crypt::decryptString($id) . ' - ' . $nome_empresa . '>>.',[ 'id' => Auth::id(), 'nome' => Auth::user()->first_name . " " . Auth::user()->last_name, 'email' =>  Auth::user()->email]);
+                    return Redirect::route('contacts')->with('error', $nome_empresa . ' com pagamento terminado.');
                 } elseif ($c['0']->estado == '1' && $c['0']->fim > date('Y-m-d')) {
-                    Log::channel('daily')->alert('Tentou desactivar o parceiro <<' . Crypt::decryptString($id) . ' - ' . $nome_parceiro . '>>.',[ 'id' => Auth::id(), 'nome' => Auth::user()->first_name . " " . Auth::user()->last_name, 'email' =>  Auth::user()->email]);
-                    return Redirect::route('contacts')->with('error', $nome_parceiro . ' com pagamento não terminado.');
+                    Log::channel('daily')->alert('Tentou desactivar a empresa <<' . Crypt::decryptString($id) . ' - ' . $nome_empresa . '>>.',[ 'id' => Auth::id(), 'nome' => Auth::user()->first_name . " " . Auth::user()->last_name, 'email' =>  Auth::user()->email]);
+                    return Redirect::route('contacts')->with('error', $nome_empresa . ' com pagamento não terminado.');
                 } else {
                     DB::table('contacts')
                     ->where('contacts.id', Crypt::decryptString($id))
                     ->update(['contacts.estado' => $c['0']->estado == '0' ? '1' : '0']);
-                    Log::channel('daily')->emergency('Parceiro <<' . Crypt::decryptString($id) . ' - ' . ($c['0']->estado == '0' ? $nome_parceiro . ' Activado' : $nome_parceiro . ' Desactivado') . '>>.',[ 'id' => Auth::id(), 'nome' => Auth::user()->first_name . " " . Auth::user()->last_name, 'email' =>  Auth::user()->email]);
-                    return Redirect::route('contacts')->with('success', $c['0']->estado == '0' ? $nome_parceiro . ' Activado.' : $nome_parceiro . ' Desactivado.');
+                    Log::channel('daily')->emergency('Empresa <<' . Crypt::decryptString($id) . ' - ' . ($c['0']->estado == '0' ? $nome_empresa . ' Activada' : $nome_empresa . ' Desactivada') . '>>.',[ 'id' => Auth::id(), 'nome' => Auth::user()->first_name . " " . Auth::user()->last_name, 'email' =>  Auth::user()->email]);
+                    return Redirect::route('contacts')->with('success', $c['0']->estado == '0' ? $nome_empresa . ' Activada.' : $nome_empresa . ' Desactivada.');
                 }
             } else {
-                Log::channel('daily')->alert('Tentou activar o parceiro <<' . Crypt::decryptString($id) .'>>.',[ 'id' => Auth::id(), 'nome' => Auth::user()->first_name . " " . Auth::user()->last_name, 'email' =>  Auth::user()->email]);
-                return Redirect::route('contacts')->with('error', 'Parceiro sem pagamento.');
+                Log::channel('daily')->alert('Tentou activar o empresa <<' . Crypt::decryptString($id) .'>>.',[ 'id' => Auth::id(), 'nome' => Auth::user()->first_name . " " . Auth::user()->last_name, 'email' =>  Auth::user()->email]);
+                return Redirect::route('contacts')->with('error', 'Empresa sem pagamento.');
             }
         }
     }
@@ -186,11 +186,11 @@ class ContactsController extends Controller
         ->where('contacts.estado', '1')
         ->latest('pagamentos.id')
         ->update(['contacts.estado' => '0']);
-        Log::channel('daily')->alert('Estado de pagamento de parceiro verificado.',[ 'id' => Auth::id(), 'nome' => Auth::user()->first_name . " " . Auth::user()->last_name, 'email' =>  Auth::user()->email]);
+        Log::channel('daily')->alert('Estado de pagamento da empresa verificado.',[ 'id' => Auth::id(), 'nome' => Auth::user()->first_name . " " . Auth::user()->last_name, 'email' =>  Auth::user()->email]);
         if($affected == '0'){
-            return Redirect::route('contacts')->with('success', 'Nenhum Parceiro desactivado (sem pagamentos terminados)');
+            return Redirect::route('contacts')->with('success', 'Nenhum empresa desactivada (sem pagamentos terminados)');
         }else{
-            return Redirect::route('contacts')->with('success', $affected . ' Parceiro(s) desactivado(s) - (com pagamento terminado)');
+            return Redirect::route('contacts')->with('success', $affected . ' Empresa(s) desactivada(s) - (com pagamento terminado)');
         }
     }
 

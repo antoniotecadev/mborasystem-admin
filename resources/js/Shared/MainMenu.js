@@ -7,7 +7,7 @@ export default ({ className }) => {
     <div className={className}>
       <MainMenuItem text="Dashboard" link="dashboard" icon="dashboard" />
       <MainMenuItemNotification />
-      <MainMenuItem text="Parceiros" link="contacts" icon="users" />
+      <MainMenuItem text="Empresas" link="contacts" icon="users" />
       <MainMenuItem text="Pagamentos" link="pagamentos" icon="pagamento" />
       <MainMenuItem text="Equipas" link="equipas" icon="equipa" />
       <MainMenuItem text="Agentes" link="agentes" icon="agente" />
