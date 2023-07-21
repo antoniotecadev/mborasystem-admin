@@ -73,9 +73,9 @@ class EquipasController extends Controller
             'password' => 'required|alpha_num',
         ]);
         if ($validator->fails()):
-            $messages = $validator->messages();
-            $errors = $messages->all();
-            return $this->LoginPage($id, $codigo, $errors[0]);
+            $messages = $validator->errors();
+            $error = $messages->all();
+            return $this->LoginPage($id, $codigo, $error[0]);
         else :
             $password = Equipa::where('codigo', $codigo)->limit(1)->get('password');
             if($password === []):
