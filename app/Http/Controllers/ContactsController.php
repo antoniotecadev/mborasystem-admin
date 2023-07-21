@@ -188,7 +188,7 @@ class ContactsController extends Controller
         ->update(['contacts.estado' => '0']);
         Log::channel('daily')->alert('Estado de pagamento da empresa verificado.',[ 'id' => Auth::id(), 'nome' => Auth::user()->first_name . " " . Auth::user()->last_name, 'email' =>  Auth::user()->email]);
         if($affected == '0'){
-            return Redirect::route('contacts')->with('success', 'Nenhum empresa desactivada (sem pagamentos terminados)');
+            return Redirect::route('contacts')->with('error', 'Nenhuma empresa desactivada (sem pagamentos terminados)');
         }else{
             return Redirect::route('contacts')->with('success', $affected . ' Empresa(s) desactivada(s) - (com pagamento terminado)');
         }
