@@ -15,21 +15,21 @@ class DashboardController extends Controller
         return Inertia::render('Dashboard/Index',[
             'empresa' => [ 
                 'total' => Contact::count(), 
-                'activos' => Contact::where('estado', '1')->count(), 
-                'desactivos' => Contact::where('estado', '0')->count(),
-                'eliminados' => Contact::onlyTrashed()->count(),
+                'activas' => Contact::where('estado', '1')->count(), 
+                'desactivas' => Contact::where('estado', '0')->count(),
+                'eliminadas' => Contact::onlyTrashed()->count(),
             ],
             'equipa' => [ 
                 'total' => Equipa::count(), 
-                'activos' => Equipa::where('estado', '1')->count(), 
-                'desactivos' => Equipa::where('estado', '0')->count(),
-                'eliminados' => Equipa::onlyTrashed()->count(),
+                'activas' => Equipa::where('estado', '1')->count(), 
+                'desactivas' => Equipa::where('estado', '0')->count(),
+                'eliminadas' => Equipa::onlyTrashed()->count(),
             ],
             'pagamento' => [ 
                 'total' => Pagamento::count(), 
-                'activos' => Pagamento::where('pagamento', '1')->count(), 
-                'desactivos' => Pagamento::where('pagamento', '0')->count(),
-                'eliminados' => Pagamento::onlyTrashed()->count(),
+                'activas' => Pagamento::where('pagamento', '1')->count(), 
+                'desactivas' => Pagamento::where('pagamento', '0')->count(),
+                'eliminadas' => Pagamento::onlyTrashed()->count(),
             ],
         ]);
     }

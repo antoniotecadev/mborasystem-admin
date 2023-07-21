@@ -5,15 +5,13 @@ import { PieChart, Pie, Cell } from 'recharts';
 
 const dados = (data) => {
   return [
-    { name: 'Group A', value: Number(data.activos) },
-    { name: 'Group B', value: Number(data.desactivos) },
-    { name: 'Group C', value: Number(data.eliminados) },
+    { name: 'Group A', value: Number(data.activas) },
+    { name: 'Group B', value: Number(data.desactivas) },
+    { name: 'Group C', value: Number(data.eliminadas) },
   ];
 }
 
 const COLORS_1 = ['#00C49F', '#FFBB28', '#ed5c5c'];
-const COLORS_2 = ['#0088FE', '#00C49F', '#0F0B28', '#FF8042', '#007879', '#2BB512', '#BB1478', '#00C49F', '#BBFF28'];
-
 
 const RADIAN = Math.PI / 180;
 const renderCustomizedLabel = ({ cx, cy, midAngle, innerRadius, outerRadius, percent, index }) => {
@@ -60,13 +58,13 @@ const CardHeader = ({ grafico, referente, data }) => {
             {data.total}
           </p>
           <p className="text-xs font-medium">
-            <span style={{ color: '#00C49F' }}>●</span> {data.activos} activos
+            <span style={{ color: '#00C49F' }}>●</span> {data.activas} {referente == "PAGAMENTOS" ? "activos" : "activas"}
           </p>
           <p className="text-xs font-medium">
-            <span style={{ color: '#FFBB28' }}>●</span> {data.desactivos} desactivos
+            <span style={{ color: '#FFBB28' }}>●</span> {data.desactivas} {referente == "PAGAMENTOS" ? 'desactivos' : "desactivas"}
           </p>
           <p className="text-xs font-medium">
-            <span style={{ color: '#ed5c5c' }}>●</span> {data.eliminados} Eliminados
+            <span style={{ color: '#ed5c5c' }}>●</span> {data.eliminadas} {referente == "PAGAMENTOS" ? "eliminados" : "eliminadas"}
           </p>
         </div>
       </div>
