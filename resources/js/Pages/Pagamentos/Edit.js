@@ -118,7 +118,7 @@ const Edit = () => {
           <div className="flex flex-wrap p-8 -mb-8 -mr-6">
             <SelectInput
               className="w-full pb-8 pr-6 lg:w-1/2"
-              label="Parceiro"
+              label="Empresa"
               name="contact_id"
               errors={errors.contact_id}
               value={data.contact_id}

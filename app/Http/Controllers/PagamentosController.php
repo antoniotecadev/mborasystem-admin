@@ -44,7 +44,7 @@ class PagamentosController extends Controller
         if ($response->allowed()) {
             return Inertia::render('Pagamentos/Create', [
                 'filters' => Request::all('search', 'trashed'),
-                'parceiros' => new ParceiroCollection(
+                'empresas' => new ParceiroCollection(
                     Auth::user()->account->contacts()
                         ->orderBy('id', 'desc')
                         ->filter(Request::only('search', 'trashed'))
@@ -66,16 +66,16 @@ class PagamentosController extends Controller
             ->join('pagamentos', 'pagamentos.contact_id', '=', 'contacts.id')
             ->where('contacts.id', $request->contact_id)
             ->latest('pagamentos.id')
-            ->select('contacts.first_name', 'contacts.last_name', 'contacts.estado', 'pagamentos.fim')
+            ->select('contacts.first_name', 'contacts.last_name', 'contacts.empresa', 'contacts.estado', 'pagamentos.fim')
             ->limit(1)
             ->get();
 
             if(empty($c['0'])):
-                $this->activarParceiro($request->contact_id);
+                $this->activarEmpresa($request->contact_id);
                 Auth::user()->account->pagamentos()->create(
                     $request->validated()
                 );
-                Log::channel('daily')->emergency('Pagamento de parceiro <<' . $request->contact_id . '>> registado com sucesso.' 
+                Log::channel('daily')->emergency('Pagamento da empresa <<' . $request->contact_id . '>> registado com sucesso.' 
                 ,[ 'id' => Auth::id(), 'nome' => Auth::user()->first_name . " " . Auth::user()->last_name, 'email' =>  Auth::user()->email]);
                 return Redirect::route('pagamentos')->with('success', 'Pagamento efectuado.');
             else:
@@ -88,27 +88,27 @@ class PagamentosController extends Controller
                     ->limit(1)
                     ->get();
                     if(!empty($p['0'])){
-                        return Redirect::route('pagamentos.create')->with('error', 'O parceiro ' . $c['0']->first_name . ' ' . $c['0']->last_name . ' já possui um pagamento de registo.');
+                        return Redirect::route('pagamentos.create')->with('error', 'A empresa ' . $c['0']->empresa . ' - ' . $c['0']->first_name . ' ' . $c['0']->last_name . ' já possui um pagamento de registo.');
                     }
                 endif;
 
                 if($c['0']->estado == 0 && $c['0']->fim <= date('Y-m-d')):
-                    $this->activarParceiro($request->contact_id);
+                    $this->activarEmpresa($request->contact_id);
                     Auth::user()->account->pagamentos()->create(
                         $request->validated()
                     );
-                    Log::channel('daily')->emergency('Pagamento de parceiro <<' . $request->contact_id . ' - ' . $c['0']->first_name . ' ' . $c['0']->last_name . '>> registado com sucesso.' 
+                    Log::channel('daily')->emergency('Pagamento da empresa <<' . $request->contact_id . ' - ' . $c['0']->first_name . ' ' . $c['0']->last_name . '>> registado com sucesso.' 
                     ,[ 'id' => Auth::id(), 'nome' => Auth::user()->first_name . " " . Auth::user()->last_name, 'email' =>  Auth::user()->email]);
                     return Redirect::route('pagamentos')->with('success', 'Pagamento efectuado (' . $c['0']->first_name . ' ' . $c['0']->last_name).')';
                 else:
-                    Log::channel('daily')->warning('Pagamento de parceiro <<' . $request->contact_id . ' - ' . $c['0']->first_name . ' ' . $c['0']->last_name . '>> não registado.' 
+                    Log::channel('daily')->warning('Pagamento da empresa <<' . $request->contact_id . ' - ' . $c['0']->first_name . ' ' . $c['0']->last_name . '>> não registado.' 
                     ,[ 'id' => Auth::id(), 'nome' => Auth::user()->first_name . " " . Auth::user()->last_name, 'email' =>  Auth::user()->email]);
                     return Redirect::route('pagamentos.create')->with('error', 'Pagamento não efectuado, ' . $c['0']->first_name.' '.$c['0']->last_name . ' já está activo ou possui um pagamento em uso.');
                 endif;
             endif;
 
         else:
-            Log::channel('daily')->error('Tentou registar um pagamento para o parceiro <<' . $request->contact_id . '>>.' 
+            Log::channel('daily')->error('Tentou registar um pagamento para a empresa <<' . $request->contact_id . '>>.' 
             ,[ 'id' => Auth::id(), 'nome' => Auth::user()->first_name . " " . Auth::user()->last_name, 'email' =>  Auth::user()->email]);
             return Redirect::route('pagamentos.create')->with('error', 'Seleccione o preço');
         endif;
@@ -140,23 +140,23 @@ class PagamentosController extends Controller
                     ->join('pagamentos', 'pagamentos.contact_id', '=', 'contacts.id')
                     ->where('contacts.id', $request->contact_id)
                     ->where('pagamentos.pagamento', $request->pagamento)
-                    ->select('pagamentos.pagamento', 'contacts.first_name', 'contacts.last_name')
+                    ->select('pagamentos.pagamento', 'contacts.first_name', 'contacts.empresa', 'contacts.last_name')
                     ->limit(1)
                     ->get();
 
                     if(!empty($p['0'])){
-                        return Redirect::route('pagamentos.edit', Crypt::encryptString($request->id))->with('error', 'O parceiro ' . $p['0']->first_name . ' ' . $p['0']->last_name . ' já possui um pagamento de registo.');
+                        return Redirect::route('pagamentos.edit', Crypt::encryptString($request->id))->with('error', 'A empresa ' . $p['0']->empresa . ' - ' . $p['0']->first_name . ' ' . $p['0']->last_name . ' já possui um pagamento de registo.');
                     }
             endif;
             if($this->tipoPacote($request->pacote, $request->tipo_pagamento) == $request->preco):
                 $pagamento->update(
                     $request->validated()
                 );
-                Log::channel('daily')->emergency('Pagamento <<' . $pagamento->id . '>> do parceiro <<' . $request->contact_id . '>> actualizado.' 
+                Log::channel('daily')->emergency('Pagamento <<' . $pagamento->id . '>> da empresa <<' . $request->contact_id . '>> actualizado.' 
                ,[ 'id' => Auth::id(), 'nome' => Auth::user()->first_name . " " . Auth::user()->last_name, 'email' =>  Auth::user()->email]);
                 return Redirect::back()->with('success', 'Pagamento actualizado.');
             else:
-                Log::channel('daily')->error('Tentou actualizar o pagamento <<' . $pagamento->id . '>> do parceiro <<' . $request->contact_id . '>>.' 
+                Log::channel('daily')->error('Tentou actualizar o pagamento <<' . $pagamento->id . '>> da empresa <<' . $request->contact_id . '>>.' 
                 ,[ 'id' => Auth::id(), 'nome' => Auth::user()->first_name . " " . Auth::user()->last_name, 'email' =>  Auth::user()->email]);
                 return Redirect::route('pagamentos.edit', Crypt::encryptString($request->id))->with('error', 'Seleccione o preço');
             endif;
@@ -187,7 +187,7 @@ class PagamentosController extends Controller
         }
     }
 
-    private function activarParceiro($id){
+    private function activarEmpresa($id){
         $response = Gate::inspect('isAdmin');
         if ($response->allowed()) {
             DB::table('contacts')

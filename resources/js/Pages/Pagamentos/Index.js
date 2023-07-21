@@ -50,7 +50,7 @@ const Index = () => {
         <table className="w-full whitespace-nowrap">
           <thead>
             <tr className="font-bold text-left">
-              <th className="px-6 pt-5 pb-4">Nome parceiro</th>
+              <th className="px-6 pt-5 pb-4">Nome</th>
               <th className="px-6 pt-5 pb-4">Empresa</th>
               <th className="px-6 pt-5 pb-4">Início</th>
               <th className="px-6 pt-5 pb-4">Fim</th>

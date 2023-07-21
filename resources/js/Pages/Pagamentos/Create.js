@@ -17,7 +17,7 @@ import firebase from '@/firebase';
 import { ref, update } from "firebase/database";
 
 const Create = () => {
-  const [parceiro, setParceiro] = useState('');
+  const [empresa, setEmpresa] = useState('');
   const [datafinal, setDataFinal] = useState();
   const { data, setData, errors, post, processing } = useForm({
     pacote: '',
@@ -89,10 +89,10 @@ const Create = () => {
     Number(data.tipo_pagamento)
   );
 
-  function getParceiro(e, id, name, empresa, phone) {
+  function getEmpresa(e, id, name, empresa, phone) {
     e.preventDefault();
     setData('contact_id', id);
-    setParceiro(name + ' - ' + empresa + ' - ' + phone);
+    setEmpresa(name + ' - ' + empresa + ' - ' + phone);
   }
 
   return (
@@ -145,16 +145,16 @@ const Create = () => {
         </table>
       </div>
       <br />
-      <ListaParceiros getParceiro={getParceiro} />
+      <ListaEmpresas getEmpresa={getEmpresa} />
       <div className="max-w-3xl overflow-hidden bg-white rounded shadow">
         <form onSubmit={handleSubmit}>
           <div className="flex flex-wrap p-8 -mb-8 -mr-6">
             <TextInput
               className="w-full pb-8 pr-6 lg:w-1/2"
-              label={"Parceiro:"}
+              label={"Empresa:"}
               type="text"
               errors={errors.contact_id}
-              value={parceiro}
+              value={empresa}
               readOnly
             />
             <SelectInput
@@ -262,15 +262,15 @@ const Create = () => {
   );
 };
 
-const ListaParceiros = (props) => {
+const ListaEmpresas = (props) => {
 
-  const { parceiros, quantidade } = usePage().props;
+  const { empresas, quantidade } = usePage().props;
   const {
     data,
     meta: { links }
-  } = parceiros;
+  } = empresas;
 
-  const detalheParceiro = (id, type, read_contact, imei, name, codigo_equipa, created_at) => {
+  const detalheEmpresa = (id, type, read_contact, imei, name, codigo_equipa, created_at) => {
     location.href = route('contacts.edit', [id, type, read_contact]);
     const visualizadoData = {
       id: id,
@@ -296,7 +296,7 @@ const ListaParceiros = (props) => {
 
   return (
     <>
-      <h1 className="mb-8 text-3xl font-bold">Parceiros ({data.length} - {quantidade})</h1>
+      <h1 className="mb-8 text-3xl font-bold">Empresas ({data.length} - {quantidade})</h1>
       <div className="flex items-center justify-between mb-6">
         <SearchFilter />
       </div>
@@ -323,7 +323,7 @@ const ListaParceiros = (props) => {
                 >
                   <td className="border-t">
                     <InertiaLink
-                      onClick={() => detalheParceiro(idcrypt, 1, read_contact, imei, name, codigo_equipa, created_at)}
+                      onClick={() => detalheEmpresa(idcrypt, 1, read_contact, imei, name, codigo_equipa, created_at)}
                       className="flex items-center px-6 py-4 focus:text-indigo-700 focus:outline-none"
                     >
                       {name}
@@ -339,7 +339,7 @@ const ListaParceiros = (props) => {
                     <InertiaLink
                       tabIndex="1"
                       className="flex items-center px-6 py-4 focus:text-indigo focus:outline-none"
-                      onClick={() => detalheParceiro(idcrypt, 1, read_contact, imei, name, codigo_equipa, created_at)}
+                      onClick={() => detalheEmpresa(idcrypt, 1, read_contact, imei, name, codigo_equipa, created_at)}
                     >
                       {empresa}
                     </InertiaLink>
@@ -347,7 +347,7 @@ const ListaParceiros = (props) => {
                   <td className="border-t">
                     <InertiaLink
                       tabIndex="-1"
-                      onClick={() => detalheParceiro(idcrypt, 1, read_contact, imei, name, codigo_equipa, created_at)}
+                      onClick={() => detalheEmpresa(idcrypt, 1, read_contact, imei, name, codigo_equipa, created_at)}
                       className="flex items-center px-6 py-4 focus:text-indigo focus:outline-none"
                     >
                       {email}
@@ -356,7 +356,7 @@ const ListaParceiros = (props) => {
                   <td className="border-t">
                     <InertiaLink
                       tabIndex="-1"
-                      onClick={() => detalheParceiro(idcrypt, 1, read_contact, imei, name, codigo_equipa, created_at)}
+                      onClick={() => detalheEmpresa(idcrypt, 1, read_contact, imei, name, codigo_equipa, created_at)}
                       className="flex items-center px-6 py-4 focus:text-indigo focus:outline-none"
                     >
                       {phone}
@@ -365,7 +365,7 @@ const ListaParceiros = (props) => {
                   <td className="w-px border-t">
                     <InertiaLink
                       tabIndex="-1"
-                      onClick={() => detalheParceiro(idcrypt, 1, read_contact, imei, name, codigo_equipa, created_at)}
+                      onClick={() => detalheEmpresa(idcrypt, 1, read_contact, imei, name, codigo_equipa, created_at)}
                       className="flex items-center px-4 focus:outline-none"
                     >
                       <Icon
@@ -376,7 +376,7 @@ const ListaParceiros = (props) => {
                   </td>
                   <td>
                     <LoadingButton
-                      onClick={e => props.getParceiro(e, id, name, empresa, phone)}
+                      onClick={e => props.getEmpresa(e, id, name, empresa, phone)}
                       className={`ml-auto btn-danger`}
                     >
                       Seleccionar
@@ -388,7 +388,7 @@ const ListaParceiros = (props) => {
             {data.length === 0 && (
               <tr>
                 <td className="px-6 py-4 border-t" colSpan="4">
-                  Nenhum parceiro encontrado.
+                  Nenhum empresa encontrada.
                 </td>
               </tr>
             )}
