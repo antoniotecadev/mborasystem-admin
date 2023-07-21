@@ -24,15 +24,15 @@ export default () => {
   }
 
   useEffect(() => {
-    const parceiro = query(ref(firebase, 'parceiros'), limitToLast(1));
+    const empresa = query(ref(firebase, 'empresas'), limitToLast(1));
     /* OUVIR EVENTOS DO REALTIME DATABASE */
-    onChildAdded(parceiro, (snapshot) => {
+    onChildAdded(empresa, (snapshot) => {
       if (snapshot.exists()) {
         const imei = snapshot.val().imei;
         const id = snapshot.val().id;
 
         if (imei != value && isEmpty(id)) {
-          toast.success("Parceiro: " + imei + " registado.", {
+          toast.success("Empresa: " + imei + " registada.", {
             toastId: imei
           });
           const notsize = Number.parseInt(localStorage.getItem('notificacao_registo'));
@@ -47,14 +47,14 @@ export default () => {
     /* OUVIR EVENTOS DO LARAVEL WEBSOCKET */
     window.Echo.channel('contact')
       .listen('CreateContactEvent', (e) => {
-        toast.success("Parceiro " + e.first_name + " " + e.last_name + " registado pela equipa YOGA " + e.codigo_equipa + "\nIMEI: " + e.imei, {
+        toast.success("Empresa de " + e.first_name + " " + e.last_name + " registada pela equipa YOGA " + e.codigo_equipa + "\nIMEI: " + e.imei, {
           toastId: e.id
         });
         const notsize = Number.parseInt(localStorage.getItem('notificacao_registo'));
         localStorage.setItem("notificacao_registo", (localStorage.getItem('notificacao_registo') ? (notsize + 1) : Number.parseInt(0 + 1)));
       });
 
-    return () => ref(firebase, 'parceiros').off();
+    return () => ref(firebase, 'empresas').off();
   }, []);
 
   return (
