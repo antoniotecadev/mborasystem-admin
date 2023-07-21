@@ -35,10 +35,10 @@ const Index = () => {
     if (read_contact == "0") {
       update(ref(firebase, `/empresas/${imei}/`), childUpdates)
       .then(() => {
-        toast.info(first_name + " marcado como lido.");
+        toast.info("Marcada como lido.");
       })
       .catch(error => {
-        toast.error(first_name + " não marcado como lido: " + error.message);
+        toast.error("Não marcada como lida: " + error.message);
       });
       localStorage.setItem("notificacao_registo", numeroNotificacao());
     }
