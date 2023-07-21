@@ -153,12 +153,12 @@ class ContactsController extends Controller
             ->join('pagamentos', 'pagamentos.contact_id', '=', 'contacts.id')
             ->where('contacts.id', Crypt::decryptString($id))
             ->latest('pagamentos.id')
-            ->select('contacts.first_name', 'contacts.last_name', 'contacts.estado', 'pagamentos.fim')
+            ->select('contacts.first_name', 'contacts.last_name', 'contacts.empresa', 'contacts.estado', 'pagamentos.fim')
             ->limit(1)
             ->get();
 
             if(!empty($c['0'])){
-                $nome_empresa = $c['0']->first_name .' '. $c['0']->last_name;
+                $nome_empresa = $c['0']->empresa .' - ' . $c['0']->first_name .' '. $c['0']->last_name;
                 if($c['0']->estado == '0' && $c['0']->fim <= date('Y-m-d')) {
                     Log::channel('daily')->alert('Tentou activar a empresa <<' . Crypt::decryptString($id) . ' - ' . $nome_empresa . '>>.',[ 'id' => Auth::id(), 'nome' => Auth::user()->first_name . " " . Auth::user()->last_name, 'email' =>  Auth::user()->email]);
                     return Redirect::route('contacts')->with('error', $nome_empresa . ' com pagamento terminado.');
@@ -169,8 +169,8 @@ class ContactsController extends Controller
                     DB::table('contacts')
                     ->where('contacts.id', Crypt::decryptString($id))
                     ->update(['contacts.estado' => $c['0']->estado == '0' ? '1' : '0']);
-                    Log::channel('daily')->emergency('Empresa <<' . Crypt::decryptString($id) . ' - ' . ($c['0']->estado == '0' ? $nome_empresa . ' Activada' : $nome_empresa . ' Desactivada') . '>>.',[ 'id' => Auth::id(), 'nome' => Auth::user()->first_name . " " . Auth::user()->last_name, 'email' =>  Auth::user()->email]);
-                    return Redirect::route('contacts')->with('success', $c['0']->estado == '0' ? $nome_empresa . ' Activada.' : $nome_empresa . ' Desactivada.');
+                    Log::channel('daily')->emergency('Empresa <<' . Crypt::decryptString($id) . ' - ' . ($c['0']->estado == '0' ? $nome_empresa . ' activada' : $nome_empresa . ' desactivada') . '>>.',[ 'id' => Auth::id(), 'nome' => Auth::user()->first_name . " " . Auth::user()->last_name, 'email' =>  Auth::user()->email]);
+                    return Redirect::route('contacts')->with('success', $c['0']->estado == '0' ? $nome_empresa . ' activada.' : $nome_empresa . ' desactivada.');
                 }
             } else {
                 Log::channel('daily')->alert('Tentou activar o empresa <<' . Crypt::decryptString($id) .'>>.',[ 'id' => Auth::id(), 'nome' => Auth::user()->first_name . " " . Auth::user()->last_name, 'email' =>  Auth::user()->email]);
