@@ -332,7 +332,7 @@ const Index = () => {
           forma que claramente mostre que não pretende ou não pode cumprir com
           as disposições dos Termos; ou b) Tal for exigido à YOGA por lei (por
           exemplo, quando a disposição de Serviços a si é ou se torna ilegal);
-          ou c) O parceiro com o qual a YOGA lhe ofereceu Serviços tenha
+          ou c) A empresa com o qual a YOGA lhe ofereceu Serviços tenha
           terminado a sua relação com a YOGA ou tenha deixado de lhe oferecer os
           Serviços; ou d) A YOGA esteja a transitar para uma situação em que já
           não fornece Serviços a utilizadores do País no qual é residente ou no
