@@ -29,14 +29,14 @@ const renderCustomizedLabel = ({ cx, cy, midAngle, innerRadius, outerRadius, per
 };
 
 const Dashboard = () => {
-  const { parceiro, equipa, pagamento } = usePage().props;
+  const { empresa, equipa, pagamento } = usePage().props;
   return (
     <div>
       <h1 className="mb-4 text-3xl font-bold">Dashboard</h1>
       <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 gap-2">
-        <CardHeader grafico={<GraficoQuantidadeParceiro data={dados(parceiro)} />} referente="PARCEIROS" data={parceiro} />
-        <CardHeader grafico={<GraficoQuantidadeParceiro data={dados(equipa)} />} referente="EQUIPAS" data={equipa} />
-        <CardHeader grafico={<GraficoQuantidadeParceiro data={dados(pagamento)} />} referente="PAGAMENTOS" data={pagamento} />
+        <CardHeader grafico={<GraficoQuantidade data={dados(empresa)} />} referente="EMPRESAS" data={empresa} />
+        <CardHeader grafico={<GraficoQuantidade data={dados(equipa)} />} referente="EQUIPAS" data={equipa} />
+        <CardHeader grafico={<GraficoQuantidade data={dados(pagamento)} />} referente="PAGAMENTOS" data={pagamento} />
       </div>
     </div>
   );
@@ -76,7 +76,7 @@ const CardHeader = ({ grafico, referente, data }) => {
     </div>);
 }
 
-class GraficoQuantidadeParceiro extends PureComponent {
+class GraficoQuantidade extends PureComponent {
   static demoUrl = 'https://codesandbox.io/s/pie-chart-with-padding-angle-7ux0o';
 
   constructor(props) {

@@ -13,7 +13,7 @@ class DashboardController extends Controller
     public function __invoke()
     {
         return Inertia::render('Dashboard/Index',[
-            'parceiro' => [ 
+            'empresa' => [ 
                 'total' => Contact::count(), 
                 'activos' => Contact::where('estado', '1')->count(), 
                 'desactivos' => Contact::where('estado', '0')->count(),
