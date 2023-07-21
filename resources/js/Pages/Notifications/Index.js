@@ -30,7 +30,7 @@ const Index = () => {
       id: id,
     };
     if (read_contact == "0") {
-      update(ref(firebase, `/parceiros/${imei}/`), childUpdates)
+      update(ref(firebase, `/empresas/${imei}/`), childUpdates)
         .then(() => {
           toast.info(first_name + " " + last_name + " marcado como lido.");
         })

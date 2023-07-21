@@ -13,7 +13,7 @@ import { isUndefined } from 'lodash';
 
 const Rendimento = () => {
     const [senha, setSenha] = useState(false);
-    const { equipa, parceiros, valorcada, valortotal, valortotalbruto, iniciodata, fimdata, numeroagente, percentagemtaxa, quantidade } = usePage().props;
+    const { equipa, empresas, valorcada, valortotal, valortotalbruto, iniciodata, fimdata, numeroagente, percentagemtaxa, quantidade } = usePage().props;
     const [inicio, setInicio] = useState(iniciodata);
     const [fim, setFim] = useState(fimdata);
     const [numeroAgente, setNumeroAgente] = useState(2);
@@ -25,9 +25,9 @@ const Rendimento = () => {
         created_at: equipa.created_at || ''
     });
     // const {
-    //     dadosParceiros,
+    //     dadosEmpresas,
     //     meta: { links }
-    //   } = parceiros;
+    //   } = empresas;
 
     function handleSubmitPassword(e) {
         e.preventDefault();
@@ -251,14 +251,14 @@ const Rendimento = () => {
                                         </tbody>
                                     </table>
                                 </div>
-                                <h2 className="mt-12 text-2xl font-bold">Parceiros ({quantidade})</h2>
+                                <h2 className="mt-12 text-2xl font-bold">Empresas ({quantidade})</h2>
                                 <div className="mt-6 overflow-x-auto bg-white rounded shadow">
                                     <table className="w-full whitespace-nowrap">
                                         <thead>
                                             <tr className="font-bold text-left">
-                                                <th className="px-6 pt-5 pb-4">Parceiro</th>
+                                                <th className="px-6 pt-5 pb-4">Empresa</th>
                                                 <th className="px-6 pt-5 pb-4">IMEI</th>
-                                                <th className="px-6 pt-5 pb-4">Data (Parceiro)</th>
+                                                <th className="px-6 pt-5 pb-4">Data (Empresa)</th>
                                                 <th className="px-6 pt-5 pb-4">Pacote</th>
                                                 <th className="px-6 pt-5 pb-4">Preço</th>
                                                 <th className="px-6 pt-5 pb-4">Data (Pagamento)</th>
@@ -266,7 +266,7 @@ const Rendimento = () => {
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            {parceiros && parceiros.map(
+                                            {empresas && empresas.map(
                                                 ({ idcontact, first_name, last_name, imei, read_contact, datacriacontact, pacote, preco, datacriapagamento }) => {
                                                     return (
                                                         <tr
@@ -327,10 +327,10 @@ const Rendimento = () => {
                                                     );
                                                 }
                                             )}
-                                            {parceiros && parceiros.length === 0 && (
+                                            {empresas && empresas.length === 0 && (
                                                 <tr>
                                                     <td className="px-6 py-4 border-t" colSpan="4">
-                                                        Não foram encontrados parceiros.
+                                                        Não foram encontradas empresas.
                                                     </td>
                                                 </tr>
                                             )}

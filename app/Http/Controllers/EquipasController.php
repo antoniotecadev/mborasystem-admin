@@ -145,7 +145,7 @@ class EquipasController extends Controller
 
             return Inertia::render('Equipas/Edit', [
                 'equipa' => new EquipaResource(Equipa::withTrashed()->findOrFail($id)),
-                'parceiros' => $contact,
+                'empresas' => $contact,
                 'valorcada' =>($r*($percentagemTaxa/100)) / $numeroagente,
                 'valortotal' => ($r*($percentagemTaxa/100)),
                 'valortotalbruto' => $r,
