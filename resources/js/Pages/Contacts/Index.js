@@ -55,7 +55,7 @@ const Index = () => {
           href={route('contacts.create')}
         >
           <span>Criar</span>
-          <span className="hidden md:inline"> Empresas</span>
+          <span className="hidden md:inline"> empresa</span>
         </InertiaLink>
         {'-'}
         <InertiaLink
