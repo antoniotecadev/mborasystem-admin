@@ -12,7 +12,7 @@ import Icon from '@/Shared/Icon';
 import { alertToast } from '@/Util/utilitario';
 
 const Edit = () => {
-  const { contact, municipios } = usePage().props;
+  const { contact, provincias, municipios } = usePage().props;
   const { data, setData, errors, put, processing } = useForm({
     first_name: contact.first_name || '',
     last_name: contact.last_name || '',
@@ -21,6 +21,7 @@ const Edit = () => {
     phone: contact.phone || '',
     alternative_phone: contact.alternative_phone || '',
     empresa: contact.empresa || '',
+    provincia_id: contact.provincia_id || '',
     municipality: contact.municipality || '',
     district: contact.district || '',
     street: contact.street || '',
@@ -173,6 +174,22 @@ const Edit = () => {
               value={data.empresa}
               onChange={e => setData('empresa', e.target.value)}
             />
+            <div className="w-full pb-8 pr-6 lg:w-1/2"/>
+            <SelectInput
+              className="w-full pb-8 pr-6 lg:w-1/2"
+              label="Província"
+              name="provincia_id"
+              errors={errors.provincia_id}
+              value={data.provincia_id}
+              onChange={e => setData('provincia_id', e.target.value)}
+            >
+              <option value=""></option>
+              {provincias != undefined && provincias.map(({ id, nome }) => (
+                <option key={id} value={id}>
+                  {nome}
+                </option>
+              ))}
+            </SelectInput>
             <SelectInput
               className="w-full pb-8 pr-6 lg:w-1/2"
               label="Município"

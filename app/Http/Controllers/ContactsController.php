@@ -127,9 +127,11 @@ class ContactsController extends Controller
                 ->update(['contacts.read_contact' => $type]);
                 Log::channel('daily')->info('Empresa <<' . Crypt::decryptString($id) . '>> lido.',[ 'id' => Auth::id(), 'nome' => Auth::user()->first_name . " " . Auth::user()->last_name, 'email' =>  Auth::user()->email]);
             endif;
+            $empresa = new ContactResource(Contact::withTrashed()->findOrFail(Crypt::decryptString($id)));
             return Inertia::render('Contacts/Edit', [
-                'contact' => new ContactResource(Contact::withTrashed()->findOrFail(Crypt::decryptString($id))),
-                // 'municipios' => $this->getMunicipios(),
+                'contact' => $empresa,
+                'provincias' => $this->getProvincias(),
+                'municipios' => $this->getMunicipios($empresa->provincia_id),
             ]);
         }
     }
