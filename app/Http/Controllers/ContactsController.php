@@ -131,7 +131,6 @@ class ContactsController extends Controller
             return Inertia::render('Contacts/Edit', [
                 'contact' => $empresa,
                 'provincias' => $this->getProvincias(),
-                'municipios' => $this->getMunicipios($empresa->provincia_id),
             ]);
         }
     }
