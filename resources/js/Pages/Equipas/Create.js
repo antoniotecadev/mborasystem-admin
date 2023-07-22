@@ -49,7 +49,7 @@ const Create = () => {
               onChange={e => setData('codigo', e.target.value)}
               readOnly
             />
-            <div className="flex items-center justify-end mb-2">
+            <div className={`flex items-center justify-end ${errors.codigo ? 'mb-8' : 'mb-4'}`}>
               <LoadingButton
                 loading={processing}
                 onClick={gerarNumeroAleatorio}
