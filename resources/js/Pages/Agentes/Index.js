@@ -22,7 +22,7 @@ const Index = () => {
           href={route('agentes.create')}
         >
           <span>Criar</span>
-          <span className="hidden md:inline"> Agente</span>
+          <span className="hidden md:inline"> agente</span>
         </InertiaLink>
       </div>
       <div className="overflow-x-auto bg-white rounded shadow">
