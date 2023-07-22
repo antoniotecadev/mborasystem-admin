@@ -43,7 +43,7 @@ const Index = () => {
           href={route('pagamentos.create')}
         >
           <span>Efectuar</span>
-          <span className="hidden md:inline"> Pagamento</span>
+          <span className="hidden md:inline"> pagamento</span>
         </InertiaLink>
       </div>
       <div className="overflow-x-auto bg-white rounded shadow">
