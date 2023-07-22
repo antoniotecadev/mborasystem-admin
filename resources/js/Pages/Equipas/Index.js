@@ -34,7 +34,7 @@ const Index = () => {
           href={route('equipas.create')}
         >
           <span>Criar</span>
-          <span className="hidden md:inline"> Equipa</span>
+          <span className="hidden md:inline"> equipa</span>
         </InertiaLink>
       </div>
       <div className="overflow-x-auto bg-white rounded shadow">
