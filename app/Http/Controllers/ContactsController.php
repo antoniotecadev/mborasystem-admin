@@ -45,34 +45,60 @@ class ContactsController extends Controller
                         ->orderBy('id')
                         ->get()
                 ),
-                'municipios' => $this->getMunicipios(),
+                'provincias' => $this->getProvincias(),
             ]);
         } 
     }
 
-    private function getMunicipios()
+    private function getProvincias()
     {
-        return DB::table('municipios')
+        return DB::table('provincias')
             ->select('id', 'nome')
             ->get();   
     }
 
-    public function getBairros($municipio)
+    private function getMunicipios($provincia_id)
     {
-        $b = DB::table('municipios')
+        return DB::table('municipios')
+            ->where('provincia_id', $provincia_id)
+            ->select('id', 'nome')
+            ->get();
+    }
+
+    private function getBairros($municipio) 
+    {
+        return DB::table('municipios')
             ->join('bairros as b', 'municipios.id', '=', 'b.municipio_id')
             ->where('municipios.nome', $municipio)
             ->select('b.id', 'b.nome')
             ->get();
-            return Inertia::render('Contacts/Create', [
-                'equipas' => new UserEquipaCollection(
-                    Auth::user()->account->equipas()
-                        ->orderBy('id')
-                        ->get()
-                ),
-                'bairros' => $b,
-                'municipios' => $this->getMunicipios(),
-            ]);    
+    }
+
+    public function renderMunicipios($provincia_id)
+    {
+        return Inertia::render('Contacts/Create', [
+            'provincias' => $this->getProvincias(),
+            'municipios' => $this->getMunicipios($provincia_id),
+            'equipas' => new UserEquipaCollection(
+                Auth::user()->account->equipas()
+                    ->orderBy('id')
+                    ->get()
+            ),
+        ]);    
+    }
+
+    public function renderBairros($municipio, $provincia_id)
+    {
+        return Inertia::render('Contacts/Create', [
+            'provincias' => $this->getProvincias(),
+            'municipios' => $this->getMunicipios($provincia_id),
+            'bairros' => $this->getBairros($municipio),
+            'equipas' => new UserEquipaCollection(
+                Auth::user()->account->equipas()
+                    ->orderBy('id')
+                    ->get()
+            ),
+        ]);    
     }
 
 
@@ -103,7 +129,7 @@ class ContactsController extends Controller
             endif;
             return Inertia::render('Contacts/Edit', [
                 'contact' => new ContactResource(Contact::withTrashed()->findOrFail(Crypt::decryptString($id))),
-                'municipios' => $this->getMunicipios(),
+                // 'municipios' => $this->getMunicipios(),
             ]);
         }
     }

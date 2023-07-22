@@ -26,6 +26,7 @@ class ContactStoreRequest extends FormRequest
     public function rules()
     {
         return [
+            'provincia_id' => ['required'],
             'first_name' => ['required', 'max:25', 'min:4'],
             'last_name' => ['required', 'max:25', 'min:4'],
             'nif_bi' => ['required', 'min:10', 'max:14', 'alpha_num'],

@@ -9,7 +9,7 @@ import { Inertia } from '@inertiajs/inertia';
 
 const Create = () => {
 
-  const { equipas, municipios, bairros } = usePage().props;
+  const { equipas, provincias, municipios, bairros } = usePage().props;
   const { data, setData, errors, post, processing } = useForm({
     first_name: '',
     last_name: '',
@@ -18,6 +18,7 @@ const Create = () => {
     phone: '',
     alternative_phone: '',
     empresa: '',
+    provincia_id: '',
     municipality: '',
     district: '',
     street: '',
@@ -38,9 +39,13 @@ const Create = () => {
     setData('imei', imei1 + '' + imei2);
   }
 
-  const getBairros = (municipio) => {
+  const getMunicipios = (provincia_id) => {
+    setData('provincia_id', provincia_id)
+    Inertia.get(route('contacts.municipios', provincia_id), {}, { preserveState: true });
+  }
+  const getBairros = (municipio, provincia_id) => {
     setData('municipality', municipio)
-    Inertia.get(route('contacts.bairros', municipio), {}, { preserveState: true });
+    Inertia.get(route('contacts.bairros', [municipio, provincia_id]), {}, { preserveState: true });
   }
 
   return (
@@ -117,14 +122,29 @@ const Create = () => {
               value={data.empresa}
               onChange={e => setData('empresa', e.target.value)}
             />
+            <div className="w-full pb-8 pr-6 lg:w-1/2"/>
+            <SelectInput
+              className="w-full pb-8 pr-6 lg:w-1/2"
+              label="Província"
+              name="provincia_id"
+              errors={errors.provincia_id}
+              value={data.provincia_id}
+              onChange={e => getMunicipios(e.target.value)}
+            >
+              <option value=""></option>
+              {provincias != undefined && provincias.map(({ id, nome }) => (
+                <option key={id} value={id}>
+                  {nome}
+                </option>
+              ))}
+            </SelectInput>
             <SelectInput
               className="w-full pb-8 pr-6 lg:w-1/2"
               label="Município"
               name="municipality"
               errors={errors.municipality}
               value={data.municipality}
-              onClick={e => setData('district', "")}
-              onChange={e => getBairros(e.target.value)}
+              onChange={e => getBairros(e.target.value, data.provincia_id)}
             >
               <option value=""></option>
               {municipios != undefined && municipios.map(({ id, nome }) => (
@@ -166,7 +186,7 @@ const Create = () => {
               onChange={e => setData('imei', e.target.value)}
               readOnly
             />
-            <div className="flex items-center justify-end mb-4">
+            <div className={`flex items-center justify-end errors.imei ${errors.imei ? 'mb-8' : 'mb-4'}`}>
               <LoadingButton
                 loading={processing}
                 onClick={gerarNumeroAleatorio}
