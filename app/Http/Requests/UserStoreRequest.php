@@ -30,7 +30,7 @@ class UserStoreRequest extends FormRequest
             'email' => ['required', 'max:50', 'email', Rule::unique('users')],
             'password' => ['nullable'],
             'owner' => ['required', 'boolean'],
-            'photo' => ['nullable', 'image'],
+            // 'photo' => ['nullable', 'image'],
         ];
     }
 
