@@ -84,24 +84,6 @@ class User extends Model implements AuthenticatableContract, AuthorizableContrac
         $this->attributes['password'] = Hash::make($password);
     }
 
-    public function setPhotoAttribute($photo)
-    {
-        if(!$photo) return;
-
-        $this->attributes['photo_path'] = $photo instanceof UploadedFile ? $photo->store('users') : $photo;
-    }
-
-    public function getPhotoAttribute() {
-        return $this->photoUrl(['w' => 40, 'h' => 40, 'fit' => 'crop']);
-    }
-
-    public function photoUrl(array $attributes)
-    {
-        if ($this->photo_path) {
-            return URL::to(App::make(Server::class)->fromPath($this->photo_path, $attributes));
-        }
-    }
-
     public function isDemoUser()
     {
         return $this->email === 'antonioteca@hotmail.com';
