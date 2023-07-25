@@ -134,13 +134,13 @@ class EquipasController extends Controller
             ->whereBetween('contacts.created_at', [$inicio, $fim])
             ->where('pagamentos.pagamento', '1')
             ->orderBy('contacts.id', 'desc')
-            ->get(['contacts.id as idcontact', 'contacts.first_name', 'contacts.last_name', 'contacts.imei', 'contacts.read_contact', 'contacts.created_at as datacriacontact', 'pagamentos.pacote', 'pagamentos.preco', 'pagamentos.created_at as datacriapagamento']);
+            ->get(['contacts.id as idcontact', 'contacts.empresa', 'contacts.imei', 'contacts.read_contact', 'contacts.created_at as datacriacontact', 'pagamentos.pacote', 'pagamentos.preco', 'pagamentos.created_at as datacriapagamento']);
 
             $r = 0;
             $contact = [];
             foreach($c as $p){
                 $r += $p->preco;
-                $contact[] = ["idcontact" => Crypt::encryptString($p->idcontact), "first_name" => $p->first_name, "last_name" => $p->last_name, "imei" => $p->imei, "read_contact" => $p->read_contact, "datacriacontact" => $p->datacriacontact, "pacote" => $p->pacote, "preco" => $p->preco, "datacriapagamento" => $p->datacriapagamento];
+                $contact[] = ["idcontact" => Crypt::encryptString($p->idcontact), "empresa" => $p->empresa, "imei" => $p->imei, "read_contact" => $p->read_contact, "datacriacontact" => $p->datacriacontact, "pacote" => $p->pacote, "preco" => $p->preco, "datacriapagamento" => $p->datacriapagamento];
             }
 
             return Inertia::render('Equipas/Edit', [
