@@ -21,26 +21,26 @@ const Edit = () => {
   const [numeroAgente, setNumeroAgente] = useState(2);
   const [percentagemTaxa, setPercentagemTaxa] = useState(30);
   const { data, setData, errors, put, post, processing } = useForm({
-    codigo: equipa.codigo || '',
-    estado: equipa.estado || '',
+    codigo: equipa.data.codigo || '',
+    estado: equipa.data.estado || '',
     password: '',
-    created_at: equipa.created_at || ''
+    created_at: equipa.data.created_at || ''
   });
 
   function handleSubmit(e) {
     e.preventDefault();
-    if (equipa.deleted_at) {
+    if (equipa.data.deleted_at) {
       alertToast("⚠ Equipa eliminada não pode ser actualizada.", "update_equipa");
     } else {
-      put(route('equipas.update', equipa.id));
+      put(route('equipas.update', equipa.data.id));
     }
   }
   function handleSubmitPassword(e) {
     e.preventDefault();
-    if (equipa.deleted_at) {
+    if (equipa.data.deleted_at) {
       alertToast("⚠ Password de Equipa eliminada não pode ser actualizada.", "update_equipa");
     } else {
-      put(route('password.update', equipa.id));
+      put(route('password.update', equipa.data.id));
     }
   }
 
@@ -51,7 +51,7 @@ const Edit = () => {
         if (motivo.length > 150) {
           alertToast("⚠ Só é permitido 150 caracteres", "max_caractere");
         } else {
-          Inertia.delete(route('equipas.destroy', [equipa.id, motivo]));
+          Inertia.delete(route('equipas.destroy', [equipa.data.id, motivo]));
         }
       }
     }
@@ -59,7 +59,7 @@ const Edit = () => {
 
   function restore() {
     if (confirm('Tem certeza que deseja restaurar essa equipa?')) {
-      Inertia.put(route('equipas.restore', equipa.id));
+      Inertia.put(route('equipas.restore', equipa.data.id));
     }
   }
 
@@ -74,7 +74,7 @@ const Edit = () => {
         toastId: 1
       });
     } else {
-      Inertia.get(route('equipas.calcular', [equipa.id, equipa.codigo, inicio, fim, numeroAgente, percentagemTaxa]));
+      Inertia.get(route('equipas.calcular', [equipa.data.id, equipa.data.codigo, inicio, fim, numeroAgente, percentagemTaxa]));
     }
   }
 
@@ -98,9 +98,9 @@ const Edit = () => {
           {data.estado == '0' ? 'Desactivo' : 'Activo'}
         </span>
       </h1>
-      {equipa.deleted_at && (
+      {equipa.data.deleted_at && (
         <TrashedMessage onRestore={restore}>
-          <p>Esta equipa foi eliminada.{' '}<DeleteButton onDelete={e => alertToast(equipa.motivo_elimina, "equipa_motivo_elimina")}>Motivo</DeleteButton></p>
+          <p>Esta equipa foi eliminada.{' '}<DeleteButton onDelete={e => alertToast(equipa.data.motivo_elimina, "equipa_motivo_elimina")}>Motivo</DeleteButton></p>
         </TrashedMessage>
       )}
       <div className="max-w-3xl overflow-hidden bg-white rounded shadow">
@@ -175,7 +175,7 @@ const Edit = () => {
             />
           </div>
           <div className="flex items-center px-8 py-4 bg-gray-100 border-t border-gray-200">
-            {!equipa.deleted_at && (
+            {!equipa.data.deleted_at && (
               <DeleteButton onDelete={destroy}>Eliminar equipa</DeleteButton>
             )}
             <LoadingButton
@@ -222,7 +222,7 @@ const Edit = () => {
           </div>
         </form>
       </div>
-      <h2 className="mt-12 text-2xl font-bold">Agentes</h2>
+      <h2 className="mt-12 text-2xl font-bold">Agente(s)</h2>
       <div className="mt-6 overflow-x-auto bg-white rounded shadow">
         <table className="w-full whitespace-nowrap">
           <thead>
@@ -233,7 +233,7 @@ const Edit = () => {
             </tr>
           </thead>
           <tbody>
-            {equipa.agentes.map(
+            {equipa.data.agentes.map(
               ({ id, nome_completo, telefone, email, estado, deleted_at }) => {
                 return (
                   <tr
@@ -289,7 +289,7 @@ const Edit = () => {
                 );
               }
             )}
-            {equipa.agentes.length === 0 && (
+            {equipa.data.agentes.length === 0 && (
               <tr>
                 <td className="px-6 py-4 border-t" colSpan="4">
                   Não foram encontrados agentes.
@@ -402,9 +402,9 @@ const Edit = () => {
         <table className="w-full whitespace-nowrap">
           <thead>
             <tr className="font-bold text-left">
-              <th className="px-6 pt-5 pb-4">Empresas</th>
+              <th className="px-6 pt-5 pb-4">Empresa</th>
               <th className="px-6 pt-5 pb-4">IMEI</th>
-              <th className="px-6 pt-5 pb-4">Data (Empresas)</th>
+              <th className="px-6 pt-5 pb-4">Data (Criação)</th>
               <th className="px-6 pt-5 pb-4">Pacote</th>
               <th className="px-6 pt-5 pb-4">Preço</th>
               <th className="px-6 pt-5 pb-4">Data (Pagamento)</th>
@@ -413,7 +413,7 @@ const Edit = () => {
           </thead>
           <tbody>
             {empresas && empresas.map(
-              ({ idcontact, first_name, last_name, imei, read_contact, datacriacontact, pacote, preco, datacriapagamento }) => {
+              ({ idcontact, empresa, imei, read_contact, datacriacontact, pacote, preco, datacriapagamento }) => {
                 return (
                   <tr
                     key={idcontact}
@@ -423,7 +423,7 @@ const Edit = () => {
                         href={route('contacts.edit', [idcontact, 1, read_contact])}
                         className="flex items-center px-6 py-4 focus:text-indigo focus:outline-none"
                       >
-                        {first_name + " " + last_name}
+                        {empresa}
                       </InertiaLink>
                     </td>
                     <td className="border-t">

@@ -14,26 +14,26 @@ import { alertToast } from '@/Util/utilitario';
 const Edit = () => {
   const { agente, equipas } = usePage().props;
   const { data, setData, errors, put, processing } = useForm({
-    nome_completo: agente.nome_completo || '',
-    bi: agente.bi || '',
-    email: agente.email || '',
-    telefone: agente.telefone || '',
-    telefone_alternativo: agente.telefone_alternativo || '',
-    municipio: agente.municipio || '',
-    bairro: agente.bairro || '',
-    rua: agente.rua || '',
-    banco: agente.banco || '',
-    estado: agente.estado || '',
-    equipa_id: agente.equipa_id || '',
-    created_at: agente.created_at || ''
+    nome_completo: agente.data.nome_completo || '',
+    bi: agente.data.bi || '',
+    email: agente.data.email || '',
+    telefone: agente.data.telefone || '',
+    telefone_alternativo: agente.data.telefone_alternativo || '',
+    municipio: agente.data.municipio || '',
+    bairro: agente.data.bairro || '',
+    rua: agente.data.rua || '',
+    banco: agente.data.banco || '',
+    estado: agente.data.estado || '',
+    equipa_id: agente.data.equipa_id || '',
+    created_at: agente.data.created_at || ''
   });
 
   function handleSubmit(e) {
     e.preventDefault();
-    if (agente.deleted_at) {
+    if (agente.data.deleted_at) {
       alertToast("⚠ Agente eliminado não pode ser actualizado.", "update_agente");
     } else {
-      put(route('agentes.update', agente.id));
+      put(route('agentes.update', agente.data.id));
     }
   }
 
@@ -44,7 +44,7 @@ const Edit = () => {
         if (motivo.length > 150) {
           alertToast("⚠ Só é permitido 150 caracteres", "max_caractere");
         } else {
-          Inertia.delete(route('agentes.destroy', [agente.id, motivo]));
+          Inertia.delete(route('agentes.destroy', [agente.data.id, motivo]));
         }
       }
     }
@@ -52,7 +52,7 @@ const Edit = () => {
 
   function restore() {
     if (confirm('Tem certeza que deseja restaurar esse agente?')) {
-      Inertia.put(route('agentes.restore', agente.id));
+      Inertia.put(route('agentes.restore', agente.data.id));
     }
   }
 
@@ -75,9 +75,9 @@ const Edit = () => {
           {data.estado == '0' ? 'Desactivo' : 'Activo'}
         </span>
       </h1>
-      {agente.deleted_at && (
+      {agente.data.deleted_at && (
         <TrashedMessage onRestore={restore}>
-          <p>Este agente foi eliminado.{' '}<DeleteButton onDelete={e => alertToast(agente.motivo_elimina, "agente_motivo_elimina")}>Motivo</DeleteButton></p>
+          <p>Este agente foi eliminado.{' '}<DeleteButton onDelete={e => alertToast(agente.data.motivo_elimina, "agente_motivo_elimina")}>Motivo</DeleteButton></p>
         </TrashedMessage>
       )}
       <div className="max-w-3xl overflow-hidden bg-white rounded shadow">
@@ -92,7 +92,7 @@ const Edit = () => {
               onChange={e => setData('equipa_id', e.target.value)}
             >
               <option value=""></option>
-              {equipas.map(({ id, codigo }) => (
+              {equipas.data.map(({ id, codigo }) => (
                 <option key={id} value={id}>
                   {codigo}
                 </option>
@@ -201,7 +201,7 @@ const Edit = () => {
             </div>
           </div>
           <div className="flex items-center px-8 py-4 bg-gray-100 border-t border-gray-200">
-            {!agente.deleted_at && (
+            {!agente.data.deleted_at && (
               <DeleteButton onDelete={destroy}>Eliminar Agente</DeleteButton>
             )}
             <LoadingButton

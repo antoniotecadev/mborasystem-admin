@@ -30,7 +30,7 @@ const Create = () => {
             href={route('users')}
             className="text-indigo-600 hover:text-indigo-700"
           >
-            Ustilizadores
+            Utilizador
           </InertiaLink>
           <span className="font-medium text-indigo-600"> /</span> Criar
         </h1>
@@ -99,7 +99,7 @@ const Create = () => {
               type="submit"
               className="btn-indigo"
             >
-              Criar Utilizador
+              Criar utilizador
             </LoadingButton>
           </div>
         </form>

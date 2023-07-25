@@ -204,7 +204,7 @@ const Create = () => {
               onChange={e => setData('codigo_equipa', e.target.value)}
             >
               <option value=""></option>
-              {equipas.map(({ id, codigo }) => (
+              {equipas.data.map(({ id, codigo }) => (
                 <option key={id} value={codigo}>
                   {codigo}
                 </option>

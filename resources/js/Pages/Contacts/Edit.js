@@ -14,30 +14,30 @@ import { alertToast } from '@/Util/utilitario';
 const Edit = () => {
   const { contact, provincias } = usePage().props;
   const { data, setData, errors, put, processing } = useForm({
-    first_name: contact.first_name || '',
-    last_name: contact.last_name || '',
-    nif_bi: contact.nif_bi || '',
-    email: contact.email || '',
-    phone: contact.phone || '',
-    alternative_phone: contact.alternative_phone || '',
-    empresa: contact.empresa || '',
-    provincia_id: contact.provincia_id || '',
-    municipality: contact.municipality || '',
-    district: contact.district || '',
-    street: contact.street || '',
-    estado: contact.estado || '',
-    imei: contact.imei || '',
-    read_contact: contact.read_contact || '',
-    codigo_equipa: contact.codigo_equipa || '',
-    created_at: contact.created_at || ''
+    first_name: contact.data.first_name || '',
+    last_name: contact.data.last_name || '',
+    nif_bi: contact.data.nif_bi || '',
+    email: contact.data.email || '',
+    phone: contact.data.phone || '',
+    alternative_phone: contact.data.alternative_phone || '',
+    empresa: contact.data.empresa || '',
+    provincia_id: contact.data.provincia_id || '',
+    municipality: contact.data.municipality || '',
+    district: contact.data.district || '',
+    street: contact.data.street || '',
+    estado: contact.data.estado || '',
+    imei: contact.data.imei || '',
+    read_contact: contact.data.read_contact || '',
+    codigo_equipa: contact.data.codigo_equipa || '',
+    created_at: contact.data.created_at || ''
   });
 
   function handleSubmit(e) {
     e.preventDefault();
-    if (contact.deleted_at) {
+    if (contact.data.deleted_at) {
       alertToast("⚠ Empresa eliminada não pode ser actualizada.", "update_empresa");
     } else {
-      put(route('contacts.update', contact.id));
+      put(route('contacts.update', contact.data.id));
     }
   }
 
@@ -48,7 +48,7 @@ const Edit = () => {
         if (motivo.length > 150) {
           alertToast("⚠ Só é permitido 150 caracteres.", "max_caractere");
         } else {
-          Inertia.delete(route('contacts.destroy', [contact.id, motivo]));
+          Inertia.delete(route('contacts.destroy', [contact.data.id, motivo]));
         }
       }
     }
@@ -56,7 +56,7 @@ const Edit = () => {
 
   function restore() {
     if (confirm('Tem certeza que deseja restaurar essa empresa?')) {
-      Inertia.put(route('contacts.restore', contact.id));
+      Inertia.put(route('contacts.restore', contact.data.id));
     }
   }
 
@@ -82,7 +82,7 @@ const Edit = () => {
 
   var dataAmanha = yyyy + '-' + mm + '-' + dd;
 
-  if (contact.read_contact == '0') {
+  if (contact.data.read_contact == '0') {
     localStorage.setItem('notificacao_registo', '0');
   }
 
@@ -94,7 +94,7 @@ const Edit = () => {
           href={route('contacts')}
           className="text-indigo-600 hover:text-indigo-700"
         >
-          Empresa
+          Empresas
         </InertiaLink>
         <span className="mx-2 font-medium text-indigo-600">/</span>
         {data.first_name} {data.last_name} /{' '}
@@ -105,10 +105,10 @@ const Edit = () => {
           {data.estado == '0' ? 'Desactivo' : 'Activo'}
         </span>
       </h1>
-      {contact.deleted_at && (
+      {contact.data.deleted_at && (
         <TrashedMessage onRestore={restore}>
           <p>Esta empresa foi eliminada.{'   '}<DeleteButton
-            onDelete={e => alertToast(contact.motivo_elimina, "contact_motivo_elimina")}>Motivo</DeleteButton></p>
+            onDelete={e => alertToast(contact.data.motivo_elimina, "contact_motivo_elimina")}>Motivo</DeleteButton></p>
         </TrashedMessage>
       )}
       <div className="max-w-3xl overflow-hidden bg-white rounded shadow">
@@ -257,7 +257,7 @@ const Edit = () => {
             />
           </div>
           <div className="flex items-center px-8 py-4 bg-gray-100 border-t border-gray-200">
-            {!contact.deleted_at && (
+            {!contact.data.deleted_at && (
               <DeleteButton onDelete={destroy}>Eliminar empresa</DeleteButton>
             )}
             <LoadingButton
@@ -281,7 +281,7 @@ const Edit = () => {
             </tr>
           </thead>
           <tbody>
-            {contact.pagamentos.map(
+            {contact.data.pagamentos.map(
               ({ id, pacote, inicio, fim, deleted_at }) => {
                 return (
                   <tr
@@ -337,7 +337,7 @@ const Edit = () => {
                 );
               }
             )}
-            {contact.pagamentos.length === 0 && (
+            {contact.data.pagamentos.length === 0 && (
               <tr>
                 <td className="px-6 py-4 border-t" colSpan="4">
                   Não foram encontrados pagamentos.

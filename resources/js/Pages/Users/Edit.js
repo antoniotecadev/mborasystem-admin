@@ -13,11 +13,11 @@ import TrashedMessage from '@/Shared/TrashedMessage';
 const Edit = () => {
   const { user } = usePage().props;
   const { data, setData, errors, post, processing } = useForm({
-    first_name: user.first_name || '',
-    last_name: user.last_name || '',
-    email: user.email || '',
-    password: user.password || '',
-    owner: user.owner ? '1' : '0' || '0',
+    first_name: user.data.first_name || '',
+    last_name: user.data.last_name || '',
+    email: user.data.email || '',
+    password: user.data.password || '',
+    owner: user.data.owner ? '1' : '0' || '0',
     photo: '',
 
     // NOTE: When working with Laravel PUT/PATCH requests and FormData
@@ -29,18 +29,18 @@ const Edit = () => {
     e.preventDefault();
 
     // NOTE: We are using POST method here, not PUT/PACH. See comment above.
-    post(route('users.update', user.id));
+    post(route('users.update', user.data.id));
   }
 
   function destroy() {
     if (confirm('Tem a certeza de que pretende eliminar este utilizador?')) {
-      Inertia.delete(route('users.destroy', user.id));
+      Inertia.delete(route('users.destroy', user.data.id));
     }
   }
 
   function restore() {
     if (confirm('Tem certeza de que deseja restaurar este utilizador?')) {
-      Inertia.put(route('users.restore', user.id));
+      Inertia.put(route('users.restore', user.data.id));
     }
   }
 
@@ -58,11 +58,11 @@ const Edit = () => {
           <span className="mx-2 font-medium text-indigo-600">/</span>
           {data.first_name} {data.last_name}
         </h1>
-        {user.photo && (
-          <img className="block w-8 h-8 ml-4 rounded-full" src={user.photo} />
+        {user.data.photo && (
+          <img className="block w-8 h-8 ml-4 rounded-full" src={user.data.photo} />
         )}
       </div>
-      {user.deleted_at && (
+      {user.data.deleted_at && (
         <TrashedMessage onRestore={restore}>
           Este utilizador foi eliminado.
         </TrashedMessage>
@@ -126,15 +126,15 @@ const Edit = () => {
             />
           </div>
           <div className="flex items-center px-8 py-4 bg-gray-100 border-t border-gray-200">
-            {!user.deleted_at && (
-              <DeleteButton onDelete={destroy}>Eliminar Utilizador</DeleteButton>
+            {!user.data.deleted_at && (
+              <DeleteButton onDelete={destroy}>Eliminar utilizador</DeleteButton>
             )}
             <LoadingButton
               loading={processing}
               type="submit"
               className="ml-auto btn-indigo"
             >
-              Actualizar Utilizador
+              Actualizar utilizador
             </LoadingButton>
           </div>
         </form>

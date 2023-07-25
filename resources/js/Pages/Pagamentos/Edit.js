@@ -14,23 +14,23 @@ import { alertToast } from '@/Util/utilitario';
 const Edit = () => {
   const { pagamento, contacts } = usePage().props;
   const { data, setData, errors, put, processing } = useForm({
-    id: pagamento.id || '',
-    pacote: pagamento.pacote || '',
-    tipo_pagamento: pagamento.tipo_pagamento || '',
-    preco: pagamento.preco || '',
-    inicio: pagamento.inicio || '',
-    fim: pagamento.fim || '',
-    pagamento: pagamento.pagamento || '',
-    contact_id: pagamento.contact_id,
-    created_at: pagamento.created_at || ''
+    id: pagamento.data.id || '',
+    pacote: pagamento.data.pacote || '',
+    tipo_pagamento: pagamento.data.tipo_pagamento || '',
+    preco: pagamento.data.preco || '',
+    inicio: pagamento.data.inicio || '',
+    fim: pagamento.data.fim || '',
+    pagamento: pagamento.data.pagamento || '',
+    contact_id: pagamento.data.contact_id,
+    created_at: pagamento.data.created_at || ''
   });
 
   function handleSubmit(e) {
     e.preventDefault();
-    if (pagamento.deleted_at) {
+    if (pagamento.data.deleted_at) {
       alertToast("⚠ Pagamento eliminado não pode ser actualizado.", "update_pagamento");
     } else {
-      put(route('pagamentos.update', pagamento.id));
+      put(route('pagamentos.update', pagamento.data.id));
     }
   }
 
@@ -41,7 +41,7 @@ const Edit = () => {
         if (motivo.length > 150) {
           alertToast("⚠ Só é permitido 150 caracteres", "max_caractere");
         } else {
-          Inertia.delete(route('pagamentos.destroy', [pagamento.id, motivo]));
+          Inertia.delete(route('pagamentos.destroy', [pagamento.data.id, motivo]));
         }
       }
     }
@@ -49,7 +49,7 @@ const Edit = () => {
 
   function restore() {
     if (confirm('Tem certeza que deseja restaurar esse pagamento?')) {
-      Inertia.put(route('pagamentos.restore', pagamento.id));
+      Inertia.put(route('pagamentos.restore', pagamento.data.id));
     }
   }
 
@@ -68,10 +68,10 @@ const Edit = () => {
         <span className="mx-2 font-medium text-indigo-600">/</span>
         {data.inicio} - {data.fim}
       </h1>
-      {pagamento.deleted_at && (
+      {pagamento.data.deleted_at && (
         <TrashedMessage onRestore={restore}>
           <p>Este pagamento foi eliminado.{' '}<DeleteButton onDelete={e =>
-            alertToast(pagamento.motivo_elimina, "pagamento_motivo_elimina")}>Motivo</DeleteButton></p>
+            alertToast(pagamento.data.motivo_elimina, "pagamento_motivo_elimina")}>Motivo</DeleteButton></p>
         </TrashedMessage>
       )}
       <div className="overflow-x-auto bg-white rounded shadow">
@@ -123,8 +123,8 @@ const Edit = () => {
               errors={errors.contact_id}
               value={data.contact_id}
               onChange={e => setData('contact_id', e.target.value)}>
-              <option value=""></option>
-              {contacts.map(({ id, first_name, last_name, empresa, phone }) => (
+              <option value="">{JSON.stringify(contacts.data)}</option>
+              {contacts.data.map(({ id, first_name, last_name, empresa, phone }) => (
                 <option key={id} value={id}>
                   {first_name} {last_name} - {empresa} - {phone}
                 </option>
@@ -204,7 +204,7 @@ const Edit = () => {
             />
           </div>
           <div className="flex items-center px-8 py-4 bg-gray-100 border-t border-gray-200">
-            {!pagamento.deleted_at && (
+            {!pagamento.data.deleted_at && (
               <DeleteButton onDelete={destroy}>Eliminar pagamento</DeleteButton>
             )}
             <LoadingButton

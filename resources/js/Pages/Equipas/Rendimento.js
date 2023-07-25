@@ -19,10 +19,10 @@ const Rendimento = () => {
     const [numeroAgente, setNumeroAgente] = useState(2);
     const [percentagemTaxa, setPercentagemTaxa] = useState(30);
     const { data, setData, errors, put, processing } = useForm({
-        codigo: equipa.codigo || '',
-        estado: equipa.estado || '',
+        codigo: equipa.data.codigo || '',
+        estado: equipa.data.estado || '',
         password: '',
-        created_at: equipa.created_at || ''
+        created_at: equipa.data.created_at || ''
     });
     // const {
     //     dadosEmpresas,
@@ -31,10 +31,10 @@ const Rendimento = () => {
 
     function handleSubmitPassword(e) {
         e.preventDefault();
-        if (equipa.deleted_at) {
+        if (equipa.data.deleted_at) {
             alert("⚠ Password de Equipa eliminada não pode ser actualizada.");
         } else {
-            put(route('password.update', equipa.id));
+            put(route('password.update', equipa.data.id));
         }
     }
 
@@ -45,7 +45,7 @@ const Rendimento = () => {
         } else if (isUndefined(fim)) {
             alert('Data de fim não definada');
         } else {
-            Inertia.get(route('api.calcular.rendimento.equipa', [equipa.id, equipa.codigo, inicio, fim, numeroAgente, percentagemTaxa]));
+            Inertia.get(route('api.calcular.rendimento.equipa', [equipa.data.id, equipa.data.codigo, inicio, fim, numeroAgente, percentagemTaxa]));
         }
     }
 
@@ -74,9 +74,9 @@ const Rendimento = () => {
                                         {data.estado == '0' ? 'Desactivo' : 'Activo'}
                                     </span>
                                 </h1>
-                                {equipa.deleted_at && (
+                                {equipa.data.deleted_at && (
                                     <TrashedMessage>
-                                        <p>Esta equipa foi eliminada.{' '}<DeleteButton onDelete={e => alert(equipa.motivo_elimina)}>Motivo</DeleteButton></p>
+                                        <p>Esta equipa foi eliminada.{' '}<DeleteButton onDelete={e => alert(equipa.data.motivo_elimina)}>Motivo</DeleteButton></p>
                                     </TrashedMessage>
                                 )}
                                 <h2 className="mt-12 text-2xl font-bold">Agentes</h2>
@@ -90,7 +90,7 @@ const Rendimento = () => {
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            {equipa.agentes.map(
+                                            {equipa.data.agentes.map(
                                                 ({ id, nome_completo, telefone, email, estado, deleted_at }) => {
                                                     return (
                                                         <tr
@@ -143,7 +143,7 @@ const Rendimento = () => {
                                                     );
                                                 }
                                             )}
-                                            {equipa.agentes.length === 0 && (
+                                            {equipa.data.agentes.length === 0 && (
                                                 <tr>
                                                     <td className="px-6 py-4 border-t" colSpan="4">
                                                         Não foram encontrados agentes.
@@ -258,7 +258,7 @@ const Rendimento = () => {
                                             <tr className="font-bold text-left">
                                                 <th className="px-6 pt-5 pb-4">Empresa</th>
                                                 <th className="px-6 pt-5 pb-4">IMEI</th>
-                                                <th className="px-6 pt-5 pb-4">Data (Empresa)</th>
+                                                <th className="px-6 pt-5 pb-4">Data (Criação)</th>
                                                 <th className="px-6 pt-5 pb-4">Pacote</th>
                                                 <th className="px-6 pt-5 pb-4">Preço</th>
                                                 <th className="px-6 pt-5 pb-4">Data (Pagamento)</th>
@@ -267,7 +267,7 @@ const Rendimento = () => {
                                         </thead>
                                         <tbody>
                                             {empresas && empresas.map(
-                                                ({ idcontact, first_name, last_name, imei, read_contact, datacriacontact, pacote, preco, datacriapagamento }) => {
+                                                ({ idcontact, empresa, imei, read_contact, datacriacontact, pacote, preco, datacriapagamento }) => {
                                                     return (
                                                         <tr
                                                             key={idcontact}
@@ -276,7 +276,7 @@ const Rendimento = () => {
                                                                 <p
                                                                     className="flex items-center px-6 py-4 focus:text-indigo focus:outline-none"
                                                                 >
-                                                                    {first_name + " " + last_name}
+                                                                    {empresa}
                                                                 </p>
                                                             </td>
                                                             <td className="border-t">

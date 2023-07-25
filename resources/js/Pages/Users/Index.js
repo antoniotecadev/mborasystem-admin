@@ -15,13 +15,13 @@ const Index = () => {
     <div>
       <h1 className="mb-8 text-3xl font-bold">Utilizadores</h1>
       <div className="flex items-center justify-between mb-6">
-        <SearchFilter />
+        <SearchFilter placeHolder={'Nome, E-mail'}/>
         <InertiaLink
           className="btn-indigo focus:outline-none"
           href={route('users.create')}
         >
           <span>Criar</span>
-          <span className="hidden md:inline"> Utilizador</span>
+          <span className="hidden md:inline"> utilizador</span>
         </InertiaLink>
       </div>
       <div className="overflow-x-auto bg-white rounded shadow">
@@ -29,7 +29,7 @@ const Index = () => {
           <thead>
             <tr className="font-bold text-left">
               <th className="px-6 pt-5 pb-4">Nome</th>
-              <th className="px-6 pt-5 pb-4">Email</th>
+              <th className="px-6 pt-5 pb-4">E-mail</th>
               <th className="px-6 pt-5 pb-4" colSpan="2">
                 Tipo
               </th>
@@ -98,7 +98,7 @@ const Index = () => {
             {data.length === 0 && (
               <tr>
                 <td className="px-6 py-4 border-t" colSpan="4">
-                Nenhum utilizador encontrado.
+                Nenhum ultilizador encontrado.
                 </td>
               </tr>
             )}
