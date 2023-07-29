@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers\Api;
 
-use App\Class\Enc;
 use App\Http\Controllers\Api\BaseController;
 use App\Models\User;
 use Illuminate\Http\Request;
