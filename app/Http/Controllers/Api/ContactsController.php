@@ -21,8 +21,8 @@ class ContactsController extends Controller
 
         if($imeiLength > 10 and $imeiLength < 20):
             $c = DB::table('contacts')
-            ->join('pagamentos', 'pagamentos.contact_id', '=', 'contacts.id')
-            ->join('dispositivos as d', 'd.contact_id', '=', 'contacts.id')
+            ->leftJoin('pagamentos', 'pagamentos.contact_id', '=', 'contacts.id')
+            ->leftJoin('dispositivos as d', 'd.contact_id', '=', 'contacts.id')
             ->where('imei', $imei)
             ->latest('pagamentos.id')
             ->select('contacts.provincia_id', 'contacts.first_name', 'contacts.last_name', 'contacts.nif_bi', 'contacts.email', 'contacts.phone', 'contacts.alternative_phone', 'contacts.empresa', 'contacts.municipality', 'contacts.district', 'contacts.street', 'contacts.estado', 'contacts.imei', 'pagamentos.pacote', 'pagamentos.tipo_pagamento', 'pagamentos.inicio', 'pagamentos.fim',
@@ -45,6 +45,9 @@ class ContactsController extends Controller
             } else {
                 $termina = 0;
             }
+
+            $isNullMessage = 'Sem pagamento';
+            
             return [[ 'provincia' => $this->getProvincia($c['0']->provincia_id),
             'first_name' => $c['0']->first_name,
             'last_name' => $c['0']->last_name,
@@ -58,12 +61,12 @@ class ContactsController extends Controller
             'street' => $c['0']->street,
             'estado' => $c['0']->estado,
             'imei' => $c['0']->imei,
-            'pacote' => $c['0']->pacote,
-            'tipo_pagamento' => $c['0']->tipo_pagamento,
+            'pacote' => $c['0']->pacote ?? "3",
+            'tipo_pagamento' => $c['0']->tipo_pagamento ?? "1",
             'quantidade_produto_pacote' => $this->getQuantidadeProdutoPacote($c['0']->pacote, $c['0']->tipo_pagamento),
             'quantidade_produto' => $pm->getQuantidade($imei),
-            'inicio' => $c['0']->inicio,
-            'fim' => $c['0']->fim,
+            'inicio' => $c['0']->inicio ?? $isNullMessage,
+            'fim' => $c['0']->fim ?? $isNullMessage,
             'termina' => $termina,
             'contactos' => "\nCALL: 222 727 519 | 937 115 891\nEMAIL: yoga.empresa.suporte@gmail.com\nWHATSAPP: +244 937 115 891",
             'device' => $c['0']->fabricante . $c['0']->marca . $c['0']->produto . $c['0']->modelo . $c['0']->versao . $c['0']->api . $c['0']->device
@@ -213,10 +216,13 @@ class ContactsController extends Controller
                 '6' => '55',
                 '12' => '60',
             ],
+            '3' => [
+                '1' => '0',
+            ],
         ];
 
-        $quantidade = $quantidade[$pacote];
-        return $quantidade[$tipo];
+        $quantidade = $quantidade[$pacote ?? '3'];
+        return $quantidade[$tipo ?? '1'];
     }
 
     // private function getBairrosExemplo($municipio) {
