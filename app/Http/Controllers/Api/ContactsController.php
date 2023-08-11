@@ -94,7 +94,7 @@ class ContactsController extends Controller
             'inicio' => '',
             'fim' => '',
             'termina' => '1',
-            'contactos' => "\nCALL: 222 727 519 | 937 115 891\nEMAIL: yoga.empresa.suporte@gmail.com\nWHATSAPP: +244 937 115 891",
+            'contactos' => "\nCALL: 222 727 519 | 937 115 891\nEMAIL: mbora.yoga.tcs\nWHATSAPP: +244 937 115 891",
             'device' => ''
              ]];
     }
