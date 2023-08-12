@@ -68,7 +68,7 @@ class ContactsController extends Controller
             'inicio' => $c['0']->inicio ?? $isNullMessage,
             'fim' => $c['0']->fim ?? $isNullMessage,
             'termina' => $termina,
-            'contactos' => "\nCALL: 222 727 519\nEMAIL: mbora.yoga.tcs@gmail\nWHATSAPP: +244 937 115 891",
+            'contactos' => "\nCALL: 222 727 519\nEMAIL: mborasystem.yoga.tcs@gmail\nWHATSAPP: +244 937 115 891",
             'device' => $c['0']->fabricante . $c['0']->marca . $c['0']->produto . $c['0']->modelo . $c['0']->versao . $c['0']->api . $c['0']->device
              ]];
         }
@@ -94,7 +94,7 @@ class ContactsController extends Controller
             'inicio' => '',
             'fim' => '',
             'termina' => '1',
-            'contactos' => "\nCALL: 222 727 519 | 937 115 891\nEMAIL: mbora.yoga.tcs@gmail.com\nWHATSAPP: +244 937 115 891",
+            'contactos' => "\nCALL: 222 727 519 | 937 115 891\nEMAIL: mborasystem.yoga.tcs@gmail.com\nWHATSAPP: +244 937 115 891",
             'device' => ''
              ]];
     }
