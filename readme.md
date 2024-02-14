@@ -1,89 +1,48 @@
-# Ping CRM React
+# MboraSystem-Admin
+<a id="mborasystem-admin"></a>
+![Home](https://github.com/antonioteca/antonioteca/blob/main/MboraSystem-Admin/Imagens/mborasyestem-admin-28-8-2023_125824.png)
 
-A demo application to illustrate how [Inertia.js](https://inertiajs.com/) works with [Laravel](https://laravel.com/) and [React](https://reactjs.org/).
+[Ver mais](https://github.com/antonioteca/antonioteca/tree/main/MboraSystem-Admin/Imagens)
 
-> This is a port of the original [Ping CRM](https://github.com/inertiajs/pingcrm) written in Laravel and Vue.
+## Descrição
 
-![](https://raw.githubusercontent.com/landish/pingcrm-react/master/screenshot.png)
+MboraSystem-Admin é o sistema de controle dos usuários(empresas) do MboraSystem, é nele onde é feita a gestão das informações de suas contas, ele também faz a gestão de pagamentos, agentes, equipas.    
 
-## Installation
+## Ferramentas Utilizadas
+[![My Skills](https://skillicons.dev/icons?i=vscode,react,tailwind,mysql,firebase)](https://skillicons.dev)
 
-Clone the repo locally:
+- Visual Studio Code
+- Inertia
+- React
+- Tailwind
+- MySQL
+- Firebase
 
-```sh
-git clone https://github.com/landish/pingcrm-react.git
-cd pingcrm-react
-```
+## Funcionalidades
 
-Install PHP dependencies:
+- ✔ Gestão de empresas
+- ✔ Gestão de pagamentos.
+- ✔ Gestão de agentes
+- ✔ Gestão de equipas
+- ✔ Gestão de notificações
+- ✔ outras...
+  
+## Demonstração da Aplicação
 
-```sh
-composer install
-```
+Para ver click na imagem  
+[![Assista à apresentação do MboraSystem-Admin](https://img.youtube.com/vi/FdXib1J28hU/0.jpg)](https://youtu.be/FdXib1J28hU) 
 
-Install NPM dependencies:
+## Referências
 
-```sh
-npm install
-```
+- Tailwind CSS: [Documentação Tailwind CSS](https://tailwindcss.com/docs)
+- React: [Documentação React](https://reactjs.org/docs/)
+- Laravel: [Documentação Laravel](https://laravel.com/docs/)
+- Inertia: [Documentação Inertia](https://inertiajs.com/docs)
+- MySQL: [Documentação MySQL](https://dev.mysql.com/doc/)
+- Firebase: [Firebase](https://firebase.google.com/)
 
-Build assets:
+## Observações
 
-```sh
-npm run dev
-```
+🔒 Repositório Privado
 
-Setup configuration:
-
-```sh
-cp .env.example .env
-```
-
-Generate application key:
-
-```sh
-php artisan key:generate
-```
-
-Create an SQLite database. You can also use another database (MySQL, Postgres), simply update your configuration accordingly.
-
-```sh
-touch database/database.sqlite
-```
-
-Run database migrations:
-
-```sh
-php artisan migrate
-```
-
-Run database seeder:
-
-```sh
-php artisan db:seed
-```
-
-Run artisan server:
-
-```sh
-php artisan serve
-```
-
-You're ready to go! [Visit Ping CRM](http://127.0.0.1:8000/) in your browser, and login with:
-
-- **Username:** johndoe@example.com
-- **Password:** secret
-
-## Running tests
-
-To run the Ping CRM tests, run:
-
-```
-phpunit
-```
-
-## Credits
-
-- Original work by Jonathan Reinink (@reinink) and contributors
-- Port to Ruby on Rails by Georg Ledermann (@ledermann)
-- Port to React by Lado Lomidze (@landish)
+[Vamos Colaborar 🤝](#vamos-colaborar)
