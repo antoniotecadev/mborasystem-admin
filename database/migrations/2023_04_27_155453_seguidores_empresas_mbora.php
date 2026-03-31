@@ -17,7 +17,7 @@ class SeguidoresEmpresasMbora extends Migration
             $table->increments('id');
             $table->string('id_empresas_mbora', 20)->index();
             $table->integer('id_users_mbora')->index()->unsigned();
-            $table->tinyInteger('estado', 1)->default(1);
+            $table->tinyInteger('estado')->default(1);
             $table->timestamps();
             $table->softDeletes();
         });

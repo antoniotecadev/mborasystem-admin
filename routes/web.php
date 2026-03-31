@@ -36,9 +36,6 @@ Route::put('users/{user}')->name('users.update')->uses('UsersController@update')
 Route::delete('users/{user}')->name('users.destroy')->uses('UsersController@destroy')->middleware('auth');
 Route::put('users/{user}/restore')->name('users.restore')->uses('UsersController@restore')->middleware('auth');
 
-// Images
-Route::get('/img/{path}', 'ImagesController@show')->where('path', '.*');
-
 // Contacts
 Route::get('contacts')->name('contacts')->uses('ContactsController@index')->middleware('remember', 'auth');
 Route::get('contacts/create')->name('contacts.create')->uses('ContactsController@create')->middleware('auth');

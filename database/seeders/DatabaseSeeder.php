@@ -12,15 +12,38 @@ class DatabaseSeeder extends Seeder
 {
     public function run()
     {
-        $account = Account::create(['name' => 'MBORASYSTEM ADMIN']);
+        $account = Account::firstOrCreate(['name' => 'MBORASYSTEM ADMIN']);
 
-        User::factory()->create([
-            'account_id' => $account->id,
-            'first_name' => 'António',
-            'last_name' => 'Teca',
-            'email' => 'antonioteca@hotmail.com',
-            'owner' => true,
-        ]);
+        $primaryEmail = env('SEED_PRIMARY_EMAIL', 'owner@mbora.local');
+        $primaryPassword = env('SEED_PRIMARY_PASSWORD', 'ChangeThis#Mbora2026!');
+        $backupEmail = env('SEED_BACKUP_EMAIL', 'admin.backup@mbora.local');
+        $backupPassword = env('SEED_BACKUP_PASSWORD', 'ChangeThisBackup#Mbora2026!');
+
+        User::updateOrCreate(
+            [
+                'account_id' => $account->id,
+                'first_name' => 'António',
+                'last_name' => 'Teca',
+            ],
+            [
+                'email' => $primaryEmail,
+                'password' => $primaryPassword,
+                'owner' => true,
+            ]
+        );
+
+        User::updateOrCreate(
+            [
+                'account_id' => $account->id,
+                'first_name' => 'Admin',
+                'last_name' => 'Backup',
+            ],
+            [
+                'email' => $backupEmail,
+                'password' => $backupPassword,
+                'owner' => true,
+            ]
+        );
 
         // User::factory()->count(5)->create([
         //     'account_id' => $account->id
