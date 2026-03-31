@@ -45,6 +45,12 @@ class DatabaseSeeder extends Seeder
             ]
         );
 
+        $this->call([
+            AngolaProvinciasSeeder::class,
+            AngolaMunicipiosSeeder::class,
+            AngolaBairrosSeeder::class,
+        ]);
+
         // User::factory()->count(5)->create([
         //     'account_id' => $account->id
         // ]);

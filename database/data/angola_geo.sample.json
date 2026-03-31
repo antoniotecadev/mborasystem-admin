@@ -1,0 +1,26 @@
+{
+  "provincias": [
+    {
+      "nome": "Luanda",
+      "municipios": [
+        {
+          "nome": "Luanda",
+          "bairros": ["Ingombota", "Maianga", "Samba"]
+        },
+        {
+          "nome": "Talatona",
+          "bairros": ["Talatona", "Benfica", "Camama"]
+        }
+      ]
+    },
+    {
+      "nome": "Icolo e Bengo",
+      "municipios": [
+        {
+          "nome": "Icolo e Bengo",
+          "bairros": ["Catete", "Bom Jesus", "Sede"]
+        }
+      ]
+    }
+  ]
+}

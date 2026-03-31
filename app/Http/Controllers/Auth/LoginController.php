@@ -37,4 +37,17 @@ class LoginController extends Controller
     {
         return Inertia::render('Auth/Index');
     }
+
+    protected function sendLoginResponse(Request $request)
+    {
+        $request->session()->regenerate();
+
+        $this->clearLoginAttempts($request);
+
+        if ($request->header('X-Inertia')) {
+            return Inertia::location(route('dashboard'));
+        }
+
+        return redirect()->intended($this->redirectPath());
+    }
 }

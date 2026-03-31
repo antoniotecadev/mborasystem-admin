@@ -15,7 +15,9 @@ export default () => {
 
   function handleSubmit(e) {
     e.preventDefault();
-    post(route('login.attempt'));
+    post(route('login.attempt'), {
+      onSuccess: () => Inertia.visit(route('dashboard'), { replace: true })
+    });
   }
 
   return (
