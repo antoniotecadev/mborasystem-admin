@@ -34,6 +34,9 @@ serve:
 	@php artisan serve
 	@$(MAKE) note
 
+up:
+	@./bin/up.sh
+
 test:
 	@php ./vendor/bin/phpunit --testdox
 
