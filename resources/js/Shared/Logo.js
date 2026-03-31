@@ -9,7 +9,7 @@ import logo from '@/img/logo-mborasystem-admin.png';
 // );
 
 export default props => (
-  <img {...props} src={`./${logo}`} alt='sem foto'/>
+  <img {...props} src={logo} alt='sem foto'/>
 );
 
 // export default props => (
