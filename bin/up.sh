@@ -36,13 +36,25 @@ done
 cd "$ROOT_DIR"
 
 echo "[1/3] Doctor"
-$run_doctor && ./bin/doctor.sh || echo "(ignorado)"
+if $run_doctor; then
+  ./bin/doctor.sh
+else
+  echo "(ignorado)"
+fi
 
 echo "[2/3] Services"
-$run_services && ./bin/services-up.sh || echo "(ignorado)"
+if $run_services; then
+  ./bin/services-up.sh
+else
+  echo "(ignorado)"
+fi
 
 echo "[3/3] Bootstrap"
-$run_bootstrap && ./bin/bootstrap.sh || echo "(ignorado)"
+if $run_bootstrap; then
+  ./bin/bootstrap.sh
+else
+  echo "(ignorado)"
+fi
 
 echo "Pronto."
 echo "App: http://127.0.0.1:8000"

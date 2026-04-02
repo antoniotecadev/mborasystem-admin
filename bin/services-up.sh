@@ -12,13 +12,19 @@ if ! docker ps --format '{{.Names}}' | grep -q '^mbora-mariadb$'; then
     docker start mbora-mariadb >/dev/null
   else
     docker run -d --name mbora-mariadb \
-      # --restart unless-stopped \
       -e MARIADB_ROOT_PASSWORD=root \
       -e MARIADB_DATABASE=mborasystem_admin \
       -p 3307:3306 \
       mariadb:10.6 >/dev/null
   fi
 fi
+
+printf 'A aguardar MariaDB'
+until docker exec mbora-mariadb mariadb-admin ping -proot --silent >/dev/null 2>&1; do
+  printf '.'
+  sleep 2
+done
+printf ' pronto\n'
 
 # phpMyAdmin
 if ! docker ps --format '{{.Names}}' | grep -q '^mbora-phpmyadmin$'; then
