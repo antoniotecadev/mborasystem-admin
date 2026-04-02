@@ -34,5 +34,5 @@ if ! docker ps --format '{{.Names}}' | grep -q '^mbora-phpmyadmin$'; then
   fi
 fi
 
-echo "serviços ativos:"
+echo "serviços activos:"
 docker ps --format 'table {{.Names}}\t{{.Status}}\t{{.Ports}}' | grep -E 'NAMES|mbora-mariadb|mbora-phpmyadmin'

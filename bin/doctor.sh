@@ -23,7 +23,7 @@ command -v npm >/dev/null && ok "npm: $(npm -v)" || warn "npm não encontrado"
 if command -v docker >/dev/null; then
   ok "docker: $(docker --version)"
   if docker ps >/dev/null 2>&1; then
-    ok "docker daemon: ativo"
+    ok "docker daemon: activo"
   else
     warn "docker instalado, mas daemon sem acesso"
   fi

@@ -1,41 +1,23 @@
-# THIS := $(realpath $(lastword $(MAKEFILE_LIST)))
-# HERE := $(shell dirname $(THIS))
+SHELL := /usr/bin/env bash
 
+.PHONY: all doctor services-up bootstrap up serve test test-coverage help
 
-.PHONY: all
+all: up
 
-all: bannar setup install migrate note serve
+doctor:
+	@./bin/doctor.sh
 
-setup:
-	@php -r "file_exists('.env') || copy('.env.example', '.env');"
-	@rm -fr database/database.sqlite
-	@touch database/database.sqlite
+services-up:
+	@./bin/services-up.sh
 
-install:
-	@$(MAKE) composer
-	@$(MAKE) npm
-	@$(MAKE) key
-
-composer:
-	@composer install
-
-npm:
-	@npm ci
-	@npm run dev
-
-key:
-	@php artisan key:generate
-
-migrate:
-	@php artisan migrate:refresh
-	@php artisan db:seed
-
-serve:
-	@php artisan serve
-	@$(MAKE) note
+bootstrap:
+	@./bin/bootstrap.sh
 
 up:
 	@./bin/up.sh
+
+serve:
+	@php artisan serve
 
 test:
 	@php ./vendor/bin/phpunit --testdox
@@ -43,20 +25,12 @@ test:
 test-coverage:
 	@php ./vendor/bin/phpunit --coverage-html storage/logs/coverage --testdox
 
-note:
-	@echo "\n======================================== [NOTE] ========================================"
-	@echo "You're ready to go! Visit Ping CRM in your browser, and login with:					 "
-	@echo "[*] Username: johndoe@example.com														 "
-	@echo "[*] Password: secret"
-	@echo "========================================================================================\n"
-
-bannar:
-	@echo " _____ _              _____ _____  __  __"
-	@echo "|  __ (_)            / ____|  __ \|  \/  |"
-	@echo "| |__) | _ __   __ _| |    | |__) | \  / |"
-	@echo "|  ___/ | '_ \ / _\` | |    |  _  /| |\/| |"
-	@echo "| |   | | | | | (_| | |____| | \ \| |  | |"
-	@echo "|_|   |_|_| |_|\__, |\_____|_|  \_\_|  |_|"
-	@echo "                __/ |"
-	@echo "               |___/"
-	@echo "\n"
+help:
+	@echo "Targets disponíveis:"
+	@echo "  make doctor         - valida o ambiente local"
+	@echo "  make services-up    - sobe MariaDB e phpMyAdmin"
+	@echo "  make bootstrap      - instala deps, migra e faz seed"
+	@echo "  make up             - executa doctor + services-up + bootstrap"
+	@echo "  make serve          - inicia Laravel em modo local"
+	@echo "  make test           - corre os testes"
+	@echo "  make test-coverage  - corre testes com coverage"
