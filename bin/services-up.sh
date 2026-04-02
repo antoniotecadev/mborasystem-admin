@@ -12,6 +12,7 @@ if ! docker ps --format '{{.Names}}' | grep -q '^mbora-mariadb$'; then
     docker start mbora-mariadb >/dev/null
   else
     docker run -d --name mbora-mariadb \
+      # --restart unless-stopped \
       -e MARIADB_ROOT_PASSWORD=root \
       -e MARIADB_DATABASE=mborasystem_admin \
       -p 3307:3306 \
